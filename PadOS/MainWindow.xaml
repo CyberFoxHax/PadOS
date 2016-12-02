@@ -1,0 +1,12 @@
+﻿<Window x:Class="PadOS.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="300 " Width="300">
+    <StackPanel>
+        <TextBlock TextWrapping="Wrap">
+            Yea... If you spend all day shuffling words around you can make anything sound bad... Morty..
+            <LineBreak />
+            Like nothing shady ever happened in a fully furnished office? You ever hear about Wall Street Morty? You know what those guys do in their fancy board rooms? They take their balls and dip 'em in cocaine and wipe 'em all over each other. You know Grandpa goes around and he does his business in public because grandpa isn't shady.
+        </TextBlock>
+    </StackPanel>
+</Window>
