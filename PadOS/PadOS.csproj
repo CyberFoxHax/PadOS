@@ -104,24 +104,39 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Input\GlobalKeyboardInput.cs" />
-    <Compile Include="Input\Global\GlobalKeyboardHook.cs" />
-    <Compile Include="Input\Global\GlobalKeyboardHookEventArgs.cs" />
-    <Compile Include="Input\Global\Key.cs" />
-    <Compile Include="Input\Global\KeyboardState.cs" />
-    <Compile Include="Input\Global\LowLevelKeyboardInputEvent.cs" />
-    <Compile Include="Input\IInput.cs" />
-    <Compile Include="Input\InputState.cs" />
-    <Compile Include="Input\InputType.cs" />
-    <Compile Include="Input\JoystickInput.cs" />
+    <Compile Include="Input\GamepadInput.cs" />
+    <Compile Include="Input\ControllersEnum.cs" />
+    <Compile Include="Input\WPFDirectionalControls.cs" />
+    <Compile Include="Input\WPFGamepad.cs" />
     <Compile Include="Utils.cs" />
     <Compile Include="Vector2.cs" />
+    <Compile Include="Views\AdornerTest.xaml.cs">
+      <DependentUpon>AdornerTest.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ConfigurePlayers\ControllerTemplate.xaml.cs">
+      <DependentUpon>ControllerTemplate.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ConfigurePlayers\PlayerEditor.xaml.cs">
+      <DependentUpon>PlayerEditor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Osk\OskMain.xaml.cs">
       <DependentUpon>OskMain.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SystemTray.xaml.cs">
       <DependentUpon>SystemTray.xaml</DependentUpon>
     </Compile>
+    <Page Include="Views\AdornerTest.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ConfigurePlayers\ControllerTemplate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ConfigurePlayers\PlayerEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Main\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -208,6 +223,8 @@
     <Resource Include="Resources\Controllers\Xelu\Xbox One\XboxOne_X.png" />
     <Resource Include="Resources\Controllers\Xelu\Xbox One\XboxOne_Y.png" />
     <Resource Include="Resources\Controllers\Xelu\Xbox One\XboxOne_Guide.png" />
+    <Resource Include="Resources\Controllers\DualShock4Vector.png" />
+    <Resource Include="Resources\Controllers\XBoxOneVector.png" />
     <Content Include="XInputDotNetPure.dll" />
     <Content Include="XInputInterfaceX64.dll" />
     <Content Include="XInputInterfaceX86.dll" />

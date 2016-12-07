@@ -7,11 +7,15 @@
         Width="300"
         >
     <StackPanel>
-        <TextBlock TextWrapping="Wrap">
-            Yea... If you spend all day shuffling words around you can make anything sound bad... Morty..
-            <LineBreak />
-            Like nothing shady ever happened in a fully furnished office? You ever hear about Wall Street Morty? You know what those guys do in their fancy board rooms? They take their balls and dip 'em in cocaine and wipe 'em all over each other. You know Grandpa goes around and he does his business in public because grandpa isn't shady.
-        </TextBlock>
+        <TextBlock TextWrapping="Wrap" x:Name="TextBlock" RenderTransformOrigin="0.5,0.5" Margin="40">
+            <TextBlock.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform x:Name="ScaleTransform"/>
+                    <SkewTransform/>
+                    <RotateTransform x:Name="RotateTransform" Angle="0" />
+                    <TranslateTransform/>
+                </TransformGroup>
+            </TextBlock.RenderTransform><Run Text="Yea... If you spend all day shuffling words around you can make anything sound bad... Morty.."/><LineBreak /><Run Text="Like nothing shady ever happened in a fully furnished office? You ever hear about Wall Street Morty? You know what those guys do in their fancy board rooms? They take their balls and dip 'em in cocaine and wipe 'em all over each other. You know Grandpa goes around and he does his business in public because grandpa isn't shady."/></TextBlock>
         <views:SystemTray x:Name="SystemTray" />
     </StackPanel>
 </Window>

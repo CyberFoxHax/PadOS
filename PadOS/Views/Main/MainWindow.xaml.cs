@@ -16,6 +16,15 @@ namespace PadOS.Views.Main {
 	public partial class MainWindow{
 		public MainWindow() {
 			InitializeComponent();
+
+			var gamepadInput = Input.WPFGamepad.Register(this);
+			gamepadInput.GamePadOnChange += GamepadOnChange;
+		}
+
+		private void GamepadOnChange(object sender, XInputDotNetPure.GamePadState input){
+			// todo manager player number
+			ScaleTransform.ScaleX = ScaleTransform.ScaleY = input.Triggers.Left + 1-input.Triggers.Right;
+			RotateTransform.Angle = Math.Atan2(input.ThumbSticks.Left.X, input.ThumbSticks.Left.Y) * 180 / Math.PI;
 		}
 	}
 }
