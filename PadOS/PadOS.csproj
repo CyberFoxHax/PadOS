@@ -119,6 +119,9 @@
     <Compile Include="Views\ConfigurePlayers\PlayerEditor.xaml.cs">
       <DependentUpon>PlayerEditor.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Main\TestAngles.xaml.cs">
+      <DependentUpon>TestAngles.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Osk\OskMain.xaml.cs">
       <DependentUpon>OskMain.xaml</DependentUpon>
     </Compile>
@@ -149,6 +152,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\Main\TestAngles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Osk\OskMain.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -225,6 +232,7 @@
     <Resource Include="Resources\Controllers\Xelu\Xbox One\XboxOne_Guide.png" />
     <Resource Include="Resources\Controllers\DualShock4Vector.png" />
     <Resource Include="Resources\Controllers\XBoxOneVector.png" />
+    <Resource Include="Resources\pointer.png" />
     <Content Include="XInputDotNetPure.dll" />
     <Content Include="XInputInterfaceX64.dll" />
     <Content Include="XInputInterfaceX86.dll" />
