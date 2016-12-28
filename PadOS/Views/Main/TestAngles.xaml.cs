@@ -64,9 +64,18 @@ namespace PadOS.Views.Main {
 
 			var children = Canvas.Children.OfType<AngleItem>().ToArray();
 
+			var jsAxisLength = Math.Sqrt(input.ThumbSticks.Left.X*input.ThumbSticks.Left.X +
+								input.ThumbSticks.Left.Y*input.ThumbSticks.Left.Y);
+
 			foreach (var angleItem in children){
 				angleItem.IsActive = false;
 				angleItem.Fill = Brushes.DarkGray;
+
+				if (jsAxisLength < 0.3){
+					PointerImage.Visibility = Visibility.Hidden;
+					continue;
+				}
+				PointerImage.Visibility = Visibility.Visible;
 
 				var distance = Math.Sqrt(
 					Math.Pow(Canvas.GetLeft(angleItem) - Canvas.GetLeft(_activeEllipse), 2) +
@@ -91,6 +100,8 @@ namespace PadOS.Views.Main {
 				Canvas.SetTop (PointerImage, Canvas.GetTop (_activeEllipse) - PointerImage.Height / 2 + _activeEllipse.Height / 2);
 				_activeEllipse.Fill = Brushes.GreenYellow;
 			}
+			if (jsAxisLength < 0.3)
+				return;
 
 			if (input.Buttons.A == XInputDotNetPure.ButtonState.Pressed && _waitNav == false){
 				_waitNav = true;
@@ -126,7 +137,7 @@ namespace PadOS.Views.Main {
 
 				var res = (
 					from elm in allElements
-					where elm.AngleDiff < 45
+					where elm.Element != _activeEllipse && elm.AngleDiff < 45
 					orderby elm.AngleDiff
 					orderby elm.Distance
 					select elm.Element

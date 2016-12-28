@@ -90,5 +90,6 @@
                 </TransformGroup>
             </Image.RenderTransform>
         </Image>
+        <this:AngleItem Canvas.Left="362" Canvas.Top="136" />
     </Canvas>
 </Window>
