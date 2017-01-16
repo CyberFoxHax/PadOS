@@ -122,9 +122,6 @@
     <Compile Include="Views\Main\TestAngles.xaml.cs">
       <DependentUpon>TestAngles.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Osk\OskMain.xaml.cs">
-      <DependentUpon>OskMain.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\SystemTray.xaml.cs">
       <DependentUpon>SystemTray.xaml</DependentUpon>
     </Compile>
@@ -153,10 +150,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\Main\TestAngles.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Osk\OskMain.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
