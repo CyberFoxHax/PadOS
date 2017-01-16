@@ -238,6 +238,12 @@
     <Content Include="XInputInterfaceX86.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Views\ButtonMappingEditor\" />
+    <Folder Include="Views\ButtonMappingProfiles\" />
+    <Folder Include="Views\GamePadEditor\" />
+    <Folder Include="Views\GamePadOSK\" />
+    <Folder Include="Views\GamePadPlayers\" />
+    <Folder Include="Views\MainPanel\Editor\" />
     <Folder Include="Views\Settings\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
