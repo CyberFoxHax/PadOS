@@ -1,26 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace PadOS.Views {
-	/// <summary>
-	/// Interaction logic for AdornerTest.xaml
-	/// </summary>
 	public partial class AdornerTest {
 		public AdornerTest() {
 			InitializeComponent();
 
-			Input.WPFGamepad.Register(this);
+			var wrapper = Input.WPFGamepad.Register(this);
+
+			wrapper.ThumbLeftChange			+= (s, a)=>Console.WriteLine(@"ThumbLeft Change"    + a.Value);
+			wrapper.ThumbRightChange		+= (s, a)=>Console.WriteLine(@"ThumbRight Change"   + a.Value);
+			wrapper.TriggerLeftChange		+= (s, a)=>Console.WriteLine(@"TriggerLeft Change"  + a.Value);
+			wrapper.TriggerRightChange		+= (s, a)=>Console.WriteLine(@"TriggerRight Change" + a.Value);
+
 			Input.WPFDirectionalControls.Register(this);
 		}
 	}

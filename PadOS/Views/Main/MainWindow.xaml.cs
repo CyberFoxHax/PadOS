@@ -18,7 +18,10 @@ namespace PadOS.Views.Main {
 			InitializeComponent();
 
 			var gamepadInput = Input.WPFGamepad.Register(this);
-			gamepadInput.GamePadOnChange += GamepadOnChange;
+		}
+
+		private void ButtonAUp(object sender, XInputDotNetPure.PlayerIndex player){
+			
 		}
 
 		private void GamepadOnChange(object sender, XInputDotNetPure.GamePadState input){

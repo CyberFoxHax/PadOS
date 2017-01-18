@@ -6,26 +6,39 @@ using System.Windows;
 using XInputDotNetPure;
 
 namespace PadOS.Input {
-	public static class WPFDirectionalControls{
+	public class WPFDirectionalControls{
+
+		private const double ResetThreshold = 0.5;
 
 		public static void Register(UIElement control){
-			WPFGamepad.Register(control).GamePadOnChange += OnButton;
+			var dirControl = new WPFDirectionalControls();
+			//WPFGamepad.Register(control).GamePadOnChange += dirControl.OnButton;
 		}
 
-		private static void OnButton(object sender, GamePadState gamePadState){
-			var elm = sender as UIElement;
+		private void OnButton(object sender, GamePadState gamePadState){
+			var elm = sender as FrameworkElement;
 			if (elm == null) return;
 
-			if		(gamePadState.DPad.Left	== ButtonState.Pressed) OnDirection(elm, new Vector2(-1));
-			else if (gamePadState.DPad.Right== ButtonState.Pressed) OnDirection(elm, new Vector2( 1));
-			else if (gamePadState.DPad.Up	== ButtonState.Pressed) OnDirection(elm, new Vector2( 0, -1));
-			else if (gamePadState.DPad.Down == ButtonState.Pressed) OnDirection(elm, new Vector2( 0,  1));
+			var vector = new Vector2(gamePadState.ThumbSticks.Left.X, gamePadState.ThumbSticks.Left.Y);
+
+			var thumbLength = Math.Sqrt(vector.X*vector.X + vector.Y*vector.Y);
+
+			if (_waitForReset && thumbLength > ResetThreshold) return;
+
+			if (thumbLength < ResetThreshold)
+				_waitForReset = false;
+			else
+				return;
+
+			if		(gamePadState.DPad.Left	 == ButtonState.Pressed) OnDirection(elm, new Vector2(-1,  0));
+			else if (gamePadState.DPad.Right == ButtonState.Pressed) OnDirection(elm, new Vector2( 1,  0));
+			else if (gamePadState.DPad.Up	 == ButtonState.Pressed) OnDirection(elm, new Vector2( 0, -1));
+			else if (gamePadState.DPad.Down  == ButtonState.Pressed) OnDirection(elm, new Vector2( 0,  1));
 			else{
-				const float threshhold = 0.5f;
-				if (Math.Abs(gamePadState.ThumbSticks.Left.X) > threshhold || Math.Abs(gamePadState.ThumbSticks.Left.Y) > threshhold) {// todo this is not circular
+				if (thumbLength > ResetThreshold) {
 					OnDirection(elm, new Vector2(
-						 gamePadState.ThumbSticks.Left.X,
-						-gamePadState.ThumbSticks.Left.Y
+						 vector.X,
+						-vector.Y
 					));
 				}
 			}
@@ -48,62 +61,62 @@ namespace PadOS.Input {
 			}
 		}
 
-		private static void OnDirection(UIElement control, Vector2 direction){
-			// from p points
-			// where 45 deg
-			// orderby angle *** analogous angle
-			// orderby dist
-			// select first
+		private bool _waitForReset;
 
-			var angle = Math.Atan2(direction.X, direction.Y);
-			var center = ControlPosition.GetPositions((FrameworkElement)control).ToArray();
+		private void OnDirection(FrameworkElement activeEllipse, Vector2 direction){
+			Func<FrameworkElement, Vector2> getPos = p => new Vector2(
+				Canvas.GetLeft(p) + p.Width  / 2,
+				Canvas.GetTop (p) + p.Height / 2
+			);
 
-			//var result = (
-			//	from FrameworkElement child in RecursiveChildren(((FrameworkElement)control).GetParentWindow())
-			//	where child.Focusable
-			//	from point in ControlPosition.GetPositions(child)
-			//	from centerPositions in center
-			//	let angleBetweenV = Math.Atan2(
-			//		centerPositions.Pos.X - point.Pos.X,
-			//		centerPositions.Pos.Y - point.Pos.Y
-			//	)
-			//	let angleBetween = Math.Abs(angle - angleBetweenV)
-			//	where angleBetween < 45
-			//	orderby point.Pos.X * point.Pos.X + point.Pos.Y * point.Pos.Y
-			//	select point.Elm
-			//).FirstOrDefault();
+			var jsAngle = Math.Atan2(direction.X, direction.Y);
+			var children = RecursiveChildren<FrameworkElement>(Utils.FindParentOfType<Window>(activeEllipse)).ToArray();
+			var activePos = getPos(activeEllipse);
 
-			var result = (
-				from FrameworkElement child in RecursiveChildren(((FrameworkElement)control).GetParentWindow())
-				where child.Focusable
-				from point in ControlPosition.GetPositions(child)
-				from centerPositions in center
-				let vecDiff = new Vector2(
-					centerPositions.Pos.X - point.Pos.X,
-					centerPositions.Pos.Y - point.Pos.Y
+			var allElements = (
+				from elm in children
+				let elmPos = getPos(elm)
+				let diff = new Vector2(
+					elmPos.X - activePos.X,
+					activePos.Y - elmPos.Y
 				)
-				//where vecDiff < 45
-				orderby point.Pos.X * point.Pos.X + point.Pos.Y * point.Pos.Y
-				select point.Elm
-			).FirstOrDefault();
+				let angle = Math.Atan2(diff.X, diff.Y)
+				let angleDiff = Math.Abs(jsAngle - angle)
 
-			if (result != null){
-				((Button)result).Background = System.Windows.Media.Brushes.GreenYellow;
-			}
+				let diffDist = diff * diff
+				let distance = Math.Abs(Math.Sqrt(diffDist.X + diffDist.Y))
+
+				select new {
+					Element = elm,
+					AngleDiff = angleDiff,
+					Distance = distance
+				}
+			).ToArray();
+
+			var res = (
+				from elm in allElements
+				where elm.Element != activeEllipse && elm.AngleDiff < Math.PI / 6 // wtf
+				orderby Math.Abs(Math.Sin(elm.AngleDiff) * elm.Distance) + Math.Abs(Math.Cos(elm.AngleDiff) * elm.Distance)
+				select elm.Element
+			).FirstOrDefault();
+			if (res == null) return;
+
+			_waitForReset = true;
+			res.Focus();
 		}
 
 		private static Vector2 Convert(Point p){
 			return new Vector2(p.X, p.Y);
 		}
 
-		private static IEnumerable<DependencyObject> RecursiveChildren(DependencyObject depObj){
+		private static IEnumerable<T> RecursiveChildren<T>(DependencyObject depObj)  where T:DependencyObject{
 			if (depObj == null) yield break;
 			for (var i = 0; i < System.Windows.Media.VisualTreeHelper.GetChildrenCount(depObj); i++) {
 				var child = System.Windows.Media.VisualTreeHelper.GetChild(depObj, i);
 				if (child != null)
-					yield return child;
+					yield return (T) child;
 
-				foreach (var childOfChild in RecursiveChildren(child))
+				foreach (var childOfChild in RecursiveChildren<T>(child))
 					yield return childOfChild;
 			}
 		}

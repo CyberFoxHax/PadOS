@@ -49,7 +49,7 @@ namespace PadOS.Views.Main {
 			InitializeComponent();
 
 			var gamepadInput = Input.WPFGamepad.Register(this);
-			gamepadInput.GamePadOnChange += GamepadOnChange;
+			//gamepadInput.GamePadOnChange += GamepadOnChange;
 
 			_activeEllipse = Canvas.Children.OfType<AngleItem>().First(p => p.IsActive);
 		}
@@ -76,11 +76,6 @@ namespace PadOS.Views.Main {
 					continue;
 				}
 				PointerImage.Visibility = Visibility.Visible;
-
-				var distance = Math.Sqrt(
-					Math.Pow(Canvas.GetLeft(angleItem) - Canvas.GetLeft(_activeEllipse), 2) +
-					Math.Pow(Canvas.GetTop (angleItem) - Canvas.GetTop (_activeEllipse), 2)
-				);
 
 				var diffX = Canvas.GetLeft(angleItem) - Canvas.GetLeft(_activeEllipse);
 				var diffY = Canvas.GetTop (_activeEllipse) - Canvas.GetTop (angleItem);

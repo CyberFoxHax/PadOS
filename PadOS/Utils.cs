@@ -2,10 +2,15 @@
 
 namespace PadOS {
 	public static class Utils {
+		public static T FindParentOfType<T>(FrameworkElement owner) where T : FrameworkElement {
+			var searchElm = owner;
+			while (searchElm.Parent != null && searchElm is T == false)
+				searchElm = (FrameworkElement)searchElm.Parent;
+			return searchElm as T;
+		}
+
 		public static Window GetParentWindow(this FrameworkElement elm){
-			while (elm.Parent != null && elm is Window == false)
-				elm = (FrameworkElement) elm.Parent;
-			return elm as Window;
+			return FindParentOfType<Window>(elm);
 		}
 
 		public static System.Drawing.Bitmap BitmapSourceToBitmap(System.Windows.Media.Imaging.BitmapSource srs) {
