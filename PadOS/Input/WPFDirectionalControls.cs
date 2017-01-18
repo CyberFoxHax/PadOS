@@ -8,65 +8,57 @@ using XInputDotNetPure;
 namespace PadOS.Input {
 	public class WPFDirectionalControls{
 
-		private const double ResetThreshold = 0.5;
-
-		public static void Register(UIElement control){
+		public static WPFDirectionalControls Register(UIElement control) {
 			var dirControl = new WPFDirectionalControls();
-			//WPFGamepad.Register(control).GamePadOnChange += dirControl.OnButton;
+			var container = WPFGamepad.Register(control);
+			container.ThumbLeftChange += dirControl.OnThumbChange;
+			container.DPadDownDown	+= (sender, args) => dirControl.OnDPad(sender, new Vector2(0,  1));
+			container.DPadUpDown	+= (sender, args) => dirControl.OnDPad(sender, new Vector2(0, -1));
+			container.DPadLeftDown	+= (sender, args) => dirControl.OnDPad(sender, new Vector2(-1, 0));
+			container.DPadRightDown	+= (sender, args) => dirControl.OnDPad(sender, new Vector2( 1, 0));
+			return dirControl;
 		}
 
-		private void OnButton(object sender, GamePadState gamePadState){
+		private const double ResetThreshold = 0.5;
+		private bool _waitForReset;
+
+		private void OnDPad(object sender, Vector2 vector2){
 			var elm = sender as FrameworkElement;
 			if (elm == null) return;
 
+			var res = GetSelection(elm, vector2);
+			res.Focus();
+		}
+
+		private void OnThumbChange(object sender, WPFGamepad.GamePadEventArgs<Vector2> args){
+			var elm = sender as FrameworkElement;
+			if (elm == null) return;
+
+			var gamePadState = args.GamePadState;
 			var vector = new Vector2(gamePadState.ThumbSticks.Left.X, gamePadState.ThumbSticks.Left.Y);
-
-			var thumbLength = Math.Sqrt(vector.X*vector.X + vector.Y*vector.Y);
-
+			var thumbLength = Math.Sqrt(vector.X * vector.X + vector.Y * vector.Y);
 			if (_waitForReset && thumbLength > ResetThreshold) return;
 
 			if (thumbLength < ResetThreshold)
 				_waitForReset = false;
-			else
+			else if(_waitForReset)
 				return;
 
-			if		(gamePadState.DPad.Left	 == ButtonState.Pressed) OnDirection(elm, new Vector2(-1,  0));
-			else if (gamePadState.DPad.Right == ButtonState.Pressed) OnDirection(elm, new Vector2( 1,  0));
-			else if (gamePadState.DPad.Up	 == ButtonState.Pressed) OnDirection(elm, new Vector2( 0, -1));
-			else if (gamePadState.DPad.Down  == ButtonState.Pressed) OnDirection(elm, new Vector2( 0,  1));
-			else{
-				if (thumbLength > ResetThreshold) {
-					OnDirection(elm, new Vector2(
-						 vector.X,
-						-vector.Y
-					));
-				}
-			}
+			if (thumbLength < ResetThreshold) return;
+
+			var res = GetSelection(elm, new Vector2(
+				vector.X,
+				vector.Y
+				));
+			if (res == null) return;
+			_waitForReset = true;
+			res.Focus();
 		}
 
-		private struct ControlPosition{
-			private ControlPosition(FrameworkElement elm, Vector2 point):this(){
-				Elm = elm;
-				Pos = point;
-			}
-			public readonly FrameworkElement Elm;
-			public Vector2 Pos;
-
-			public static IEnumerable<ControlPosition> GetPositions(FrameworkElement elm){
-				var controlAbs = Convert(elm.TransformToAncestor(elm.GetParentWindow()).Transform(new Point(0, 0)));
-				yield return new ControlPosition(elm, controlAbs);
-				yield return new ControlPosition(elm, controlAbs + new Vector2(elm.ActualWidth, 0			   ));
-				yield return new ControlPosition(elm, controlAbs + new Vector2(0			  , elm.ActualHeight));
-				yield return new ControlPosition(elm, controlAbs + new Vector2(elm.ActualWidth, elm.ActualHeight));
-			}
-		}
-
-		private bool _waitForReset;
-
-		private void OnDirection(FrameworkElement activeEllipse, Vector2 direction){
+		private static FrameworkElement GetSelection(FrameworkElement activeEllipse, Vector2 direction){
 			Func<FrameworkElement, Vector2> getPos = p => new Vector2(
-				Canvas.GetLeft(p) + p.Width  / 2,
-				Canvas.GetTop (p) + p.Height / 2
+				Canvas.GetLeft(p) + p.ActualWidth  / 2,
+				Canvas.GetTop (p) + p.ActualHeight / 2
 			);
 
 			var jsAngle = Math.Atan2(direction.X, direction.Y);
@@ -99,10 +91,7 @@ namespace PadOS.Input {
 				orderby Math.Abs(Math.Sin(elm.AngleDiff) * elm.Distance) + Math.Abs(Math.Cos(elm.AngleDiff) * elm.Distance)
 				select elm.Element
 			).FirstOrDefault();
-			if (res == null) return;
-
-			_waitForReset = true;
-			res.Focus();
+			return res;
 		}
 
 		private static Vector2 Convert(Point p){
@@ -118,6 +107,32 @@ namespace PadOS.Input {
 
 				foreach (var childOfChild in RecursiveChildren<T>(child))
 					yield return childOfChild;
+			}
+		}
+
+		private struct ControlPosition {
+			private ControlPosition(FrameworkElement elm, Vector2 point)
+				: this() {
+				Elm = elm;
+				Pos = point;
+			}
+			public readonly FrameworkElement Elm;
+			public Vector2 Pos;
+
+			public static IEnumerable<ControlPosition> GetPositions(FrameworkElement elm) {
+				var controlAbs = Convert(elm.TransformToAncestor(elm.GetParentWindow()).Transform(new Point(0, 0)));
+				var actualWidth = elm.ActualWidth;
+				var actualHeight = elm.ActualHeight;
+
+				yield return new ControlPosition(elm, controlAbs);
+				yield return new ControlPosition(elm, controlAbs + new Vector2(actualWidth, 0));
+				yield return new ControlPosition(elm, controlAbs + new Vector2(0, actualHeight));
+				yield return new ControlPosition(elm, controlAbs + new Vector2(actualWidth, actualHeight));
+
+				yield return new ControlPosition(elm, controlAbs + new Vector2(actualWidth / 2, 0));
+				yield return new ControlPosition(elm, controlAbs + new Vector2(0, actualHeight / 2));
+				yield return new ControlPosition(elm, controlAbs + new Vector2(actualWidth / 2, actualHeight));
+				yield return new ControlPosition(elm, controlAbs + new Vector2(actualWidth, actualHeight / 2));
 			}
 		}
 	}

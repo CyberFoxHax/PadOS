@@ -3,7 +3,16 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="AdornerTest" Width="589" Height="514" Background="#FF212121">
     <Canvas>
-        <Button Content="Button" Canvas.Left="256" Canvas.Top="209" Width="75" />
+        <Canvas.Resources>
+            <Style TargetType="Button">
+                <Style.Triggers>
+                    <Trigger Property="IsFocused" Value="True">
+                        <Setter Property="Background" Value="GreenYellow"></Setter>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </Canvas.Resources>
+        <Button Content="Button" Canvas.Left="256" Canvas.Top="209" Width="75" x:Name="ButtonBegin" />
         <Button Content="Button" Canvas.Left="427" Canvas.Top="209" Width="75" />
         <Button Content="Button" Canvas.Left="65"  Canvas.Top="158" Width="75" />
         <Button Content="Button" Canvas.Left="256" Canvas.Top="69"  Width="75" />
