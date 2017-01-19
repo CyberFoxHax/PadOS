@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Controls;
 using System.Windows;
-using XInputDotNetPure;
 
 namespace PadOS.Input {
 	public class WPFDirectionalControls{
@@ -12,14 +11,14 @@ namespace PadOS.Input {
 			var dirControl = new WPFDirectionalControls();
 			var container = WPFGamepad.Register(control);
 			container.ThumbLeftChange += dirControl.OnThumbChange;
-			container.DPadDownDown	+= (sender, args) => dirControl.OnDPad(sender, new Vector2(0,  1));
-			container.DPadUpDown	+= (sender, args) => dirControl.OnDPad(sender, new Vector2(0, -1));
+			container.DPadDownDown	+= (sender, args) => dirControl.OnDPad(sender, new Vector2(0, -1));
+			container.DPadUpDown	+= (sender, args) => dirControl.OnDPad(sender, new Vector2(0,  1));
 			container.DPadLeftDown	+= (sender, args) => dirControl.OnDPad(sender, new Vector2(-1, 0));
 			container.DPadRightDown	+= (sender, args) => dirControl.OnDPad(sender, new Vector2( 1, 0));
 			return dirControl;
 		}
 
-		private const double ResetThreshold = 0.5;
+		private const double ResetThreshold = 0.3;
 		private bool _waitForReset;
 
 		private void OnDPad(object sender, Vector2 vector2){
@@ -27,7 +26,8 @@ namespace PadOS.Input {
 			if (elm == null) return;
 
 			var res = GetSelection(elm, vector2);
-			res.Focus();
+			if (res != null)
+				res.Focus();
 		}
 
 		private void OnThumbChange(object sender, WPFGamepad.GamePadEventArgs<Vector2> args){
@@ -55,19 +55,19 @@ namespace PadOS.Input {
 			res.Focus();
 		}
 
-		private static FrameworkElement GetSelection(FrameworkElement activeEllipse, Vector2 direction){
-			Func<FrameworkElement, Vector2> getPos = p => new Vector2(
-				Canvas.GetLeft(p) + p.ActualWidth  / 2,
-				Canvas.GetTop (p) + p.ActualHeight / 2
-			);
+		private static FrameworkElement GetSelection(FrameworkElement activeElement, Vector2 direction){
+			Func<FrameworkElement, Vector2> getPos = elm => ElementPosition.GetControlPosition(elm) + new Vector2(elm.ActualWidth, elm.ActualHeight) / 2;
 
 			var jsAngle = Math.Atan2(direction.X, direction.Y);
-			var children = RecursiveChildren<FrameworkElement>(Utils.FindParentOfType<Window>(activeEllipse)).ToArray();
-			var activePos = getPos(activeEllipse);
+			var parentWindow = activeElement.FindParentOfType<Window>();
+			var children = RecursiveChildren<FrameworkElement>(parentWindow).Where(p=>p.Focusable).ToArray();
+			var activePos = getPos(activeElement);
+
 
 			var allElements = (
-				from elm in children
-				let elmPos = getPos(elm)
+				from child in children
+				let elmPos = getPos(child)
+
 				let diff = new Vector2(
 					elmPos.X - activePos.X,
 					activePos.Y - elmPos.Y
@@ -75,22 +75,30 @@ namespace PadOS.Input {
 				let angle = Math.Atan2(diff.X, diff.Y)
 				let angleDiff = Math.Abs(jsAngle - angle)
 
-				let diffDist = diff * diff
-				let distance = Math.Abs(Math.Sqrt(diffDist.X + diffDist.Y))
+				let diffSquared = diff * diff
+				let distance = Math.Abs(Math.Sqrt(diffSquared.X + diffSquared.Y))
 
 				select new {
-					Element = elm,
+					Element = child,
 					AngleDiff = angleDiff,
 					Distance = distance
 				}
 			).ToArray();
 
+			const double tau = Math.PI * 2;
+
 			var res = (
 				from elm in allElements
-				where elm.Element != activeEllipse && elm.AngleDiff < Math.PI / 6 // wtf
+				where elm.Element != activeElement && elm.AngleDiff < tau / 10 // tight angle
+				orderby Math.Abs(Math.Sin(elm.AngleDiff) * elm.Distance) + Math.Abs(Math.Cos(elm.AngleDiff) * elm.Distance)
+				select elm.Element
+			).FirstOrDefault() ?? (
+				from elm in allElements
+				where elm.Element != activeElement && elm.AngleDiff < tau / 3 // loose angle
 				orderby Math.Abs(Math.Sin(elm.AngleDiff) * elm.Distance) + Math.Abs(Math.Cos(elm.AngleDiff) * elm.Distance)
 				select elm.Element
 			).FirstOrDefault();
+
 			return res;
 		}
 
@@ -110,8 +118,8 @@ namespace PadOS.Input {
 			}
 		}
 
-		private struct ControlPosition {
-			private ControlPosition(FrameworkElement elm, Vector2 point)
+		private struct ElementPosition {
+			private ElementPosition(FrameworkElement elm, Vector2 point)
 				: this() {
 				Elm = elm;
 				Pos = point;
@@ -119,20 +127,34 @@ namespace PadOS.Input {
 			public readonly FrameworkElement Elm;
 			public Vector2 Pos;
 
-			public static IEnumerable<ControlPosition> GetPositions(FrameworkElement elm) {
-				var controlAbs = Convert(elm.TransformToAncestor(elm.GetParentWindow()).Transform(new Point(0, 0)));
+			public static Vector2 GetControlPosition(FrameworkElement elm) {
+				return GetControlPosition(elm.FindParentOfType<Window>(), elm);
+			}
+
+			public static Vector2 GetControlPosition(System.Windows.Media.Visual parent, System.Windows.Media.Visual elm) {
+				return Convert(elm.TransformToAncestor(parent).Transform(new Point(0, 0)));
+			}
+
+			public static IEnumerable<ElementPosition> GetRectPositions(FrameworkElement elm){
+				return GetRectPositions(elm.FindParentOfType<Window>(), elm);
+			}
+
+			public static IEnumerable<ElementPosition> GetRectPositions(System.Windows.Media.Visual parent, FrameworkElement elm) {
+				var controlAbs = GetControlPosition(parent, elm);
 				var actualWidth = elm.ActualWidth;
 				var actualHeight = elm.ActualHeight;
+				var actualWidth2 = actualWidth;
+				var actualHeight2 = actualHeight;
 
-				yield return new ControlPosition(elm, controlAbs);
-				yield return new ControlPosition(elm, controlAbs + new Vector2(actualWidth, 0));
-				yield return new ControlPosition(elm, controlAbs + new Vector2(0, actualHeight));
-				yield return new ControlPosition(elm, controlAbs + new Vector2(actualWidth, actualHeight));
+				yield return new ElementPosition(elm, controlAbs);
+				yield return new ElementPosition(elm, controlAbs + new Vector2(actualWidth, 0));
+				yield return new ElementPosition(elm, controlAbs + new Vector2(0, actualHeight));
+				yield return new ElementPosition(elm, controlAbs + new Vector2(actualWidth, actualHeight));
 
-				yield return new ControlPosition(elm, controlAbs + new Vector2(actualWidth / 2, 0));
-				yield return new ControlPosition(elm, controlAbs + new Vector2(0, actualHeight / 2));
-				yield return new ControlPosition(elm, controlAbs + new Vector2(actualWidth / 2, actualHeight));
-				yield return new ControlPosition(elm, controlAbs + new Vector2(actualWidth, actualHeight / 2));
+				yield return new ElementPosition(elm, controlAbs + new Vector2(actualWidth2, 0));
+				yield return new ElementPosition(elm, controlAbs + new Vector2(0, actualHeight2));
+				yield return new ElementPosition(elm, controlAbs + new Vector2(actualWidth2, actualHeight));
+				yield return new ElementPosition(elm, controlAbs + new Vector2(actualWidth, actualHeight2));
 			}
 		}
 	}

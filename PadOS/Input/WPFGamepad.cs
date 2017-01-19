@@ -58,43 +58,44 @@ namespace PadOS.Input {
 		public event GamepadEvent<float> TriggerRightChange;
 
 		static WPFGamepad(){
-			XInput.ButtonADown				+= (player, state)=>Dispatch(player, state, Wrappers[_windowControl], ()=>Wrappers[_windowControl].ButtonADown);
-			XInput.ButtonAUp				+= (player, state)=>Dispatch(player, state, Wrappers[_windowControl], ()=>Wrappers[_windowControl].ButtonAUp);
-			XInput.ButtonBDown				+= (player, state)=>Dispatch(player, state, Wrappers[_windowControl], ()=>Wrappers[_windowControl].ButtonBDown);
-			XInput.ButtonBUp				+= (player, state)=>Dispatch(player, state, Wrappers[_windowControl], ()=>Wrappers[_windowControl].ButtonBUp);
-			XInput.ButtonXDown				+= (player, state)=>Dispatch(player, state, Wrappers[_windowControl], ()=>Wrappers[_windowControl].ButtonXDown);
-			XInput.ButtonXUp				+= (player, state)=>Dispatch(player, state, Wrappers[_windowControl], ()=>Wrappers[_windowControl].ButtonXUp);
-			XInput.ButtonYDown				+= (player, state)=>Dispatch(player, state, Wrappers[_windowControl], ()=>Wrappers[_windowControl].ButtonYDown);
-			XInput.ButtonYUp				+= (player, state)=>Dispatch(player, state, Wrappers[_windowControl], ()=>Wrappers[_windowControl].ButtonYUp);
-			XInput.ButtonBackDown			+= (player, state)=>Dispatch(player, state, Wrappers[_windowControl], ()=>Wrappers[_windowControl].ButtonBackDown);
-			XInput.ButtonBackUp				+= (player, state)=>Dispatch(player, state, Wrappers[_windowControl], ()=>Wrappers[_windowControl].ButtonBackUp);
-			XInput.ButtonGuideDown			+= (player, state)=>Dispatch(player, state, Wrappers[_windowControl], ()=>Wrappers[_windowControl].ButtonGuideDown);
-			XInput.ButtonGuideUp			+= (player, state)=>Dispatch(player, state, Wrappers[_windowControl], ()=>Wrappers[_windowControl].ButtonGuideUp);
-			XInput.ButtonLeftShoulderDown	+= (player, state)=>Dispatch(player, state, Wrappers[_windowControl], ()=>Wrappers[_windowControl].ButtonLeftShoulderDown);
-			XInput.ButtonLeftShoulderUp		+= (player, state)=>Dispatch(player, state, Wrappers[_windowControl], ()=>Wrappers[_windowControl].ButtonLeftShoulderUp);
-			XInput.ButtonLeftStickDown		+= (player, state)=>Dispatch(player, state, Wrappers[_windowControl], ()=>Wrappers[_windowControl].ButtonLeftStickDown);
-			XInput.ButtonLeftStickUp		+= (player, state)=>Dispatch(player, state, Wrappers[_windowControl], ()=>Wrappers[_windowControl].ButtonLeftStickUp);
-			XInput.ButtonRightShoulderDown	+= (player, state)=>Dispatch(player, state, Wrappers[_windowControl], ()=>Wrappers[_windowControl].ButtonRightShoulderDown);
-			XInput.ButtonRightShoulderUp	+= (player, state)=>Dispatch(player, state, Wrappers[_windowControl], ()=>Wrappers[_windowControl].ButtonRightShoulderUp);
-			XInput.ButtonRightStickDown		+= (player, state)=>Dispatch(player, state, Wrappers[_windowControl], ()=>Wrappers[_windowControl].ButtonRightStickDown);
-			XInput.ButtonRightStickUp		+= (player, state)=>Dispatch(player, state, Wrappers[_windowControl], ()=>Wrappers[_windowControl].ButtonRightStickUp);
-			XInput.ButtonStartDown			+= (player, state)=>Dispatch(player, state, Wrappers[_windowControl], ()=>Wrappers[_windowControl].ButtonStartDown);
-			XInput.ButtonStartUp			+= (player, state)=>Dispatch(player, state, Wrappers[_windowControl], ()=>Wrappers[_windowControl].ButtonStartUp);
-			XInput.DPadLeftDown				+= (player, state)=>Dispatch(player, state, Wrappers[_windowControl], ()=>Wrappers[_windowControl].DPadLeftDown);
-			XInput.DPadLeftUp				+= (player, state)=>Dispatch(player, state, Wrappers[_windowControl], ()=>Wrappers[_windowControl].DPadLeftUp);
-			XInput.DPadRightDown			+= (player, state)=>Dispatch(player, state, Wrappers[_windowControl], ()=>Wrappers[_windowControl].DPadRightDown);
-			XInput.DPadRightUp				+= (player, state)=>Dispatch(player, state, Wrappers[_windowControl], ()=>Wrappers[_windowControl].DPadRightUp);
-			XInput.DPadUpDown				+= (player, state)=>Dispatch(player, state, Wrappers[_windowControl], ()=>Wrappers[_windowControl].DPadUpDown);
-			XInput.DPadUpUp					+= (player, state)=>Dispatch(player, state, Wrappers[_windowControl], ()=>Wrappers[_windowControl].DPadUpUp);
-			XInput.DPadDownDown				+= (player, state)=>Dispatch(player, state, Wrappers[_windowControl], ()=>Wrappers[_windowControl].DPadDownDown);
-			XInput.DPadDownUp				+= (player, state)=>Dispatch(player, state, Wrappers[_windowControl], ()=>Wrappers[_windowControl].DPadDownUp);
-			XInput.ThumbLeftChange			+= (player, state, value)=>Dispatch(player, state, value, Wrappers[_windowControl], ()=>Wrappers[_windowControl].ThumbLeftChange);
-			XInput.ThumbRightChange			+= (player, state, value)=>Dispatch(player, state, value, Wrappers[_windowControl], ()=>Wrappers[_windowControl].ThumbRightChange);
-			XInput.TriggerLeftChange		+= (player, state, value)=>Dispatch(player, state, value, Wrappers[_windowControl], ()=>Wrappers[_windowControl].TriggerLeftChange);
-			XInput.TriggerRightChange		+= (player, state, value)=>Dispatch(player, state, value, Wrappers[_windowControl], ()=>Wrappers[_windowControl].TriggerRightChange);
+			XInput.ButtonADown				+= (player, state)=>Dispatch(player, state, _windowControl!=null?Wrappers[_windowControl]:null, ()=>Wrappers[_windowControl].ButtonADown);
+			XInput.ButtonAUp				+= (player, state)=>Dispatch(player, state, _windowControl!=null?Wrappers[_windowControl]:null, ()=>Wrappers[_windowControl].ButtonAUp);
+			XInput.ButtonBDown				+= (player, state)=>Dispatch(player, state, _windowControl!=null?Wrappers[_windowControl]:null, ()=>Wrappers[_windowControl].ButtonBDown);
+			XInput.ButtonBUp				+= (player, state)=>Dispatch(player, state, _windowControl!=null?Wrappers[_windowControl]:null, ()=>Wrappers[_windowControl].ButtonBUp);
+			XInput.ButtonXDown				+= (player, state)=>Dispatch(player, state, _windowControl!=null?Wrappers[_windowControl]:null, ()=>Wrappers[_windowControl].ButtonXDown);
+			XInput.ButtonXUp				+= (player, state)=>Dispatch(player, state, _windowControl!=null?Wrappers[_windowControl]:null, ()=>Wrappers[_windowControl].ButtonXUp);
+			XInput.ButtonYDown				+= (player, state)=>Dispatch(player, state, _windowControl!=null?Wrappers[_windowControl]:null, ()=>Wrappers[_windowControl].ButtonYDown);
+			XInput.ButtonYUp				+= (player, state)=>Dispatch(player, state, _windowControl!=null?Wrappers[_windowControl]:null, ()=>Wrappers[_windowControl].ButtonYUp);
+			XInput.ButtonBackDown			+= (player, state)=>Dispatch(player, state, _windowControl!=null?Wrappers[_windowControl]:null, ()=>Wrappers[_windowControl].ButtonBackDown);
+			XInput.ButtonBackUp				+= (player, state)=>Dispatch(player, state, _windowControl!=null?Wrappers[_windowControl]:null, ()=>Wrappers[_windowControl].ButtonBackUp);
+			XInput.ButtonGuideDown			+= (player, state)=>Dispatch(player, state, _windowControl!=null?Wrappers[_windowControl]:null, ()=>Wrappers[_windowControl].ButtonGuideDown);
+			XInput.ButtonGuideUp			+= (player, state)=>Dispatch(player, state, _windowControl!=null?Wrappers[_windowControl]:null, ()=>Wrappers[_windowControl].ButtonGuideUp);
+			XInput.ButtonLeftShoulderDown	+= (player, state)=>Dispatch(player, state, _windowControl!=null?Wrappers[_windowControl]:null, ()=>Wrappers[_windowControl].ButtonLeftShoulderDown);
+			XInput.ButtonLeftShoulderUp		+= (player, state)=>Dispatch(player, state, _windowControl!=null?Wrappers[_windowControl]:null, ()=>Wrappers[_windowControl].ButtonLeftShoulderUp);
+			XInput.ButtonLeftStickDown		+= (player, state)=>Dispatch(player, state, _windowControl!=null?Wrappers[_windowControl]:null, ()=>Wrappers[_windowControl].ButtonLeftStickDown);
+			XInput.ButtonLeftStickUp		+= (player, state)=>Dispatch(player, state, _windowControl!=null?Wrappers[_windowControl]:null, ()=>Wrappers[_windowControl].ButtonLeftStickUp);
+			XInput.ButtonRightShoulderDown	+= (player, state)=>Dispatch(player, state, _windowControl!=null?Wrappers[_windowControl]:null, ()=>Wrappers[_windowControl].ButtonRightShoulderDown);
+			XInput.ButtonRightShoulderUp	+= (player, state)=>Dispatch(player, state, _windowControl!=null?Wrappers[_windowControl]:null, ()=>Wrappers[_windowControl].ButtonRightShoulderUp);
+			XInput.ButtonRightStickDown		+= (player, state)=>Dispatch(player, state, _windowControl!=null?Wrappers[_windowControl]:null, ()=>Wrappers[_windowControl].ButtonRightStickDown);
+			XInput.ButtonRightStickUp		+= (player, state)=>Dispatch(player, state, _windowControl!=null?Wrappers[_windowControl]:null, ()=>Wrappers[_windowControl].ButtonRightStickUp);
+			XInput.ButtonStartDown			+= (player, state)=>Dispatch(player, state, _windowControl!=null?Wrappers[_windowControl]:null, ()=>Wrappers[_windowControl].ButtonStartDown);
+			XInput.ButtonStartUp			+= (player, state)=>Dispatch(player, state, _windowControl!=null?Wrappers[_windowControl]:null, ()=>Wrappers[_windowControl].ButtonStartUp);
+			XInput.DPadLeftDown				+= (player, state)=>Dispatch(player, state, _windowControl!=null?Wrappers[_windowControl]:null, ()=>Wrappers[_windowControl].DPadLeftDown);
+			XInput.DPadLeftUp				+= (player, state)=>Dispatch(player, state, _windowControl!=null?Wrappers[_windowControl]:null, ()=>Wrappers[_windowControl].DPadLeftUp);
+			XInput.DPadRightDown			+= (player, state)=>Dispatch(player, state, _windowControl!=null?Wrappers[_windowControl]:null, ()=>Wrappers[_windowControl].DPadRightDown);
+			XInput.DPadRightUp				+= (player, state)=>Dispatch(player, state, _windowControl!=null?Wrappers[_windowControl]:null, ()=>Wrappers[_windowControl].DPadRightUp);
+			XInput.DPadUpDown				+= (player, state)=>Dispatch(player, state, _windowControl!=null?Wrappers[_windowControl]:null, ()=>Wrappers[_windowControl].DPadUpDown);
+			XInput.DPadUpUp					+= (player, state)=>Dispatch(player, state, _windowControl!=null?Wrappers[_windowControl]:null, ()=>Wrappers[_windowControl].DPadUpUp);
+			XInput.DPadDownDown				+= (player, state)=>Dispatch(player, state, _windowControl!=null?Wrappers[_windowControl]:null, ()=>Wrappers[_windowControl].DPadDownDown);
+			XInput.DPadDownUp				+= (player, state)=>Dispatch(player, state, _windowControl!=null?Wrappers[_windowControl]:null, ()=>Wrappers[_windowControl].DPadDownUp);
+			XInput.ThumbLeftChange			+= (player, state, value)=>Dispatch(player, state, value, _windowControl!=null?Wrappers[_windowControl]:null, ()=>Wrappers[_windowControl].ThumbLeftChange);
+			XInput.ThumbRightChange			+= (player, state, value)=>Dispatch(player, state, value, _windowControl!=null?Wrappers[_windowControl]:null, ()=>Wrappers[_windowControl].ThumbRightChange);
+			XInput.TriggerLeftChange		+= (player, state, value)=>Dispatch(player, state, value, _windowControl!=null?Wrappers[_windowControl]:null, ()=>Wrappers[_windowControl].TriggerLeftChange);
+			XInput.TriggerRightChange		+= (player, state, value)=>Dispatch(player, state, value, _windowControl!=null?Wrappers[_windowControl]:null, ()=>Wrappers[_windowControl].TriggerRightChange);
 		}
 
 		private static void Dispatch(XInputDotNetPure.PlayerIndex player, XInputDotNetPure.GamePadState state, WPFGamepad gamePadHandler, Func<GamepadEvent> evt){
+			if (gamePadHandler == null) return;
 			if (_windowControl == null) return;
 			if (Wrappers.ContainsKey(_windowControl) == false) return;
 
@@ -116,6 +117,7 @@ namespace PadOS.Input {
 		}
 
 		private static void Dispatch<T>(XInputDotNetPure.PlayerIndex player, XInputDotNetPure.GamePadState state, T value, WPFGamepad gamePadHandler, Func<GamepadEvent<T>> evt) {
+			if (gamePadHandler == null) return;
 			if (_windowControl == null) return;
 			if (Wrappers.ContainsKey(_windowControl) == false) return;
 
