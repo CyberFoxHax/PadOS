@@ -49,7 +49,7 @@ namespace PadOS.Views.Main {
 			InitializeComponent();
 
 			var gamepadInput = Input.WPFGamepad.Register(this);
-			//gamepadInput.GamePadOnChange += GamepadOnChange;
+			gamepadInput.GamePadChange += (o, args) => GamepadOnChange(o, args.GamePadState);
 
 			_activeEllipse = Canvas.Children.OfType<AngleItem>().First(p => p.IsActive);
 		}
@@ -61,6 +61,7 @@ namespace PadOS.Views.Main {
 			var jsAngle = Math.Atan2(input.ThumbSticks.Left.X, input.ThumbSticks.Left.Y);
 			RotateTransform.Angle = jsAngle * 180 / Math.PI;
 			AngleText.Text = (jsAngle * 180 / Math.PI).ToString("F0") + "°";
+
 
 			var children = Canvas.Children.OfType<AngleItem>().ToArray();
 

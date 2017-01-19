@@ -121,9 +121,10 @@ namespace PadOS.Input {
 			}
 		}
 
-		private static void InvokeThumbChanged(GamePadThumbSticks.StickValue oldValue, GamePadThumbSticks.StickValue newValue, GamePadState newState, int playerIndex, GamePadEvent<Vector2> callback) {
+		private static void InvokeThumbChanged(GamePadThumbSticks.StickValue oldValue, GamePadThumbSticks.StickValue newValue, GamePadState newState, int playerIndex, GamePadEvent<Vector2> callback){
 			if (Math.Abs(oldValue.X - newValue.X) > 0.001
-			&&	Math.Abs(oldValue.Y - newValue.Y) > 0.001) {
+			||	Math.Abs(oldValue.Y - newValue.Y) > 0.001) {
+				
 				if (callback != null)
 					callback(PlayerIndices[playerIndex], newState, new Vector2(newValue.X, newValue.Y));
 			}
