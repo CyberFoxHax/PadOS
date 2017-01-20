@@ -85,9 +85,14 @@ namespace PadOS.Views.Main {
 
 				var angleDiff = Math.Abs(jsAngle - angle);
 
-				angleItem.Text = string.Format("A:{0:f0}", angleDiff * 180 / Math.PI);
+				var distance = Math.Sqrt(diffX*diffX + diffY*diffY);
 
-				if (angleDiff < Math.PI/6){
+				angleItem.Text = string.Format("A:{0:f0}\nD:{1:f0}",
+					angleDiff * 180 / Math.PI,
+					Math.Abs(Math.Sin(angleDiff) * distance) + Math.Abs(Math.Cos(angleDiff) * distance)
+				);
+
+				if (Math.Acos(Math.Cos(jsAngle) * Math.Cos(angle) + Math.Sin(jsAngle) * Math.Sin(angle)) < Math.PI / 6) {
 					angleItem.Fill = Brushes.CornflowerBlue;
 				}
 			}
@@ -108,13 +113,14 @@ namespace PadOS.Views.Main {
 						activePos.Y - elmPos.Y
 					)
 					let angle = Math.Atan2(diff.X, diff.Y)
-					let angleDiff = Math.Abs(jsAngle - angle)
+					let angleDiff = Math.Abs(angle)
 
 					let diffDist = diff * diff
 					let distance = Math.Abs(Math.Sqrt(diffDist.X + diffDist.Y))
 
 					select new {
 						Element = elm,
+						Angle = angle,
 						AngleDiff = angleDiff,
 						Distance = distance
 					}
@@ -122,7 +128,7 @@ namespace PadOS.Views.Main {
 
 				var res = (
 					from elm in allElements
-					where elm.Element != _activeEllipse && elm.AngleDiff < Math.PI/6
+					where elm.Element != _activeEllipse && Math.Acos(Math.Cos(jsAngle) * Math.Cos(elm.Angle) + Math.Sin(jsAngle) * Math.Sin(elm.Angle)) < Math.PI / 6
 					orderby Math.Abs(Math.Sin(elm.AngleDiff) * elm.Distance) + Math.Abs(Math.Cos(elm.AngleDiff) * elm.Distance)
 					select elm.Element
 				).FirstOrDefault();
@@ -167,6 +173,7 @@ namespace PadOS.Views.Main {
 
 					select new {
 						Element = elm,
+						Angle = angle,
 						AngleDiff = angleDiff,
 						Distance = distance
 					}
@@ -174,7 +181,7 @@ namespace PadOS.Views.Main {
 
 				var res = (
 					from elm in allElements
-					where elm.Element != _activeEllipse && elm.AngleDiff < Math.PI / 6
+					where elm.Element != _activeEllipse && Math.Acos(Math.Cos(jsAngle) * Math.Cos(elm.Angle) + Math.Sin(jsAngle) * Math.Sin(elm.Angle)) < Math.PI / 6
 					orderby Math.Abs(Math.Sin(elm.AngleDiff) * elm.Distance) + Math.Abs(Math.Cos(elm.AngleDiff) * elm.Distance)
 					select elm.Element
 				).FirstOrDefault();

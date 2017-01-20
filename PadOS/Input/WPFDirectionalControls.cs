@@ -64,9 +64,8 @@ namespace PadOS.Input {
 
 
 			var allElements = (
-				from child in children
-				let elmPos = getPos(child)
-
+				from elm in children
+				let elmPos = getPos(elm)
 				let diff = new Vector2(
 					elmPos.X - activePos.X,
 					activePos.Y - elmPos.Y
@@ -74,12 +73,12 @@ namespace PadOS.Input {
 				let angle = Math.Atan2(diff.X, diff.Y)
 				let angleDiff = Math.Abs(jsAngle - angle)
 
-				let diffSquared = diff * diff
-				let distance = Math.Abs(Math.Sqrt(diffSquared.X + diffSquared.Y))
+				let diffDist = diff * diff
+				let distance = Math.Abs(Math.Sqrt(diffDist.X + diffDist.Y))
 
 				select new {
-					Element = child,
-					AngleDiff = angleDiff,
+					Element = elm,
+					AngleDiff = Math.Acos(Math.Cos(jsAngle) * Math.Cos(angle) + Math.Sin(jsAngle) * Math.Sin(angle)),
 					Distance = distance
 				}
 			).ToArray();
@@ -88,12 +87,7 @@ namespace PadOS.Input {
 
 			var res = (
 				from elm in allElements
-				where elm.Element != activeElement && elm.AngleDiff < tau / 10 // tight angle
-				orderby Math.Abs(Math.Sin(elm.AngleDiff) * elm.Distance) + Math.Abs(Math.Cos(elm.AngleDiff) * elm.Distance)
-				select elm.Element
-			).FirstOrDefault() ?? (
-				from elm in allElements
-				where elm.Element != activeElement && elm.AngleDiff < tau / 3 // loose angle
+				where elm.Element != activeElement && elm.AngleDiff < tau / 8
 				orderby Math.Abs(Math.Sin(elm.AngleDiff) * elm.Distance) + Math.Abs(Math.Cos(elm.AngleDiff) * elm.Distance)
 				select elm.Element
 			).FirstOrDefault();
