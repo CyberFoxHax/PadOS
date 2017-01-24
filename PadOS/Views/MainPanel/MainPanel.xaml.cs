@@ -1,18 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
-namespace PadOS.Views.Main {
+namespace PadOS.Views.MainPanel {
 	public partial class MainPanel{
 		public MainPanel() {
 			InitializeComponent();
@@ -30,11 +21,6 @@ namespace PadOS.Views.Main {
 			for (var i = 0; i < upper; i++){
 				Canvas.SetLeft(elms[i], Math.Cos(segment * i - segment * 2) * 270 + Width / 2);
 				Canvas.SetTop (elms[i], Math.Sin(segment * i - segment * 2) * 270 + Width / 2);
-
-				Console.WriteLine(@"Canvas.Left=""{0:F0}"" Canvas.Top=""{1:F0}""",
-					Canvas.GetLeft(elms[i]),
-					Canvas.GetTop(elms[i])
-				);
 			}
 		}
 
