@@ -17,6 +17,18 @@
 			Y = y;
 		}
 
+		public double GetAngle(){
+			return System.Math.Atan2(X, Y);
+		}
+
+		public double GetLength(){
+			return System.Math.Sqrt(X*X + Y*Y);
+		}
+
+		public double GetSquared(){
+			return X*X + Y*Y;
+		}
+
 		public static Vector2 operator +(Vector2 a, double b) {
 			return new Vector2(
 				a.X + b,

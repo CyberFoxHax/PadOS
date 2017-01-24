@@ -38,7 +38,7 @@ namespace PadOS.Input {
 		public static bool GamePadStateEquals(GamePadState a, GamePadState b){
 			const float tolerance = 0.001f;
 			return
-				a.PacketNumber			== b.PacketNumber			 && // verify if packet number is controller specific
+			//	a.PacketNumber			== b.PacketNumber			 && // verify if packet number is controller specific
 				a.Buttons.LeftShoulder	== b.Buttons.LeftShoulder	 && 
 				a.Buttons.A				== b.Buttons.A				 &&
 				a.Buttons.B				== b.Buttons.B				 &&

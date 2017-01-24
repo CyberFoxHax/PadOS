@@ -4,7 +4,7 @@ using System.Windows.Controls;
 
 namespace PadOS.Input {
 	public class WPFGamepad{
-		private static readonly GamePadInput XInput = new GamePadInput();
+		public static readonly GamePadInput XInput = new GamePadInput();
 		private static readonly Dictionary<System.Windows.UIElement, WPFGamepad> Wrappers = new Dictionary<System.Windows.UIElement, WPFGamepad>();
 
 		private static System.Windows.UIElement _windowControl;

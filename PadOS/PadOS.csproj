@@ -137,7 +137,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Main\MainWindow.xaml">
+    <Page Include="Views\Main\MainPanel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -145,8 +145,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Views\Main\MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
+    <Compile Include="Views\Main\MainPanel.xaml.cs">
+      <DependentUpon>MainPanel.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\Main\TestAngles.xaml">
@@ -226,6 +226,8 @@
     <Resource Include="Resources\Controllers\DualShock4Vector.png" />
     <Resource Include="Resources\Controllers\XBoxOneVector.png" />
     <Resource Include="Resources\pointer.png" />
+    <Resource Include="Resources\main_panel.png" />
+    <Resource Include="Resources\main_panel_highlight.png" />
     <Content Include="XInputDotNetPure.dll" />
     <Content Include="XInputInterfaceX64.dll" />
     <Content Include="XInputInterfaceX86.dll" />
