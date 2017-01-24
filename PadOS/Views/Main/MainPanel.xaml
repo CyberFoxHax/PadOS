@@ -2,6 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:views="clr-namespace:PadOS.Views"
+        xmlns:customControls="clr-namespace:PadOS.CustomControls"
         Title="MainWindow"
         Height="730"
         Width="730"
@@ -15,6 +16,7 @@
         <Grid.Background>
             <ImageBrush ImageSource="/PadOS;component/Resources/main_panel.png"/>
         </Grid.Background>
+        <views:SystemTray x:Name="SystemTray" />
         <Grid Margin="5,223" x:Name="Highlight" RenderTransformOrigin="0.5,0.5">
             <Grid.RenderTransform>
                 <TransformGroup>
@@ -24,8 +26,62 @@
                     <TranslateTransform/>
                 </TransformGroup>
             </Grid.RenderTransform>
-            <Image HorizontalAlignment="Left" Source="/PadOS;component/Resources/main_panel_highlight.png"></Image>
+            <customControls:AlphaSilhouetteImage HorizontalAlignment="Left" Width="150" NormalColor="#FF285A8B">
+                <customControls:AlphaSilhouetteImage.Source>
+                    <ImageBrush ImageSource="/PadOS;component/Resources/main_panel_highlight.png"/>
+                </customControls:AlphaSilhouetteImage.Source>
+            </customControls:AlphaSilhouetteImage>
         </Grid>
-        <views:SystemTray x:Name="SystemTray" />
+        <Canvas x:Name="Canvas">
+            <Canvas.Resources>
+                <Style TargetType="customControls:AlphaSilhouetteImage">
+                    <Setter Property="Width"  Value="130" />
+                    <Setter Property="Height" Value="130" />
+                    <Setter Property="Margin" Value="-65,-65,0,0" />
+                    <Setter Property="NormalColor" Value="#FFEBF1F9" />
+                </Style>
+            </Canvas.Resources>
+            <customControls:AlphaSilhouetteImage Canvas.Left="365" Canvas.Top="95">
+                <customControls:AlphaSilhouetteImage.Source>
+                    <ImageBrush ImageSource="/PadOS;component/Resources/Icons/capture.png" Stretch="Uniform"/>
+                </customControls:AlphaSilhouetteImage.Source>
+            </customControls:AlphaSilhouetteImage>
+            <customControls:AlphaSilhouetteImage Canvas.Left="556" Canvas.Top="174">
+                <customControls:AlphaSilhouetteImage.Source>
+                    <ImageBrush ImageSource="/PadOS;component/Resources/Icons/OSK.png" Stretch="Uniform"/>
+                </customControls:AlphaSilhouetteImage.Source>
+            </customControls:AlphaSilhouetteImage>
+            <customControls:AlphaSilhouetteImage Canvas.Left="635" Canvas.Top="365">
+                <customControls:AlphaSilhouetteImage.Source>
+                    <ImageBrush ImageSource="/PadOS;component/Resources/Icons/Cogs.png" Stretch="Uniform"/>
+                </customControls:AlphaSilhouetteImage.Source>
+            </customControls:AlphaSilhouetteImage>
+            <customControls:AlphaSilhouetteImage Canvas.Left="556" Canvas.Top="556">
+                <customControls:AlphaSilhouetteImage.Source>
+                    <ImageBrush ImageSource="/PadOS;component/Resources/Icons/OSK.png" Stretch="Uniform"/>
+                </customControls:AlphaSilhouetteImage.Source>
+            </customControls:AlphaSilhouetteImage>
+            <customControls:AlphaSilhouetteImage Canvas.Left="365" Canvas.Top="635">
+                <customControls:AlphaSilhouetteImage.Source>
+                    <ImageBrush ImageSource="/PadOS;component/Resources/Icons/capture.png" Stretch="Uniform"/>
+                </customControls:AlphaSilhouetteImage.Source>
+            </customControls:AlphaSilhouetteImage>
+            <customControls:AlphaSilhouetteImage Canvas.Left="174" Canvas.Top="556">
+                <customControls:AlphaSilhouetteImage.Source>
+                    <ImageBrush ImageSource="/PadOS;component/Resources/Icons/Loupe.png" Stretch="Uniform"/>
+                </customControls:AlphaSilhouetteImage.Source>
+            </customControls:AlphaSilhouetteImage>
+            <customControls:AlphaSilhouetteImage Canvas.Left="95" Canvas.Top="365">
+                <customControls:AlphaSilhouetteImage.Source>
+                    <ImageBrush ImageSource="/PadOS;component/Resources/Icons/Cogs.png" Stretch="Uniform"/>
+                </customControls:AlphaSilhouetteImage.Source>
+            </customControls:AlphaSilhouetteImage>
+            <customControls:AlphaSilhouetteImage Canvas.Left="174" Canvas.Top="174">
+                <customControls:AlphaSilhouetteImage.Source>
+                    <ImageBrush ImageSource="/PadOS;component/Resources/Icons/OSK.png" Stretch="Uniform"/>
+                </customControls:AlphaSilhouetteImage.Source>
+            </customControls:AlphaSilhouetteImage>
+
+        </Canvas>
     </Grid>
 </Window>

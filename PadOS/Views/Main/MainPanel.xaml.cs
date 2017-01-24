@@ -22,7 +22,20 @@ namespace PadOS.Views.Main {
 			Input.WPFGamepad.XInput.ButtonGuideDown += XInputOnButtonGuideDown;
 			gamepadInput.ThumbLeftChange += GamepadInputOnThumbLeftChange;
 			gamepadInput.ButtonADown += GamepadInputOnButtonADown;
-			
+
+			var elms = Canvas.Children.OfType<FrameworkElement>().ToArray();
+			const int upper = 8;
+			const double tau = Math.PI * 2;
+			const double segment = tau/upper;
+			for (var i = 0; i < upper; i++){
+				Canvas.SetLeft(elms[i], Math.Cos(segment * i - segment * 2) * 270 + Width / 2);
+				Canvas.SetTop (elms[i], Math.Sin(segment * i - segment * 2) * 270 + Width / 2);
+
+				Console.WriteLine(@"Canvas.Left=""{0:F0}"" Canvas.Top=""{1:F0}""",
+					Canvas.GetLeft(elms[i]),
+					Canvas.GetTop(elms[i])
+				);
+			}
 		}
 
 		private Vector2 _leftStick;

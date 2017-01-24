@@ -104,6 +104,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CustomControls\AlphaSilhouetteImage.xaml.cs">
+      <DependentUpon>AlphaSilhouetteImage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Input\GamepadInput.cs" />
     <Compile Include="Input\ControllersEnum.cs" />
     <Compile Include="Input\WPFDirectionalControls.cs" />
@@ -125,6 +128,10 @@
     <Compile Include="Views\SystemTray.xaml.cs">
       <DependentUpon>SystemTray.xaml</DependentUpon>
     </Compile>
+    <Page Include="CustomControls\AlphaSilhouetteImage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\AdornerTest.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -228,6 +235,10 @@
     <Resource Include="Resources\pointer.png" />
     <Resource Include="Resources\main_panel.png" />
     <Resource Include="Resources\main_panel_highlight.png" />
+    <Resource Include="Resources\Icons\capture.png" />
+    <Resource Include="Resources\Icons\Cogs.png" />
+    <Resource Include="Resources\Icons\Loupe.png" />
+    <Resource Include="Resources\Icons\OSK.png" />
     <Content Include="XInputDotNetPure.dll" />
     <Content Include="XInputInterfaceX64.dll" />
     <Content Include="XInputInterfaceX86.dll" />

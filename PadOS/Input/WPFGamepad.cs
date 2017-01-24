@@ -122,7 +122,8 @@ namespace PadOS.Input {
 			if (Wrappers.ContainsKey(_windowControl) == false) return;
 
 			if (_windowControl == null) return;
-			_windowControl.Dispatcher.BeginInvoke(new Action(() => {
+			_windowControl.Dispatcher.BeginInvoke(new Action(() =>{
+				if (_windowControl == null) return;
 				var focussedElm = System.Windows.Input.FocusManager.GetFocusedElement(_windowControl);
 
 				var handler = evt();
