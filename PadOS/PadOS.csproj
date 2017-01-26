@@ -76,6 +76,9 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Hardcodet.Wpf.TaskbarNotification">
       <HintPath>..\packages\Hardcodet.NotifyIcon.Wpf.1.0.8\lib\net45\Hardcodet.Wpf.TaskbarNotification.dll</HintPath>
@@ -256,6 +259,8 @@
     <Resource Include="Resources\Icons\Cogs.png" />
     <Resource Include="Resources\Icons\Loupe.png" />
     <Resource Include="Resources\Icons\OSK.png" />
+    <Resource Include="Resources\icon.ico" />
+    <Resource Include="icon.ico" />
     <Content Include="XInputDotNetPure.dll" />
     <Content Include="XInputInterfaceX64.dll" />
     <Content Include="XInputInterfaceX86.dll" />

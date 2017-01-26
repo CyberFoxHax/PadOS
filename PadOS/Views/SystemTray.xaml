@@ -6,8 +6,8 @@
              xmlns:tb="http://www.hardcodet.net/taskbar"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <!--IconSource="/ControllerOSK;component/Resources/icon.ico"-->
     <tb:TaskbarIcon x:Name="NotifyIcon"
+        IconSource="/PadOS;component/Resources/icon.ico"
         Visibility="Visible"
         ToolTipText="ControllerOSK"
         

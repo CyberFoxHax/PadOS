@@ -50,6 +50,11 @@ namespace PadOS.Views.MainPanel {
 			};
 		}
 
+		public void ClearButtons(){
+			for (var i = 0; i < 8; i++)
+				RemoveButton(i);
+		}
+
 		public void RemoveButton(int index) {
 			var elms = Canvas.Children.OfType<CustomControls.AlphaSilhouetteImage>().ToArray();
 			elms[index].Source = null;
@@ -82,7 +87,7 @@ namespace PadOS.Views.MainPanel {
 
 		private void XInputOnButtonGuideDown(XInputDotNetPure.PlayerIndex player, XInputDotNetPure.GamePadState state) {
 			Dispatcher.BeginInvoke(new Action(() => {
-				if (IsVisible)
+				if (IsVisible) // todo how about other windows?
 					Hide();
 				else
 					Show();
