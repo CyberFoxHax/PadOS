@@ -1,5 +1,5 @@
 namespace PadOS.Views.Settings{
-	public partial class NavigationListItem{
+	public partial class NavigationListItem : INavigatable{
 		public NavigationListItem(){
 			InitializeComponent();
 		}

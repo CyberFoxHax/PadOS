@@ -89,6 +89,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
@@ -113,6 +114,7 @@
     <Compile Include="CustomControls\AlphaSilhouetteBrush.xaml.cs">
       <DependentUpon>AlphaSilhouetteBrush.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Settings\INavigatable.cs" />
     <Compile Include="Views\Settings\NavigationListItem.xaml.cs">
       <DependentUpon>NavigationListItem.xaml</DependentUpon>
     </Compile>
@@ -140,6 +142,7 @@
     <Compile Include="Views\Main\TestAngles.xaml.cs">
       <DependentUpon>TestAngles.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Settings\SimpleGamePadNavagtion.cs" />
     <Compile Include="Views\Settings\Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
     </Compile>
