@@ -43,11 +43,8 @@ namespace PadOS.Views.MainPanel {
 		public void SetButton(int index, MainPanelButton button) {
 			var elms = Canvas.Children.OfType<CustomControls.AlphaSilhouetteImage>().ToArray();
 			_buttons[index] = button;
-			elms[index].Source = new System.Windows.Media.ImageBrush(
-				new System.Windows.Media.Imaging.BitmapImage(new Uri(_buttons[index].ImageUri, UriKind.Absolute))
-			) {
-				Stretch = System.Windows.Media.Stretch.Uniform
-			};
+			elms[index].Source = 
+				new System.Windows.Media.Imaging.BitmapImage(new Uri(_buttons[index].ImageUri, UriKind.Absolute));
 		}
 
 		public void ClearButtons(){

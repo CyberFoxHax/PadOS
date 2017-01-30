@@ -1,8 +1,51 @@
 ﻿<Window x:Class="PadOS.Views.Settings.Settings"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Settings" Height="300" Width="300">
-    <Grid>
-        <TextBlock Text="Settings gone here"></TextBlock>
-    </Grid>
+        xmlns:customControls="clr-namespace:PadOS.CustomControls"
+        xmlns:padOs="clr-namespace:PadOS"
+        xmlns:settings="clr-namespace:PadOS.Views.Settings"
+        Title="Settings"
+        Height="809"
+        Width="696"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="{x:Null}"
+        WindowStartupLocation="CenterScreen"
+    >
+    <Border BorderThickness="3">
+        <Border.Background>
+            <LinearGradientBrush EndPoint="348,809" StartPoint="243.6,-40.45" MappingMode="Absolute">
+                <GradientStop Color="#262626" Offset="1"/>
+                <GradientStop Color="#202123" Offset="0.15"/>
+                <GradientStop Color="#1e242f"/>
+            </LinearGradientBrush>
+        </Border.Background>
+        <Border.BorderBrush>
+            <LinearGradientBrush EndPoint="1,1">
+                <GradientStop Color="#1f4974"/>
+                <GradientStop Color="#232424" Offset="0.5"/>
+                <GradientStop Color="#1f4974" Offset="1"/>
+            </LinearGradientBrush>
+        </Border.BorderBrush>
+        <Grid>
+            <TextBlock Margin="20,10" FontSize="18" FontFamily="Courier New" Text="PadOS" Foreground="#888" VerticalAlignment="Top" HorizontalAlignment="Left" />
+            <TextBlock Margin="100,-5,0,0" FontSize="65" FontFamily="Courier New" Text="PadOS" Foreground="#FFDBE1EE" VerticalAlignment="Top" HorizontalAlignment="Left" />
+            <Grid Margin="90,100,20,30">
+                <Grid.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#161616" Offset="1"/>
+                        <GradientStop Color="#1f1f1f"/>
+                    </LinearGradientBrush>
+                </Grid.Background>
+                <StackPanel x:Name="ButtonsList">
+                    <settings:NavigationListItem ImageSource="/PadOS;component/Resources/Icons/capture.png" Text="Bacon" IsActive="True" />
+                    <settings:NavigationListItem ImageSource="/PadOS;component/Resources/Icons/capture.png" Text="Is" />
+                    <settings:NavigationListItem ImageSource="/PadOS;component/Resources/Icons/capture.png" Text="Good" />
+                    <settings:NavigationListItem ImageSource="/PadOS;component/Resources/Icons/capture.png" Text="For" />
+                    <settings:NavigationListItem ImageSource="/PadOS;component/Resources/Icons/capture.png" Text="Your" />
+                    <settings:NavigationListItem ImageSource="/PadOS;component/Resources/Icons/capture.png" Text="Health" />
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </Border>
 </Window>

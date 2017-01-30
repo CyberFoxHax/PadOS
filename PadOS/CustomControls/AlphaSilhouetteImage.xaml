@@ -1,21 +1,25 @@
-﻿<Grid x:Class="PadOS.CustomControls.AlphaSilhouetteImage"
+﻿<UserControl x:Class="PadOS.CustomControls.AlphaSilhouetteImage"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300" x:Name="Parent" >
+             d:DesignHeight="300" d:DesignWidth="300" x:Name="This" >
     <Canvas>
         <Canvas.Style>
             <Style TargetType="Canvas">
                 <Style.Triggers>
-                    <DataTrigger Binding="{Binding ActiveState, ElementName=Parent}" Value="True">
-                        <Setter Property="Background" Value="{Binding ActiveColor, ElementName=Parent}"/>
+                    <DataTrigger Binding="{Binding IsActive, ElementName=This}" Value="True">
+                        <Setter Property="Background" Value="{Binding ActiveColor, ElementName=This}"/>
                     </DataTrigger>
                 </Style.Triggers>
-                <Setter Property="Background" Value="{Binding NormalColor, ElementName=Parent}" />
-                <Setter Property="OpacityMask" Value="{Binding Source, ElementName=Parent}" />
+                <Setter Property="Background" Value="{Binding NormalColor, ElementName=This}" />
+                <Setter Property="OpacityMask">
+                    <Setter.Value>
+                        <ImageBrush ImageSource="{Binding Source, ElementName=This}" Stretch="Uniform"></ImageBrush>
+                    </Setter.Value>
+                </Setter>
             </Style>
         </Canvas.Style>
     </Canvas>
-</Grid>
+</UserControl>
