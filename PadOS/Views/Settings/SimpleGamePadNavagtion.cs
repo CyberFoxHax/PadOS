@@ -16,13 +16,13 @@ namespace PadOS.Views.Settings {
 			_holdDelay.Interval = (System.Windows.Forms.SystemInformation.KeyboardDelay + 1) * 250;
 			_repeatInterval.Interval = System.Windows.Forms.SystemInformation.KeyboardSpeed;
 
-			var evts = Input.WPFGamepad.Register(window);
-			evts.DPadDownDown += OnDPadDownDown;
-			evts.DPadUpDown += OnDPadUpDown;
-			evts.DPadDownUp += OnDPadUp;
-			evts.DPadUpUp += OnDPadUp;
+			_gamepadEvents = Input.WPFGamepad.Register(window);
+			_gamepadEvents.DPadDownDown += OnDPadDownDown;
+			_gamepadEvents.DPadUpDown += OnDPadUpDown;
+			_gamepadEvents.DPadDownUp += OnDPadUp;
+			_gamepadEvents.DPadUpUp += OnDPadUp;
 
-			evts.ThumbLeftChange += EvtsOnThumbLeftChange;
+			_gamepadEvents.ThumbLeftChange += OnThumbLeftChangeInitial;
 
 			var buttons = _buttonsList;
 			foreach (var button in buttons)
@@ -42,12 +42,23 @@ namespace PadOS.Views.Settings {
 		private Action _repeatFunction;
 		private readonly double _minRepeatInterval = 33;
 		private readonly double _maxRepeatInterval = 400;
+		private readonly Input.WPFGamepad _gamepadEvents;
 
 		public void UpdateItems(IEnumerable<INavigatable> buttonsList){
 			_buttonsList = buttonsList.ToArray();
 		}
 
-		private void EvtsOnThumbLeftChange(object sender, Input.WPFGamepad.GamePadEventArgs<Vector2> args){
+		private void OnThumbLeftChangeInitial(object sender, Input.WPFGamepad.GamePadEventArgs<Vector2> args) {
+			const float threshhold = 0.3f;
+			var length = Math.Abs(args.Value.Y);
+			if (length > threshhold) return;
+
+			_gamepadEvents.ThumbLeftChange -= OnThumbLeftChangeInitial;
+			_gamepadEvents.ThumbLeftChange += OnThumbLeftChange;
+			OnThumbLeftChange(sender, args);
+		}
+
+		private void OnThumbLeftChange(object sender, Input.WPFGamepad.GamePadEventArgs<Vector2> args){
 			const float threshhold = 0.3f;
 			var length = (Math.Abs(args.Value.Y)-threshhold)/(1-threshhold);
 
