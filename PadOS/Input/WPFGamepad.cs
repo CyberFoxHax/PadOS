@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Windows.Controls;
 
 namespace PadOS.Input {
 	public class WPFGamepad{
 		public static readonly GamePadInput XInput = new GamePadInput();
-		private static readonly Dictionary<System.Windows.UIElement, WPFGamepad> Wrappers = new Dictionary<System.Windows.UIElement, WPFGamepad>();
+		private static readonly Dictionary<IGamePadFocusable, WPFGamepad> Wrappers = new Dictionary<IGamePadFocusable, WPFGamepad>();
 
-		private static System.Windows.UIElement _windowControl;
+		private static IGamePadFocusable _focusedControl;
 
 		public class GamePadEventArgs : EventArgs {
 			public XInputDotNetPure.PlayerIndex Player { get; set; }
@@ -58,114 +57,106 @@ namespace PadOS.Input {
 		public event GamepadEvent<float> TriggerRightChange;
 
 		static WPFGamepad(){
-			XInput.ButtonADown				+= (player, state)=>Dispatch(player, state, _windowControl!=null?Wrappers[_windowControl]:null, ()=>Wrappers[_windowControl].ButtonADown);
-			XInput.ButtonAUp				+= (player, state)=>Dispatch(player, state, _windowControl!=null?Wrappers[_windowControl]:null, ()=>Wrappers[_windowControl].ButtonAUp);
-			XInput.ButtonBDown				+= (player, state)=>Dispatch(player, state, _windowControl!=null?Wrappers[_windowControl]:null, ()=>Wrappers[_windowControl].ButtonBDown);
-			XInput.ButtonBUp				+= (player, state)=>Dispatch(player, state, _windowControl!=null?Wrappers[_windowControl]:null, ()=>Wrappers[_windowControl].ButtonBUp);
-			XInput.ButtonXDown				+= (player, state)=>Dispatch(player, state, _windowControl!=null?Wrappers[_windowControl]:null, ()=>Wrappers[_windowControl].ButtonXDown);
-			XInput.ButtonXUp				+= (player, state)=>Dispatch(player, state, _windowControl!=null?Wrappers[_windowControl]:null, ()=>Wrappers[_windowControl].ButtonXUp);
-			XInput.ButtonYDown				+= (player, state)=>Dispatch(player, state, _windowControl!=null?Wrappers[_windowControl]:null, ()=>Wrappers[_windowControl].ButtonYDown);
-			XInput.ButtonYUp				+= (player, state)=>Dispatch(player, state, _windowControl!=null?Wrappers[_windowControl]:null, ()=>Wrappers[_windowControl].ButtonYUp);
-			XInput.ButtonBackDown			+= (player, state)=>Dispatch(player, state, _windowControl!=null?Wrappers[_windowControl]:null, ()=>Wrappers[_windowControl].ButtonBackDown);
-			XInput.ButtonBackUp				+= (player, state)=>Dispatch(player, state, _windowControl!=null?Wrappers[_windowControl]:null, ()=>Wrappers[_windowControl].ButtonBackUp);
-			XInput.ButtonGuideDown			+= (player, state)=>Dispatch(player, state, _windowControl!=null?Wrappers[_windowControl]:null, ()=>Wrappers[_windowControl].ButtonGuideDown);
-			XInput.ButtonGuideUp			+= (player, state)=>Dispatch(player, state, _windowControl!=null?Wrappers[_windowControl]:null, ()=>Wrappers[_windowControl].ButtonGuideUp);
-			XInput.ButtonLeftShoulderDown	+= (player, state)=>Dispatch(player, state, _windowControl!=null?Wrappers[_windowControl]:null, ()=>Wrappers[_windowControl].ButtonLeftShoulderDown);
-			XInput.ButtonLeftShoulderUp		+= (player, state)=>Dispatch(player, state, _windowControl!=null?Wrappers[_windowControl]:null, ()=>Wrappers[_windowControl].ButtonLeftShoulderUp);
-			XInput.ButtonLeftStickDown		+= (player, state)=>Dispatch(player, state, _windowControl!=null?Wrappers[_windowControl]:null, ()=>Wrappers[_windowControl].ButtonLeftStickDown);
-			XInput.ButtonLeftStickUp		+= (player, state)=>Dispatch(player, state, _windowControl!=null?Wrappers[_windowControl]:null, ()=>Wrappers[_windowControl].ButtonLeftStickUp);
-			XInput.ButtonRightShoulderDown	+= (player, state)=>Dispatch(player, state, _windowControl!=null?Wrappers[_windowControl]:null, ()=>Wrappers[_windowControl].ButtonRightShoulderDown);
-			XInput.ButtonRightShoulderUp	+= (player, state)=>Dispatch(player, state, _windowControl!=null?Wrappers[_windowControl]:null, ()=>Wrappers[_windowControl].ButtonRightShoulderUp);
-			XInput.ButtonRightStickDown		+= (player, state)=>Dispatch(player, state, _windowControl!=null?Wrappers[_windowControl]:null, ()=>Wrappers[_windowControl].ButtonRightStickDown);
-			XInput.ButtonRightStickUp		+= (player, state)=>Dispatch(player, state, _windowControl!=null?Wrappers[_windowControl]:null, ()=>Wrappers[_windowControl].ButtonRightStickUp);
-			XInput.ButtonStartDown			+= (player, state)=>Dispatch(player, state, _windowControl!=null?Wrappers[_windowControl]:null, ()=>Wrappers[_windowControl].ButtonStartDown);
-			XInput.ButtonStartUp			+= (player, state)=>Dispatch(player, state, _windowControl!=null?Wrappers[_windowControl]:null, ()=>Wrappers[_windowControl].ButtonStartUp);
-			XInput.DPadLeftDown				+= (player, state)=>Dispatch(player, state, _windowControl!=null?Wrappers[_windowControl]:null, ()=>Wrappers[_windowControl].DPadLeftDown);
-			XInput.DPadLeftUp				+= (player, state)=>Dispatch(player, state, _windowControl!=null?Wrappers[_windowControl]:null, ()=>Wrappers[_windowControl].DPadLeftUp);
-			XInput.DPadRightDown			+= (player, state)=>Dispatch(player, state, _windowControl!=null?Wrappers[_windowControl]:null, ()=>Wrappers[_windowControl].DPadRightDown);
-			XInput.DPadRightUp				+= (player, state)=>Dispatch(player, state, _windowControl!=null?Wrappers[_windowControl]:null, ()=>Wrappers[_windowControl].DPadRightUp);
-			XInput.DPadUpDown				+= (player, state)=>Dispatch(player, state, _windowControl!=null?Wrappers[_windowControl]:null, ()=>Wrappers[_windowControl].DPadUpDown);
-			XInput.DPadUpUp					+= (player, state)=>Dispatch(player, state, _windowControl!=null?Wrappers[_windowControl]:null, ()=>Wrappers[_windowControl].DPadUpUp);
-			XInput.DPadDownDown				+= (player, state)=>Dispatch(player, state, _windowControl!=null?Wrappers[_windowControl]:null, ()=>Wrappers[_windowControl].DPadDownDown);
-			XInput.DPadDownUp				+= (player, state)=>Dispatch(player, state, _windowControl!=null?Wrappers[_windowControl]:null, ()=>Wrappers[_windowControl].DPadDownUp);
-			XInput.ThumbLeftChange			+= (player, state, value)=>Dispatch(player, state, value, _windowControl!=null?Wrappers[_windowControl]:null, ()=>Wrappers[_windowControl].ThumbLeftChange);
-			XInput.ThumbRightChange			+= (player, state, value)=>Dispatch(player, state, value, _windowControl!=null?Wrappers[_windowControl]:null, ()=>Wrappers[_windowControl].ThumbRightChange);
-			XInput.TriggerLeftChange		+= (player, state, value)=>Dispatch(player, state, value, _windowControl!=null?Wrappers[_windowControl]:null, ()=>Wrappers[_windowControl].TriggerLeftChange);
-			XInput.TriggerRightChange		+= (player, state, value)=>Dispatch(player, state, value, _windowControl!=null?Wrappers[_windowControl]:null, ()=>Wrappers[_windowControl].TriggerRightChange);
+			XInput.ButtonADown				+= (player, state)=>Dispatch(player, state, _focusedControl!=null?Wrappers[_focusedControl]:null, ()=>Wrappers[_focusedControl].ButtonADown);
+			XInput.ButtonAUp				+= (player, state)=>Dispatch(player, state, _focusedControl!=null?Wrappers[_focusedControl]:null, ()=>Wrappers[_focusedControl].ButtonAUp);
+			XInput.ButtonBDown				+= (player, state)=>Dispatch(player, state, _focusedControl!=null?Wrappers[_focusedControl]:null, ()=>Wrappers[_focusedControl].ButtonBDown);
+			XInput.ButtonBUp				+= (player, state)=>Dispatch(player, state, _focusedControl!=null?Wrappers[_focusedControl]:null, ()=>Wrappers[_focusedControl].ButtonBUp);
+			XInput.ButtonXDown				+= (player, state)=>Dispatch(player, state, _focusedControl!=null?Wrappers[_focusedControl]:null, ()=>Wrappers[_focusedControl].ButtonXDown);
+			XInput.ButtonXUp				+= (player, state)=>Dispatch(player, state, _focusedControl!=null?Wrappers[_focusedControl]:null, ()=>Wrappers[_focusedControl].ButtonXUp);
+			XInput.ButtonYDown				+= (player, state)=>Dispatch(player, state, _focusedControl!=null?Wrappers[_focusedControl]:null, ()=>Wrappers[_focusedControl].ButtonYDown);
+			XInput.ButtonYUp				+= (player, state)=>Dispatch(player, state, _focusedControl!=null?Wrappers[_focusedControl]:null, ()=>Wrappers[_focusedControl].ButtonYUp);
+			XInput.ButtonBackDown			+= (player, state)=>Dispatch(player, state, _focusedControl!=null?Wrappers[_focusedControl]:null, ()=>Wrappers[_focusedControl].ButtonBackDown);
+			XInput.ButtonBackUp				+= (player, state)=>Dispatch(player, state, _focusedControl!=null?Wrappers[_focusedControl]:null, ()=>Wrappers[_focusedControl].ButtonBackUp);
+			XInput.ButtonGuideDown			+= (player, state)=>Dispatch(player, state, _focusedControl!=null?Wrappers[_focusedControl]:null, ()=>Wrappers[_focusedControl].ButtonGuideDown);
+			XInput.ButtonGuideUp			+= (player, state)=>Dispatch(player, state, _focusedControl!=null?Wrappers[_focusedControl]:null, ()=>Wrappers[_focusedControl].ButtonGuideUp);
+			XInput.ButtonLeftShoulderDown	+= (player, state)=>Dispatch(player, state, _focusedControl!=null?Wrappers[_focusedControl]:null, ()=>Wrappers[_focusedControl].ButtonLeftShoulderDown);
+			XInput.ButtonLeftShoulderUp		+= (player, state)=>Dispatch(player, state, _focusedControl!=null?Wrappers[_focusedControl]:null, ()=>Wrappers[_focusedControl].ButtonLeftShoulderUp);
+			XInput.ButtonLeftStickDown		+= (player, state)=>Dispatch(player, state, _focusedControl!=null?Wrappers[_focusedControl]:null, ()=>Wrappers[_focusedControl].ButtonLeftStickDown);
+			XInput.ButtonLeftStickUp		+= (player, state)=>Dispatch(player, state, _focusedControl!=null?Wrappers[_focusedControl]:null, ()=>Wrappers[_focusedControl].ButtonLeftStickUp);
+			XInput.ButtonRightShoulderDown	+= (player, state)=>Dispatch(player, state, _focusedControl!=null?Wrappers[_focusedControl]:null, ()=>Wrappers[_focusedControl].ButtonRightShoulderDown);
+			XInput.ButtonRightShoulderUp	+= (player, state)=>Dispatch(player, state, _focusedControl!=null?Wrappers[_focusedControl]:null, ()=>Wrappers[_focusedControl].ButtonRightShoulderUp);
+			XInput.ButtonRightStickDown		+= (player, state)=>Dispatch(player, state, _focusedControl!=null?Wrappers[_focusedControl]:null, ()=>Wrappers[_focusedControl].ButtonRightStickDown);
+			XInput.ButtonRightStickUp		+= (player, state)=>Dispatch(player, state, _focusedControl!=null?Wrappers[_focusedControl]:null, ()=>Wrappers[_focusedControl].ButtonRightStickUp);
+			XInput.ButtonStartDown			+= (player, state)=>Dispatch(player, state, _focusedControl!=null?Wrappers[_focusedControl]:null, ()=>Wrappers[_focusedControl].ButtonStartDown);
+			XInput.ButtonStartUp			+= (player, state)=>Dispatch(player, state, _focusedControl!=null?Wrappers[_focusedControl]:null, ()=>Wrappers[_focusedControl].ButtonStartUp);
+			XInput.DPadLeftDown				+= (player, state)=>Dispatch(player, state, _focusedControl!=null?Wrappers[_focusedControl]:null, ()=>Wrappers[_focusedControl].DPadLeftDown);
+			XInput.DPadLeftUp				+= (player, state)=>Dispatch(player, state, _focusedControl!=null?Wrappers[_focusedControl]:null, ()=>Wrappers[_focusedControl].DPadLeftUp);
+			XInput.DPadRightDown			+= (player, state)=>Dispatch(player, state, _focusedControl!=null?Wrappers[_focusedControl]:null, ()=>Wrappers[_focusedControl].DPadRightDown);
+			XInput.DPadRightUp				+= (player, state)=>Dispatch(player, state, _focusedControl!=null?Wrappers[_focusedControl]:null, ()=>Wrappers[_focusedControl].DPadRightUp);
+			XInput.DPadUpDown				+= (player, state)=>Dispatch(player, state, _focusedControl!=null?Wrappers[_focusedControl]:null, ()=>Wrappers[_focusedControl].DPadUpDown);
+			XInput.DPadUpUp					+= (player, state)=>Dispatch(player, state, _focusedControl!=null?Wrappers[_focusedControl]:null, ()=>Wrappers[_focusedControl].DPadUpUp);
+			XInput.DPadDownDown				+= (player, state)=>Dispatch(player, state, _focusedControl!=null?Wrappers[_focusedControl]:null, ()=>Wrappers[_focusedControl].DPadDownDown);
+			XInput.DPadDownUp				+= (player, state)=>Dispatch(player, state, _focusedControl!=null?Wrappers[_focusedControl]:null, ()=>Wrappers[_focusedControl].DPadDownUp);
+			XInput.ThumbLeftChange			+= (player, state, value)=>Dispatch(player, state, value, _focusedControl!=null?Wrappers[_focusedControl]:null, ()=>Wrappers[_focusedControl].ThumbLeftChange);
+			XInput.ThumbRightChange			+= (player, state, value)=>Dispatch(player, state, value, _focusedControl!=null?Wrappers[_focusedControl]:null, ()=>Wrappers[_focusedControl].ThumbRightChange);
+			XInput.TriggerLeftChange		+= (player, state, value)=>Dispatch(player, state, value, _focusedControl!=null?Wrappers[_focusedControl]:null, ()=>Wrappers[_focusedControl].TriggerLeftChange);
+			XInput.TriggerRightChange		+= (player, state, value)=>Dispatch(player, state, value, _focusedControl!=null?Wrappers[_focusedControl]:null, ()=>Wrappers[_focusedControl].TriggerRightChange);
 		}
 
 		private static void Dispatch(XInputDotNetPure.PlayerIndex player, XInputDotNetPure.GamePadState state, WPFGamepad gamePadHandler, Func<GamepadEvent> evt){
 			if (gamePadHandler == null) return;
-			if (_windowControl == null) return;
-			if (Wrappers.ContainsKey(_windowControl) == false) return;
+			if (_focusedControl == null) return;
+			if (Wrappers.ContainsKey(_focusedControl) == false) return;
 
-			if (_windowControl == null) return;
-			_windowControl.Dispatcher.BeginInvoke(new Action(() =>{
-				var focussedElm = System.Windows.Input.FocusManager.GetFocusedElement(_windowControl);
+			if (_focusedControl == null) return;
+			var focussedElm = _focusedControl;
 
-				var handler = evt();
-				if (handler != null) handler(focussedElm, new GamePadEventArgs{
-					Player = player,
-					GamePadState = state
-				});
+			var handler = evt();
+			if (handler != null) handler(focussedElm, new GamePadEventArgs{
+				Player = player,
+				GamePadState = state
+			});
 
-				if (gamePadHandler.GamePadChange != null) gamePadHandler.GamePadChange(focussedElm, new GamePadEventArgs{
-					Player = player,
-					GamePadState = state
-				});
-			}));
+			if (gamePadHandler.GamePadChange != null) gamePadHandler.GamePadChange(focussedElm, new GamePadEventArgs{
+				Player = player,
+				GamePadState = state
+			});
 		}
 
 		private static void Dispatch<T>(XInputDotNetPure.PlayerIndex player, XInputDotNetPure.GamePadState state, T value, WPFGamepad gamePadHandler, Func<GamepadEvent<T>> evt) {
 			if (gamePadHandler == null) return;
-			if (_windowControl == null) return;
-			if (Wrappers.ContainsKey(_windowControl) == false) return;
+			if (_focusedControl == null) return;
+			if (Wrappers.ContainsKey(_focusedControl) == false) return;
 
-			if (_windowControl == null) return;
-			_windowControl.Dispatcher.BeginInvoke(new Action(() =>{
-				if (_windowControl == null) return;
-				var focussedElm = System.Windows.Input.FocusManager.GetFocusedElement(_windowControl);
+			var focussedElm = _focusedControl;
 
-				var handler = evt();
-				if (handler != null) handler(focussedElm, new GamePadEventArgs<T>{
-					Player = player,
-					Value = value,
-					GamePadState = state
-				});
+			var handler = evt();
+			if (handler != null) handler(focussedElm, new GamePadEventArgs<T>{
+				Player = player,
+				Value = value,
+				GamePadState = state
+			});
 
-				if (gamePadHandler.GamePadChange != null) gamePadHandler.GamePadChange(focussedElm, new GamePadEventArgs {
-					Player = player,
-					GamePadState = state
-				});
-			}));
+			if (gamePadHandler.GamePadChange != null) gamePadHandler.GamePadChange(focussedElm, new GamePadEventArgs {
+				Player = player,
+				GamePadState = state
+			});
 		}
 
-		public static WPFGamepad Register(System.Windows.UIElement control){
+		public static WPFGamepad Register(IGamePadFocusable control){
 			WPFGamepad wrapper;
 			if (Wrappers.ContainsKey(control))
 				wrapper = Wrappers[control];
 			else
 				wrapper = Wrappers[control] = new WPFGamepad();
 
-			control.GotKeyboardFocus -= OnControlOnGotFocus;
-			control.GotKeyboardFocus += OnControlOnGotFocus;
-			if (control.IsFocused)
-				_windowControl = control;
+			if (control.IsGamePadFocused)
+				_focusedControl = control;
 
 			return wrapper;
 		}
 
-		private static void OnControlOnGotFocus(object sender, System.Windows.RoutedEventArgs args){
-			_windowControl = (Control)sender;
-			_windowControl.LostKeyboardFocus += OnControlOnLostFocus;
-			_windowControl.GotKeyboardFocus -= OnControlOnGotFocus;
-		}
+		public static void Focus(IGamePadFocusable ctrl){
+			if (_focusedControl != null)
+				_focusedControl.IsGamePadFocused = false;
 
-		private static void OnControlOnLostFocus(object sender, System.Windows.RoutedEventArgs args){
-			if (_windowControl != sender) return;
-			_windowControl.LostFocus -= OnControlOnLostFocus;
-			_windowControl.GotKeyboardFocus += OnControlOnGotFocus;
-			_windowControl = null;
+			if (ctrl == null) return;
+			_focusedControl = ctrl;
+			_focusedControl.IsGamePadFocused = true;
 		}
+	}
+
+	public interface IGamePadFocusable{
+		bool IsGamePadFocused { get; set; }
 	}
 }

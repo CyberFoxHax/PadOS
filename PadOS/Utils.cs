@@ -42,7 +42,6 @@ namespace PadOS {
 
 		public static T CreateInstance<T>(this System.Type type){
 			return (T) System.Activator.CreateInstance(type);
-
 		}
 	}
 

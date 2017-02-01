@@ -2,11 +2,14 @@
 using System.Linq;
 
 namespace PadOS.Views.Settings {
-	public partial class Settings{
+	public partial class Settings : Input.IGamePadFocusable{
 		public Settings() {
 			InitializeComponent();
 
-			SimpleGamePadNavagtion.Register(this, ButtonsList.Children.OfType<INavigatable>());
+			Input.WPFGamepad.Focus(this);
+			SimpleGamePadNavagtion.Register(this, ButtonsList.Children.OfType<INavigatable>(), Dispatcher);
 		}
+
+		public bool IsGamePadFocused { get; set; }
 	}
 }

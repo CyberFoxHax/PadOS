@@ -2,8 +2,6 @@
 namespace PadOS {
 	public partial class App {
 		public App(){
-			// todo create virtual controllers anor remap them
-
 #if DEBUG
 #if x64
 			const bool is64BitBuild = true;
@@ -16,11 +14,11 @@ namespace PadOS {
 				throw new System.Exception("You need to run in in x64 mode");
 #endif
 
-			SaveData.MainPanel.Load();
+			SaveData.SaveDataUtils.Init();
 
 			var mainWindow = new Views.MainPanel.MainPanel();
-			mainWindow.Show();
-			mainWindow.Closed += (sender, args) => System.Environment.Exit(0);
+			if(System.Diagnostics.Debugger.IsAttached)
+				mainWindow.Show();
 		}
 	}
 }

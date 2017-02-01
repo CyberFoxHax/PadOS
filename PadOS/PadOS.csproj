@@ -114,20 +114,23 @@
     <Compile Include="CustomControls\AlphaSilhouetteBrush.xaml.cs">
       <DependentUpon>AlphaSilhouetteBrush.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Settings\BasicListItem.xaml.cs">
+      <DependentUpon>BasicListItem.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Settings\INavigatable.cs" />
+    <Compile Include="Views\Settings\MultiListItem.xaml.cs">
+      <DependentUpon>MultiListItem.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Settings\NavigationListItem.xaml.cs">
       <DependentUpon>NavigationListItem.xaml</DependentUpon>
     </Compile>
     <Compile Include="Input\GamepadInput.cs" />
     <Compile Include="Input\WPFDirectionalControls.cs" />
     <Compile Include="Input\WPFGamepad.cs" />
-    <Compile Include="SaveData\MainPanelModel.cs" />
+    <Compile Include="SaveData\MainPanel.cs" />
     <Compile Include="SaveData\SaveDataUtils.cs" />
     <Compile Include="Utils.cs" />
     <Compile Include="Vector2.cs" />
-    <Compile Include="Views\AdornerTest.xaml.cs">
-      <DependentUpon>AdornerTest.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\ConfigurePlayers\ControllerTemplate.xaml.cs">
       <DependentUpon>ControllerTemplate.xaml</DependentUpon>
     </Compile>
@@ -139,8 +142,8 @@
     </Compile>
     <Compile Include="Views\MainPanel\ContentType.cs" />
     <Compile Include="Views\MainPanel\MainPanelButton.cs" />
-    <Compile Include="Views\Main\TestAngles.xaml.cs">
-      <DependentUpon>TestAngles.xaml</DependentUpon>
+    <Compile Include="Views\Settings\NavItem.xaml.cs">
+      <DependentUpon>NavItem.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Settings\SimpleGamePadNavagtion.cs" />
     <Compile Include="Views\Settings\Settings.xaml.cs">
@@ -157,13 +160,17 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Settings\NavigationListItem.xaml">
+    <Page Include="Views\Settings\BasicListItem.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\AdornerTest.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="Views\Settings\MultiListItem.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Settings\NavigationListItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\ConfigurePlayers\ControllerTemplate.xaml">
       <SubType>Designer</SubType>
@@ -189,9 +196,9 @@
       <DependentUpon>MainPanel.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Views\Main\TestAngles.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="Views\Settings\NavItem.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Settings\Settings.xaml">
       <SubType>Designer</SubType>
@@ -269,17 +276,18 @@
     <Resource Include="Resources\Controllers\Xelu\Xbox One\XboxOne_Guide.png" />
     <Resource Include="Resources\Controllers\DualShock4Vector.png" />
     <Resource Include="Resources\Controllers\XBoxOneVector.png" />
-    <Resource Include="Resources\pointer.png" />
     <Resource Include="Resources\main_panel.png" />
     <Resource Include="Resources\main_panel_highlight.png" />
     <Resource Include="Resources\Icons\capture.png" />
-    <Resource Include="Resources\Icons\Cogs.png" />
+    <Resource Include="Resources\Icons\cogs.png" />
     <Resource Include="Resources\Icons\Loupe.png" />
     <Resource Include="Resources\Icons\OSK.png" />
     <Resource Include="Resources\icon.ico" />
     <Resource Include="icon.ico" />
-    <Resource Include="Resources\SettingsUI.png" />
     <Resource Include="Resources\circle_chevron_arrow.png" />
+    <Resource Include="Resources\Icons\cross.png" />
+    <Resource Include="Resources\Icons\minimize.png" />
+    <Resource Include="Resources\Icons\skull.png" />
     <Content Include="XInputDotNetPure.dll" />
     <Content Include="XInputInterfaceX64.dll" />
     <Content Include="XInputInterfaceX86.dll" />

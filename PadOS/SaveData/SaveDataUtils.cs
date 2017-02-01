@@ -6,6 +6,10 @@ namespace PadOS.SaveData {
 	public static class SaveDataUtils{
 		public const string Directory = @"\Settings\";
 
+		public static void Init(){
+			MainPanel.Load();
+		}
+
 		public static void SaveData(string filename, object data){
 			var directory = Environment.CurrentDirectory + Directory;
 			var dataRaw = JsonConvert.SerializeObject(data, Formatting.Indented);

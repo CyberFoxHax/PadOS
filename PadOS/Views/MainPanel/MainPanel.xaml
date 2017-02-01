@@ -11,7 +11,11 @@
         WindowStyle="None"
         SnapsToDevicePixels="True"
         Background="{x:Null}"
-        >
+        ShowActivated="False"
+        Topmost="True"
+        ShowInTaskbar="False"
+        UseLayoutRounding="True"
+    >
     <Grid>
         <Grid.Background>
             <ImageBrush ImageSource="/PadOS;component/Resources/main_panel.png"/>

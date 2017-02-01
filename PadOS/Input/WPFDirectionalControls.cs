@@ -6,7 +6,7 @@ using System.Windows;
 namespace PadOS.Input {
 	public class WPFDirectionalControls{
 
-		public static WPFDirectionalControls Register(UIElement control) {
+		public static WPFDirectionalControls Register(IGamePadFocusable control) {
 			var dirControl = new WPFDirectionalControls();
 			var container = WPFGamepad.Register(control);
 			container.ThumbLeftChange += dirControl.OnThumbChange;
@@ -55,7 +55,7 @@ namespace PadOS.Input {
 		}
 
 		private static FrameworkElement GetSelection(FrameworkElement activeElement, Vector2 direction){
-			Func<FrameworkElement, Vector2> getPos = elm => ElementPosition.GetControlPosition(elm) + new Vector2(elm.ActualWidth, elm.ActualHeight) / 2;
+			Func<FrameworkElement, Vector2> getPos = elm => GetControlPosition(elm) + new Vector2(elm.ActualWidth, elm.ActualHeight) / 2;
 
 			var jsAngle = Math.Atan2(direction.X, direction.Y);
 			var parentWindow = activeElement.FindParentOfType<Window>();
@@ -95,8 +95,10 @@ namespace PadOS.Input {
 			return res;
 		}
 
-		private static Vector2 Convert(Point p){
-			return new Vector2(p.X, p.Y);
+		public static Vector2 GetControlPosition(FrameworkElement elm){
+			var parent = elm.FindParentOfType<Window>();
+			var point = elm.TransformToAncestor(parent).Transform(new Point(0, 0));
+			return new Vector2(point.X, point.Y);
 		}
 
 		private static IEnumerable<T> RecursiveChildren<T>(DependencyObject depObj)  where T:DependencyObject{
@@ -108,46 +110,6 @@ namespace PadOS.Input {
 
 				foreach (var childOfChild in RecursiveChildren<T>(child))
 					yield return childOfChild;
-			}
-		}
-
-		private struct ElementPosition {
-			private ElementPosition(FrameworkElement elm, Vector2 point)
-				: this() {
-				Elm = elm;
-				Pos = point;
-			}
-			public readonly FrameworkElement Elm;
-			public Vector2 Pos;
-
-			public static Vector2 GetControlPosition(FrameworkElement elm) {
-				return GetControlPosition(elm.FindParentOfType<Window>(), elm);
-			}
-
-			public static Vector2 GetControlPosition(System.Windows.Media.Visual parent, System.Windows.Media.Visual elm) {
-				return Convert(elm.TransformToAncestor(parent).Transform(new Point(0, 0)));
-			}
-
-			public static IEnumerable<ElementPosition> GetRectPositions(FrameworkElement elm){
-				return GetRectPositions(elm.FindParentOfType<Window>(), elm);
-			}
-
-			public static IEnumerable<ElementPosition> GetRectPositions(System.Windows.Media.Visual parent, FrameworkElement elm) {
-				var controlAbs = GetControlPosition(parent, elm);
-				var actualWidth = elm.ActualWidth;
-				var actualHeight = elm.ActualHeight;
-				var actualWidth2 = actualWidth;
-				var actualHeight2 = actualHeight;
-
-				yield return new ElementPosition(elm, controlAbs);
-				yield return new ElementPosition(elm, controlAbs + new Vector2(actualWidth, 0));
-				yield return new ElementPosition(elm, controlAbs + new Vector2(0, actualHeight));
-				yield return new ElementPosition(elm, controlAbs + new Vector2(actualWidth, actualHeight));
-
-				yield return new ElementPosition(elm, controlAbs + new Vector2(actualWidth2, 0));
-				yield return new ElementPosition(elm, controlAbs + new Vector2(0, actualHeight2));
-				yield return new ElementPosition(elm, controlAbs + new Vector2(actualWidth2, actualHeight));
-				yield return new ElementPosition(elm, controlAbs + new Vector2(actualWidth, actualHeight2));
 			}
 		}
 	}

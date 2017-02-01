@@ -4,12 +4,13 @@ using System.Linq;
 
 namespace PadOS.Views.Settings {
 	public class SimpleGamePadNavagtion{
-		public static SimpleGamePadNavagtion Register(System.Windows.UIElement window, IEnumerable<INavigatable> itemList) {
-			return new SimpleGamePadNavagtion(window, itemList);
+		public static SimpleGamePadNavagtion Register(Input.IGamePadFocusable window, IEnumerable<INavigatable> itemList, System.Windows.Threading.Dispatcher dispatcher) {
+			return new SimpleGamePadNavagtion(window, itemList, dispatcher);
 		}
 
-		public SimpleGamePadNavagtion(System.Windows.UIElement window, IEnumerable<INavigatable> itemList){
+		public SimpleGamePadNavagtion(Input.IGamePadFocusable window, IEnumerable<INavigatable> itemList, System.Windows.Threading.Dispatcher dispatcher){
 			_window = window;
+			_dispatcher = dispatcher;
 			_buttonsList = itemList.ToArray();
 
 			// https://msdn.microsoft.com/en-us/library/system.windows.forms.systeminformation.keyboarddelay%28v=vs.110%29.aspx
@@ -34,14 +35,15 @@ namespace PadOS.Views.Settings {
 			_repeatInterval.Elapsed += RepeatIntervalOnElapsed;
 		}
 
-		private readonly System.Windows.UIElement _window;
+		private readonly Input.IGamePadFocusable _window;
+		private readonly System.Windows.Threading.Dispatcher _dispatcher;
 		private INavigatable[] _buttonsList;
 		private INavigatable _activeItem;
 		private readonly System.Timers.Timer _holdDelay = new System.Timers.Timer(200) { AutoReset = false };
 		private readonly System.Timers.Timer _repeatInterval = new System.Timers.Timer(66) { AutoReset = true };
 		private Action _repeatFunction;
-		private readonly double _minRepeatInterval = 33;
-		private readonly double _maxRepeatInterval = 400;
+		private const double MinRepeatInterval = 33;
+		private const double MaxRepeatInterval = 400;
 		private readonly Input.WPFGamepad _gamepadEvents;
 
 		public void UpdateItems(IEnumerable<INavigatable> buttonsList){
@@ -62,8 +64,8 @@ namespace PadOS.Views.Settings {
 			const float threshhold = 0.3f;
 			var length = (Math.Abs(args.Value.Y)-threshhold)/(1-threshhold);
 
-			var min = _minRepeatInterval;
-			var max = _maxRepeatInterval - min;
+			var min = MinRepeatInterval;
+			var max = MaxRepeatInterval - min;
 
 			Input.WPFGamepad.GamepadEvent handlerDown;
 			Input.WPFGamepad.GamepadEvent handlerUp = OnDPadUp;
@@ -87,7 +89,7 @@ namespace PadOS.Views.Settings {
 
 		private void RepeatIntervalOnElapsed(object sender, System.Timers.ElapsedEventArgs args) {
 			if (_repeatFunction != null)
-				_window.Dispatcher.BeginInvoke(_repeatFunction);
+				_repeatFunction();
 		}
 
 		private void OnDPadUpDown(object sender, Input.WPFGamepad.GamePadEventArgs args) {
@@ -111,17 +113,25 @@ namespace PadOS.Views.Settings {
 		private void MoveUp() {
 			var buttons = _buttonsList.ToArray();
 			var index = Array.IndexOf(buttons, _activeItem);
-			_activeItem.IsActive = false;
-			_activeItem = buttons[index <= 0 ? buttons.Length - 1 : index - 1];
-			_activeItem.IsActive = true;
+			var oldItem = _activeItem;
+			var newItem = buttons[index <= 0 ? buttons.Length - 1 : index - 1];
+			_activeItem = newItem;
+			_dispatcher.BeginInvoke(new Action(() => {
+				oldItem.IsActive = false;
+				newItem.IsActive = true;
+			}));
 		}
 
 		private void MoveDown() {
 			var buttons = _buttonsList.ToArray();
 			var index = Array.IndexOf(buttons, _activeItem);
-			_activeItem.IsActive = false;
-			_activeItem = buttons[(index + 1) % buttons.Length];
-			_activeItem.IsActive = true;
+			var oldItem = _activeItem;
+			var newItem = buttons[(index + 1) % buttons.Length];
+			_activeItem = newItem;
+			_dispatcher.BeginInvoke(new Action(() => {
+				oldItem.IsActive = false;
+				newItem.IsActive = true;
+			}));
 		}
 	}
 }

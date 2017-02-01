@@ -4,15 +4,15 @@ using System.Windows;
 using System.Windows.Controls;
 
 namespace PadOS.Views.MainPanel {
-	public partial class MainPanel{
+	public partial class MainPanel : Input.IGamePadFocusable{
 		public MainPanel() {
 			InitializeComponent();
 			Highlight.Visibility = Visibility.Hidden;
 
-			Input.WPFGamepad.XInput.ButtonGuideDown += XInputOnButtonGuideDown;
-
+			Input.WPFGamepad.Focus(this);
 			var gamepadInput = Input.WPFGamepad.Register(this);
 			gamepadInput.ThumbLeftChange += GamepadInputOnThumbLeftChange;
+			Input.WPFGamepad.XInput.ButtonGuideDown += XInputOnButtonGuideDown;
 
 			var saveData = SaveData.MainPanel.Data;
 			foreach (var data in saveData.Items){
@@ -35,10 +35,11 @@ namespace PadOS.Views.MainPanel {
 				elms[i].Source = null;
 				elms[i].Visibility = Visibility.Hidden;
 			}
-
 		}
 
+		public bool IsGamePadFocused { get; set; }
 		private readonly MainPanelButton[] _buttons = new MainPanelButton[8];
+		private bool _waitForReturnZero;
 
 		public void SetButton(int index, MainPanelButton button) {
 			var elms = Canvas.Children.OfType<CustomControls.AlphaSilhouetteImage>().ToArray();
@@ -69,17 +70,21 @@ namespace PadOS.Views.MainPanel {
 		private void GamepadInputOnThumbLeftChange(object sender, Input.WPFGamepad.GamePadEventArgs<Vector2> args){
 			var length = args.Value.GetLength();
 			var angle  = args.Value.GetAngle();
-			if (length > 0.9){
-				var angleWrap = angle < 0 ? Math.PI *2 + angle: angle;
-				ActivateButton((int)Math.Round(angleWrap / Math.PI * 180 / 45));
-			}
-			else if(length > 0.1){
-				HighlightRotate.Angle = Math.Round((angle / Math.PI * 180 + 90) / 45) * 45;
-				Highlight.Visibility = Visibility.Visible;
-			}
-			else{
-				Highlight.Visibility = Visibility.Hidden;
-			}
+			Dispatcher.BeginInvoke(new Action(() =>{
+				if (length > 0.9 && _waitForReturnZero == false) {
+					var angleWrap = angle < 0 ? Math.PI *2 + angle: angle;
+					ActivateButton((int)Math.Round(angleWrap / Math.PI * 180 / 45));
+					_waitForReturnZero = true;
+				}
+				else if(length > 0.1){
+						HighlightRotate.Angle = Math.Round((angle / Math.PI * 180 + 90) / 45) * 45;
+						Highlight.Visibility = Visibility.Visible;
+				}
+				else{
+					_waitForReturnZero = false;
+					Highlight.Visibility = Visibility.Hidden;
+				}
+			}));
 		}
 
 		private void XInputOnButtonGuideDown(XInputDotNetPure.PlayerIndex player, XInputDotNetPure.GamePadState state) {

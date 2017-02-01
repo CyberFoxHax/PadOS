@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:settings="clr-namespace:PadOS.Views.Settings"
         Title="Settings"
-        Height="809"
+        Height="776"
         Width="696"
         WindowStyle="None"
         AllowsTransparency="True"
@@ -28,7 +28,7 @@
         <Grid>
             <TextBlock Margin="20,10" FontSize="18" FontFamily="Courier New" Text="PadOS" Foreground="#888" VerticalAlignment="Top" HorizontalAlignment="Left" />
             <TextBlock Margin="100,-5,0,0" FontSize="65" FontFamily="Courier New" Text="PadOS" Foreground="#FFDBE1EE" VerticalAlignment="Top" HorizontalAlignment="Left" />
-            <Grid Margin="90,100,20,30">
+            <Grid Margin="90,100,20,20">
                 <Grid.Background>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                         <GradientStop Color="#161616" Offset="1"/>
@@ -36,15 +36,23 @@
                     </LinearGradientBrush>
                 </Grid.Background>
                 <StackPanel x:Name="ButtonsList">
-                    <settings:NavigationListItem ImageSource="/PadOS;component/Resources/Icons/capture.png" Text="Change Players" IsActive="True" />
-                    <settings:NavigationListItem ImageSource="/PadOS;component/Resources/Icons/capture.png" Text="GamePads" />
-                    <settings:NavigationListItem ImageSource="/PadOS;component/Resources/Icons/capture.png" Text="Main Panel" />
-                    <settings:NavigationListItem ImageSource="/PadOS;component/Resources/Icons/capture.png" Text="Keyboard Mappings" />
-                    <settings:NavigationListItem ImageSource="/PadOS;component/Resources/Icons/capture.png" Text="Keyboard Profiles" />
-                    <settings:NavigationListItem ImageSource="/PadOS;component/Resources/Icons/capture.png" Text="Calibration" />
-                    <settings:NavigationListItem ImageSource="/PadOS;component/Resources/Icons/capture.png" Text="Main Panel Profiles" />
-                    <settings:NavigationListItem ImageSource="/PadOS;component/Resources/Icons/capture.png" Text="Current Application" />
-                    <settings:NavigationListItem ImageSource="/PadOS;component/Resources/Icons/capture.png" Text="Restart PadOS" />                </StackPanel>
+                    <settings:NavigationListItem ImageSource="/Resources/Icons/capture.png" Text="Change Players" IsActive="True" />
+                    <settings:NavigationListItem ImageSource="/Resources/Icons/capture.png" Text="GamePads" />
+                    <settings:NavigationListItem ImageSource="/Resources/Icons/capture.png" Text="Main Panel" />
+                    <settings:NavigationListItem ImageSource="/Resources/Icons/capture.png" Text="Keyboard Mappings" />
+                    <settings:NavigationListItem ImageSource="/Resources/Icons/capture.png" Text="Keyboard Profiles" />
+                    <settings:NavigationListItem ImageSource="/Resources/Icons/capture.png" Text="Calibration" />
+                    <settings:NavigationListItem ImageSource="/Resources/Icons/capture.png" Text="Main Panel Profiles" />
+                    <settings:MultiListItem ImageSource="/Resources/Icons/capture.png" Text="Current Application" IsActive="True">
+                        <settings:MultiListItem.Items>
+                            <settings:NavItem ImageSource="/PadOS;component/Resources/Icons/minimize.png" />
+                            <settings:NavItem ImageSource="/PadOS;component/Resources/Icons/cross.png" />
+                            <settings:NavItem ImageSource="/PadOS;component/Resources/Icons/skull.png" />
+                        </settings:MultiListItem.Items>
+                    </settings:MultiListItem>
+                    <settings:BasicListItem ImageSource="/Resources/Icons/capture.png" Text="Restart PadOS" />
+                    <settings:BasicListItem ImageSource="/Resources/Icons/capture.png" Text="Shutdown PadOS" IsActive="True" />
+                </StackPanel>
             </Grid>
         </Grid>
     </Border>

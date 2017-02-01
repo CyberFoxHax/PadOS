@@ -1,0 +1,56 @@
+<UserControl
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:customControls="clr-namespace:PadOS.CustomControls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    x:Class="PadOS.Views.Settings.MultiListItem"
+    Height="65"
+    d:DesignWidth="640"
+    Margin="-70,0,0,0"
+    x:Name="This">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="70"/>
+            <ColumnDefinition Width="380"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.Resources>
+            <Style TargetType="Grid">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding IsActive, ElementName=This}" Value="True">
+                        <Setter Property="Background">
+                            <Setter.Value>
+                                <LinearGradientBrush EndPoint="1,1" StartPoint="0,0">
+                                    <GradientStop Color="#326e95" Offset="0"/>
+                                    <GradientStop Color="#295572" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Setter.Value>
+                        </Setter>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+            <Style TargetType="customControls:AlphaSilhouetteImage">
+                <Setter Property="IsActive" Value="{Binding IsActive, ElementName=This}" />
+            </Style>
+            <Style TargetType="TextBlock">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding IsActive, ElementName=This}" Value="True">
+                        <Setter Property="Foreground" Value="White" />
+                    </DataTrigger>
+                </Style.Triggers>
+                <Setter Property="Foreground" Value="#ccd5e2" />
+            </Style>
+        </Grid.Resources>
+        <customControls:AlphaSilhouetteImage Source="{Binding ImageSource, ElementName=This}" ActiveColor="White" NormalColor="#4f4f4f" Grid.Column="0" Margin="10" />
+        <TextBlock Grid.Column="1" Text="{Binding Text, ElementName=This}" HorizontalAlignment="Left" Margin="20,0,0,0" VerticalAlignment="Center" FontSize="25" FontFamily="Arial" />
+        <ItemsControl Grid.Column="2" ItemsSource="{Binding Items, ElementName=This}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+        </ItemsControl>
+    </Grid>
+</UserControl>
