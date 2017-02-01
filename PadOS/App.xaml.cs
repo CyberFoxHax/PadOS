@@ -9,15 +9,18 @@ namespace PadOS {
 			const bool is64BitBuild = false;
 #endif
 
-			var asm = System.Reflection.Assembly.GetExecutingAssembly();
 			if (System.Environment.Is64BitOperatingSystem != is64BitBuild)
 				throw new System.Exception("You need to run in in x64 mode");
 #endif
 
 			SaveData.SaveDataUtils.Init();
+		}
 
+		protected override void OnStartup(System.Windows.StartupEventArgs e){
+			base.OnStartup(e);
+			var systray = new Views.SystemTray();
 			var mainWindow = new Views.MainPanel.MainPanel();
-			if(System.Diagnostics.Debugger.IsAttached)
+			if (System.Diagnostics.Debugger.IsAttached)
 				mainWindow.Show();
 		}
 	}

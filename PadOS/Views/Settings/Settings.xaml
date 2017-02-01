@@ -5,10 +5,9 @@
         Title="Settings"
         Height="776"
         Width="696"
-        WindowStyle="None"
-        AllowsTransparency="True"
         Background="{x:Null}"
         WindowStartupLocation="CenterScreen"
+        Style="{StaticResource DefaultWindowStyle}"
     >
     <Border BorderThickness="3">
         <Border.Background>

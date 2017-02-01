@@ -6,21 +6,14 @@
         Title="MainWindow"
         Height="730"
         Width="730"
-        WindowStartupLocation="CenterScreen"
-        AllowsTransparency="True"
-        WindowStyle="None"
-        SnapsToDevicePixels="True"
         Background="{x:Null}"
-        ShowActivated="False"
-        Topmost="True"
-        ShowInTaskbar="False"
-        UseLayoutRounding="True"
+        WindowStartupLocation="CenterScreen"
+        Style="{StaticResource DefaultWindowStyle}"
     >
     <Grid>
         <Grid.Background>
             <ImageBrush ImageSource="/PadOS;component/Resources/main_panel.png"/>
         </Grid.Background>
-        <views:SystemTray x:Name="SystemTray" />
         <Grid Margin="5,223" x:Name="Highlight" RenderTransformOrigin="0.5,0.5">
             <Grid.RenderTransform>
                 <TransformGroup>

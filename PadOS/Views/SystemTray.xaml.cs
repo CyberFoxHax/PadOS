@@ -14,20 +14,21 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace PadOS.Views {
-	/// <summary>
-	/// Interaction logic for SystemTray.xaml
-	/// </summary>
 	public partial class SystemTray{
 		public SystemTray() {
 			InitializeComponent();
 		}
 
-		private void ShowHide_OnClick(object sender, RoutedEventArgs e){
-
-		}
-
 		private void Exit_OnClick(object sender, RoutedEventArgs e){
-
+			new System.Threading.Thread(() =>{
+				// allow for the context menu to fade out
+				System.Threading.Thread.Sleep(200); 
+				Dispatcher.BeginInvoke(new Action(() => {
+					Dispose();
+					Application.Current.Shutdown();
+					Environment.Exit(0);
+				}));
+			}).Start();
 		}
 	}
 }
