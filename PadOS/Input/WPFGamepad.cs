@@ -155,8 +155,4 @@ namespace PadOS.Input {
 			_focusedControl.IsGamePadFocused = true;
 		}
 	}
-
-	public interface IGamePadFocusable{
-		bool IsGamePadFocused { get; set; }
-	}
 }

@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace PadOS.Views.Settings {
-	public class SimpleGamePadNavagtion{
-		public static SimpleGamePadNavagtion Register(Input.IGamePadFocusable window, IEnumerable<INavigatable> itemList, System.Windows.Threading.Dispatcher dispatcher) {
-			return new SimpleGamePadNavagtion(window, itemList, dispatcher);
+	public class VerticalGamePadNavagtion{
+		public static VerticalGamePadNavagtion Register(Input.IGamePadFocusable window, IEnumerable<INavigatable> itemList, System.Windows.Threading.Dispatcher dispatcher) {
+			return new VerticalGamePadNavagtion(window, itemList, dispatcher);
 		}
 
-		public SimpleGamePadNavagtion(Input.IGamePadFocusable window, IEnumerable<INavigatable> itemList, System.Windows.Threading.Dispatcher dispatcher){
-			_window = window;
+		public VerticalGamePadNavagtion(Input.IGamePadFocusable window, IEnumerable<INavigatable> itemList, System.Windows.Threading.Dispatcher dispatcher){
 			_dispatcher = dispatcher;
 			_buttonsList = itemList.ToArray();
 
@@ -35,7 +34,6 @@ namespace PadOS.Views.Settings {
 			_repeatInterval.Elapsed += RepeatIntervalOnElapsed;
 		}
 
-		private readonly Input.IGamePadFocusable _window;
 		private readonly System.Windows.Threading.Dispatcher _dispatcher;
 		private INavigatable[] _buttonsList;
 		private INavigatable _activeItem;

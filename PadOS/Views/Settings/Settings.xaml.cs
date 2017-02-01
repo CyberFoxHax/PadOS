@@ -7,7 +7,7 @@ namespace PadOS.Views.Settings {
 			InitializeComponent();
 
 			Input.WPFGamepad.Focus(this);
-			SimpleGamePadNavagtion.Register(this, ButtonsList.Children.OfType<INavigatable>(), Dispatcher);
+			VerticalGamePadNavagtion.Register(this, ButtonsList.Children.OfType<INavigatable>(), Dispatcher);
 		}
 
 		public bool IsGamePadFocused { get; set; }

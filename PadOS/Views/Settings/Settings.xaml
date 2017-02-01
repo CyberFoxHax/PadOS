@@ -42,10 +42,10 @@
                     <settings:NavigationListItem ImageSource="/Resources/Icons/capture.png" Text="Keyboard Profiles" />
                     <settings:NavigationListItem ImageSource="/Resources/Icons/capture.png" Text="Calibration" />
                     <settings:NavigationListItem ImageSource="/Resources/Icons/capture.png" Text="Main Panel Profiles" />
-                    <settings:MultiListItem ImageSource="/Resources/Icons/capture.png" Text="Current Application" IsActive="True">
+                    <settings:MultiListItem ImageSource="/Resources/Icons/capture.png" Text="Current Window" IsActive="True">
                         <settings:MultiListItem.Items>
                             <settings:NavItem ImageSource="/PadOS;component/Resources/Icons/minimize.png" />
-                            <settings:NavItem ImageSource="/PadOS;component/Resources/Icons/cross.png" />
+                            <settings:NavItem ImageSource="/PadOS;component/Resources/Icons/cross.png" IsActive="True" />
                             <settings:NavItem ImageSource="/PadOS;component/Resources/Icons/skull.png" />
                         </settings:MultiListItem.Items>
                     </settings:MultiListItem>
