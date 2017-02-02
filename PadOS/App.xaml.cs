@@ -20,8 +20,11 @@ namespace PadOS {
 			base.OnStartup(e);
 			var systray = new Views.SystemTray();
 			var mainWindow = new Views.MainPanel.MainPanel();
-			if (System.Diagnostics.Debugger.IsAttached)
-				mainWindow.Show();
+
+			if (System.Diagnostics.Debugger.IsAttached == false) return;
+			GlobalEvents.InterfaceIsOpen = true;
+			GlobalEvents.Init();
+			mainWindow.Show();
 		}
 	}
 }

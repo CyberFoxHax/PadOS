@@ -12,7 +12,8 @@ namespace PadOS.Views.MainPanel {
 			Input.WPFGamepad.Focus(this);
 			var gamepadInput = Input.WPFGamepad.Register(this);
 			gamepadInput.ThumbLeftChange += GamepadInputOnThumbLeftChange;
-			Input.WPFGamepad.XInput.ButtonGuideDown += XInputOnButtonGuideDown;
+			GlobalEvents.HomeOpen += GlobalEventsOnHomeOpen;
+			GlobalEvents.HomeClose += GlobalEventsOnHomeClose;
 
 			var saveData = SaveData.MainPanel.Data;
 			foreach (var data in saveData.Items){
@@ -35,6 +36,18 @@ namespace PadOS.Views.MainPanel {
 				elms[i].Source = null;
 				elms[i].Visibility = Visibility.Hidden;
 			}
+		}
+
+		private void GlobalEventsOnHomeOpen(bool isOpen){
+			Input.WPFGamepad.Focus(this);
+			Dispatcher.BeginInvoke(new Action(() =>{
+				Highlight.Visibility = Visibility.Hidden;
+				Show();
+			}));
+		}
+
+		private void GlobalEventsOnHomeClose(bool isOpen) {
+			Dispatcher.BeginInvoke(new Action(Hide));
 		}
 
 		public bool IsGamePadFocused { get; set; }
@@ -84,15 +97,6 @@ namespace PadOS.Views.MainPanel {
 					_waitForReturnZero = false;
 					Highlight.Visibility = Visibility.Hidden;
 				}
-			}));
-		}
-
-		private void XInputOnButtonGuideDown(XInputDotNetPure.PlayerIndex player, XInputDotNetPure.GamePadState state) {
-			Dispatcher.BeginInvoke(new Action(() => {
-				if (IsVisible) // todo how about other windows?
-					Hide();
-				else
-					Show();
 			}));
 		}
 	}

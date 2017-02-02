@@ -5,6 +5,7 @@ namespace PadOS.Views.Settings{
 	public partial class MultiListItem : INavigatable, Input.IGamePadFocusable{
 		public MultiListItem(){
 			InitializeComponent();
+			Items = new System.Collections.Generic.List<NavItem>();
 		}
 
 		private NavItem _defaultFocusElement;
@@ -110,7 +111,7 @@ namespace PadOS.Views.Settings{
 		}
 
 		public static readonly System.Windows.DependencyProperty ItemsProperty = System.Windows.DependencyProperty.Register(
-			"Items", typeof(System.Collections.Generic.List<NavItem>), typeof(MultiListItem), new System.Windows.PropertyMetadata(new System.Collections.Generic.List<NavItem>()));
+			"Items", typeof(System.Collections.Generic.List<NavItem>), typeof(MultiListItem), new System.Windows.PropertyMetadata(default(System.Collections.Generic.List<NavItem>)));
 
 		public System.Collections.Generic.List<NavItem> Items {
 			get { return (System.Collections.Generic.List<NavItem>)GetValue(ItemsProperty); }

@@ -114,6 +114,7 @@
     <Compile Include="CustomControls\AlphaSilhouetteBrush.xaml.cs">
       <DependentUpon>AlphaSilhouetteBrush.xaml</DependentUpon>
     </Compile>
+    <Compile Include="GlobalEvents.cs" />
     <Compile Include="Input\IGamePadFocusable.cs" />
     <Compile Include="Views\Settings\BasicListItem.xaml.cs">
       <DependentUpon>BasicListItem.xaml</DependentUpon>

@@ -15,6 +15,7 @@ namespace PadOS.Views.Settings {
 			// https://msdn.microsoft.com/en-us/library/system.windows.forms.systeminformation.keyboarddelay%28v=vs.110%29.aspx
 			_holdDelay.Interval = (System.Windows.Forms.SystemInformation.KeyboardDelay + 1) * 250;
 			_repeatInterval.Interval = System.Windows.Forms.SystemInformation.KeyboardSpeed;
+			_initialRepeatInterval = _repeatInterval.Interval;
 
 			_gamepadEvents = Input.WPFGamepad.Register(window);
 			_gamepadEvents.DPadDownDown += OnDPadDownDown;
@@ -34,6 +35,20 @@ namespace PadOS.Views.Settings {
 			_repeatInterval.Elapsed += RepeatIntervalOnElapsed;
 		}
 
+		public void Dispose(){
+			_gamepadEvents.DPadDownDown -= OnDPadDownDown;
+			_gamepadEvents.DPadUpDown -= OnDPadUpDown;
+			_gamepadEvents.DPadDownUp -= OnDPadUp;
+			_gamepadEvents.DPadUpUp -= OnDPadUp;
+			_gamepadEvents.ThumbLeftChange -= OnThumbLeftChangeInitial;
+			_gamepadEvents.Dispose();
+			_holdDelay.Elapsed -= HoldDelayOnElapsed;
+			_repeatInterval.Elapsed -= RepeatIntervalOnElapsed;
+			_holdDelay.Dispose();
+			_repeatInterval.Dispose();
+			_repeatFunction = null;
+		}
+
 		private readonly System.Windows.Threading.Dispatcher _dispatcher;
 		private INavigatable[] _buttonsList;
 		private INavigatable _activeItem;
@@ -43,6 +58,7 @@ namespace PadOS.Views.Settings {
 		private const double MinRepeatInterval = 33;
 		private const double MaxRepeatInterval = 400;
 		private readonly Input.WPFGamepad _gamepadEvents;
+		private readonly double _initialRepeatInterval;
 
 		public void UpdateItems(IEnumerable<INavigatable> buttonsList){
 			_buttonsList = buttonsList.ToArray();
@@ -75,8 +91,9 @@ namespace PadOS.Views.Settings {
 
 			if (length > 0 && _repeatFunction == null)
 				handlerDown(null, null);
-			else if (length < 0 && _repeatFunction != null)
+			else if (length < 0 && _repeatFunction != null){
 				handlerUp(null, null);
+			}
 			else
 				_repeatInterval.Interval = max - max * length + min;
 		}
@@ -91,12 +108,14 @@ namespace PadOS.Views.Settings {
 		}
 
 		private void OnDPadUpDown(object sender, Input.WPFGamepad.GamePadEventArgs args) {
+			_repeatInterval.Interval = _initialRepeatInterval;
 			MoveUp();
 			_repeatFunction = MoveUp;
 			_holdDelay.Start();
 		}
 
 		private void OnDPadDownDown(object sender, Input.WPFGamepad.GamePadEventArgs args) {
+			_repeatInterval.Interval = _initialRepeatInterval;
 			MoveDown();
 			_repeatFunction = MoveDown;
 			_holdDelay.Start();

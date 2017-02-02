@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace PadOS.Input {
 	public class WPFGamepad{
@@ -15,6 +16,10 @@ namespace PadOS.Input {
 
 		public class GamePadEventArgs<T> : GamePadEventArgs {
 			public T Value { get; set; }
+		}
+
+		public void Dispose(){
+			Wrappers.Remove(Wrappers.First(p=>p.Value==this).Key);
 		}
 
 		public delegate void GamepadEvent(object sender, GamePadEventArgs args);
