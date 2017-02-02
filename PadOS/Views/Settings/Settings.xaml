@@ -35,22 +35,22 @@
                     </LinearGradientBrush>
                 </Grid.Background>
                 <StackPanel x:Name="ButtonsList">
-                    <settings:NavigationListItem ImageSource="/Resources/Icons/capture.png" Text="Change Players" IsActive="True" />
-                    <settings:NavigationListItem ImageSource="/Resources/Icons/capture.png" Text="GamePads" />
-                    <settings:NavigationListItem ImageSource="/Resources/Icons/capture.png" Text="Main Panel" />
-                    <settings:NavigationListItem ImageSource="/Resources/Icons/capture.png" Text="Keyboard Mappings" />
-                    <settings:NavigationListItem ImageSource="/Resources/Icons/capture.png" Text="Keyboard Profiles" />
-                    <settings:NavigationListItem ImageSource="/Resources/Icons/capture.png" Text="Calibration" />
-                    <settings:NavigationListItem ImageSource="/Resources/Icons/capture.png" Text="Main Panel Profiles" />
+                    <settings:NavigationListItem ImageSource="/Resources/Icons/capture.png" Text="Change Players" IsActive="True" Activate="ChangePlayers_OnActivate" />
+                    <settings:NavigationListItem ImageSource="/Resources/Icons/capture.png" Text="GamePads" Activate="EditGamePads_OnActivate" />
+                    <settings:NavigationListItem ImageSource="/Resources/Icons/capture.png" Text="Edit Main Panel" Activate="EditMainPanel_OnActivate" />
+                    <settings:NavigationListItem ImageSource="/Resources/Icons/capture.png" Text="Keyboard Mappings" Activate="EditKeyboardMappings_OnActivated" />
+                    <settings:NavigationListItem ImageSource="/Resources/Icons/capture.png" Text="Keyboard Profiles" Activate="EditKeyboardProfiles_OnActivated" />
+                    <settings:NavigationListItem ImageSource="/Resources/Icons/capture.png" Text="Calibration" Activate="EditGamePadCalibration_OnActivate" />
+                    <settings:NavigationListItem ImageSource="/Resources/Icons/capture.png" Text="Main Panel Profiles" Activate="EditMainPanelProfile_OnActivate" />
                     <settings:MultiListItem ImageSource="/Resources/Icons/capture.png" Text="Current Window" IsActive="True">
                         <settings:MultiListItem.Items>
-                            <settings:NavItem ImageSource="/PadOS;component/Resources/Icons/minimize.png" />
-                            <settings:NavItem ImageSource="/PadOS;component/Resources/Icons/cross.png" IsActive="True" />
-                            <settings:NavItem ImageSource="/PadOS;component/Resources/Icons/skull.png" />
+                            <settings:SubNavigateItem ImageSource="/PadOS;component/Resources/Icons/minimize.png" Activate="WindowMinimize_OnActivate" />
+                            <settings:SubNavigateItem ImageSource="/PadOS;component/Resources/Icons/cross.png" IsActive="True" Activate="WindowClose_OnActivate" />
+                            <settings:SubNavigateItem ImageSource="/PadOS;component/Resources/Icons/skull.png" Activate="WindowKill_OnActivate" />
                         </settings:MultiListItem.Items>
                     </settings:MultiListItem>
-                    <settings:BasicListItem ImageSource="/Resources/Icons/capture.png" Text="Restart PadOS" />
-                    <settings:BasicListItem ImageSource="/Resources/Icons/capture.png" Text="Shutdown PadOS" IsActive="True" />
+                    <settings:BasicListItem ImageSource="/Resources/Icons/capture.png" Text="Restart PadOS" Activate="RestartPadOS_OnActivate" />
+                    <settings:BasicListItem ImageSource="/Resources/Icons/capture.png" Text="Shutdown PadOS" IsActive="True" Activate="ShutdownPadOS_OnActivate" />
                 </StackPanel>
             </Grid>
         </Grid>

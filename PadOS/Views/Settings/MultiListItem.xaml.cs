@@ -5,10 +5,17 @@ namespace PadOS.Views.Settings{
 	public partial class MultiListItem : INavigatable, Input.IGamePadFocusable{
 		public MultiListItem(){
 			InitializeComponent();
-			Items = new System.Collections.Generic.List<NavItem>();
+			Items = new System.Collections.Generic.List<SubNavigateItem>();
 		}
 
-		private NavItem _defaultFocusElement;
+		void INavigatable.Activate() {
+			Dispatcher.BeginInvoke(new System.Action(() => {
+				var activeItem = Items.First(p => p.IsActive);
+				((INavigatable)activeItem).Activate();
+			}));
+		}
+
+		private SubNavigateItem _defaultFocusElement;
 		public bool IsGamePadFocused { get; set; }
 
 		public static readonly System.Windows.DependencyProperty IsActiveProperty = System.Windows.DependencyProperty.Register(
@@ -111,10 +118,10 @@ namespace PadOS.Views.Settings{
 		}
 
 		public static readonly System.Windows.DependencyProperty ItemsProperty = System.Windows.DependencyProperty.Register(
-			"Items", typeof(System.Collections.Generic.List<NavItem>), typeof(MultiListItem), new System.Windows.PropertyMetadata(default(System.Collections.Generic.List<NavItem>)));
+			"Items", typeof(System.Collections.Generic.List<SubNavigateItem>), typeof(MultiListItem), new System.Windows.PropertyMetadata(default(System.Collections.Generic.List<SubNavigateItem>)));
 
-		public System.Collections.Generic.List<NavItem> Items {
-			get { return (System.Collections.Generic.List<NavItem>)GetValue(ItemsProperty); }
+		public System.Collections.Generic.List<SubNavigateItem> Items {
+			get { return (System.Collections.Generic.List<SubNavigateItem>)GetValue(ItemsProperty); }
 			set { SetValue(ItemsProperty, value); }
 		}
 

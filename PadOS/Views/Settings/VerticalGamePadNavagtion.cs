@@ -22,6 +22,7 @@ namespace PadOS.Views.Settings {
 			_gamepadEvents.DPadUpDown += OnDPadUpDown;
 			_gamepadEvents.DPadDownUp += OnDPadUp;
 			_gamepadEvents.DPadUpUp += OnDPadUp;
+			_gamepadEvents.ButtonADown += GamepadEventsOnButtonADown;
 
 			_gamepadEvents.ThumbLeftChange += OnThumbLeftChangeInitial;
 
@@ -41,6 +42,7 @@ namespace PadOS.Views.Settings {
 			_gamepadEvents.DPadDownUp -= OnDPadUp;
 			_gamepadEvents.DPadUpUp -= OnDPadUp;
 			_gamepadEvents.ThumbLeftChange -= OnThumbLeftChangeInitial;
+			_gamepadEvents.ButtonADown -= GamepadEventsOnButtonADown;
 			_gamepadEvents.Dispose();
 			_holdDelay.Elapsed -= HoldDelayOnElapsed;
 			_repeatInterval.Elapsed -= RepeatIntervalOnElapsed;
@@ -62,6 +64,10 @@ namespace PadOS.Views.Settings {
 
 		public void UpdateItems(IEnumerable<INavigatable> buttonsList){
 			_buttonsList = buttonsList.ToArray();
+		}
+
+		private void GamepadEventsOnButtonADown(object sender, Input.WPFGamepad.GamePadEventArgs args) {
+			_activeItem.Activate();
 		}
 
 		private void OnThumbLeftChangeInitial(object sender, Input.WPFGamepad.GamePadEventArgs<Vector2> args) {

@@ -116,6 +116,7 @@
     </Compile>
     <Compile Include="GlobalEvents.cs" />
     <Compile Include="Input\IGamePadFocusable.cs" />
+    <Compile Include="UserInfo32.cs" />
     <Compile Include="Views\Settings\BasicListItem.xaml.cs">
       <DependentUpon>BasicListItem.xaml</DependentUpon>
     </Compile>
@@ -144,8 +145,9 @@
     </Compile>
     <Compile Include="Views\MainPanel\ContentType.cs" />
     <Compile Include="Views\MainPanel\MainPanelButton.cs" />
-    <Compile Include="Views\Settings\NavItem.xaml.cs">
-      <DependentUpon>NavItem.xaml</DependentUpon>
+    <Compile Include="Views\Settings\Settings.Events.cs" />
+    <Compile Include="Views\Settings\SubNavigateItem.xaml.cs">
+      <DependentUpon>SubNavigateItem.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Settings\VerticalGamePadNavagtion.cs" />
     <Compile Include="Views\Settings\Settings.xaml.cs">
@@ -198,7 +200,7 @@
       <DependentUpon>MainPanel.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Views\Settings\NavItem.xaml">
+    <Page Include="Views\Settings\SubNavigateItem.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

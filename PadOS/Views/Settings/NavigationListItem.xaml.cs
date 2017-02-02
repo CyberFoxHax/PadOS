@@ -4,6 +4,13 @@ namespace PadOS.Views.Settings{
 			InitializeComponent();
 		}
 
+		public event System.Action Activate;
+
+		void INavigatable.Activate() {
+			if (Activate != null)
+				Activate();
+		}
+
 		public static readonly System.Windows.DependencyProperty IsActiveProperty = System.Windows.DependencyProperty.Register(
 			"IsActive", typeof (bool), typeof (NavigationListItem), new System.Windows.PropertyMetadata(default(bool)));
 
