@@ -17,6 +17,11 @@ namespace PadOS.Views.Settings {
 			Dispatcher.BeginInvoke(new Action(Close));
 		}
 
+		private void Window_OnMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
+			if (e.ChangedButton == System.Windows.Input.MouseButton.Left)
+				DragMove();
+		}
+
 		public bool IsGamePadFocused { get; set; }
 	}
 }

@@ -1,21 +1,24 @@
 using System.Linq;
 
-namespace PadOS.Views.Settings{
+namespace PadOS.Views.Settings.Controls{
 	
 	public partial class MultiListItem : INavigatable, Input.IGamePadFocusable{
 		public MultiListItem(){
 			InitializeComponent();
-			Items = new System.Collections.Generic.List<SubNavigateItem>();
+			Items = new System.Collections.Generic.List<MultiListItemSubItem>();
 		}
 
-		void INavigatable.Activate() {
+		void INavigatable.OnClick() {
 			Dispatcher.BeginInvoke(new System.Action(() => {
 				var activeItem = Items.First(p => p.IsActive);
-				((INavigatable)activeItem).Activate();
+				((INavigatable)activeItem).OnClick();
+				if (Click != null) Click.Execute(this);
 			}));
 		}
 
-		private SubNavigateItem _defaultFocusElement;
+		public System.Windows.Input.ICommand Click { get; set; }
+
+		private MultiListItemSubItem _defaultFocusElement;
 		public bool IsGamePadFocused { get; set; }
 
 		public static readonly System.Windows.DependencyProperty IsActiveProperty = System.Windows.DependencyProperty.Register(
@@ -25,11 +28,8 @@ namespace PadOS.Views.Settings{
 			get { return (bool)GetValue(IsActiveProperty); }
 			set
 			{
-				if (_defaultFocusElement == null){
+				if (_defaultFocusElement == null)
 					_defaultFocusElement = Items.FirstOrDefault(p => p.IsActive) ?? Items.First();
-					foreach (var item in Items)
-						item.IsActive = false;
-				}
 				SetValue(IsActiveProperty, value);
 				IsGamePadFocused = value;
 
@@ -41,6 +41,7 @@ namespace PadOS.Views.Settings{
 					_defaultFocusElement.IsActive = true;
 				}
 				else{
+					_defaultFocusElement = Items.FirstOrDefault(p => p.IsActive) ?? Items.First();
 					foreach (var item in Items)
 						item.IsActive = false;
 					if (System.ComponentModel.DesignerProperties.GetIsInDesignMode(this)) return;
@@ -99,8 +100,6 @@ namespace PadOS.Views.Settings{
 			}));
 		}
 
-		
-
 		public static readonly System.Windows.DependencyProperty ImageSourceProperty = System.Windows.DependencyProperty.Register(
 			"ImageSource", typeof(System.Windows.Media.ImageSource), typeof(MultiListItem), new System.Windows.PropertyMetadata(default(System.Windows.Media.ImageSource)));
 
@@ -118,10 +117,10 @@ namespace PadOS.Views.Settings{
 		}
 
 		public static readonly System.Windows.DependencyProperty ItemsProperty = System.Windows.DependencyProperty.Register(
-			"Items", typeof(System.Collections.Generic.List<SubNavigateItem>), typeof(MultiListItem), new System.Windows.PropertyMetadata(default(System.Collections.Generic.List<SubNavigateItem>)));
+			"Items", typeof(System.Collections.Generic.List<MultiListItemSubItem>), typeof(MultiListItem), new System.Windows.PropertyMetadata(default(System.Collections.Generic.List<MultiListItemSubItem>)));
 
-		public System.Collections.Generic.List<SubNavigateItem> Items {
-			get { return (System.Collections.Generic.List<SubNavigateItem>)GetValue(ItemsProperty); }
+		public System.Collections.Generic.List<MultiListItemSubItem> Items {
+			get { return (System.Collections.Generic.List<MultiListItemSubItem>)GetValue(ItemsProperty); }
 			set { SetValue(ItemsProperty, value); }
 		}
 

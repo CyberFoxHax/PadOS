@@ -1,13 +1,15 @@
 ﻿<Window x:Class="PadOS.Views.Settings.Settings"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:settings="clr-namespace:PadOS.Views.Settings"
+        xmlns:commands="clr-namespace:PadOS.Commands"
+        xmlns:controls="clr-namespace:PadOS.Views.Settings.Controls"
         Title="Settings"
         Height="776"
         Width="696"
         Background="{x:Null}"
         WindowStartupLocation="CenterScreen"
         Style="{StaticResource DefaultWindowStyle}"
+        MouseDown="Window_OnMouseDown"
     >
     <Border BorderThickness="3">
         <Border.Background>
@@ -35,22 +37,22 @@
                     </LinearGradientBrush>
                 </Grid.Background>
                 <StackPanel x:Name="ButtonsList">
-                    <settings:NavigationListItem ImageSource="/Resources/Icons/capture.png" Text="Change Players" IsActive="True" Activate="ChangePlayers_OnActivate" />
-                    <settings:NavigationListItem ImageSource="/Resources/Icons/capture.png" Text="GamePads" Activate="EditGamePads_OnActivate" />
-                    <settings:NavigationListItem ImageSource="/Resources/Icons/capture.png" Text="Edit Main Panel" Activate="EditMainPanel_OnActivate" />
-                    <settings:NavigationListItem ImageSource="/Resources/Icons/capture.png" Text="Keyboard Mappings" Activate="EditKeyboardMappings_OnActivated" />
-                    <settings:NavigationListItem ImageSource="/Resources/Icons/capture.png" Text="Keyboard Profiles" Activate="EditKeyboardProfiles_OnActivated" />
-                    <settings:NavigationListItem ImageSource="/Resources/Icons/capture.png" Text="Calibration" Activate="EditGamePadCalibration_OnActivate" />
-                    <settings:NavigationListItem ImageSource="/Resources/Icons/capture.png" Text="Main Panel Profiles" Activate="EditMainPanelProfile_OnActivate" />
-                    <settings:MultiListItem ImageSource="/Resources/Icons/capture.png" Text="Current Window" IsActive="True">
-                        <settings:MultiListItem.Items>
-                            <settings:SubNavigateItem ImageSource="/PadOS;component/Resources/Icons/minimize.png" Activate="WindowMinimize_OnActivate" />
-                            <settings:SubNavigateItem ImageSource="/PadOS;component/Resources/Icons/cross.png" IsActive="True" Activate="WindowClose_OnActivate" />
-                            <settings:SubNavigateItem ImageSource="/PadOS;component/Resources/Icons/skull.png" Activate="WindowKill_OnActivate" />
-                        </settings:MultiListItem.Items>
-                    </settings:MultiListItem>
-                    <settings:BasicListItem ImageSource="/Resources/Icons/capture.png" Text="Restart PadOS" Activate="RestartPadOS_OnActivate" />
-                    <settings:BasicListItem ImageSource="/Resources/Icons/capture.png" Text="Shutdown PadOS" IsActive="True" Activate="ShutdownPadOS_OnActivate" />
+                    <controls:NavigationListItem ImageSource="/Resources/Icons/capture.png" Text="Change Players" IsActive="True" Click="{x:Static commands:NavigationCommands.ChangePlayersCommand}" />
+                    <controls:NavigationListItem ImageSource="/Resources/Icons/capture.png" Text="GamePads" Click="{x:Static commands:NavigationCommands.EditGamePadsCommand}" />
+                    <controls:NavigationListItem ImageSource="/Resources/Icons/capture.png" Text="Edit Main Panel" Click="{x:Static commands:NavigationCommands.EditMainPanelCommand}" />
+                    <controls:NavigationListItem ImageSource="/Resources/Icons/capture.png" Text="Keyboard Mappings" Click="{x:Static commands:NavigationCommands.EditKeyboardMappingsCommand}" />
+                    <controls:NavigationListItem ImageSource="/Resources/Icons/capture.png" Text="Keyboard Profiles" Click="{x:Static commands:NavigationCommands.EditKeyboardProfilesCommand}" />
+                    <controls:NavigationListItem ImageSource="/Resources/Icons/capture.png" Text="Calibration" Click="{x:Static commands:NavigationCommands.EditGamePadCalibrationCommand}" />
+                    <controls:NavigationListItem ImageSource="/Resources/Icons/capture.png" Text="Main Panel Profiles" Click="{x:Static commands:NavigationCommands.EditMainPanelProfileCommand}" />
+                    <controls:MultiListItem ImageSource="/Resources/Icons/capture.png" Text="Current Window" IsActive="True">
+                        <controls:MultiListItem.Items>
+                            <controls:MultiListItemSubItem ImageSource="/PadOS;component/Resources/Icons/minimize.png" Click="{x:Static commands:WindowCommands.WindowMinimizeCommand}" />
+                            <controls:MultiListItemSubItem ImageSource="/PadOS;component/Resources/Icons/cross.png" Click="{x:Static commands:WindowCommands.WindowCloseCommand}" IsActive="True" />
+                            <controls:MultiListItemSubItem ImageSource="/PadOS;component/Resources/Icons/skull.png" Click="{x:Static commands:WindowCommands.WindowKillCommand}" />
+                        </controls:MultiListItem.Items>
+                    </controls:MultiListItem>
+                    <controls:BasicListItem ImageSource="/Resources/Icons/capture.png" Text="Restart PadOS" Click="{x:Static commands:ApplicationCommands.RestartCommand}" />
+                    <controls:BasicListItem ImageSource="/Resources/Icons/capture.png" Text="Shutdown PadOS" IsActive="True" Click="{x:Static commands:ApplicationCommands.ShutdownCommand}" />
                 </StackPanel>
             </Grid>
         </Grid>

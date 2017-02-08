@@ -67,7 +67,7 @@ namespace PadOS.Views.Settings {
 		}
 
 		private void GamepadEventsOnButtonADown(object sender, Input.WPFGamepad.GamePadEventArgs args) {
-			_activeItem.Activate();
+			_activeItem.OnClick();
 		}
 
 		private void OnThumbLeftChangeInitial(object sender, Input.WPFGamepad.GamePadEventArgs<Vector2> args) {
@@ -82,10 +82,10 @@ namespace PadOS.Views.Settings {
 
 		private void OnThumbLeftChange(object sender, Input.WPFGamepad.GamePadEventArgs<Vector2> args){
 			const float threshhold = 0.3f;
-			var length = (Math.Abs(args.Value.Y)-threshhold)/(1-threshhold);
+			var length = (Math.Abs(args.Value.Y) - threshhold) / (1 - threshhold); // todo deadzone not working
 
-			var min = MinRepeatInterval;
-			var max = MaxRepeatInterval - min;
+			const double min = MinRepeatInterval;
+			const double max = MaxRepeatInterval - min;
 
 			Input.WPFGamepad.GamepadEvent handlerDown;
 			Input.WPFGamepad.GamepadEvent handlerUp = OnDPadUp;

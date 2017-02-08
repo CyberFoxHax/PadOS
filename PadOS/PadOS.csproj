@@ -108,23 +108,29 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Commands\ApplicationCommands.cs" />
     <Compile Include="CustomControls\AlphaSilhouetteImage.xaml.cs">
       <DependentUpon>AlphaSilhouetteImage.xaml</DependentUpon>
     </Compile>
     <Compile Include="CustomControls\AlphaSilhouetteBrush.xaml.cs">
       <DependentUpon>AlphaSilhouetteBrush.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Dll\Kernel32.cs" />
+    <Compile Include="Dll\Psapi.cs" />
     <Compile Include="GlobalEvents.cs" />
     <Compile Include="Input\IGamePadFocusable.cs" />
-    <Compile Include="UserInfo32.cs" />
-    <Compile Include="Views\Settings\BasicListItem.xaml.cs">
+    <Compile Include="Commands\RelayCommand.cs" />
+    <Compile Include="Dll\UserInfo32.cs" />
+    <Compile Include="Views\Settings\Controls\BasicListItem.xaml.cs">
       <DependentUpon>BasicListItem.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Commands\NavigationCommands.cs" />
+    <Compile Include="Commands\WindowCommands.cs" />
     <Compile Include="Views\Settings\INavigatable.cs" />
-    <Compile Include="Views\Settings\MultiListItem.xaml.cs">
+    <Compile Include="Views\Settings\Controls\MultiListItem.xaml.cs">
       <DependentUpon>MultiListItem.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Settings\NavigationListItem.xaml.cs">
+    <Compile Include="Views\Settings\Controls\NavigationListItem.xaml.cs">
       <DependentUpon>NavigationListItem.xaml</DependentUpon>
     </Compile>
     <Compile Include="Input\GamepadInput.cs" />
@@ -145,9 +151,8 @@
     </Compile>
     <Compile Include="Views\MainPanel\ContentType.cs" />
     <Compile Include="Views\MainPanel\MainPanelButton.cs" />
-    <Compile Include="Views\Settings\Settings.Events.cs" />
-    <Compile Include="Views\Settings\SubNavigateItem.xaml.cs">
-      <DependentUpon>SubNavigateItem.xaml</DependentUpon>
+    <Compile Include="Views\Settings\Controls\MultiListItemSubItem.xaml.cs">
+      <DependentUpon>MultiListItemSubItem.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Settings\VerticalGamePadNavagtion.cs" />
     <Compile Include="Views\Settings\Settings.xaml.cs">
@@ -164,15 +169,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Settings\BasicListItem.xaml">
+    <Page Include="Views\Settings\Controls\BasicListItem.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Settings\MultiListItem.xaml">
+    <Page Include="Views\Settings\Controls\MultiListItem.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Settings\NavigationListItem.xaml">
+    <Page Include="Views\Settings\Controls\NavigationListItem.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -200,7 +205,7 @@
       <DependentUpon>MainPanel.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Views\Settings\SubNavigateItem.xaml">
+    <Page Include="Views\Settings\Controls\MultiListItemSubItem.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -1,14 +1,14 @@
-namespace PadOS.Views.Settings{
+namespace PadOS.Views.Settings.Controls{
 	public partial class NavigationListItem : INavigatable{
 		public NavigationListItem(){
 			InitializeComponent();
 		}
 
-		public event System.Action Activate;
+		public System.Windows.Input.ICommand Click { get; set; }
 
-		void INavigatable.Activate() {
-			if (Activate != null)
-				Activate();
+		void INavigatable.OnClick() {
+			if (Click != null)
+				Click.Execute(this);
 		}
 
 		public static readonly System.Windows.DependencyProperty IsActiveProperty = System.Windows.DependencyProperty.Register(

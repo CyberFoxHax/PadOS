@@ -1,6 +1,7 @@
 ﻿namespace PadOS.Views.Settings{
 	public interface INavigatable {
 		bool IsActive { get; set; }
-		void Activate();
+		void OnClick();
+		System.Windows.Input.ICommand Click { get; set; }
 	}
 }

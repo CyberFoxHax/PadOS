@@ -1,4 +1,4 @@
-<Border x:Class="PadOS.Views.Settings.SubNavigateItem"
+<Border x:Class="PadOS.Views.Settings.Controls.MultiListItemSubItem"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:customControls="clr-namespace:PadOS.CustomControls"

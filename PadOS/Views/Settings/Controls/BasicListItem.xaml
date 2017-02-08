@@ -4,7 +4,7 @@
 	xmlns:customControls="clr-namespace:PadOS.CustomControls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    x:Class="PadOS.Views.Settings.BasicListItem"
+    x:Class="PadOS.Views.Settings.Controls.BasicListItem"
     Height="65"
     d:DesignWidth="640"
     Margin="-70,0,0,0"

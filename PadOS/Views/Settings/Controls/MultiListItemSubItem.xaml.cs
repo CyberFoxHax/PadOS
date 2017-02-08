@@ -1,18 +1,18 @@
-namespace PadOS.Views.Settings{
-	public partial class SubNavigateItem : INavigatable{
-		public SubNavigateItem(){
+namespace PadOS.Views.Settings.Controls{
+	public partial class MultiListItemSubItem : INavigatable{
+		public MultiListItemSubItem(){
 			InitializeComponent();
 		}
 
-		public event System.Action Activate;
+		public System.Windows.Input.ICommand Click { get; set; }
 
-		void INavigatable.Activate() {
-			if (Activate != null)
-				Activate();
+		void INavigatable.OnClick() {
+			if (Click != null)
+				Click.Execute(this);
 		}
 
 		public static readonly System.Windows.DependencyProperty ImageSourceProperty = System.Windows.DependencyProperty.Register(
-			"ImageSource", typeof (System.Windows.Media.ImageSource), typeof (SubNavigateItem), new System.Windows.PropertyMetadata(default(System.Windows.Media.ImageSource)));
+			"ImageSource", typeof (System.Windows.Media.ImageSource), typeof (MultiListItemSubItem), new System.Windows.PropertyMetadata(default(System.Windows.Media.ImageSource)));
 
 		public System.Windows.Media.ImageSource ImageSource
 		{
@@ -21,7 +21,7 @@ namespace PadOS.Views.Settings{
 		}
 
 		public static readonly System.Windows.DependencyProperty IsActiveProperty = System.Windows.DependencyProperty.Register(
-			"IsActive", typeof (bool), typeof (SubNavigateItem), new System.Windows.PropertyMetadata(default(bool)));
+			"IsActive", typeof (bool), typeof (MultiListItemSubItem), new System.Windows.PropertyMetadata(default(bool)));
 
 		public bool IsActive
 		{
