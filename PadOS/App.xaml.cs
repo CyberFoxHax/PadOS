@@ -12,7 +12,6 @@ namespace PadOS {
 			if (System.Environment.Is64BitOperatingSystem != is64BitBuild)
 				throw new System.Exception("You need to run in in x64 mode");
 #endif
-
 			SaveData.SaveDataUtils.Init();
 		}
 
@@ -21,9 +20,9 @@ namespace PadOS {
 			var systray = new Views.SystemTray();
 			var mainWindow = new Views.MainPanel.MainPanel();
 
+			GlobalEvents.Init();
 			if (System.Diagnostics.Debugger.IsAttached == false) return;
 			GlobalEvents.InterfaceIsOpen = true;
-			GlobalEvents.Init();
 			mainWindow.Show();
 		}
 	}
