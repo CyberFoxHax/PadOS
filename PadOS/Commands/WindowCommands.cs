@@ -3,6 +3,19 @@ using System.Windows.Input;
 
 namespace PadOS.Commands {
 	public static class WindowCommands {
+		public static string GetApplicationName {
+			get {
+				// bug: wrong result
+				// because the value is gotten once onload
+				var hWnd = Dll.UserInfo32.GetForegroundWindow();
+				int processId;
+				Dll.UserInfo32.GetWindowThreadProcessId(hWnd, out processId);
+				System.Console.WriteLine("sdkflæsngælsglkænfgsdlnkdfglkndfglkændfh");
+				var res = System.Diagnostics.Process.GetProcesses().FirstOrDefault(p => p.Id == processId);
+				return res != null ? res.MainModule.ModuleName : null;
+			}
+		}
+
 		static WindowCommands() {
 			WindowMinimizeCommand = new RelayCommand(WindowMinimize);
 			WindowCloseCommand = new RelayCommand(WindowClose);
