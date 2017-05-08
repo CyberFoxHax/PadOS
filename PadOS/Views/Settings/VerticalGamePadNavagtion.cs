@@ -95,13 +95,12 @@ namespace PadOS.Views.Settings {
 			else
 				return;
 
-			if (length > 0 && _repeatFunction == null)
+			if (length > threshhold && _repeatFunction == null)
 				handlerDown(null, null);
-			else if (length < 0 && _repeatFunction != null){
-				handlerUp(null, null);
-			}
+			else if (length < threshhold && _repeatFunction != null)
+			    handlerUp(null, null);
 			else
-				_repeatInterval.Interval = max - max * length + min;
+			    _repeatInterval.Interval = max - max*length + min;
 		}
 
 		private void HoldDelayOnElapsed(object sender, System.Timers.ElapsedEventArgs args) {

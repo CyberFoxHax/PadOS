@@ -155,8 +155,8 @@ namespace PadOS.Input {
 			if (_focusedControl != null)
 				_focusedControl.IsGamePadFocused = false;
 
-			if (ctrl == null) return;
 			_focusedControl = ctrl;
+			if (ctrl == null) return;
 			_focusedControl.IsGamePadFocused = true;
 		}
 	}

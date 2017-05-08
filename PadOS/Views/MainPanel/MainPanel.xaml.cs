@@ -47,6 +47,7 @@ namespace PadOS.Views.MainPanel {
 		}
 
 		private void GlobalEventsOnHomeClose(bool isOpen) {
+			Input.WPFGamepad.Focus(null);
 			Dispatcher.BeginInvoke(new Action(Hide));
 		}
 
