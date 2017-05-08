@@ -95,9 +95,9 @@ namespace PadOS.Views.Settings {
 			else
 				return;
 
-			if (length > 0 && _repeatFunction == null)
+			if (length > threshhold && _repeatFunction == null)
 				handlerDown(null, null);
-			else if (length < 0 && _repeatFunction != null){
+			else if (length < threshhold && _repeatFunction != null) {
 				handlerUp(null, null);
 			}
 			else

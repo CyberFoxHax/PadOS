@@ -115,6 +115,7 @@
     <Compile Include="Input\IGamePadFocusable.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Dll\UserInfo32.cs" />
+    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Views\Settings\Controls\BasicListItem.xaml.cs">
       <DependentUpon>BasicListItem.xaml</DependentUpon>
     </Compile>
@@ -306,6 +307,9 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy $(SolutionDir)$(PlatformTarget)\$(Configuration)\* $(ProjectDir)$(OutDir)</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

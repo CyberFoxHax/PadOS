@@ -10,9 +10,8 @@ namespace PadOS.Commands {
 				var hWnd = Dll.UserInfo32.GetForegroundWindow();
 				int processId;
 				Dll.UserInfo32.GetWindowThreadProcessId(hWnd, out processId);
-				System.Console.WriteLine("sdkflæsngælsglkænfgsdlnkdfglkndfglkændfh");
 				var res = System.Diagnostics.Process.GetProcesses().FirstOrDefault(p => p.Id == processId);
-				return res != null ? res.MainModule.ModuleName : null;
+				return res != null ? res.ProcessName : null;
 			}
 		}
 

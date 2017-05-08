@@ -1,4 +1,8 @@
+using System;
+using System.ComponentModel;
 using System.Linq;
+using System.Windows;
+using PadOS.Commands;
 
 namespace PadOS.Views.Settings.Controls{
 	
@@ -22,7 +26,12 @@ namespace PadOS.Views.Settings.Controls{
 		public bool IsGamePadFocused { get; set; }
 
 		public static readonly System.Windows.DependencyProperty IsActiveProperty = System.Windows.DependencyProperty.Register(
-			"IsActive", typeof(bool), typeof(MultiListItem), new System.Windows.PropertyMetadata(default(bool)));
+			"IsActive", typeof(bool), typeof(MultiListItem), new System.Windows.PropertyMetadata(default(bool), IsActiveChanged));
+
+		private static void IsActiveChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs){
+			var appName = WindowCommands.GetApplicationName;
+			((MultiListItem)dependencyObject).Text = appName;
+		}
 
 		public bool IsActive {
 			get { return (bool)GetValue(IsActiveProperty); }
@@ -123,6 +132,5 @@ namespace PadOS.Views.Settings.Controls{
 			get { return (System.Collections.Generic.List<MultiListItemSubItem>)GetValue(ItemsProperty); }
 			set { SetValue(ItemsProperty, value); }
 		}
-
 	}
 }
