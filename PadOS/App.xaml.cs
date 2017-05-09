@@ -1,7 +1,12 @@
 ﻿
+using System.Windows.Threading;
+
 namespace PadOS {
-	public partial class App {
+	public partial class App{
+		public static Dispatcher GlobalDispatcher { get; private set; }
+
 		public App(){
+			GlobalDispatcher = Dispatcher;
 #if DEBUG
 #if x64
 			const bool is64BitBuild = true;

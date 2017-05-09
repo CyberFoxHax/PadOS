@@ -22,7 +22,7 @@ namespace PadOS.Commands{
 
 		private static void ChangePlayers			(){ new Views.ConfigurePlayers.PlayerEditor().Show(); } 
 		private static void EditGamePads 			(){}
-		private static void EditMainPanel 			(){}
+		private static void EditMainPanel 			(){ new Views.MainPanel.Editor.MainPanelEditor().Show(); }
 		private static void EditKeyboardMappings	(){}
 		private static void EditKeyboardProfiles	(){}
 		private static void EditGamePadCalibration	(){}

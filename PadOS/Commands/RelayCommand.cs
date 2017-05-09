@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics;
 using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace PadOS.Commands{
 	public sealed class RelayCommand : ICommand {
@@ -24,8 +25,8 @@ namespace PadOS.Commands{
 			return _canExecute == null || _canExecute();
 		}
 
-		public void Execute(object parameter) {
-			_execute();
+		public void Execute(object parameter){
+			App.GlobalDispatcher.BeginInvoke(_execute);
 		}
 	}
 
