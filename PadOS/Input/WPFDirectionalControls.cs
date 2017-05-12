@@ -8,7 +8,7 @@ namespace PadOS.Input {
 
 		public static WPFDirectionalControls Register(IGamePadFocusable control) {
 			var dirControl = new WPFDirectionalControls();
-			var container = WPFGamepad.Register(control);
+			var container = WpfGamepad.GetInstance(control);
 			container.ThumbLeftChange += dirControl.OnThumbChange;
 			container.DPadDownDown	+= (sender, args) => dirControl.OnDPad(sender, new Vector2(0, -1));
 			container.DPadUpDown	+= (sender, args) => dirControl.OnDPad(sender, new Vector2(0,  1));
@@ -29,7 +29,7 @@ namespace PadOS.Input {
 				res.Focus();
 		}
 
-		private void OnThumbChange(object sender, WPFGamepad.GamePadEventArgs<Vector2> args){
+		private void OnThumbChange(object sender, WpfGamepad.GamePadEventArgs<Vector2> args){
 			var elm = sender as FrameworkElement;
 			if (elm == null) return;
 

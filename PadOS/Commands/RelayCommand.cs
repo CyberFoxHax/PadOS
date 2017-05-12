@@ -56,7 +56,7 @@ namespace PadOS.Commands{
 		}
 
 		public void Execute(object parameter) {
-			_execute((T)parameter);
+			App.GlobalDispatcher.BeginInvoke(new Action(()=>_execute((T) parameter)));
 		}
 	}
 }

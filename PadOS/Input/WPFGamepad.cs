@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using XInputDotNetPure;
 
 namespace PadOS.Input {
-	public class WPFGamepad{
+	// todo: fix this fucking mess
+	public class WpfGamepad{
 		public static readonly GamePadInput XInput = new GamePadInput();
-		private static readonly Dictionary<IGamePadFocusable, WPFGamepad> Wrappers = new Dictionary<IGamePadFocusable, WPFGamepad>();
+		private static readonly Dictionary<IGamePadFocusable, WpfGamepad> Wrappers = new Dictionary<IGamePadFocusable, WpfGamepad>();
 
 		private static IGamePadFocusable _focusedControl;
 
@@ -61,7 +63,7 @@ namespace PadOS.Input {
 		public event GamepadEvent<float> TriggerLeftChange;
 		public event GamepadEvent<float> TriggerRightChange;
 
-		static WPFGamepad(){
+		static WpfGamepad(){
 			XInput.ButtonADown				+= (player, state)=>Dispatch(player, state, _focusedControl!=null?Wrappers[_focusedControl]:null, ()=>Wrappers[_focusedControl].ButtonADown);
 			XInput.ButtonAUp				+= (player, state)=>Dispatch(player, state, _focusedControl!=null?Wrappers[_focusedControl]:null, ()=>Wrappers[_focusedControl].ButtonAUp);
 			XInput.ButtonBDown				+= (player, state)=>Dispatch(player, state, _focusedControl!=null?Wrappers[_focusedControl]:null, ()=>Wrappers[_focusedControl].ButtonBDown);
@@ -98,7 +100,7 @@ namespace PadOS.Input {
 			XInput.TriggerRightChange		+= (player, state, value)=>Dispatch(player, state, value, _focusedControl!=null?Wrappers[_focusedControl]:null, ()=>Wrappers[_focusedControl].TriggerRightChange);
 		}
 
-		private static void Dispatch(XInputDotNetPure.PlayerIndex player, XInputDotNetPure.GamePadState state, WPFGamepad gamePadHandler, Func<GamepadEvent> evt){
+		private static void Dispatch(XInputDotNetPure.PlayerIndex player, XInputDotNetPure.GamePadState state, WpfGamepad gamePadHandler, Func<GamepadEvent> evt){
 			if (gamePadHandler == null) return;
 			if (_focusedControl == null) return;
 			if (Wrappers.ContainsKey(_focusedControl) == false) return;
@@ -118,7 +120,7 @@ namespace PadOS.Input {
 			});
 		}
 
-		private static void Dispatch<T>(XInputDotNetPure.PlayerIndex player, XInputDotNetPure.GamePadState state, T value, WPFGamepad gamePadHandler, Func<GamepadEvent<T>> evt) {
+		private static void Dispatch<T>(XInputDotNetPure.PlayerIndex player, XInputDotNetPure.GamePadState state, T value, WpfGamepad gamePadHandler, Func<GamepadEvent<T>> evt) {
 			if (gamePadHandler == null) return;
 			if (_focusedControl == null) return;
 			if (Wrappers.ContainsKey(_focusedControl) == false) return;
@@ -138,15 +140,12 @@ namespace PadOS.Input {
 			});
 		}
 
-		public static WPFGamepad Register(IGamePadFocusable control){
-			WPFGamepad wrapper;
+		public static WpfGamepad GetInstance(IGamePadFocusable control){
+			WpfGamepad wrapper;
 			if (Wrappers.ContainsKey(control))
 				wrapper = Wrappers[control];
 			else
-				wrapper = Wrappers[control] = new WPFGamepad();
-
-			if (control.IsGamePadFocused)
-				_focusedControl = control;
+				wrapper = Wrappers[control] = new WpfGamepad();
 
 			return wrapper;
 		}

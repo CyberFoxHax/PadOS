@@ -44,9 +44,9 @@ namespace PadOS.Views.Settings.Controls{
 
 				if (value){
 					if (System.ComponentModel.DesignerProperties.GetIsInDesignMode(this)) return;
-					Input.WPFGamepad.XInput.ThumbLeftChange += XInputOnThumbLeftChange;
-					Input.WPFGamepad.XInput.DPadRightDown	+= XInputOnDPadRightDown;
-					Input.WPFGamepad.XInput.DPadLeftDown	+= XInputOnDPadLeftDown;
+					Input.WpfGamepad.XInput.ThumbLeftChange += XInputOnThumbLeftChange;
+					Input.WpfGamepad.XInput.DPadRightDown	+= XInputOnDPadRightDown;
+					Input.WpfGamepad.XInput.DPadLeftDown	+= XInputOnDPadLeftDown;
 					_defaultFocusElement.IsActive = true;
 				}
 				else{
@@ -54,9 +54,9 @@ namespace PadOS.Views.Settings.Controls{
 					foreach (var item in Items)
 						item.IsActive = false;
 					if (System.ComponentModel.DesignerProperties.GetIsInDesignMode(this)) return;
-					Input.WPFGamepad.XInput.ThumbLeftChange -= XInputOnThumbLeftChange;
-					Input.WPFGamepad.XInput.DPadRightDown	-= XInputOnDPadRightDown;
-					Input.WPFGamepad.XInput.DPadLeftDown	-= XInputOnDPadLeftDown;
+					Input.WpfGamepad.XInput.ThumbLeftChange -= XInputOnThumbLeftChange;
+					Input.WpfGamepad.XInput.DPadRightDown	-= XInputOnDPadRightDown;
+					Input.WpfGamepad.XInput.DPadLeftDown	-= XInputOnDPadLeftDown;
 				}
 			}
 		}

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using PadOS.Navigation;
 
 namespace PadOS.Views.MainPanel {
 	public class MainPanelButton {
@@ -20,11 +21,7 @@ namespace PadOS.Views.MainPanel {
 		};
 
 		private void OpenWindow(){
-			if (Windows.ContainsKey(Key) == false) return;
-			var window = Windows[Key].CreateInstance<System.Windows.Window>();
-
-			if (window == null) return;
-			window.Show();
+			Navigator.OpenWindow(Windows[Key]);
 		}
 	}
 }

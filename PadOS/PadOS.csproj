@@ -115,6 +115,10 @@
     <Compile Include="Input\IGamePadFocusable.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Dll\UserInfo32.cs" />
+    <Compile Include="Navigation\Navigator.cs" />
+    <Compile Include="Views\MainPanel\Editor\MainPanelEditor.xaml.cs">
+      <DependentUpon>MainPanelEditor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Settings\Controls\BasicListItem.xaml.cs">
       <DependentUpon>BasicListItem.xaml</DependentUpon>
     </Compile>
@@ -162,6 +166,10 @@
     <Page Include="CustomControls\AlphaSilhouetteBrush.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MainPanel\Editor\MainPanelEditor.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Settings\Controls\BasicListItem.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -297,7 +305,6 @@
     <Folder Include="Views\ButtonMappingProfiles\" />
     <Folder Include="Views\GamePadEditor\" />
     <Folder Include="Views\GamePadPlayers\" />
-    <Folder Include="Views\MainPanel\Editor\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\XInputDotNetPure\XInputDotNetPure.csproj">

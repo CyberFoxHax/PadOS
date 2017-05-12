@@ -1,5 +1,6 @@
 ﻿
 using System.Windows.Threading;
+using PadOS.Navigation;
 
 namespace PadOS {
 	public partial class App{
@@ -23,12 +24,11 @@ namespace PadOS {
 		protected override void OnStartup(System.Windows.StartupEventArgs e){
 			base.OnStartup(e);
 			var systray = new Views.SystemTray();
-			var mainWindow = new Views.MainPanel.MainPanel();
 
-			GlobalEvents.Init();
+			//GlobalEvents.Initialize();
+			Navigator.Initialize();
 			if (System.Diagnostics.Debugger.IsAttached == false) return;
-			GlobalEvents.InterfaceIsOpen = true;
-			mainWindow.Show();
+			Navigator.OpenMainPanel();
 		}
 	}
 }

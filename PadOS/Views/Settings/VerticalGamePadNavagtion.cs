@@ -17,7 +17,7 @@ namespace PadOS.Views.Settings {
 			_repeatInterval.Interval = System.Windows.Forms.SystemInformation.KeyboardSpeed;
 			_initialRepeatInterval = _repeatInterval.Interval;
 
-			_gamepadEvents = Input.WPFGamepad.Register(window);
+			_gamepadEvents = Input.WpfGamepad.GetInstance(window);
 			_gamepadEvents.DPadDownDown += OnDPadDownDown;
 			_gamepadEvents.DPadUpDown += OnDPadUpDown;
 			_gamepadEvents.DPadDownUp += OnDPadUp;
@@ -59,18 +59,18 @@ namespace PadOS.Views.Settings {
 		private Action _repeatFunction;
 		private const double MinRepeatInterval = 33;
 		private const double MaxRepeatInterval = 400;
-		private readonly Input.WPFGamepad _gamepadEvents;
+		private readonly Input.WpfGamepad _gamepadEvents;
 		private readonly double _initialRepeatInterval;
 
 		public void UpdateItems(IEnumerable<INavigatable> buttonsList){
 			_buttonsList = buttonsList.ToArray();
 		}
 
-		private void GamepadEventsOnButtonADown(object sender, Input.WPFGamepad.GamePadEventArgs args) {
+		private void GamepadEventsOnButtonADown(object sender, Input.WpfGamepad.GamePadEventArgs args) {
 			_activeItem.OnClick();
 		}
 
-		private void OnThumbLeftChangeInitial(object sender, Input.WPFGamepad.GamePadEventArgs<Vector2> args) {
+		private void OnThumbLeftChangeInitial(object sender, Input.WpfGamepad.GamePadEventArgs<Vector2> args) {
 			const float threshhold = 0.3f;
 			var length = Math.Abs(args.Value.Y);
 			if (length > threshhold) return;
@@ -80,15 +80,15 @@ namespace PadOS.Views.Settings {
 			OnThumbLeftChange(sender, args);
 		}
 
-		private void OnThumbLeftChange(object sender, Input.WPFGamepad.GamePadEventArgs<Vector2> args){
+		private void OnThumbLeftChange(object sender, Input.WpfGamepad.GamePadEventArgs<Vector2> args){
 			const float threshhold = 0.3f;
-			var length = (Math.Abs(args.Value.Y) - threshhold) / (1 - threshhold); // todo deadzone not working
+			var length = (Math.Abs(args.Value.Y) - threshhold) / (1 - threshhold);
 
 			const double min = MinRepeatInterval;
 			const double max = MaxRepeatInterval - min;
 
-			Input.WPFGamepad.GamepadEvent handlerDown;
-			Input.WPFGamepad.GamepadEvent handlerUp = OnDPadUp;
+			Input.WpfGamepad.GamepadEvent handlerDown;
+			Input.WpfGamepad.GamepadEvent handlerUp = OnDPadUp;
 
 			if (args.Value.Y < 0)		handlerDown = OnDPadDownDown;
 			else if (args.Value.Y > 0)	handlerDown = OnDPadUpDown;
@@ -113,21 +113,21 @@ namespace PadOS.Views.Settings {
 				_repeatFunction();
 		}
 
-		private void OnDPadUpDown(object sender, Input.WPFGamepad.GamePadEventArgs args) {
+		private void OnDPadUpDown(object sender, Input.WpfGamepad.GamePadEventArgs args) {
 			_repeatInterval.Interval = _initialRepeatInterval;
 			MoveUp();
 			_repeatFunction = MoveUp;
 			_holdDelay.Start();
 		}
 
-		private void OnDPadDownDown(object sender, Input.WPFGamepad.GamePadEventArgs args) {
+		private void OnDPadDownDown(object sender, Input.WpfGamepad.GamePadEventArgs args) {
 			_repeatInterval.Interval = _initialRepeatInterval;
 			MoveDown();
 			_repeatFunction = MoveDown;
 			_holdDelay.Start();
 		}
 
-		private void OnDPadUp(object sender, Input.WPFGamepad.GamePadEventArgs args) {
+		private void OnDPadUp(object sender, Input.WpfGamepad.GamePadEventArgs args) {
 			_repeatFunction = null;
 			_holdDelay.Stop();
 			_repeatInterval.Stop();

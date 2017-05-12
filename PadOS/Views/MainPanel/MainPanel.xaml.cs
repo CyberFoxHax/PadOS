@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using PadOS.Input;
 
 namespace PadOS.Views.MainPanel {
 	public partial class MainPanel : Input.IGamePadFocusable{
@@ -9,11 +10,7 @@ namespace PadOS.Views.MainPanel {
 			InitializeComponent();
 			Highlight.Visibility = Visibility.Hidden;
 
-			Input.WPFGamepad.Focus(this);
-			var gamepadInput = Input.WPFGamepad.Register(this);
-			gamepadInput.ThumbLeftChange += GamepadInputOnThumbLeftChange;
-			GlobalEvents.HomeOpen += GlobalEventsOnHomeOpen;
-			GlobalEvents.HomeClose += GlobalEventsOnHomeClose;
+			WpfGamepad.GetInstance(this).ThumbLeftChange += GamepadInputOnThumbLeftChange;
 
 			var saveData = SaveData.MainPanel.Data;
 			foreach (var data in saveData.Items){
@@ -36,19 +33,6 @@ namespace PadOS.Views.MainPanel {
 				elms[i].Source = null;
 				elms[i].Visibility = Visibility.Hidden;
 			}
-		}
-
-		private void GlobalEventsOnHomeOpen(bool isOpen){
-			Input.WPFGamepad.Focus(this);
-			Dispatcher.BeginInvoke(new Action(() =>{
-				Highlight.Visibility = Visibility.Hidden;
-				Show();
-			}));
-		}
-
-		private void GlobalEventsOnHomeClose(bool isOpen) {
-			Input.WPFGamepad.Focus(null);
-			Dispatcher.BeginInvoke(new Action(Hide));
 		}
 
 		public bool IsGamePadFocused { get; set; }
@@ -81,7 +65,7 @@ namespace PadOS.Views.MainPanel {
 			Highlight.Visibility = Visibility.Hidden;
 		}
 
-		private void GamepadInputOnThumbLeftChange(object sender, Input.WPFGamepad.GamePadEventArgs<Vector2> args){
+		private void GamepadInputOnThumbLeftChange(object sender, Input.WpfGamepad.GamePadEventArgs<Vector2> args){
 			var length = args.Value.GetLength();
 			var angle  = args.Value.GetAngle();
 			Dispatcher.BeginInvoke(new Action(() =>{

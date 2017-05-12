@@ -39,10 +39,6 @@ namespace PadOS {
 			bitmap.EndInit();
 			return bitmap;
 		}
-
-		public static T CreateInstance<T>(this System.Type type){
-			return (T) System.Activator.CreateInstance(type);
-		}
 	}
 
 }
