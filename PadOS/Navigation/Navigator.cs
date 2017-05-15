@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Windows;
 using PadOS.Input;
 using PadOS.Views.MainPanel;
@@ -16,12 +15,12 @@ namespace PadOS.Navigation {
 
 		private static void XInputOnButtonGuideDown(PlayerIndex player, GamePadState state){
 			if (CurrentWindow != null){
-				CurrentWindow.Dispatcher.BeginInvoke(new Action(CurrentWindow.Close));
-				CurrentWindow = null;
+				App.GlobalDispatcher.BeginInvoke(new Action(CloseWindow));
 				WpfGamepad.Focus(null);
 			}
 			else {
-				_mainPanel.Dispatcher.BeginInvoke(new Action(OpenMainPanel));
+				var tmd = App.GlobalDispatcher.Thread.ApartmentState;
+				App.GlobalDispatcher.BeginInvoke(new Action(OpenMainPanel));
 			}
 		}
 
@@ -30,7 +29,11 @@ namespace PadOS.Navigation {
 		private static MainPanel _mainPanel;
 
 		public static void CloseWindow() {
-			CurrentWindow.Close();
+			if (CurrentWindow == _mainPanel)
+				CurrentWindow.Hide();
+			else
+				CurrentWindow.Close();
+			CurrentWindow = null;
 		}
 
 		public static void OpenMainPanel() {
@@ -56,7 +59,7 @@ namespace PadOS.Navigation {
 				WpfGamepad.Focus(focusable);
 			}
 			if (CurrentWindow != null)
-				CurrentWindow.Close();
+				CloseWindow();
 			CurrentWindow = (Window)instance;
 			CurrentWindow.Show();
 			if (cache == false)
@@ -71,6 +74,6 @@ namespace PadOS.Navigation {
 		public static T OpenWindow<T>(bool cache = false) where T : Window{
 			return (T)OpenWindow(typeof (T), cache);
 		}
-		
+
 	}
 }
