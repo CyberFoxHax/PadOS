@@ -116,7 +116,11 @@
     <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Dll\UserInfo32.cs" />
     <Compile Include="Navigation\Navigator.cs" />
-    <Compile Include="Views\MainPanel\Editor\MainPanelEditor.xaml.cs">
+    <Compile Include="SaveData\ISaveData.cs" />
+    <Compile Include="Views\MainPanelEditor\ComboBox.xaml.cs">
+      <DependentUpon>ComboBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MainPanelEditor\MainPanelEditor.xaml.cs">
       <DependentUpon>MainPanelEditor.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Settings\Controls\BasicListItem.xaml.cs">
@@ -134,8 +138,8 @@
     <Compile Include="Input\GamepadInput.cs" />
     <Compile Include="Input\WPFDirectionalControls.cs" />
     <Compile Include="Input\WPFGamepad.cs" />
-    <Compile Include="SaveData\MainPanel.cs" />
-    <Compile Include="SaveData\SaveDataUtils.cs" />
+    <Compile Include="SaveData\MainPanelData.cs" />
+    <Compile Include="SaveData\SaveData.cs" />
     <Compile Include="Utils.cs" />
     <Compile Include="Vector2.cs" />
     <Compile Include="Views\ConfigurePlayers\ControllerTemplate.xaml.cs">
@@ -167,7 +171,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\MainPanel\Editor\MainPanelEditor.xaml">
+    <Page Include="Views\MainPanelEditor\ComboBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MainPanelEditor\MainPanelEditor.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

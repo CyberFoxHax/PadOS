@@ -23,7 +23,7 @@ namespace PadOS.Commands{
 
 		private static void ChangePlayers			(){ Navigator.OpenWindow<Views.ConfigurePlayers.PlayerEditor>(); } 
 		private static void EditGamePads 			(){}
-		private static void EditMainPanel 			(){ Navigator.OpenWindow<Views.MainPanel.Editor.MainPanelEditor>(); }
+		private static void EditMainPanel 			(){ Navigator.OpenWindow<Views.MainPanelEditor.MainPanelEditor>(); }
 		private static void EditKeyboardMappings	(){}
 		private static void EditKeyboardProfiles	(){}
 		private static void EditGamePadCalibration	(){}

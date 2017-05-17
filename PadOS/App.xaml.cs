@@ -18,7 +18,6 @@ namespace PadOS {
 			if (System.Environment.Is64BitOperatingSystem != is64BitBuild)
 				throw new System.Exception("You need to run in in x64 mode");
 #endif
-			SaveData.SaveDataUtils.Init();
 		}
 
 		protected override void OnStartup(System.Windows.StartupEventArgs e){

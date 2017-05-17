@@ -3,6 +3,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using PadOS.Input;
+using PadOS.SaveData;
 
 namespace PadOS.Views.MainPanel {
 	public partial class MainPanel : Input.IGamePadFocusable{
@@ -12,7 +13,7 @@ namespace PadOS.Views.MainPanel {
 
 			WpfGamepad.GetInstance(this).ThumbLeftChange += GamepadInputOnThumbLeftChange;
 
-			var saveData = SaveData.MainPanel.Data;
+			var saveData = SaveData.SaveData.Load<MainPanelData>();
 			foreach (var data in saveData.Items){
 				_buttons[data.Position] = new MainPanelButton{
 					ImageUri = "pack://application:,,,/PadOS;component/Resources/" + data.ImageUri,

@@ -19,7 +19,6 @@ namespace PadOS.Navigation {
 				WpfGamepad.Focus(null);
 			}
 			else {
-				var tmd = App.GlobalDispatcher.Thread.ApartmentState;
 				App.GlobalDispatcher.BeginInvoke(new Action(OpenMainPanel));
 			}
 		}
