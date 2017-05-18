@@ -11,7 +11,8 @@
                         <Setter Property="SnapsToDevicePixels" Value="True" />
                         <Setter Property="ShowActivated" Value="False" />
                         <Setter Property="Topmost" Value="True" />
-                        <Setter Property="ShowInTaskbar" Value="False" />
+                        <Setter Property="ShowInTaskbar" Value="True" />
+                        <!--<Setter Property="ShowInTaskbar" Value="False" />-->
                         <Setter Property="UseLayoutRounding" Value="True" />
                     </Style>
                 </ResourceDictionary>
