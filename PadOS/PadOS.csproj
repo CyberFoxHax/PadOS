@@ -117,6 +117,9 @@
     <Compile Include="Dll\UserInfo32.cs" />
     <Compile Include="Navigation\Navigator.cs" />
     <Compile Include="SaveData\ISaveData.cs" />
+    <Compile Include="ViewModels\FunctionButtons\FunctionButton.cs" />
+    <Compile Include="ViewModels\FunctionButtons\FunctionType.cs" />
+    <Compile Include="ViewModels\FunctionButtons\PadOsInternalFunctions.cs" />
     <Compile Include="Views\MainPanelEditor\ComboBox.xaml.cs">
       <DependentUpon>ComboBox.xaml</DependentUpon>
     </Compile>
@@ -151,8 +154,6 @@
     <Compile Include="Views\GamePadOSK\Osk.xaml.cs">
       <DependentUpon>Osk.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MainPanel\ContentType.cs" />
-    <Compile Include="Views\MainPanel\MainPanelButton.cs" />
     <Compile Include="Views\Settings\Controls\MultiListItemSubItem.xaml.cs">
       <DependentUpon>MultiListItemSubItem.xaml</DependentUpon>
     </Compile>

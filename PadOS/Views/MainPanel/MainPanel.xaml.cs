@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using PadOS.Input;
 using PadOS.SaveData;
+using PadOS.ViewModels.FunctionButtons;
 
 namespace PadOS.Views.MainPanel {
 	public partial class MainPanel : Input.IGamePadFocusable{
@@ -15,9 +16,11 @@ namespace PadOS.Views.MainPanel {
 
 			var saveData = SaveData.SaveData.Load<MainPanelData>();
 			foreach (var data in saveData.Items){
-				_buttons[data.Position] = new MainPanelButton{
+				_buttons[data.Position] = new FunctionButton {
 					ImageUri = "pack://application:,,,/PadOS;component/Resources/" + data.ImageUri,
-					Key = data.Key
+					Title = data.Title,
+					Key = data.Key,
+					FunctionType = data.FunctionType
 				};
 				SetButton(data.Position, _buttons[data.Position]);
 			}
@@ -37,10 +40,10 @@ namespace PadOS.Views.MainPanel {
 		}
 
 		public bool IsGamePadFocused { get; set; }
-		private readonly MainPanelButton[] _buttons = new MainPanelButton[8];
+		private readonly FunctionButton[] _buttons = new FunctionButton[8];
 		private bool _waitForReturnZero;
 
-		public void SetButton(int index, MainPanelButton button) {
+		public void SetButton(int index, FunctionButton button) {
 			var elms = Canvas.Children.OfType<CustomControls.AlphaSilhouetteImage>().ToArray();
 			_buttons[index] = button;
 			elms[index].Source = 
@@ -61,7 +64,7 @@ namespace PadOS.Views.MainPanel {
 
 		private void ActivateButton(int index){
 			if (_buttons[index] == null) return;
-			_buttons[index].Activate();
+			_buttons[index].Exec();
 			Hide();
 			Highlight.Visibility = Visibility.Hidden;
 		}
