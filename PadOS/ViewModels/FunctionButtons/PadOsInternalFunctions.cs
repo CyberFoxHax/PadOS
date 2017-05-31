@@ -45,7 +45,7 @@ namespace PadOS.ViewModels.FunctionButtons {
 				FunctionKey = functionKey;
 			}
 
-			public string FunctionKey { get; set; }
+			public string FunctionKey { get; private set; }
 		}
 
 	}

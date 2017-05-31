@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using PadOS.Input;
 using PadOS.SaveData;
+using PadOS.SaveData.Models;
 using PadOS.ViewModels.FunctionButtons;
 
 namespace PadOS.Views.MainPanel {
@@ -15,7 +16,13 @@ namespace PadOS.Views.MainPanel {
 			WpfGamepad.GetInstance(this).ThumbLeftChange += GamepadInputOnThumbLeftChange;
 
 			var saveData = SaveData.SaveData.Load<MainPanelData>();
-			foreach (var data in saveData.Items){
+			foreach (var data in saveData.Items.Select(p=>new{
+				p.Position,
+				Key = p.JsonFunction.Parameter,
+				p.JsonFunction.Title,
+				p.JsonFunction.ImageUri,
+				p.JsonFunction.FunctionType,
+			})){
 				_buttons[data.Position] = new FunctionButton {
 					ImageUri = "pack://application:,,,/PadOS;component/Resources/" + data.ImageUri,
 					Title = data.Title,

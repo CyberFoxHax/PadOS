@@ -117,6 +117,7 @@
     <Compile Include="Dll\UserInfo32.cs" />
     <Compile Include="Navigation\Navigator.cs" />
     <Compile Include="SaveData\ISaveData.cs" />
+    <Compile Include="SaveData\Models\FunctionButtons.cs" />
     <Compile Include="ViewModels\FunctionButtons\FunctionButton.cs" />
     <Compile Include="ViewModels\FunctionButtons\FunctionType.cs" />
     <Compile Include="ViewModels\FunctionButtons\PadOsInternalFunctions.cs" />
@@ -141,7 +142,7 @@
     <Compile Include="Input\GamepadInput.cs" />
     <Compile Include="Input\WPFDirectionalControls.cs" />
     <Compile Include="Input\WPFGamepad.cs" />
-    <Compile Include="SaveData\MainPanelData.cs" />
+    <Compile Include="SaveData\Models\MainPanelData.cs" />
     <Compile Include="SaveData\SaveData.cs" />
     <Compile Include="Utils.cs" />
     <Compile Include="Vector2.cs" />

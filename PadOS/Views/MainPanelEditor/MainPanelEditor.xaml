@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:customControls="clr-namespace:PadOS.CustomControls"
         xmlns:mainPanelEditor="clr-namespace:PadOS.Views.MainPanelEditor"
-        xmlns:system="clr-namespace:System;assembly=mscorlib"
+        xmlns:models="clr-namespace:PadOS.SaveData.Models"
         Title="MainPanelEditor"
         Height="617.5"
         Width="896"
@@ -106,17 +106,13 @@
                 </Border>
             </Grid>
             <ScrollViewer Grid.Row="1" Grid.Column="1" HorizontalScrollBarVisibility="Hidden">
+                <ScrollViewer.DataContext>
+                    <models:JsonFunctionButton />
+                </ScrollViewer.DataContext>
                 <ItemsControl Background="#27506e">
                     <ItemsControl.Items>
-                        <system:String>Cocks</system:String><system:String>Cocks</system:String><system:String>Cocks</system:String>
-                        <system:String>Cocks</system:String><system:String>Cocks</system:String><system:String>Cocks</system:String>
-                        <system:String>Cocks</system:String><system:String>Cocks</system:String><system:String>Cocks</system:String>
-                        <system:String>Cocks</system:String><system:String>Cocks</system:String><system:String>Cocks</system:String>
-                        <system:String>Cocks</system:String><system:String>Cocks</system:String><system:String>Cocks</system:String>
-                        <system:String>Cocks</system:String><system:String>Cocks</system:String><system:String>Cocks</system:String>
-                        <system:String>Cocks</system:String><system:String>Cocks</system:String><system:String>Cocks</system:String>
-                        <system:String>Cocks</system:String><system:String>Cocks</system:String><system:String>Cocks</system:String>
-                        <system:String>Cocks</system:String><system:String>Cocks</system:String><system:String>Cocks</system:String>
+                        <models:JsonFunctionButton ImageUri="Icons/cogs.png" Title="Settings" />
+                        <models:JsonFunctionButton ImageUri="Icons/osk.png" Title="OSK" />
                     </ItemsControl.Items>
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
@@ -145,8 +141,8 @@
                                         <RowDefinition Height="43*"/>
                                         <RowDefinition Height="21*"/>
                                     </Grid.RowDefinitions>
-                                    <customControls:AlphaSilhouetteImage Source="/PadOS;component/Resources/Icons/Loupe.png" Grid.Row="0" NormalColor="#eff6fa" Margin="0,5,0,0" />
-                                    <TextBlock FontFamily="Courier New" Text="Play" Foreground="#eff6fa" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,5" Grid.Row="1"/>
+                                    <customControls:AlphaSilhouetteImage Source="{Binding ImageUri}" Grid.Row="0" NormalColor="#eff6fa" Margin="0,5,0,0" />
+                                    <TextBlock FontFamily="Courier New" Text="{Binding Title}" Foreground="#eff6fa" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,5" Grid.Row="1"/>
                                 </Grid>
                             </Border>
                         </DataTemplate>
