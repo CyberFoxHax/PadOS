@@ -107,12 +107,12 @@
             </Grid>
             <ScrollViewer Grid.Row="1" Grid.Column="1" HorizontalScrollBarVisibility="Hidden">
                 <ScrollViewer.DataContext>
-                    <models:JsonFunctionButton />
+                    <models:FunctionButton />
                 </ScrollViewer.DataContext>
                 <ItemsControl Background="#27506e">
                     <ItemsControl.Items>
-                        <models:JsonFunctionButton ImageUri="Icons/cogs.png" Title="Settings" />
-                        <models:JsonFunctionButton ImageUri="Icons/osk.png" Title="OSK" />
+                        <models:FunctionButton ImageUri="Icons/cogs.png" Title="Settings" />
+                        <models:FunctionButton ImageUri="Icons/osk.png" Title="OSK" />
                     </ItemsControl.Items>
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>

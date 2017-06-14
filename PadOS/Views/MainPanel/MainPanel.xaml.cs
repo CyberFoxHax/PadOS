@@ -3,9 +3,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using PadOS.Input;
-using PadOS.SaveData;
-using PadOS.SaveData.Models;
-using PadOS.ViewModels.FunctionButtons;
+using FunctionButton = PadOS.ViewModels.FunctionButtons.FunctionButton;
 
 namespace PadOS.Views.MainPanel {
 	public partial class MainPanel : Input.IGamePadFocusable{
@@ -15,19 +13,14 @@ namespace PadOS.Views.MainPanel {
 
 			WpfGamepad.GetInstance(this).ThumbLeftChange += GamepadInputOnThumbLeftChange;
 
-			var saveData = SaveData.SaveData.Load<MainPanelData>();
-			foreach (var data in saveData.Items.Select(p=>new{
-				p.Position,
-				Key = p.JsonFunction.Parameter,
-				p.JsonFunction.Title,
-				p.JsonFunction.ImageUri,
-				p.JsonFunction.FunctionType,
-			})){
+			var ctx = new SaveData.SaveData();
+			var saveData = ctx.MainPanelData;
+			foreach (var data in saveData){
 				_buttons[data.Position] = new FunctionButton {
-					ImageUri = "pack://application:,,,/PadOS;component/Resources/" + data.ImageUri,
-					Title = data.Title,
-					Key = data.Key,
-					FunctionType = data.FunctionType
+					ImageUri = "pack://application:,,,/PadOS;component/Resources/" + data.FunctionButton.ImageUri,
+					Title = data.FunctionButton.Title,
+					Key = data.FunctionButton.Parameter,
+					FunctionType = data.FunctionButton.FunctionType
 				};
 				SetButton(data.Position, _buttons[data.Position]);
 			}

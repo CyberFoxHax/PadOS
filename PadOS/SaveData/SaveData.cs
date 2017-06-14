@@ -1,51 +1,43 @@
-﻿using System;
-using System.Collections.Generic;
-using Newtonsoft.Json;
+﻿using System.Data.Entity;
+using System.Data.SQLite;
 using System.IO;
+using System.Linq;
+using PadOS.SaveData.Models;
 
 namespace PadOS.SaveData {
-	public static class SaveData{
-		public const string Directory = @"\Settings\";
-
-		private static readonly Dictionary<Type, ISaveData<object>> Instances = new Dictionary<Type, ISaveData<object>>();
-
-		public static T Load<T>() where T:class, ISaveData<T>{
-			var type = typeof (T);
-			var fileName = type.Name + ".json";
-			if (Instances.ContainsKey(type))
-				return (T) Instances[type];
-			return Load<T>(fileName) ?? Save<T>();
+	public class SaveData : DbContext {
+		public SaveData()
+			: base(new SQLiteConnection("Data Source=Settings\\PadOsDatabase.sqlite;"), true) {
+			
 		}
 
-		public static T Save<T>() where T:class, ISaveData<object>{
-			var type = typeof(T);
-			var fileName = type.Name + ".json";
-
-			T realtimeData;
-			if (Instances.ContainsKey(type))
-				realtimeData = (T) Instances[type];
-			else
-				realtimeData = (T) Activator.CreateInstance<T>().GetDefault();
-			Instances[type] = realtimeData;
-			Save(fileName, realtimeData);
-			return realtimeData;
+		protected override void OnModelCreating(DbModelBuilder modelBuilder) {
+			var sqliteConnectionInitializer = new SQLite.CodeFirst.SqliteCreateDatabaseIfNotExists<SaveData>(modelBuilder);
+			Database.SetInitializer(sqliteConnectionInitializer);
 		}
 
-		private static void Save(string filename, object data){
-			var directory = Environment.CurrentDirectory + Directory;
-			var dataRaw = JsonConvert.SerializeObject(data, Formatting.Indented);
-			if (System.IO.Directory.Exists(directory) == false)
-				System.IO.Directory.CreateDirectory(directory);
-			File.WriteAllText(directory + filename, dataRaw);
+		public void DeleteIfExists(){
+			if (Database.Connection.DataSource == null) 
+				Database.Connection.Open();
+			var databaseFile = ((SQLiteConnection)Database.Connection).FileName;
+			Database.Connection.Close();
+			if (File.Exists(databaseFile) == false)
+				return;
+			Database.Connection.Close();
+			File.Delete(databaseFile);
 		}
 
-		private static T Load<T>(string filename) where T:class{
-			filename = Environment.CurrentDirectory + Directory + filename;
-			if (File.Exists(filename) == false)
-				return null;
-			var text = File.ReadAllText(filename);
-			var data = JsonConvert.DeserializeObject<T>(text);
-			return data;
+		public void CreateDb(){
+			FunctionButtons.ToList();
 		}
+
+		public void InsertDefault(){
+			FunctionButtons.AddRange(DefaultData.FunctionButtons);
+			MainPanelData.AddRange(DefaultData.MainPanelData);
+			SaveChanges();
+		}
+
+		public virtual DbSet<FunctionButton> FunctionButtons { get; set; }
+		public virtual DbSet<MainPanelData> MainPanelData { get; set; }
 	}
 }

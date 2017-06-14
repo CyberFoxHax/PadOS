@@ -1,6 +1,11 @@
-﻿
+﻿using System;
+using System.Data.SQLite;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
 using System.Windows.Threading;
 using PadOS.Navigation;
+using PadOS.SaveData;
 
 namespace PadOS {
 	public partial class App{
@@ -8,25 +13,21 @@ namespace PadOS {
 
 		public App(){
 			GlobalDispatcher = Dispatcher;
-#if DEBUG
-#if x64
-			const bool is64BitBuild = true;
-#else
-			const bool is64BitBuild = false;
-#endif
-
-			if (System.Environment.Is64BitOperatingSystem != is64BitBuild)
-				throw new System.Exception("You need to run in in x64 mode");
-#endif
 		}
 
 		protected override void OnStartup(System.Windows.StartupEventArgs e){
+			var ctx = new SaveData.SaveData();
+			ctx.DeleteIfExists();
+			ctx.CreateDb();
+			ctx.InsertDefault();
+
 			base.OnStartup(e);
 			var systray = new Views.SystemTray();
 
 			//GlobalEvents.Initialize();
 			Navigator.Initialize();
-			if (System.Diagnostics.Debugger.IsAttached == false) return;
+			if (Debugger.IsAttached == false)
+				return;
 			Navigator.OpenMainPanel();
 		}
 	}
