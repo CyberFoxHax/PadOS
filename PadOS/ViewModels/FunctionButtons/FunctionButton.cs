@@ -4,7 +4,7 @@ using System.Diagnostics;
 
 namespace PadOS.ViewModels.FunctionButtons {
 	public class FunctionButton {
-		public string ImageUri { get; set; }
+		public Uri ImageUri { get; set; }
 		public string Title { get; set; }
 		public string Key { get; set; }
 		public FunctionType FunctionType { get; set; }

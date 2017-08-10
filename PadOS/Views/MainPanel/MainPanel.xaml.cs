@@ -17,7 +17,7 @@ namespace PadOS.Views.MainPanel {
 			var saveData = ctx.MainPanelData;
 			foreach (var data in saveData){
 				_buttons[data.Position] = new FunctionButton {
-					ImageUri = "pack://application:,,,/PadOS;component/Resources/" + data.FunctionButton.ImageUri,
+					ImageUri = new Uri("pack://application:,,,/PadOS;component/Resources/" + data.FunctionButton.ImageUri),
 					Title = data.FunctionButton.Title,
 					Key = data.FunctionButton.Parameter,
 					FunctionType = data.FunctionButton.FunctionType
@@ -47,7 +47,7 @@ namespace PadOS.Views.MainPanel {
 			var elms = Canvas.Children.OfType<CustomControls.AlphaSilhouetteImage>().ToArray();
 			_buttons[index] = button;
 			elms[index].Source = 
-				new System.Windows.Media.Imaging.BitmapImage(new Uri(_buttons[index].ImageUri, UriKind.Absolute));
+				new System.Windows.Media.Imaging.BitmapImage(_buttons[index].ImageUri);
 		}
 
 		public void ClearButtons(){

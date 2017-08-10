@@ -39,7 +39,7 @@
             <ItemsControl.Background>
                 <LinearGradientBrush EndPoint="0,1" StartPoint="0,-0.03">
                     <GradientStop Color="#FF25272C" Offset="0"/>
-                    <GradientStop Color="#3a3d44" Offset="0.3"/>
+                    <GradientStop Color="#FF35363C" Offset="0.3" />
                     <GradientStop Color="#2d2e32" Offset="1"/>
                 </LinearGradientBrush>
             </ItemsControl.Background>
@@ -53,15 +53,13 @@
                     <StackPanel Background="{x:Null}" />
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
-            <ListBox.Resources>
-                <!-- Background of selected item when focussed -->
-                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
-                     Color="#0fff"/>
-                <!-- Background of selected item when not focussed -->
-                <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}"
-                     Color="#0fff" />
-            </ListBox.Resources>
-            <ListBox.ItemContainerStyle>
+			<ListBox.Resources>
+				<SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent" />
+				<SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black" />
+				<SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="Transparent" />
+				<SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="Transparent" />
+			</ListBox.Resources>
+			<ListBox.ItemContainerStyle>
                 
                 <Style TargetType="ListBoxItem">
                     <Style.Triggers>
@@ -75,7 +73,7 @@
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <ListBoxItem>
-                        <TextBlock Text="{Binding .}" FontSize="40" FontFamily="Courier New" Foreground="White" Margin="10,7" />
+                        <TextBlock Text="{Binding }" FontSize="40" FontFamily="Courier New" Foreground="White" Margin="10,7" />
                     </ListBoxItem>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>

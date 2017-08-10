@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:customControls="clr-namespace:PadOS.CustomControls"
         xmlns:mainPanelEditor="clr-namespace:PadOS.Views.MainPanelEditor"
-        xmlns:models="clr-namespace:PadOS.SaveData.Models"
+        xmlns:models="clr-namespace:PadOS.ViewModels.FunctionButtons"
         Title="MainPanelEditor"
         Height="617.5"
         Width="896"
@@ -66,6 +66,7 @@
                                     <Setter Property="NormalColor" Value="#FFEBF1F9" />
                                 </Style>
                             </Canvas.Resources>
+							<!-- make bindable -->
                             <customControls:AlphaSilhouetteImage Canvas.Left="365" Canvas.Top="95"  Source="/PadOS;component/Resources/Icons/capture.png" />
                             <customControls:AlphaSilhouetteImage Canvas.Left="556" Canvas.Top="174" Source="/PadOS;component/Resources/Icons/OSK.png" />
                             <customControls:AlphaSilhouetteImage Canvas.Left="635" Canvas.Top="365" Source="/PadOS;component/Resources/Icons/Cogs.png" />
@@ -74,8 +75,9 @@
                             <customControls:AlphaSilhouetteImage Canvas.Left="174" Canvas.Top="556" Source="/PadOS;component/Resources/Icons/Loupe.png" />
                             <customControls:AlphaSilhouetteImage Canvas.Left="95"  Canvas.Top="365" Source="/PadOS;component/Resources/Icons/Cogs.png" />
                             <customControls:AlphaSilhouetteImage Canvas.Left="174" Canvas.Top="174" Source="/PadOS;component/Resources/Icons/OSK.png" />
+							<!-- -->
                         </Canvas>
-                    </Grid>
+					</Grid>
                 </Viewbox>
             </Grid>
             <Grid Grid.Row="0" Grid.Column="1">
@@ -102,17 +104,17 @@
                             <GradientStop Color="#0fff" Offset="1"/>
                         </LinearGradientBrush>
                     </Border.BorderBrush>
-                    <TextBlock FontFamily="Segoe UI" Text="Create new..." Foreground="White" FontSize="35" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <TextBlock MouseUp="CreateNew_ButtonClick" FontFamily="Segoe UI" Text="Create new..." Foreground="White" FontSize="35" HorizontalAlignment="Center" VerticalAlignment="Center" />
                 </Border>
             </Grid>
             <ScrollViewer Grid.Row="1" Grid.Column="1" HorizontalScrollBarVisibility="Hidden">
                 <ScrollViewer.DataContext>
                     <models:FunctionButton />
                 </ScrollViewer.DataContext>
-                <ItemsControl Background="#27506e">
+                <ItemsControl Background="#27506e" x:Name="FunctionButtonsList">
                     <ItemsControl.Items>
-                        <models:FunctionButton ImageUri="Icons/cogs.png" Title="Settings" />
-                        <models:FunctionButton ImageUri="Icons/osk.png" Title="OSK" />
+                        <models:FunctionButton ImageUri="/Resources/Icons/cogs.png" Title="Settings" />
+                        <models:FunctionButton ImageUri="/Resources/Icons/osk.png" Title="OSK" />
                     </ItemsControl.Items>
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
@@ -141,8 +143,9 @@
                                         <RowDefinition Height="43*"/>
                                         <RowDefinition Height="21*"/>
                                     </Grid.RowDefinitions>
-                                    <customControls:AlphaSilhouetteImage Source="{Binding ImageUri}" Grid.Row="0" NormalColor="#eff6fa" Margin="0,5,0,0" />
-                                    <TextBlock FontFamily="Courier New" Text="{Binding Title}" Foreground="#eff6fa" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,5" Grid.Row="1"/>
+									<customControls:AlphaSilhouetteImage Grid.Row="0" Source="{Binding ImageUri}" NormalColor="#eff6fa" Margin="0, 10, 0, 3">
+                                    </customControls:AlphaSilhouetteImage>
+	                                <TextBlock FontFamily="Courier New" Text="{Binding Title}" Foreground="#eff6fa" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,5" Grid.Row="1"/>
                                 </Grid>
                             </Border>
                         </DataTemplate>
@@ -152,3 +155,4 @@
         </Grid>
     </Border>
 </Window>
+

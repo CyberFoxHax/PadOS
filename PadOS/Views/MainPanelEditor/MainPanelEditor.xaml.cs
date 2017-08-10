@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.IO;
+using System.Windows.Input;
 
 namespace PadOS.Views.MainPanelEditor {
 	public partial class MainPanelEditor{
@@ -9,7 +10,11 @@ namespace PadOS.Views.MainPanelEditor {
 			if (DesignerProperties.GetIsInDesignMode(this))
 				return;
 
+			
+		}
 
+		private void CreateNew_ButtonClick(object sender, MouseButtonEventArgs e){
+			
 		}
 	}
 }

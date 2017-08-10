@@ -7,6 +7,7 @@ using PadOS.Views.GamePadOSK;
 using PadOS.Views.Settings;
 
 namespace PadOS.ViewModels.FunctionButtons {
+	// todo not a viewmodel.. move class
 	public static class PadOsInternalFunctions {
 
 		public static Action GetFunction(string key){

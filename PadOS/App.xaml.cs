@@ -3,6 +3,7 @@ using System.Data.SQLite;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Windows;
 using System.Windows.Threading;
 using PadOS.Navigation;
 using PadOS.SaveData;
@@ -28,6 +29,7 @@ namespace PadOS {
 			Navigator.Initialize();
 			if (Debugger.IsAttached == false)
 				return;
+
 			Navigator.OpenMainPanel();
 		}
 	}
