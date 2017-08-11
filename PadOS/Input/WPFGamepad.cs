@@ -1,11 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
+using MS.Internal.PresentationFramework;
 using XInputDotNetPure;
 
 namespace PadOS.Input {
 	// todo: fix this fucking mess
-	public class WpfGamepad{
+	public class WpfGamepad : DependencyObject{
+
+		// todo this works. but need full integration
+		//public static readonly DependencyProperty ButtonXProperty = DependencyProperty.RegisterAttached(
+		//	"ButtonX",
+		//	typeof(GamepadEvent),
+		//	typeof(WpfGamepad),
+		//	new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender)
+		//);
+		//
+		//public static GamepadEvent GetButtonX(UIElement element){
+		//	return (GamepadEvent) ((DependencyObject) _focusedControl).GetValue(ButtonXProperty);
+		//}
+		//
+		//public static void SetButtonX(UIElement element, GamepadEvent evt){
+		//	((DependencyObject) _focusedControl).SetValue(ButtonXProperty, evt);
+		//}
+
+
 		public static readonly GamePadInput XInput = new GamePadInput();
 		private static readonly Dictionary<IGamePadFocusable, WpfGamepad> Wrappers = new Dictionary<IGamePadFocusable, WpfGamepad>();
 

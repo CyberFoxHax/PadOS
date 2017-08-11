@@ -6,12 +6,17 @@ using PadOS.Navigation;
 using PadOS.Views.GamePadOSK;
 using PadOS.Views.Settings;
 
-namespace PadOS.ViewModels.FunctionButtons {
+namespace PadOS {
 	// todo not a viewmodel.. move class
 	public static class PadOsInternalFunctions {
 
 		public static Action GetFunction(string key){
 			return Functions.ContainsKey(key) ? Functions[key] : null;
+		}
+
+		[Key("Empty")]
+		public static void Empty() {
+			// lol
 		}
 
 		[Key("OpenOsk")]

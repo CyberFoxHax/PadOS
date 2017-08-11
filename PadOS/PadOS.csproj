@@ -144,7 +144,7 @@
     <Compile Include="SaveData\SaveData.cs" />
     <Compile Include="ViewModels\FunctionButtons\FunctionButton.cs" />
     <Compile Include="ViewModels\FunctionButtons\FunctionType.cs" />
-    <Compile Include="ViewModels\FunctionButtons\PadOsInternalFunctions.cs" />
+    <Compile Include="PadOsInternalFunctions.cs" />
     <Compile Include="Views\MainPanelEditor\ComboBox.xaml.cs">
       <DependentUpon>ComboBox.xaml</DependentUpon>
     </Compile>

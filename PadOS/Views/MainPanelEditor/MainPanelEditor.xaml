@@ -24,19 +24,19 @@
                 <GradientStop Color="#1f4974" Offset="1"/>
             </LinearGradientBrush>
         </Border.BorderBrush>
-        <Grid>
+        <Grid Margin="3,-3,-3,3">
             <Grid.RowDefinitions>
                 <RowDefinition Height="63"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1.6180339*"/>
+                <ColumnDefinition Width="1.86*"/>
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
             <TextBlock Margin="20,10,0,0" FontSize="18" FontFamily="Courier New" Text="PadOS" Foreground="#888" VerticalAlignment="Top" HorizontalAlignment="Left" />
-            <mainPanelEditor:ComboBox Margin="88,0,0,0" Grid.Row="0" Grid.Column="0" />
-            <Grid Margin="10,0,0,10" Grid.Row="1" Grid.Column="0">
-                <Grid.Background>
+			<mainPanelEditor:ComboBox Margin="88,3,0,0" Grid.Row="0" Grid.Column="0" />
+			<Grid Margin="10,0,0,10" Grid.Row="1" Grid.Column="0">
+				<Grid.Background>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                         <GradientStop Color="#161616" />
                         <GradientStop Color="#1f1f1f" Offset="1"/>
@@ -113,9 +113,10 @@
                 </ScrollViewer.DataContext>
                 <ItemsControl Background="#27506e" x:Name="FunctionButtonsList">
                     <ItemsControl.Items>
-                        <models:FunctionButton ImageUri="/Resources/Icons/cogs.png" Title="Settings" />
-                        <models:FunctionButton ImageUri="/Resources/Icons/osk.png" Title="OSK" />
-                    </ItemsControl.Items>
+						<models:FunctionButton Title="Empty" />
+	                    <models:FunctionButton ImageUri="/Resources/Icons/cogs.png" Title="Settings" />
+	                    <models:FunctionButton ImageUri="/Resources/Icons/osk.png" Title="OSK" />
+					</ItemsControl.Items>
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <UniformGrid Columns="4" Rows="6" />
@@ -143,8 +144,7 @@
                                         <RowDefinition Height="43*"/>
                                         <RowDefinition Height="21*"/>
                                     </Grid.RowDefinitions>
-									<customControls:AlphaSilhouetteImage Grid.Row="0" Source="{Binding ImageUri}" NormalColor="#eff6fa" Margin="0, 10, 0, 3">
-                                    </customControls:AlphaSilhouetteImage>
+									<customControls:AlphaSilhouetteImage Grid.Row="0" Source="{Binding ImageUri}" NormalColor="#eff6fa" Margin="0, 10, 0, 3" />
 	                                <TextBlock FontFamily="Courier New" Text="{Binding Title}" Foreground="#eff6fa" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,5" Grid.Row="1"/>
                                 </Grid>
                             </Border>
@@ -155,4 +155,6 @@
         </Grid>
     </Border>
 </Window>
+
+
 

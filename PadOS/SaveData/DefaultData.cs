@@ -7,6 +7,11 @@ namespace PadOS.SaveData {
 	public static class DefaultData{
 		public static FunctionButton[] FunctionButtons ={
 			new FunctionButton{
+				Parameter = "Empty",
+				Title = "Empty",
+				FunctionType = FunctionType.PadOsInternal
+			},
+			new FunctionButton{
 				Parameter = "OpenSettings",
 				ImageUri = "Icons/cogs.png",
 				Title = "Settings",
@@ -21,8 +26,8 @@ namespace PadOS.SaveData {
 		};
 
 		public static MainPanelData[] MainPanelData = {
-			new MainPanelData { Position = 4, FunctionButton = FunctionButtons[0] },
-			new MainPanelData { Position = 6, FunctionButton = FunctionButtons[1] }
+			new MainPanelData { Position = 4, FunctionButton = FunctionButtons[1] },
+			new MainPanelData { Position = 6, FunctionButton = FunctionButtons[2] }
 		};
 	}
 }

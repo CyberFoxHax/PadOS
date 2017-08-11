@@ -9,7 +9,14 @@
         <Canvas.Style>
             <Style TargetType="Canvas">
                 <Style.Triggers>
-                    <DataTrigger Binding="{Binding IsActive, ElementName=This}" Value="True">
+					<DataTrigger Binding="{Binding Source, ElementName=This}" Value="{x:Null}">
+	                    <Setter Property="OpacityMask">
+		                    <Setter.Value>
+			                    <ImageBrush ImageSource="{x:Null}" Stretch="Uniform"></ImageBrush>
+		                    </Setter.Value>
+	                    </Setter>
+					</DataTrigger>
+					<DataTrigger Binding="{Binding IsActive, ElementName=This}" Value="True">
                         <Setter Property="Background" Value="{Binding ActiveColor, ElementName=This}"/>
                     </DataTrigger>
                 </Style.Triggers>

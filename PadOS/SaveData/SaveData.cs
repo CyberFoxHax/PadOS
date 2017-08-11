@@ -7,9 +7,11 @@ using PadOS.SaveData.Models;
 namespace PadOS.SaveData {
 	public class SaveData : DbContext {
 		public SaveData()
-			: base(new SQLiteConnection("Data Source=Settings\\PadOsDatabase.sqlite;"), true) {
+			: base(new SQLiteConnection($"Data Source={DbFileName};"), true) {
 			
 		}
+
+		public const string DbFileName = "Settings\\PadOsDatabase.sqlite";
 
 		protected override void OnModelCreating(DbModelBuilder modelBuilder) {
 			var sqliteConnectionInitializer = new SQLite.CodeFirst.SqliteCreateDatabaseIfNotExists<SaveData>(modelBuilder);
@@ -17,6 +19,8 @@ namespace PadOS.SaveData {
 		}
 
 		public void DeleteIfExists(){
+			if (File.Exists(DbFileName) == false)
+				return;
 			if (Database.Connection.DataSource == null) 
 				Database.Connection.Open();
 			var databaseFile = ((SQLiteConnection)Database.Connection).FileName;
