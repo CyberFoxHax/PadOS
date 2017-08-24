@@ -19,11 +19,11 @@ namespace PadOS.Input {
 		//);
 		//
 		//public static GamepadEvent GetButtonX(UIElement element){
-		//	return (GamepadEvent) ((DependencyObject) _focusedControl).GetValue(ButtonXProperty);
+		//	return (GamepadEvent) element.GetValue(ButtonXProperty);
 		//}
 		//
 		//public static void SetButtonX(UIElement element, GamepadEvent evt){
-		//	((DependencyObject) _focusedControl).SetValue(ButtonXProperty, evt);
+		//	element.SetValue(ButtonXProperty, evt);
 		//}
 
 

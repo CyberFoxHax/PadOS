@@ -5,7 +5,7 @@ namespace PadOS.Commands {
 	public static class WindowCommands {
 		public static string GetApplicationName {
 			get {
-				// bug: wrong result
+				// todo bug: wrong result
 				// because the value is gotten once onload
 				var hWnd = Dll.UserInfo32.GetForegroundWindow();
 				int processId;

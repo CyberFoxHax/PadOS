@@ -69,7 +69,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\x86\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
@@ -145,9 +145,11 @@
     <Compile Include="ViewModels\FunctionButtons\FunctionButton.cs" />
     <Compile Include="ViewModels\FunctionButtons\FunctionType.cs" />
     <Compile Include="PadOsInternalFunctions.cs" />
+    <Compile Include="Views\MainPanelEditor\BlockNavigator.cs" />
     <Compile Include="Views\MainPanelEditor\ComboBox.xaml.cs">
       <DependentUpon>ComboBox.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\MainPanelEditor\Cursor.cs" />
     <Compile Include="Views\MainPanelEditor\MainPanelEditor.xaml.cs">
       <DependentUpon>MainPanelEditor.xaml</DependentUpon>
     </Compile>
