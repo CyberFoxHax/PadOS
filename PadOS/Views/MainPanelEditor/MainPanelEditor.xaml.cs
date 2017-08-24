@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -16,7 +17,10 @@ namespace PadOS.Views.MainPanelEditor {
 		}
 
 		private void CreateNew_ButtonClick(object sender, MouseButtonEventArgs e){
-			
+		}
+
+		private void OnClick(object sender, EventArgs args){
+			throw new NotImplementedException();
 		}
 	}
 }

@@ -9,24 +9,6 @@ using XInputDotNetPure;
 namespace PadOS.Input {
 	// todo: fix this fucking mess
 	public class WpfGamepad : DependencyObject{
-
-		// todo this works. but need full integration
-		//public static readonly DependencyProperty ButtonXProperty = DependencyProperty.RegisterAttached(
-		//	"ButtonX",
-		//	typeof(GamepadEvent),
-		//	typeof(WpfGamepad),
-		//	new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender)
-		//);
-		//
-		//public static GamepadEvent GetButtonX(UIElement element){
-		//	return (GamepadEvent) element.GetValue(ButtonXProperty);
-		//}
-		//
-		//public static void SetButtonX(UIElement element, GamepadEvent evt){
-		//	element.SetValue(ButtonXProperty, evt);
-		//}
-
-
 		public static readonly GamePadInput XInput = new GamePadInput();
 		private static readonly Dictionary<IGamePadFocusable, WpfGamepad> Wrappers = new Dictionary<IGamePadFocusable, WpfGamepad>();
 

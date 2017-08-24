@@ -2,7 +2,7 @@
 using XInputDotNetPure;
 
 namespace PadOS.Input {
-	public class GamePadInput {
+	public class GamePadInput : IDisposable {
 		public GamePadInput(){
 			Enable();
 

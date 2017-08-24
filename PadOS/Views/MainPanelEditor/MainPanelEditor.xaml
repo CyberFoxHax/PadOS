@@ -4,12 +4,13 @@
         xmlns:customControls="clr-namespace:PadOS.CustomControls"
         xmlns:e="clr-namespace:PadOS.Views.MainPanelEditor"
         xmlns:models="clr-namespace:PadOS.ViewModels.FunctionButtons"
+        xmlns:nav="clr-namespace:PadOS.Navigation"
         Title="MainPanelEditor"
         Height="617.5"
         Width="896"
         Style="{StaticResource DefaultWindowStyle}"
         WindowStartupLocation="CenterScreen"
-		e:BlockNavigator.IsBlockOwner="True">
+		nav:BlockNavigator.IsBlockOwner="True">
     <Border BorderThickness="3">
         <Border.Background>
             <LinearGradientBrush EndPoint="348,809" StartPoint="243.6,-40.45" MappingMode="Absolute">
@@ -35,8 +36,8 @@
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
             <TextBlock Margin="20,10,0,0" FontSize="18" FontFamily="Courier New" Text="PadOS" Foreground="#888" VerticalAlignment="Top" HorizontalAlignment="Left" />
-			<e:ComboBox Margin="88,3,0,0" Grid.Row="0" Grid.Column="0" e:BlockNavigator.Registered="True" x:Name="FuckingComboBoc"/>
-			<Grid Margin="10,0,0,10" Grid.Row="1" Grid.Column="0" e:BlockNavigator.Registered="True">
+			<e:ComboBox Margin="88,3,0,0" Grid.Row="0" Grid.Column="0" nav:BlockNavigator.Registered="True" nav:BlockNavigator.ConfirmClick="OnClick" />
+			<Grid Margin="10,0,0,10" Grid.Row="1" Grid.Column="0" nav:BlockNavigator.Registered="True">
 				<Grid.Background>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                         <GradientStop Color="#161616" />
@@ -81,7 +82,7 @@
 					</Grid>
                 </Viewbox>
             </Grid>
-			<Grid Grid.Row="0" Grid.Column="1" e:BlockNavigator.Registered="True">
+			<Grid Grid.Row="0" Grid.Column="1" nav:BlockNavigator.Registered="True">
                 <Grid.Background>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                         <GradientStop Color="#FF2696D4" Offset="0"/>
@@ -108,7 +109,7 @@
                     <TextBlock MouseUp="CreateNew_ButtonClick" FontFamily="Segoe UI" Text="Create new..." Foreground="White" FontSize="35" HorizontalAlignment="Center" VerticalAlignment="Center" />
                 </Border>
             </Grid>
-			<ScrollViewer Grid.Row="1" Grid.Column="1" HorizontalScrollBarVisibility="Hidden" e:BlockNavigator.Registered="True">
+			<ScrollViewer Grid.Row="1" Grid.Column="1" HorizontalScrollBarVisibility="Hidden" nav:BlockNavigator.Registered="True">
                 <ScrollViewer.DataContext>
                     <models:FunctionButton />
                 </ScrollViewer.DataContext>

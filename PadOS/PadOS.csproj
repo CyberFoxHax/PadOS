@@ -135,9 +135,11 @@
     <Compile Include="Dll\Kernel32.cs" />
     <Compile Include="Dll\Psapi.cs" />
     <Compile Include="GlobalEvents.cs" />
+    <Compile Include="Input\GamePadInput.cs" />
     <Compile Include="Input\IGamePadFocusable.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Dll\UserInfo32.cs" />
+    <Compile Include="Navigation\BlockNavigator.GamePad.cs" />
     <Compile Include="Navigation\Navigator.cs" />
     <Compile Include="SaveData\DefaultData.cs" />
     <Compile Include="SaveData\Models\FunctionButton.cs" />
@@ -145,7 +147,7 @@
     <Compile Include="ViewModels\FunctionButtons\FunctionButton.cs" />
     <Compile Include="ViewModels\FunctionButtons\FunctionType.cs" />
     <Compile Include="PadOsInternalFunctions.cs" />
-    <Compile Include="Views\MainPanelEditor\BlockNavigator.cs" />
+    <Compile Include="Navigation\BlockNavigator.cs" />
     <Compile Include="Views\MainPanelEditor\ComboBox.xaml.cs">
       <DependentUpon>ComboBox.xaml</DependentUpon>
     </Compile>
@@ -165,7 +167,6 @@
     <Compile Include="Views\Settings\Controls\NavigationListItem.xaml.cs">
       <DependentUpon>NavigationListItem.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Input\GamepadInput.cs" />
     <Compile Include="Input\WPFDirectionalControls.cs" />
     <Compile Include="Input\WPFGamepad.cs" />
     <Compile Include="SaveData\Models\MainPanelData.cs" />
@@ -274,6 +275,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="app.config" />
+    <Compile Include="Navigation\BlockNavigator.DependencyProperties.cs" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
