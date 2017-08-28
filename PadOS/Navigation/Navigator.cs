@@ -32,6 +32,7 @@ namespace PadOS.Navigation {
 				CurrentWindow.Hide();
 			else
 				CurrentWindow.Close();
+
 			CurrentWindow = null;
 		}
 
@@ -54,9 +55,8 @@ namespace PadOS.Navigation {
 		public static object OpenWindow(Type type, bool cache = false) {
 			var instance = Activator.CreateInstance(type);
 			var focusable = instance as IGamePadFocusable;
-			if(focusable != null){
+			if (focusable != null)
 				WpfGamepad.Focus(focusable);
-			}
 			if (CurrentWindow != null)
 				CloseWindow();
 			CurrentWindow = (Window)instance;

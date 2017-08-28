@@ -12,9 +12,40 @@ namespace PadOS.Navigation
 	public partial class BlockNavigator : IDisposable{
 		private GamePadInput.GamePadEvent GetDPadEvent(double x, double y) => (a,b)=>OnDPad(new Vector2(x, y));
 
+		private bool _aIsConfirm = true;
+
 		private const double ResetThreshold = 0.3;
 		private bool _waitForReset;
 		private readonly GamePadInput _xInput;
+
+		private void InitGamepad(){
+			_xInput.ThumbLeftChange += OnThumbChange;
+			_xInput.DPadDownDown	+= GetDPadEvent( 0, -1);
+			_xInput.DPadUpDown		+= GetDPadEvent( 0,  1);
+			_xInput.DPadLeftDown	+= GetDPadEvent(-1,  0);
+			_xInput.DPadRightDown	+= GetDPadEvent( 1,  0);
+			if(_aIsConfirm) {
+				_xInput.ButtonADown += OnConfirmClick;
+				_xInput.ButtonBDown += OnCancelClick;
+			}
+			else {
+				_xInput.ButtonADown += OnCancelClick;
+				_xInput.ButtonBDown += OnConfirmClick;
+			}
+			_xInput.Enable();
+		}
+
+		private void OnCancelClick(PlayerIndex player, GamePadState state){
+			_focusElm.Dispatcher.Invoke(() => {
+				_focusElm?.RaiseEvent(new RoutedEventArgs(CancelClickEvent, _focusElm));
+			});
+		}
+
+		private void OnConfirmClick(PlayerIndex player, GamePadState state) {
+			_focusElm.Dispatcher.Invoke(() => {
+				_focusElm?.RaiseEvent(new RoutedEventArgs(ConfirmClickEvent, _focusElm));
+			});
+		}
 
 		private void OnDPad(Vector2 vector2) {
 			var res = GetSelection(_focusElm, vector2);
@@ -25,7 +56,7 @@ namespace PadOS.Navigation
 		private void OnThumbChange(PlayerIndex player, GamePadState state, Vector2 value) {
 			var gamePadState = state;
 			var vector = new Vector2(gamePadState.ThumbSticks.Left.X, gamePadState.ThumbSticks.Left.Y);
-			var thumbLength = Math.Sqrt(vector.X * vector.X + vector.Y * vector.Y);
+			var thumbLength = vector.GetLength();
 			if (_waitForReset && thumbLength > ResetThreshold) return;
 
 			if (thumbLength < ResetThreshold)
@@ -45,49 +76,89 @@ namespace PadOS.Navigation
 		}
 
 		private FrameworkElement GetSelection(FrameworkElement activeElement, Vector2 direction){
+			var baseBlock = _blocks[activeElement];
+			var blocks = _blocks;
 
-			// algorithm doesn't work with full blocks
+			var angle = direction.GetAngle()+Math.PI;
 
-			Vector2 GetPos(FrameworkElement elm){
-				var block = _blocks[elm];
-				return new Vector2(block.X, block.Y) + new Vector2(block.Width, block.Height)/2;
+			const double tau = Math.PI*2;
+			const double segmentSize = tau / 8;
+
+			if (angle > segmentSize * 5 && angle < segmentSize * 7) {
+				// right
+				return (
+					from block in blocks
+					let rect = block.Value
+					where ReferenceEquals(block.Key, activeElement) == false
+					&& rect.Left >= baseBlock.Right
+					orderby rect.Left
+					let overlap = new Rect(
+						baseBlock.Right+1,
+						baseBlock.Top+1,
+						Math.Abs(rect.Right - baseBlock.Right)-1,
+						baseBlock.Height-1
+					)
+					where	overlap.IntersectsWith(rect)
+					select block
+				).FirstOrDefault().Key;
+			}
+			if (angle > segmentSize * 1 && angle < segmentSize * 3) {
+				// left
+				return (
+					from block in blocks
+					let rect = block.Value
+					where ReferenceEquals(block.Key, activeElement) == false
+					&& rect.Right <= baseBlock.Left
+					orderby rect.Right
+					let overlap = new Rect(
+						rect.Left+1,
+						baseBlock.Top+1,
+						Math.Abs(baseBlock.Left - rect.Left)-1,
+						baseBlock.Height-1
+					)
+					where overlap.IntersectsWith(rect)
+					select block
+				).FirstOrDefault().Key;
+			}
+			if (angle >= segmentSize * 0 && angle <  segmentSize * 1
+			||	angle >  segmentSize * 7 && angle <= segmentSize * 8) {
+				// down
+				return (
+					from block in blocks
+					let rect = block.Value
+					where ReferenceEquals(block.Key, activeElement) == false
+					&& rect.Top >= baseBlock.Bottom
+					orderby rect.Top
+					let overlap = new Rect(
+						baseBlock.Left+1,
+						baseBlock.Bottom+1,
+						baseBlock.Width-1,
+						Math.Abs(rect.Bottom - baseBlock.Bottom)-1
+					)
+					where overlap.IntersectsWith(rect)
+					select block
+				).FirstOrDefault().Key;
+			}
+			if (angle > segmentSize * 3 && angle < segmentSize * 5) {
+				// up
+				return (
+					from block in blocks
+					let rect = block.Value
+					where ReferenceEquals(block.Key, activeElement) == false
+					&& rect.Bottom <= baseBlock.Top
+					orderby rect.Bottom
+					let overlap = new Rect(
+						baseBlock.Left+1,
+						rect.Top+1,
+						baseBlock.Width-1,
+						Math.Abs(rect.Top - baseBlock.Top)-1
+					)
+					where overlap.IntersectsWith(rect)
+					select block
+				).FirstOrDefault().Key;
 			}
 
-			var jsAngle = Math.Atan2(direction.X, direction.Y);
-			var children = _blocks;
-			var activePos = GetPos(activeElement);
-
-
-			var allElements = (
-				from elm in children
-				let elmPos = elm.Value
-				let diff = new Vector2(
-					elmPos.X - activePos.X,
-					activePos.Y - elmPos.Y
-				)
-				let angle = Math.Atan2(diff.X, diff.Y)
-				let angleDiff = Math.Abs(jsAngle - angle)
-
-				let diffDist = diff * diff
-				let distance = Math.Abs(Math.Sqrt(diffDist.X + diffDist.Y))
-
-				select new {
-					Element = elm,
-					AngleDiff = Math.Acos(Math.Cos(jsAngle) * Math.Cos(angle) + Math.Sin(jsAngle) * Math.Sin(angle)),
-					Distance = distance
-				}
-			).ToArray();
-
-			const double tau = Math.PI * 2;
-
-			var res = (
-				from elm in allElements
-				where elm.Element.Key != activeElement && elm.AngleDiff < tau / 8
-				orderby Math.Abs(Math.Sin(elm.AngleDiff) * elm.Distance) + Math.Abs(Math.Cos(elm.AngleDiff) * elm.Distance)
-				select elm.Element
-			).FirstOrDefault();
-
-			return res.Key;
+			return null;
 		}
 
 		public void Dispose(){

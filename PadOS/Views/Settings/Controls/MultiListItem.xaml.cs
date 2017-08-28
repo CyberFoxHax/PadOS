@@ -6,7 +6,7 @@ using PadOS.Commands;
 
 namespace PadOS.Views.Settings.Controls{
 	
-	public partial class MultiListItem : INavigatable, Input.IGamePadFocusable{
+	public partial class MultiListItem : INavigatable, Input.IGamePadFocusable, IDisposable{
 		public MultiListItem(){
 			InitializeComponent();
 			Items = new System.Collections.Generic.List<MultiListItemSubItem>();
@@ -88,25 +88,25 @@ namespace PadOS.Views.Settings.Controls{
 		}
 
 		private void MoveNext(){
-			Dispatcher.BeginInvoke(new System.Action(() => {
+			Dispatcher.Invoke(() => {
 				var activeItem = Items.First(p => p.IsActive);
 				var index = Items.IndexOf(activeItem);
 				var oldItem = activeItem;
 				var newItem = Items[(index + 1) % Items.Count];
 				oldItem.IsActive = false;
 				newItem.IsActive = true;
-			}));
+			});
 		}
 
 		private void MovePrevious(){
-			Dispatcher.BeginInvoke(new System.Action(() => {
+			Dispatcher.Invoke(() => {
 				var activeItem = Items.First(p => p.IsActive);
 				var index = Items.IndexOf(activeItem);
 				var oldItem = activeItem;
 				var newItem = Items[index <= 0 ? Items.Count - 1 : index - 1];
 				oldItem.IsActive = false;
 				newItem.IsActive = true;
-			}));
+			});
 		}
 
 		public static readonly System.Windows.DependencyProperty ImageSourceProperty = System.Windows.DependencyProperty.Register(
@@ -131,6 +131,10 @@ namespace PadOS.Views.Settings.Controls{
 		public System.Collections.Generic.List<MultiListItemSubItem> Items {
 			get { return (System.Collections.Generic.List<MultiListItemSubItem>)GetValue(ItemsProperty); }
 			set { SetValue(ItemsProperty, value); }
+		}
+
+		public void Dispose(){
+			IsActive = false;
 		}
 	}
 }

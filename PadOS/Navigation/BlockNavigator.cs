@@ -7,18 +7,13 @@ using System.Windows.Documents;
 using System.Windows.Media;
 using PadOS.Input;
 using PadOS.Views.MainPanelEditor;
+using XInputDotNetPure;
 
 namespace PadOS.Navigation{
 	public partial class BlockNavigator{
 		private BlockNavigator(UIElement element) {
 			_xInput = new GamePadInput();
-			_xInput.ThumbLeftChange += OnThumbChange;
-			_xInput.DPadDownDown += GetDPadEvent(0, -1);
-			_xInput.DPadUpDown += GetDPadEvent(0, 1);
-			_xInput.DPadLeftDown += GetDPadEvent(-1, 0);
-			_xInput.DPadRightDown += GetDPadEvent(1, 0);
-			_xInput.Enable();
-
+			InitGamepad();
 			var frameworkElement = (FrameworkElement)element;
 			if (frameworkElement == null) return;
 			_ownerElement = frameworkElement;

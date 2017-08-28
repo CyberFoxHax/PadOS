@@ -109,8 +109,7 @@ namespace PadOS.Views.Settings {
 		}
 
 		private void RepeatIntervalOnElapsed(object sender, System.Timers.ElapsedEventArgs args) {
-			if (_repeatFunction != null)
-				_repeatFunction();
+			_repeatFunction?.Invoke();
 		}
 
 		private void OnDPadUpDown(object sender, Input.WpfGamepad.GamePadEventArgs args) {
