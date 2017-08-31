@@ -25,7 +25,6 @@ namespace PadOS {
 			base.OnStartup(e);
 			var systray = new Views.SystemTray();
 
-			//GlobalEvents.Initialize();
 			Navigator.Initialize();
 			if (Debugger.IsAttached == false)
 				return;

@@ -10,7 +10,7 @@ using XInputDotNetPure;
 namespace PadOS.Navigation
 {
 	public partial class BlockNavigator : IDisposable{
-		private GamePadInput.GamePadEvent GetDPadEvent(double x, double y) => (a,b)=>OnDPad(new Vector2(x, y));
+		private GamePadEvent GetDPadEvent(double x, double y) => (a,b)=>OnDPad(new Vector2(x, y));
 
 		private bool _aIsConfirm = true;
 
@@ -32,17 +32,18 @@ namespace PadOS.Navigation
 				_xInput.ButtonADown += OnCancelClick;
 				_xInput.ButtonBDown += OnConfirmClick;
 			}
-			_xInput.Enable();
+			_xInput.IsEnabled = true;
+			_waitForReset = true;
 		}
 
-		private void OnCancelClick(PlayerIndex player, GamePadState state){
-			_focusElm.Dispatcher.Invoke(() => {
+		private void OnCancelClick(int player, GamePadState state){
+			_focusElm?.Dispatcher.Invoke(() => {
 				_focusElm?.RaiseEvent(new RoutedEventArgs(CancelClickEvent, _focusElm));
 			});
 		}
 
-		private void OnConfirmClick(PlayerIndex player, GamePadState state) {
-			_focusElm.Dispatcher.Invoke(() => {
+		private void OnConfirmClick(int player, GamePadState state) {
+			_focusElm?.Dispatcher.Invoke(() => {
 				_focusElm?.RaiseEvent(new RoutedEventArgs(ConfirmClickEvent, _focusElm));
 			});
 		}
@@ -53,7 +54,7 @@ namespace PadOS.Navigation
 				SetFocus(res);
 		}
 
-		private void OnThumbChange(PlayerIndex player, GamePadState state, Vector2 value) {
+		private void OnThumbChange(int i, GamePadState state, Vector2 value) {
 			var gamePadState = state;
 			var vector = new Vector2(gamePadState.ThumbSticks.Left.X, gamePadState.ThumbSticks.Left.Y);
 			var thumbLength = vector.GetLength();
@@ -76,13 +77,14 @@ namespace PadOS.Navigation
 		}
 
 		private FrameworkElement GetSelection(FrameworkElement activeElement, Vector2 direction){
-			var baseBlock = _blocks[activeElement];
+			var activeBlock = _blocks[activeElement];
 			var blocks = _blocks;
 
 			var angle = direction.GetAngle()+Math.PI;
 
 			const double tau = Math.PI*2;
 			const double segmentSize = tau / 8;
+			const int intersectionPadding = 1;
 
 			if (angle > segmentSize * 5 && angle < segmentSize * 7) {
 				// right
@@ -90,13 +92,13 @@ namespace PadOS.Navigation
 					from block in blocks
 					let rect = block.Value
 					where ReferenceEquals(block.Key, activeElement) == false
-					&& rect.Left >= baseBlock.Right
+					&& rect.Left >= activeBlock.Right
 					orderby rect.Left
 					let overlap = new Rect(
-						baseBlock.Right+1,
-						baseBlock.Top+1,
-						Math.Abs(rect.Right - baseBlock.Right)-1,
-						baseBlock.Height-1
+						activeBlock.Right+intersectionPadding,
+						activeBlock.Top+intersectionPadding,
+						Math.Abs(rect.Right - activeBlock.Right)-intersectionPadding*2,
+						activeBlock.Height-intersectionPadding*2
 					)
 					where	overlap.IntersectsWith(rect)
 					select block
@@ -108,13 +110,13 @@ namespace PadOS.Navigation
 					from block in blocks
 					let rect = block.Value
 					where ReferenceEquals(block.Key, activeElement) == false
-					&& rect.Right <= baseBlock.Left
-					orderby rect.Right
+					&& rect.Right <= activeBlock.Left
+					orderby rect.Right descending
 					let overlap = new Rect(
-						rect.Left+1,
-						baseBlock.Top+1,
-						Math.Abs(baseBlock.Left - rect.Left)-1,
-						baseBlock.Height-1
+						rect.Left+intersectionPadding,
+						activeBlock.Top+intersectionPadding,
+						Math.Abs(activeBlock.Left - rect.Left)-intersectionPadding*2,
+						activeBlock.Height-intersectionPadding*2
 					)
 					where overlap.IntersectsWith(rect)
 					select block
@@ -127,13 +129,13 @@ namespace PadOS.Navigation
 					from block in blocks
 					let rect = block.Value
 					where ReferenceEquals(block.Key, activeElement) == false
-					&& rect.Top >= baseBlock.Bottom
+					&& rect.Top >= activeBlock.Bottom
 					orderby rect.Top
 					let overlap = new Rect(
-						baseBlock.Left+1,
-						baseBlock.Bottom+1,
-						baseBlock.Width-1,
-						Math.Abs(rect.Bottom - baseBlock.Bottom)-1
+						activeBlock.Left+intersectionPadding,
+						activeBlock.Bottom+intersectionPadding,
+						activeBlock.Width-intersectionPadding*2,
+						Math.Abs(rect.Bottom - activeBlock.Bottom)-intersectionPadding*2
 					)
 					where overlap.IntersectsWith(rect)
 					select block
@@ -145,13 +147,13 @@ namespace PadOS.Navigation
 					from block in blocks
 					let rect = block.Value
 					where ReferenceEquals(block.Key, activeElement) == false
-					&& rect.Bottom <= baseBlock.Top
-					orderby rect.Bottom
+					&& rect.Bottom <= activeBlock.Top
+					orderby rect.Bottom descending
 					let overlap = new Rect(
-						baseBlock.Left+1,
-						rect.Top+1,
-						baseBlock.Width-1,
-						Math.Abs(rect.Top - baseBlock.Top)-1
+						activeBlock.Left+intersectionPadding,
+						rect.Top+intersectionPadding,
+						activeBlock.Width-intersectionPadding*2,
+						Math.Abs(rect.Top - activeBlock.Top)-intersectionPadding*2
 					)
 					where overlap.IntersectsWith(rect)
 					select block

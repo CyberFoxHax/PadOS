@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
 using PadOS.Input;
-using PadOS.Views.MainPanelEditor;
-using XInputDotNetPure;
 
 namespace PadOS.Navigation{
 	public partial class BlockNavigator{
@@ -20,23 +17,30 @@ namespace PadOS.Navigation{
 			frameworkElement.Loaded += delegate{
 				var layer = GetAdornerLayer(element);
 				var child = (element as Window)?.Content as Visual ?? element;
-				_cursor = new Cursor((UIElement) child);
+				_cursor = new BlockNavigationCursor((UIElement) child);
 				layer.Add(_cursor);
 			};
 		}
 
 		private FrameworkElement _focusElm;
-		private Cursor _cursor;
+		private BlockNavigationCursor _cursor;
 		private bool _explicitFocusFound;
 		private readonly Dictionary<FrameworkElement, Rect> _blocks = new Dictionary<FrameworkElement, Rect>();
 		private readonly FrameworkElement _ownerElement;
 
 		private void SetFocus(FrameworkElement elm){
-			_focusElm.Dispatcher.Invoke(() => { 
+			_focusElm?.Dispatcher.Invoke(() => {
+				SetIsFocused(_focusElm, false);
 				_focusElm?.RaiseEvent(new RoutedEventArgs(CursorExitEvent, _focusElm));
+			});
+			elm.Dispatcher.Invoke(() => {
 				_focusElm = elm;
+				SetIsFocused(_focusElm, true);
 				_focusElm.RaiseEvent(new RoutedEventArgs(CursorEnterEvent, _focusElm));
 				_cursor.TargetRect = _blocks[_focusElm];
+				_cursor.Visibility = GetHideCursor(_focusElm)
+					? Visibility.Hidden
+					: Visibility.Visible;
 			});
 		}
 
@@ -48,6 +52,7 @@ namespace PadOS.Navigation{
 		}
 
 		public void AddBlock(FrameworkElement elm){
+			if (_blocks.ContainsKey(elm)) return;
 			var point = elm
 				.TransformToAncestor(FindNavigatorElement(elm))
 				.Transform(new Point(0, 0));
@@ -64,8 +69,7 @@ namespace PadOS.Navigation{
 				AddFirstFocus();
 
 			if(_explicitFocusFound == false && _focusElm == null) {
-				_focusElm = _blocks.First().Key;
-				_cursor.TargetRect = _blocks.First().Value;
+				SetFocus(_blocks.First().Key);
 			}
 		}
 
@@ -75,7 +79,7 @@ namespace PadOS.Navigation{
 					continue;
 				_focusElm = block.Key;
 				_explicitFocusFound = true;
-				_cursor.TargetRect = block.Value;
+				SetFocus(_focusElm);
 				return;
 			}
 		}

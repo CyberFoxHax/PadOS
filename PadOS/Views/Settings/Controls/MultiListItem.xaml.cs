@@ -3,68 +3,50 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using PadOS.Commands;
+using PadOS.Input;
 
 namespace PadOS.Views.Settings.Controls{
 	
-	public partial class MultiListItem : INavigatable, Input.IGamePadFocusable, IDisposable{
+	public partial class MultiListItem : IDisposable{
 		public MultiListItem(){
 			InitializeComponent();
 			Items = new System.Collections.Generic.List<MultiListItemSubItem>();
 		}
 
-		void INavigatable.OnClick() {
-			Dispatcher.BeginInvoke(new System.Action(() => {
+		public void OnClick() {
+			Dispatcher.BeginInvoke(new Action(() => {
 				var activeItem = Items.First(p => p.IsActive);
-				((INavigatable)activeItem).OnClick();
-				if (Click != null) Click.Execute(this);
+				activeItem.OnClick();
+				Click?.Execute(this);
 			}));
 		}
 
 		public System.Windows.Input.ICommand Click { get; set; }
 
 		private MultiListItemSubItem _defaultFocusElement;
-		public bool IsGamePadFocused { get; set; }
 
-		public static readonly System.Windows.DependencyProperty IsActiveProperty = System.Windows.DependencyProperty.Register(
-			"IsActive", typeof(bool), typeof(MultiListItem), new System.Windows.PropertyMetadata(default(bool), IsActiveChanged));
+		public static readonly DependencyProperty IsActiveProperty = DependencyProperty.Register(
+			"IsActive", typeof(bool), typeof(MultiListItem), new PropertyMetadata(default(bool), IsActiveChanged));
 
-		private static void IsActiveChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs){
+		private static void IsActiveChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs args){
 			var appName = WindowCommands.GetApplicationName;
 			((MultiListItem)dependencyObject).Text = appName;
 		}
 
 		public bool IsActive {
-			get { return (bool)GetValue(IsActiveProperty); }
-			set
-			{
+			get => (bool)GetValue(IsActiveProperty);
+			set {
 				if (_defaultFocusElement == null)
 					_defaultFocusElement = Items.FirstOrDefault(p => p.IsActive) ?? Items.First();
 				SetValue(IsActiveProperty, value);
-				IsGamePadFocused = value;
-
-				if (value){
-					if (System.ComponentModel.DesignerProperties.GetIsInDesignMode(this)) return;
-					Input.WpfGamepad.XInput.ThumbLeftChange += XInputOnThumbLeftChange;
-					Input.WpfGamepad.XInput.DPadRightDown	+= XInputOnDPadRightDown;
-					Input.WpfGamepad.XInput.DPadLeftDown	+= XInputOnDPadLeftDown;
-					_defaultFocusElement.IsActive = true;
-				}
-				else{
-					_defaultFocusElement = Items.FirstOrDefault(p => p.IsActive) ?? Items.First();
-					foreach (var item in Items)
-						item.IsActive = false;
-					if (System.ComponentModel.DesignerProperties.GetIsInDesignMode(this)) return;
-					Input.WpfGamepad.XInput.ThumbLeftChange -= XInputOnThumbLeftChange;
-					Input.WpfGamepad.XInput.DPadRightDown	-= XInputOnDPadRightDown;
-					Input.WpfGamepad.XInput.DPadLeftDown	-= XInputOnDPadLeftDown;
-				}
 			}
 		}
 
 		private bool _thumbstickWaitForReturn;
 
-		private void XInputOnThumbLeftChange(XInputDotNetPure.PlayerIndex player, XInputDotNetPure.GamePadState state, Vector2 value){
-			if (System.Math.Abs(value.X) < 0.3){
+		private void XInputOnThumbLeftChange(object sender, GamePadEventArgs<Vector2> args){
+			var value = args.Value;
+			if (Math.Abs(value.X) < 0.3){
 				_thumbstickWaitForReturn = false;
 				return;
 			}
@@ -79,11 +61,11 @@ namespace PadOS.Views.Settings.Controls{
 				MovePrevious();
 		}
 
-		private void XInputOnDPadLeftDown(XInputDotNetPure.PlayerIndex player, XInputDotNetPure.GamePadState state){
+		private void XInputOnDPadLeftDown(object sender, GamePadEventArgs args){
 			MovePrevious();
 		}
 
-		private void XInputOnDPadRightDown(XInputDotNetPure.PlayerIndex player, XInputDotNetPure.GamePadState state){
+		private void XInputOnDPadRightDown(object sender, GamePadEventArgs args){
 			MoveNext();
 		}
 
@@ -109,28 +91,28 @@ namespace PadOS.Views.Settings.Controls{
 			});
 		}
 
-		public static readonly System.Windows.DependencyProperty ImageSourceProperty = System.Windows.DependencyProperty.Register(
-			"ImageSource", typeof(System.Windows.Media.ImageSource), typeof(MultiListItem), new System.Windows.PropertyMetadata(default(System.Windows.Media.ImageSource)));
+		public static readonly DependencyProperty ImageSourceProperty = DependencyProperty.Register(
+			"ImageSource", typeof(System.Windows.Media.ImageSource), typeof(MultiListItem), new PropertyMetadata(default(System.Windows.Media.ImageSource)));
 
 		public System.Windows.Media.ImageSource ImageSource {
-			get { return (System.Windows.Media.ImageSource)GetValue(ImageSourceProperty); }
-			set { SetValue(ImageSourceProperty, value); }
+			get => (System.Windows.Media.ImageSource)GetValue(ImageSourceProperty);
+			set => SetValue(ImageSourceProperty, value);
 		}
 
-		public static readonly System.Windows.DependencyProperty TextProperty = System.Windows.DependencyProperty.Register(
-			"Text", typeof(string), typeof(MultiListItem), new System.Windows.PropertyMetadata("<Empty>"));
+		public static readonly DependencyProperty TextProperty = DependencyProperty.Register(
+			"Text", typeof(string), typeof(MultiListItem), new PropertyMetadata("<Empty>"));
 
 		public string Text {
-			get { return (string)GetValue(TextProperty); }
-			set { SetValue(TextProperty, value); }
+			get => (string)GetValue(TextProperty);
+			set => SetValue(TextProperty, value);
 		}
 
-		public static readonly System.Windows.DependencyProperty ItemsProperty = System.Windows.DependencyProperty.Register(
-			"Items", typeof(System.Collections.Generic.List<MultiListItemSubItem>), typeof(MultiListItem), new System.Windows.PropertyMetadata(default(System.Collections.Generic.List<MultiListItemSubItem>)));
+		public static readonly DependencyProperty ItemsProperty = DependencyProperty.Register(
+			"Items", typeof(System.Collections.Generic.List<MultiListItemSubItem>), typeof(MultiListItem), new PropertyMetadata(default(System.Collections.Generic.List<MultiListItemSubItem>)));
 
 		public System.Collections.Generic.List<MultiListItemSubItem> Items {
-			get { return (System.Collections.Generic.List<MultiListItemSubItem>)GetValue(ItemsProperty); }
-			set { SetValue(ItemsProperty, value); }
+			get => (System.Collections.Generic.List<MultiListItemSubItem>)GetValue(ItemsProperty);
+			set => SetValue(ItemsProperty, value);
 		}
 
 		public void Dispose(){

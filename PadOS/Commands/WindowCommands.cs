@@ -11,7 +11,7 @@ namespace PadOS.Commands {
 				int processId;
 				Dll.UserInfo32.GetWindowThreadProcessId(hWnd, out processId);
 				var res = System.Diagnostics.Process.GetProcesses().FirstOrDefault(p => p.Id == processId);
-				return res != null ? res.ProcessName : null;
+				return res?.ProcessName;
 			}
 		}
 

@@ -1,165 +1,120 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
-using MS.Internal.PresentationFramework;
+using PadOS.Navigation;
 using XInputDotNetPure;
 
 namespace PadOS.Input {
-	// todo: fix this fucking mess
-	public class WpfGamepad : DependencyObject{
-		public static readonly GamePadInput XInput = new GamePadInput();
-		private static readonly Dictionary<IGamePadFocusable, WpfGamepad> Wrappers = new Dictionary<IGamePadFocusable, WpfGamepad>();
+	public partial class WpfGamePad : IDisposable {
+		private static readonly GamePadInput XInput = GamePadInput.StaticInputInstance;
+		private static readonly RoutedEvent[] ButtonEvents = {
+			ButtonADown, ButtonAUp,
+			ButtonBDown, ButtonBUp,
+			ButtonXDown, ButtonXUp,
+			ButtonYDown, ButtonYUp,
+			ButtonBackDown, ButtonBackUp,
+			ButtonGuideDown, ButtonGuideUp,
+			ButtonLeftShoulderDown, ButtonLeftShoulderUp,
+			ButtonLeftStickDown, ButtonLeftStickUp,
+			ButtonRightShoulderDown, ButtonRightShoulderUp,
+			ButtonRightStickDown, ButtonRightStickUp,
+			ButtonStartDown, ButtonStartUp,
+			DPadLeftDown, DPadLeftUp,
+			DPadRightDown, DPadRightUp,
+			DPadUpDown, DPadUpUp,
+			DPadDownDown, DPadDownUp
+		};
 
-		private static IGamePadFocusable _focusedControl;
+		public WpfGamePad(UIElement focusOwner) {
+			_focusOwner = focusOwner;
+			_focusOwner.GotFocus += OnGotFocus;
+			_focusOwner.LostFocus += OnLostFocus;
+			BlockNavigator.AddCursorEnterHandler(_focusOwner, OnCursorEnter);
+			BlockNavigator.AddCursorExitHandler(_focusOwner, OnCursorExit);
 
-		public class GamePadEventArgs : EventArgs {
-			public XInputDotNetPure.PlayerIndex Player { get; set; }
-			public XInputDotNetPure.GamePadState GamePadState { get; set; }
+			if (_focusOwner is Window window) {
+				_focusOwner.IsVisibleChanged += FocusOwnerOnIsVisibleChanged;
+				window.Closed += OnWindowClosed;
+				AttachEvents();
+			}
+			DetachEvents();
 		}
 
-		public class GamePadEventArgs<T> : GamePadEventArgs {
-			public T Value { get; set; }
+		private readonly UIElement _focusOwner;
+		private bool _eventsIsAttached;
+
+		private void DetachEvents() {
+			if (_eventsIsAttached == false) return;
+			_eventsIsAttached = false;
+			XInput.ThumbLeftChange -= OnXInputOnThumbLeftChange;
+		}
+
+		private void AttachEvents(){
+			if (_eventsIsAttached) return;
+			_eventsIsAttached = true;
+			XInput.ThumbLeftChange += OnXInputOnThumbLeftChange;
+			//foreach (var routedEvent in ButtonEvents) {
+			//	typeof(GamePadInput)
+			//		.GetEvent(routedEvent.Name)hh
+			//		.AddMethod
+			//		.Invoke(XInput, new object[]{
+			//			(GamePadEvent)new Forwarder(routedEvent, XInputOnButtonAUp).GamePadEvent
+			//		});
+			//}
+		}
+
+		private void OnXInputOnThumbLeftChange(int player, GamePadState state, Vector2 value){
+			_focusOwner.Dispatcher.Invoke(
+				() => _focusOwner.RaiseEvent(
+					new GamePadEventArgs<Vector2>(ThumbLeftChange, _focusOwner){
+						PlayerIndex = player,
+						GamePadState = state,
+						Value = value
+					}
+				)
+			);
+		}
+
+		private void OnGotFocus(object sender, RoutedEventArgs e) {
+			AttachEvents();
+		}
+
+		private void OnCursorExit(object sender, EventArgs args) {
+			DetachEvents();
+		}
+
+		private void OnCursorEnter(object sender, EventArgs args) {
+			AttachEvents();
+		}
+
+		private void FocusOwnerOnIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs args) {
+			if ((bool) args.NewValue) {
+				AttachEvents();
+			}
+			else {
+				DetachEvents();
+			}
+		}
+
+		private void OnLostFocus(object sender, RoutedEventArgs routedEventArgs){
+			DetachEvents();
+		}
+
+		private void OnWindowClosed(object sender, EventArgs eventArgs) {
+			Dispose();
 		}
 
 		public void Dispose(){
-			Wrappers.Remove(Wrappers.First(p=>p.Value==this).Key);
-		}
+			DetachEvents();
 
-		public delegate void GamepadEvent(object sender, GamePadEventArgs args);
-		public delegate void GamepadEvent<T>(object sender, GamePadEventArgs<T> args);
+			_focusOwner.LostFocus -= OnLostFocus;
+			_focusOwner.GotFocus -= OnGotFocus;
+			_focusOwner.IsVisibleChanged -= FocusOwnerOnIsVisibleChanged;
+			BlockNavigator.RemoveCursorExitHandler(_focusOwner, OnCursorExit);
+			BlockNavigator.RemoveCursorEnterHandler(_focusOwner, OnCursorEnter);
 
-		public event GamepadEvent GamePadChange;
-		public event GamepadEvent ButtonADown;
-		public event GamepadEvent ButtonAUp;
-		public event GamepadEvent ButtonBDown;
-		public event GamepadEvent ButtonBUp;
-		public event GamepadEvent ButtonXDown;
-		public event GamepadEvent ButtonXUp;
-		public event GamepadEvent ButtonYDown;
-		public event GamepadEvent ButtonYUp;
-		public event GamepadEvent ButtonBackDown;
-		public event GamepadEvent ButtonBackUp;
-		public event GamepadEvent ButtonGuideDown;
-		public event GamepadEvent ButtonGuideUp;
-		public event GamepadEvent ButtonLeftShoulderDown;
-		public event GamepadEvent ButtonLeftShoulderUp;
-		public event GamepadEvent ButtonLeftStickDown;
-		public event GamepadEvent ButtonLeftStickUp;
-		public event GamepadEvent ButtonRightShoulderDown;
-		public event GamepadEvent ButtonRightShoulderUp;
-		public event GamepadEvent ButtonRightStickDown;
-		public event GamepadEvent ButtonRightStickUp;
-		public event GamepadEvent ButtonStartDown;
-		public event GamepadEvent ButtonStartUp;
-		public event GamepadEvent DPadLeftDown;
-		public event GamepadEvent DPadLeftUp;
-		public event GamepadEvent DPadRightDown;
-		public event GamepadEvent DPadRightUp;
-		public event GamepadEvent DPadUpDown;
-		public event GamepadEvent DPadUpUp;
-		public event GamepadEvent DPadDownDown;
-		public event GamepadEvent DPadDownUp;
-		public event GamepadEvent<Vector2> ThumbLeftChange;
-		public event GamepadEvent<Vector2> ThumbRightChange;
-		public event GamepadEvent<float> TriggerLeftChange;
-		public event GamepadEvent<float> TriggerRightChange;
-
-		static WpfGamepad(){
-			XInput.ButtonADown				+= (player, state)=>Dispatch(player, state, _focusedControl!=null?Wrappers[_focusedControl]:null, ()=>Wrappers[_focusedControl].ButtonADown);
-			XInput.ButtonAUp				+= (player, state)=>Dispatch(player, state, _focusedControl!=null?Wrappers[_focusedControl]:null, ()=>Wrappers[_focusedControl].ButtonAUp);
-			XInput.ButtonBDown				+= (player, state)=>Dispatch(player, state, _focusedControl!=null?Wrappers[_focusedControl]:null, ()=>Wrappers[_focusedControl].ButtonBDown);
-			XInput.ButtonBUp				+= (player, state)=>Dispatch(player, state, _focusedControl!=null?Wrappers[_focusedControl]:null, ()=>Wrappers[_focusedControl].ButtonBUp);
-			XInput.ButtonXDown				+= (player, state)=>Dispatch(player, state, _focusedControl!=null?Wrappers[_focusedControl]:null, ()=>Wrappers[_focusedControl].ButtonXDown);
-			XInput.ButtonXUp				+= (player, state)=>Dispatch(player, state, _focusedControl!=null?Wrappers[_focusedControl]:null, ()=>Wrappers[_focusedControl].ButtonXUp);
-			XInput.ButtonYDown				+= (player, state)=>Dispatch(player, state, _focusedControl!=null?Wrappers[_focusedControl]:null, ()=>Wrappers[_focusedControl].ButtonYDown);
-			XInput.ButtonYUp				+= (player, state)=>Dispatch(player, state, _focusedControl!=null?Wrappers[_focusedControl]:null, ()=>Wrappers[_focusedControl].ButtonYUp);
-			XInput.ButtonBackDown			+= (player, state)=>Dispatch(player, state, _focusedControl!=null?Wrappers[_focusedControl]:null, ()=>Wrappers[_focusedControl].ButtonBackDown);
-			XInput.ButtonBackUp				+= (player, state)=>Dispatch(player, state, _focusedControl!=null?Wrappers[_focusedControl]:null, ()=>Wrappers[_focusedControl].ButtonBackUp);
-			XInput.ButtonGuideDown			+= (player, state)=>Dispatch(player, state, _focusedControl!=null?Wrappers[_focusedControl]:null, ()=>Wrappers[_focusedControl].ButtonGuideDown);
-			XInput.ButtonGuideUp			+= (player, state)=>Dispatch(player, state, _focusedControl!=null?Wrappers[_focusedControl]:null, ()=>Wrappers[_focusedControl].ButtonGuideUp);
-			XInput.ButtonLeftShoulderDown	+= (player, state)=>Dispatch(player, state, _focusedControl!=null?Wrappers[_focusedControl]:null, ()=>Wrappers[_focusedControl].ButtonLeftShoulderDown);
-			XInput.ButtonLeftShoulderUp		+= (player, state)=>Dispatch(player, state, _focusedControl!=null?Wrappers[_focusedControl]:null, ()=>Wrappers[_focusedControl].ButtonLeftShoulderUp);
-			XInput.ButtonLeftStickDown		+= (player, state)=>Dispatch(player, state, _focusedControl!=null?Wrappers[_focusedControl]:null, ()=>Wrappers[_focusedControl].ButtonLeftStickDown);
-			XInput.ButtonLeftStickUp		+= (player, state)=>Dispatch(player, state, _focusedControl!=null?Wrappers[_focusedControl]:null, ()=>Wrappers[_focusedControl].ButtonLeftStickUp);
-			XInput.ButtonRightShoulderDown	+= (player, state)=>Dispatch(player, state, _focusedControl!=null?Wrappers[_focusedControl]:null, ()=>Wrappers[_focusedControl].ButtonRightShoulderDown);
-			XInput.ButtonRightShoulderUp	+= (player, state)=>Dispatch(player, state, _focusedControl!=null?Wrappers[_focusedControl]:null, ()=>Wrappers[_focusedControl].ButtonRightShoulderUp);
-			XInput.ButtonRightStickDown		+= (player, state)=>Dispatch(player, state, _focusedControl!=null?Wrappers[_focusedControl]:null, ()=>Wrappers[_focusedControl].ButtonRightStickDown);
-			XInput.ButtonRightStickUp		+= (player, state)=>Dispatch(player, state, _focusedControl!=null?Wrappers[_focusedControl]:null, ()=>Wrappers[_focusedControl].ButtonRightStickUp);
-			XInput.ButtonStartDown			+= (player, state)=>Dispatch(player, state, _focusedControl!=null?Wrappers[_focusedControl]:null, ()=>Wrappers[_focusedControl].ButtonStartDown);
-			XInput.ButtonStartUp			+= (player, state)=>Dispatch(player, state, _focusedControl!=null?Wrappers[_focusedControl]:null, ()=>Wrappers[_focusedControl].ButtonStartUp);
-			XInput.DPadLeftDown				+= (player, state)=>Dispatch(player, state, _focusedControl!=null?Wrappers[_focusedControl]:null, ()=>Wrappers[_focusedControl].DPadLeftDown);
-			XInput.DPadLeftUp				+= (player, state)=>Dispatch(player, state, _focusedControl!=null?Wrappers[_focusedControl]:null, ()=>Wrappers[_focusedControl].DPadLeftUp);
-			XInput.DPadRightDown			+= (player, state)=>Dispatch(player, state, _focusedControl!=null?Wrappers[_focusedControl]:null, ()=>Wrappers[_focusedControl].DPadRightDown);
-			XInput.DPadRightUp				+= (player, state)=>Dispatch(player, state, _focusedControl!=null?Wrappers[_focusedControl]:null, ()=>Wrappers[_focusedControl].DPadRightUp);
-			XInput.DPadUpDown				+= (player, state)=>Dispatch(player, state, _focusedControl!=null?Wrappers[_focusedControl]:null, ()=>Wrappers[_focusedControl].DPadUpDown);
-			XInput.DPadUpUp					+= (player, state)=>Dispatch(player, state, _focusedControl!=null?Wrappers[_focusedControl]:null, ()=>Wrappers[_focusedControl].DPadUpUp);
-			XInput.DPadDownDown				+= (player, state)=>Dispatch(player, state, _focusedControl!=null?Wrappers[_focusedControl]:null, ()=>Wrappers[_focusedControl].DPadDownDown);
-			XInput.DPadDownUp				+= (player, state)=>Dispatch(player, state, _focusedControl!=null?Wrappers[_focusedControl]:null, ()=>Wrappers[_focusedControl].DPadDownUp);
-			XInput.ThumbLeftChange			+= (player, state, value)=>Dispatch(player, state, value, _focusedControl!=null?Wrappers[_focusedControl]:null, ()=>Wrappers[_focusedControl].ThumbLeftChange);
-			XInput.ThumbRightChange			+= (player, state, value)=>Dispatch(player, state, value, _focusedControl!=null?Wrappers[_focusedControl]:null, ()=>Wrappers[_focusedControl].ThumbRightChange);
-			XInput.TriggerLeftChange		+= (player, state, value)=>Dispatch(player, state, value, _focusedControl!=null?Wrappers[_focusedControl]:null, ()=>Wrappers[_focusedControl].TriggerLeftChange);
-			XInput.TriggerRightChange		+= (player, state, value)=>Dispatch(player, state, value, _focusedControl!=null?Wrappers[_focusedControl]:null, ()=>Wrappers[_focusedControl].TriggerRightChange);
-		}
-
-		private static void Dispatch(XInputDotNetPure.PlayerIndex player, XInputDotNetPure.GamePadState state, WpfGamepad gamePadHandler, Func<GamepadEvent> evt){
-			if (gamePadHandler == null) return;
-			if (_focusedControl == null) return;
-			if (Wrappers.ContainsKey(_focusedControl) == false) return;
-
-			if (_focusedControl == null) return;
-			var focussedElm = _focusedControl;
-
-			var handler = evt();
-			if (handler != null) handler(focussedElm, new GamePadEventArgs{
-				Player = player,
-				GamePadState = state
-			});
-
-			if (gamePadHandler.GamePadChange != null) gamePadHandler.GamePadChange(focussedElm, new GamePadEventArgs{
-				Player = player,
-				GamePadState = state
-			});
-		}
-
-		private static void Dispatch<T>(XInputDotNetPure.PlayerIndex player, XInputDotNetPure.GamePadState state, T value, WpfGamepad gamePadHandler, Func<GamepadEvent<T>> evt) {
-			if (gamePadHandler == null) return;
-			if (_focusedControl == null) return;
-			if (Wrappers.ContainsKey(_focusedControl) == false) return;
-
-			var focussedElm = _focusedControl;
-
-			var handler = evt();
-			if (handler != null) handler(focussedElm, new GamePadEventArgs<T>{
-				Player = player,
-				Value = value,
-				GamePadState = state
-			});
-
-			if (gamePadHandler.GamePadChange != null) gamePadHandler.GamePadChange(focussedElm, new GamePadEventArgs {
-				Player = player,
-				GamePadState = state
-			});
-		}
-
-		public static WpfGamepad GetInstance(IGamePadFocusable control){
-			WpfGamepad wrapper;
-			if (Wrappers.ContainsKey(control))
-				wrapper = Wrappers[control];
-			else
-				wrapper = Wrappers[control] = new WpfGamepad();
-
-			return wrapper;
-		}
-
-		public static void Focus(IGamePadFocusable ctrl){
-			if (_focusedControl != null)
-				_focusedControl.IsGamePadFocused = false;
-
-			_focusedControl = ctrl;
-			if (ctrl == null) return;
-			_focusedControl.IsGamePadFocused = true;
+			if (_focusOwner is Window window)
+				window.Closed -= OnWindowClosed;
 		}
 	}
+
 }

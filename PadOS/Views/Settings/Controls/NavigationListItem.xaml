@@ -3,12 +3,16 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:customControls="clr-namespace:PadOS.CustomControls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
+	xmlns:navigation="clr-namespace:PadOS.Navigation"
+	xmlns:input="clr-namespace:PadOS.Input"
+	mc:Ignorable="d"
     x:Class="PadOS.Views.Settings.Controls.NavigationListItem"
     Height="65"
     d:DesignWidth="640"
     Margin="-70,0,0,0"
-    x:Name="This">
+    x:Name="This"
+	navigation:BlockNavigator.ConfirmClick="NavigationListItem_OnConfirmClick"
+	>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="70"/>

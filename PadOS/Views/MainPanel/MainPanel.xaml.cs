@@ -6,12 +6,12 @@ using PadOS.Input;
 using FunctionButton = PadOS.ViewModels.FunctionButtons.FunctionButton;
 
 namespace PadOS.Views.MainPanel {
-	public partial class MainPanel : Input.IGamePadFocusable{
+	public partial class MainPanel {
 		public MainPanel() {
 			InitializeComponent();
 			Highlight.Visibility = Visibility.Hidden;
 
-			WpfGamepad.GetInstance(this).ThumbLeftChange += GamepadInputOnThumbLeftChange;
+			IsVisibleChanged += OnIsVisibleChanged;
 
 			var ctx = new SaveData.SaveData();
 			var saveData = ctx.MainPanelData;
@@ -62,31 +62,34 @@ namespace PadOS.Views.MainPanel {
 			_buttons[index] = null;
 		}
 
-		private void ActivateButton(int index){
-			if (_buttons[index] == null) return;
-			_buttons[index].Exec();
-			Hide();
+		private void OnIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs) {
 			Highlight.Visibility = Visibility.Hidden;
+			_waitForReturnZero = false;
 		}
 
-		private void GamepadInputOnThumbLeftChange(object sender, Input.WpfGamepad.GamePadEventArgs<Vector2> args){
+		private void ActivateButton(int index){
+			if (index >= _buttons.Length || _buttons[index] == null) return;
+			_buttons[index].Exec();
+			Hide();
+			
+		}
+
+		private void GamepadInputOnThumbLeftChange(object sender, GamePadEventArgs<Vector2> args){
 			var length = args.Value.GetLength();
 			var angle  = args.Value.GetAngle();
-			Dispatcher.BeginInvoke(new Action(() =>{
-				if (length > 0.9 && _waitForReturnZero == false) {
-					var angleWrap = angle < 0 ? Math.PI *2 + angle: angle;
-					ActivateButton((int)Math.Round(angleWrap / Math.PI * 180 / 45));
-					_waitForReturnZero = true;
-				}
-				else if(length > 0.1){
-						HighlightRotate.Angle = Math.Round((angle / Math.PI * 180 + 90) / 45) * 45;
-						Highlight.Visibility = Visibility.Visible;
-				}
-				else{
-					_waitForReturnZero = false;
-					Highlight.Visibility = Visibility.Hidden;
-				}
-			}));
+			if (length > 0.9 && _waitForReturnZero == false) {
+				var angleWrap = angle < 0 ? Math.PI *2 + angle: angle;
+				ActivateButton((int)Math.Round(angleWrap / Math.PI * 180 / 45));
+				_waitForReturnZero = true;
+			}
+			else if(length > 0.2){
+					HighlightRotate.Angle = Math.Round((angle / Math.PI * 180 + 90) / 45) * 45;
+					Highlight.Visibility = Visibility.Visible;
+			}
+			else{
+				_waitForReturnZero = false;
+				Highlight.Visibility = Visibility.Hidden;
+			}
 		}
 	}
 }

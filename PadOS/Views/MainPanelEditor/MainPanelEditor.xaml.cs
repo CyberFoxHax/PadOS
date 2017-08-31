@@ -20,7 +20,7 @@ namespace PadOS.Views.MainPanelEditor {
 		}
 
 		private void OnClick(object sender, EventArgs args){
-			throw new NotImplementedException();
+			
 		}
 	}
 }

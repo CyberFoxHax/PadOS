@@ -1,7 +1,7 @@
 ﻿namespace PadOS {
 	public static class GlobalEvents {
 		//public static void Initialize(){
-		//	Input.WpfGamepad.XInput.ButtonGuideDown += XInputOnButtonGuideDown;
+		//	Input.WpfGamePad.XInput.ButtonGuideDown += XInputOnButtonGuideDown;
 		//	if (System.Diagnostics.Debugger.IsAttached == false) return;
 		//	InterfaceIsOpen = true;
 		//}

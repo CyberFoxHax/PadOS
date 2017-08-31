@@ -4,23 +4,18 @@ using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 
-namespace PadOS.Views.MainPanelEditor {
-	public class Cursor : Adorner {
-		public Cursor(UIElement adornedElement) : base(adornedElement) {
+namespace PadOS.Navigation {
+	public class BlockNavigationCursor : Adorner {
+		public BlockNavigationCursor(UIElement adornedElement) : base(adornedElement) {
 		}
 
 		public static readonly DependencyProperty TargetRectProperty = DependencyProperty.Register(
-			"TargetRect", typeof(Rect), typeof(Cursor), new PropertyMetadata(default(Rect)));
+			"TargetRect", typeof(Rect), typeof(BlockNavigationCursor), new PropertyMetadata(default(Rect)));
 
 		public Rect TargetRect
 		{
 			get => (Rect) GetValue(TargetRectProperty);
-			set
-			{
-				// animation doesn't trigger
-				// input value is right
-				var cursor = (Cursor)this;
-
+			set {
 				var rectAnim = new RectAnimation {
 					From = _currentRect,
 					To = value,
@@ -33,10 +28,10 @@ namespace PadOS.Views.MainPanelEditor {
 				myStoryboard.CurrentTimeInvalidated += delegate{
 					InvalidateVisual();
 				};
-				Storyboard.SetTarget(myStoryboard, cursor);
+				Storyboard.SetTarget(myStoryboard, this);
 				Storyboard.SetTargetProperty(rectAnim, new PropertyPath(TargetRectProperty));
 
-				myStoryboard.Begin(cursor);
+				myStoryboard.Begin(this);
 				SetValue(TargetRectProperty, value);
 				_currentRect = value;
 			}

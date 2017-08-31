@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:commands="clr-namespace:PadOS.Commands"
         xmlns:controls="clr-namespace:PadOS.Views.Settings.Controls"
+        xmlns:nav="clr-namespace:PadOS.Navigation"
         Title="Settings"
         Height="776"
         Width="696"
@@ -10,6 +11,7 @@
         WindowStartupLocation="CenterScreen"
         Style="{StaticResource DefaultWindowStyle}"
         MouseDown="Window_OnMouseDown"
+		nav:BlockNavigator.IsBlockOwner="True"
     >
     <Border BorderThickness="3">
         <Border.Background>
@@ -37,14 +39,43 @@
                     </LinearGradientBrush>
                 </Grid.Background>
                 <StackPanel x:Name="ButtonsList">
-                    <controls:NavigationListItem ImageSource="/Resources/Icons/capture.png" Text="Change Players" IsActive="True" Click="{x:Static commands:NavigationCommands.ChangePlayersCommand}" />
+					<StackPanel.Resources>
+						<Style TargetType="controls:BasicListItem">
+							<Setter Property="nav:BlockNavigator.HideCursor" Value="True"></Setter>
+							<Setter Property="nav:BlockNavigator.Registered" Value="True"></Setter>
+							<Style.Triggers>
+								<Trigger Property="nav:BlockNavigator.IsFocused" Value="True">
+									<Setter Property="IsActive" Value="True" />
+								</Trigger>
+							</Style.Triggers>
+						</Style>
+						<Style TargetType="controls:NavigationListItem">
+							<Setter Property="nav:BlockNavigator.HideCursor" Value="True"></Setter>
+							<Setter Property="nav:BlockNavigator.Registered" Value="True"></Setter>
+							<Style.Triggers>
+								<Trigger Property="nav:BlockNavigator.IsFocused" Value="True">
+									<Setter Property="IsActive" Value="True" />
+								</Trigger>
+							</Style.Triggers>
+						</Style>
+						<Style TargetType="controls:MultiListItem">
+							<Setter Property="nav:BlockNavigator.HideCursor" Value="True"></Setter>
+							<Setter Property="nav:BlockNavigator.Registered" Value="True"></Setter>
+							<Style.Triggers>
+								<Trigger Property="nav:BlockNavigator.IsFocused" Value="True">
+									<Setter Property="IsActive" Value="True" />
+								</Trigger>
+							</Style.Triggers>
+						</Style>
+					</StackPanel.Resources>
+					<controls:NavigationListItem ImageSource="/Resources/Icons/capture.png" IsActive="True" Text="Change Players" Click="{x:Static commands:NavigationCommands.ChangePlayersCommand}" />
                     <controls:NavigationListItem ImageSource="/Resources/Icons/capture.png" Text="GamePads" Click="{x:Static commands:NavigationCommands.EditGamePadsCommand}" />
-                    <controls:NavigationListItem ImageSource="/Resources/Icons/capture.png" Text="Edit Main Panel" Click="{x:Static commands:NavigationCommands.EditMainPanelCommand}" />
+					<controls:NavigationListItem ImageSource="/Resources/Icons/capture.png" Text="Edit Main Panel" Click="{x:Static commands:NavigationCommands.EditMainPanelCommand}" />
                     <controls:NavigationListItem ImageSource="/Resources/Icons/capture.png" Text="Keyboard Mappings" Click="{x:Static commands:NavigationCommands.EditKeyboardMappingsCommand}" />
                     <controls:NavigationListItem ImageSource="/Resources/Icons/capture.png" Text="Keyboard Profiles" Click="{x:Static commands:NavigationCommands.EditKeyboardProfilesCommand}" />
                     <controls:NavigationListItem ImageSource="/Resources/Icons/capture.png" Text="Calibration" Click="{x:Static commands:NavigationCommands.EditGamePadCalibrationCommand}" />
                     <controls:NavigationListItem ImageSource="/Resources/Icons/capture.png" Text="Main Panel Profiles" Click="{x:Static commands:NavigationCommands.EditMainPanelProfileCommand}" />
-                    <controls:MultiListItem ImageSource="/Resources/Icons/capture.png" IsActive="True">
+					<controls:MultiListItem ImageSource="/Resources/Icons/capture.png" IsActive="True">
                         <controls:MultiListItem.Style>
                             <Style TargetType="controls:MultiListItem">
                                 <Style.Triggers>
@@ -68,3 +99,4 @@
         </Grid>
     </Border>
 </Window>
+

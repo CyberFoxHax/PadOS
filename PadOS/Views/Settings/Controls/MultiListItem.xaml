@@ -4,12 +4,18 @@
 	xmlns:customControls="clr-namespace:PadOS.CustomControls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:input="clr-namespace:PadOS.Input"
     mc:Ignorable="d"
     x:Class="PadOS.Views.Settings.Controls.MultiListItem"
     Height="65"
     d:DesignWidth="640"
     Margin="-70,0,0,0"
-    x:Name="This">
+    x:Name="This"
+	input:WpfGamePad.IsFocusable="True"
+	input:WpfGamePad.ThumbLeftChange = "XInputOnThumbLeftChange"
+	input:WpfGamePad.DPadRightDown	 = "XInputOnDPadRightDown"
+	input:WpfGamePad.DPadLeftDown	 = "XInputOnDPadLeftDown"
+>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="70"/>

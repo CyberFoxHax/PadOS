@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace PadOS.Navigation
@@ -12,7 +8,7 @@ namespace PadOS.Navigation
 	    public delegate void NavigationEvent(object sender, EventArgs args);
 
 		public static readonly RoutedEvent CursorExitEvent = EventManager.RegisterRoutedEvent(
-		    "CursorExitEvent", RoutingStrategy.Bubble, typeof(NavigationEvent), typeof(BlockNavigator));
+		    "CursorExit", RoutingStrategy.Bubble, typeof(NavigationEvent), typeof(BlockNavigator));
 	    public static void AddCursorExitHandler(DependencyObject d, NavigationEvent handler) => (d as UIElement)?.AddHandler(CursorExitEvent, handler);
 	    public static void RemoveCursorExitHandler(DependencyObject d, NavigationEvent handler) => (d as UIElement)?.RemoveHandler(CursorExitEvent, handler);
 
@@ -33,7 +29,17 @@ namespace PadOS.Navigation
 
 		/////////////////////////////////////////
 
-		public static readonly DependencyProperty InitialFocusProperty = DependencyProperty.RegisterAttached(
+	    public static readonly DependencyProperty IsFocusedProperty = DependencyProperty.RegisterAttached(
+		    "IsFocused", typeof(bool), typeof(BlockNavigator), new PropertyMetadata(default(bool)));
+	    private static void SetIsFocused(DependencyObject element, bool value) => element.SetValue(IsFocusedProperty, value);
+	    public static bool GetIsFocused(DependencyObject element) => (bool) element.GetValue(IsFocusedProperty);
+
+	    public static readonly DependencyProperty HideCursorProperty = DependencyProperty.RegisterAttached(
+		    "HideCursor", typeof(bool), typeof(BlockNavigator), new PropertyMetadata(default(bool)));
+	    public static void SetHideCursor(DependencyObject element, bool value) => element.SetValue(HideCursorProperty, value);
+	    public static bool GetHideCursor(DependencyObject element) => (bool) element.GetValue(HideCursorProperty);
+
+	    public static readonly DependencyProperty InitialFocusProperty = DependencyProperty.RegisterAttached(
 		    "InitialFocus", typeof(bool), typeof(BlockNavigator), new PropertyMetadata(default(bool)));
 	    public static bool GetInitialFocus(DependencyObject element) => (bool)element.GetValue(InitialFocusProperty);
 	    public static void SetInitialFocus(DependencyObject element, bool value) => element.SetValue(InitialFocusProperty, value);

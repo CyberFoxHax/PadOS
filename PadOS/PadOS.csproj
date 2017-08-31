@@ -135,10 +135,15 @@
     <Compile Include="Dll\Kernel32.cs" />
     <Compile Include="Dll\Psapi.cs" />
     <Compile Include="GlobalEvents.cs" />
+    <Compile Include="Input\GamePadEvent.cs" />
+    <Compile Include="Input\GamePadEventArgs.cs" />
+    <Compile Include="Input\GamePadInput.Buttons.cs" />
     <Compile Include="Input\GamePadInput.cs" />
-    <Compile Include="Input\IGamePadFocusable.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Dll\UserInfo32.cs" />
+    <Compile Include="Input\GamePadEventUi.cs" />
+    <Compile Include="Input\WpfGamepad.AttachedProperties.cs" />
+    <Compile Include="Input\WpfGamePad.Buttons.cs" />
     <Compile Include="Navigation\BlockNavigator.GamePad.cs" />
     <Compile Include="Navigation\Navigator.cs" />
     <Compile Include="SaveData\DefaultData.cs" />
@@ -151,7 +156,7 @@
     <Compile Include="Views\MainPanelEditor\ComboBox.xaml.cs">
       <DependentUpon>ComboBox.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MainPanelEditor\Cursor.cs" />
+    <Compile Include="Navigation\BlockNavigationCursor.cs" />
     <Compile Include="Views\MainPanelEditor\MainPanelEditor.xaml.cs">
       <DependentUpon>MainPanelEditor.xaml</DependentUpon>
     </Compile>
@@ -160,15 +165,13 @@
     </Compile>
     <Compile Include="Commands\NavigationCommands.cs" />
     <Compile Include="Commands\WindowCommands.cs" />
-    <Compile Include="Views\Settings\INavigatable.cs" />
     <Compile Include="Views\Settings\Controls\MultiListItem.xaml.cs">
       <DependentUpon>MultiListItem.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Settings\Controls\NavigationListItem.xaml.cs">
       <DependentUpon>NavigationListItem.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Input\WPFDirectionalControls.cs" />
-    <Compile Include="Input\WPFGamepad.cs" />
+    <Compile Include="Input\WpfGamepad.cs" />
     <Compile Include="SaveData\Models\MainPanelData.cs" />
     <Compile Include="Utils.cs" />
     <Compile Include="Vector2.cs" />
@@ -184,7 +187,6 @@
     <Compile Include="Views\Settings\Controls\MultiListItemSubItem.xaml.cs">
       <DependentUpon>MultiListItemSubItem.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Settings\VerticalGamePadNavagtion.cs" />
     <Compile Include="Views\Settings\Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
     </Compile>
@@ -275,7 +277,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="app.config" />
-    <Compile Include="Navigation\BlockNavigator.DependencyProperties.cs" />
+    <Compile Include="Navigation\BlockNavigator.AttachedProperties.cs" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

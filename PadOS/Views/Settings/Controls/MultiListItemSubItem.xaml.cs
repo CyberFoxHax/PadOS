@@ -1,14 +1,13 @@
 namespace PadOS.Views.Settings.Controls{
-	public partial class MultiListItemSubItem : INavigatable{
+	public partial class MultiListItemSubItem {
 		public MultiListItemSubItem(){
 			InitializeComponent();
 		}
 
 		public System.Windows.Input.ICommand Click { get; set; }
 
-		void INavigatable.OnClick() {
-			if (Click != null)
-				Click.Execute(this);
+		public void OnClick(){
+			Click?.Execute(this);
 		}
 
 		public static readonly System.Windows.DependencyProperty ImageSourceProperty = System.Windows.DependencyProperty.Register(
@@ -16,8 +15,8 @@ namespace PadOS.Views.Settings.Controls{
 
 		public System.Windows.Media.ImageSource ImageSource
 		{
-			get { return (System.Windows.Media.ImageSource) GetValue(ImageSourceProperty); }
-			set { SetValue(ImageSourceProperty, value); }
+			get => (System.Windows.Media.ImageSource) GetValue(ImageSourceProperty);
+			set => SetValue(ImageSourceProperty, value);
 		}
 
 		public static readonly System.Windows.DependencyProperty IsActiveProperty = System.Windows.DependencyProperty.Register(
@@ -25,8 +24,8 @@ namespace PadOS.Views.Settings.Controls{
 
 		public bool IsActive
 		{
-			get { return (bool) GetValue(IsActiveProperty); }
-			set { SetValue(IsActiveProperty, value); }
+			get => (bool) GetValue(IsActiveProperty);
+			set => SetValue(IsActiveProperty, value);
 		}
 	}
 }
