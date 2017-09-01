@@ -61,9 +61,11 @@
 						<Style TargetType="controls:MultiListItem">
 							<Setter Property="nav:BlockNavigator.HideCursor" Value="True"></Setter>
 							<Setter Property="nav:BlockNavigator.Registered" Value="True"></Setter>
+							<Setter Property="Text" Value="Current Window" />
 							<Style.Triggers>
 								<Trigger Property="nav:BlockNavigator.IsFocused" Value="True">
 									<Setter Property="IsActive" Value="True" />
+									<Setter Property="Text" Value="{x:Static commands:WindowCommands.ApplicationName}" />
 								</Trigger>
 							</Style.Triggers>
 						</Style>
@@ -76,17 +78,7 @@
                     <controls:NavigationListItem ImageSource="/Resources/Icons/capture.png" Text="Calibration" Click="{x:Static commands:NavigationCommands.EditGamePadCalibrationCommand}" />
                     <controls:NavigationListItem ImageSource="/Resources/Icons/capture.png" Text="Main Panel Profiles" Click="{x:Static commands:NavigationCommands.EditMainPanelProfileCommand}" />
 					<controls:MultiListItem ImageSource="/Resources/Icons/capture.png" IsActive="True">
-                        <controls:MultiListItem.Style>
-                            <Style TargetType="controls:MultiListItem">
-                                <Style.Triggers>
-                                    <Trigger Property="IsActive" Value="True">
-                                        <Setter Property="Text" Value="{x:Static commands:WindowCommands.GetApplicationName}" />
-                                    </Trigger>
-                                </Style.Triggers>
-                                <Setter Property="Text" Value="Current Window" />
-                            </Style>
-                        </controls:MultiListItem.Style>
-                        <controls:MultiListItem.Items>
+						<controls:MultiListItem.Items>
                             <controls:MultiListItemSubItem ImageSource="/PadOS;component/Resources/Icons/minimize.png" Click="{x:Static commands:WindowCommands.WindowMinimizeCommand}" />
                             <controls:MultiListItemSubItem ImageSource="/PadOS;component/Resources/Icons/cross.png" Click="{x:Static commands:WindowCommands.WindowCloseCommand}" IsActive="True" />
                             <controls:MultiListItemSubItem ImageSource="/PadOS;component/Resources/Icons/skull.png" Click="{x:Static commands:WindowCommands.WindowKillCommand}" />

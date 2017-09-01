@@ -1,199 +1,200 @@
 ﻿using System.Windows;
-using XInputDotNetPure;
 
 namespace PadOS.Input {
 	public partial class WpfGamePad {
-		public static readonly RoutedEvent TriggerLeftChange = EventManager.RegisterRoutedEvent(
+
+		public static readonly RoutedEvent TriggerLeftChangeEvent = EventManager.RegisterRoutedEvent(
 			"TriggerLeftChange", RoutingStrategy.Bubble, typeof(GamePadEventUi<float>), typeof(WpfGamePad));
-		public static void AddTriggerLeftChangeHandler(DependencyObject d, GamePadEventUi<float> handler) => (d as UIElement)?.AddHandler(TriggerLeftChange, handler);
-		public static void RemoveTriggerLeftChangeHandler(DependencyObject d, GamePadEventUi<float> handler) => (d as UIElement)?.RemoveHandler(TriggerLeftChange, handler);
+		public static void AddTriggerLeftChangeHandler(DependencyObject d, GamePadEventUi<float> handler) => (d as UIElement)?.AddHandler(TriggerLeftChangeEvent, handler);
+		public static void RemoveTriggerLeftChangeHandler(DependencyObject d, GamePadEventUi<float> handler) => (d as UIElement)?.RemoveHandler(TriggerLeftChangeEvent, handler);
 
-		public static readonly RoutedEvent TriggerRightChange = EventManager.RegisterRoutedEvent(
+		public static readonly RoutedEvent TriggerRightChangeEvent = EventManager.RegisterRoutedEvent(
 			"TriggerRightChange", RoutingStrategy.Bubble, typeof(GamePadEventUi), typeof(WpfGamePad));
-		public static void AddTriggerRightChangeHandler(DependencyObject d, GamePadEventUi<Vector2> handler) => (d as UIElement)?.AddHandler(TriggerRightChange, handler);
-		public static void RemoveTriggerRightChangeHandler(DependencyObject d, GamePadEventUi<Vector2> handler) => (d as UIElement)?.RemoveHandler(TriggerRightChange, handler);
+		public static void AddTriggerRightChangeHandler(DependencyObject d, GamePadEventUi<Vector2> handler) => (d as UIElement)?.AddHandler(TriggerRightChangeEvent, handler);
+		public static void RemoveTriggerRightChangeHandler(DependencyObject d, GamePadEventUi<Vector2> handler) => (d as UIElement)?.RemoveHandler(TriggerRightChangeEvent, handler);
 
 
 
-		public static readonly RoutedEvent ThumbLeftChange = EventManager.RegisterRoutedEvent(
+		public static readonly RoutedEvent ThumbLeftChangeEvent = EventManager.RegisterRoutedEvent(
 			"ThumbLeftChange", RoutingStrategy.Bubble, typeof(GamePadEventUi<Vector2>), typeof(WpfGamePad));
-		public static void AddThumbLeftChangeHandler(DependencyObject d, GamePadEventUi<Vector2> handler) => (d as UIElement)?.AddHandler(ThumbLeftChange, handler);
-		public static void RemoveThumbLeftChangeHandler(DependencyObject d, GamePadEventUi<Vector2> handler) => (d as UIElement)?.RemoveHandler(ThumbLeftChange, handler);
+		public static void AddThumbLeftChangeHandler(DependencyObject d, GamePadEventUi<Vector2> handler) => (d as UIElement)?.AddHandler(ThumbLeftChangeEvent, handler);
+		public static void RemoveThumbLeftChangeHandler(DependencyObject d, GamePadEventUi<Vector2> handler) => (d as UIElement)?.RemoveHandler(ThumbLeftChangeEvent, handler);
 
-		public static readonly RoutedEvent ThumbRightChange = EventManager.RegisterRoutedEvent(
+		public static readonly RoutedEvent ThumbRightChangeEvent = EventManager.RegisterRoutedEvent(
 			"ThumbRightChange", RoutingStrategy.Bubble, typeof(GamePadEventUi<Vector2>), typeof(WpfGamePad));
-		public static void AddThumbRightChangeHandler(DependencyObject d, GamePadEventUi<Vector2> handler) => (d as UIElement)?.AddHandler(ThumbRightChange, handler);
-		public static void RemoveThumbRightChangeHandler(DependencyObject d, GamePadEventUi<Vector2> handler) => (d as UIElement)?.RemoveHandler(ThumbRightChange, handler);
+		public static void AddThumbRightChangeHandler(DependencyObject d, GamePadEventUi<Vector2> handler) => (d as UIElement)?.AddHandler(ThumbRightChangeEvent, handler);
+		public static void RemoveThumbRightChangeHandler(DependencyObject d, GamePadEventUi<Vector2> handler) => (d as UIElement)?.RemoveHandler(ThumbRightChangeEvent, handler);
 
 
 
-		public static readonly RoutedEvent ButtonADown = EventManager.RegisterRoutedEvent(
+		public static readonly RoutedEvent ButtonADownEvent = EventManager.RegisterRoutedEvent(
 			"ButtonADown", RoutingStrategy.Bubble, typeof(GamePadEventUi), typeof(WpfGamePad));
-		public static void AddButtonADownHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.AddHandler(ButtonADown, handler);
-		public static void RemoveButtonADownHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.RemoveHandler(ButtonADown, handler);
+		public static void AddButtonADownHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.AddHandler(ButtonADownEvent, handler);
+		public static void RemoveButtonADownHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.RemoveHandler(ButtonADownEvent, handler);
 
-		public static readonly RoutedEvent ButtonAUp = EventManager.RegisterRoutedEvent(
+		public static readonly RoutedEvent ButtonAUpEvent = EventManager.RegisterRoutedEvent(
 			"ButtonAUp", RoutingStrategy.Bubble, typeof(GamePadEventUi), typeof(WpfGamePad));
-		public static void AddButtonAUpHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.AddHandler(ButtonAUp, handler);
-		public static void RemoveButtonAUpHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.RemoveHandler(ButtonAUp, handler);
+		public static void AddButtonAUpHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.AddHandler(ButtonAUpEvent, handler);
+		public static void RemoveButtonAUpHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.RemoveHandler(ButtonAUpEvent, handler);
 
 
-		public static readonly RoutedEvent ButtonBDown = EventManager.RegisterRoutedEvent(
+		public static readonly RoutedEvent ButtonBDownEvent = EventManager.RegisterRoutedEvent(
 			"ButtonBDown", RoutingStrategy.Bubble, typeof(GamePadEventUi), typeof(WpfGamePad));
-		public static void AddButtonBDownHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.AddHandler(ButtonBDown, handler);
-		public static void RemoveButtonBDownHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.RemoveHandler(ButtonBDown, handler);
+		public static void AddButtonBDownHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.AddHandler(ButtonBDownEvent, handler);
+		public static void RemoveButtonBDownHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.RemoveHandler(ButtonBDownEvent, handler);
 
-		public static readonly RoutedEvent ButtonBUp = EventManager.RegisterRoutedEvent(
+		public static readonly RoutedEvent ButtonBUpEvent = EventManager.RegisterRoutedEvent(
 			"ButtonBUp", RoutingStrategy.Bubble, typeof(GamePadEventUi), typeof(WpfGamePad));
-		public static void AddButtonBUpHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.AddHandler(ButtonBUp, handler);
-		public static void RemoveButtonBUpHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.RemoveHandler(ButtonBUp, handler);
+		public static void AddButtonBUpHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.AddHandler(ButtonBUpEvent, handler);
+		public static void RemoveButtonBUpHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.RemoveHandler(ButtonBUpEvent, handler);
 
 
-		public static readonly RoutedEvent ButtonXDown = EventManager.RegisterRoutedEvent(
+		public static readonly RoutedEvent ButtonXDownEvent = EventManager.RegisterRoutedEvent(
 			"ButtonXDown", RoutingStrategy.Bubble, typeof(GamePadEventUi), typeof(WpfGamePad));
-		public static void AddButtonXDownHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.AddHandler(ButtonXDown, handler);
-		public static void RemoveButtonXDownHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.RemoveHandler(ButtonXDown, handler);
+		public static void AddButtonXDownHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.AddHandler(ButtonXDownEvent, handler);
+		public static void RemoveButtonXDownHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.RemoveHandler(ButtonXDownEvent, handler);
 
-		public static readonly RoutedEvent ButtonXUp = EventManager.RegisterRoutedEvent(
+		public static readonly RoutedEvent ButtonXUpEvent = EventManager.RegisterRoutedEvent(
 			"ButtonXUp", RoutingStrategy.Bubble, typeof(GamePadEventUi), typeof(WpfGamePad));
-		public static void AddButtonXUpHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.AddHandler(ButtonXUp, handler);
-		public static void RemoveButtonXUpHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.RemoveHandler(ButtonXUp, handler);
+		public static void AddButtonXUpHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.AddHandler(ButtonXUpEvent, handler);
+		public static void RemoveButtonXUpHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.RemoveHandler(ButtonXUpEvent, handler);
 
 
-		public static readonly RoutedEvent ButtonYDown = EventManager.RegisterRoutedEvent(
+		public static readonly RoutedEvent ButtonYDownEvent = EventManager.RegisterRoutedEvent(
 			"ButtonYDown", RoutingStrategy.Bubble, typeof(GamePadEventUi), typeof(WpfGamePad));
-		public static void AddButtonYDownHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.AddHandler(ButtonYDown, handler);
-		public static void RemoveButtonYDownHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.RemoveHandler(ButtonYDown, handler);
+		public static void AddButtonYDownHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.AddHandler(ButtonYDownEvent, handler);
+		public static void RemoveButtonYDownHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.RemoveHandler(ButtonYDownEvent, handler);
 
-		public static readonly RoutedEvent ButtonYUp = EventManager.RegisterRoutedEvent(
+		public static readonly RoutedEvent ButtonYUpEvent = EventManager.RegisterRoutedEvent(
 			"ButtonYUp", RoutingStrategy.Bubble, typeof(GamePadEventUi), typeof(WpfGamePad));
-		public static void AddButtonYUpHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.AddHandler(ButtonYUp, handler);
-		public static void RemoveButtonYUpHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.RemoveHandler(ButtonYUp, handler);
+		public static void AddButtonYUpHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.AddHandler(ButtonYUpEvent, handler);
+		public static void RemoveButtonYUpHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.RemoveHandler(ButtonYUpEvent, handler);
 
 
-		public static readonly RoutedEvent ButtonBackDown = EventManager.RegisterRoutedEvent(
+		public static readonly RoutedEvent ButtonBackDownEvent = EventManager.RegisterRoutedEvent(
 			"ButtonBackDown", RoutingStrategy.Bubble, typeof(GamePadEventUi), typeof(WpfGamePad));
-		public static void AddButtonBackDownHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.AddHandler(ButtonBackDown, handler);
-		public static void RemoveButtonBackDownHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.RemoveHandler(ButtonBackDown, handler);
+		public static void AddButtonBackDownHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.AddHandler(ButtonBackDownEvent, handler);
+		public static void RemoveButtonBackDownHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.RemoveHandler(ButtonBackDownEvent, handler);
 
-		public static readonly RoutedEvent ButtonBackUp = EventManager.RegisterRoutedEvent(
+		public static readonly RoutedEvent ButtonBackUpEvent = EventManager.RegisterRoutedEvent(
 			"ButtonBackUp", RoutingStrategy.Bubble, typeof(GamePadEventUi), typeof(WpfGamePad));
-		public static void AddButtonBackUpHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.AddHandler(ButtonBackUp, handler);
-		public static void RemoveButtonBackUpHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.RemoveHandler(ButtonBackUp, handler);
+		public static void AddButtonBackUpHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.AddHandler(ButtonBackUpEvent, handler);
+		public static void RemoveButtonBackUpHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.RemoveHandler(ButtonBackUpEvent, handler);
 
 
-		public static readonly RoutedEvent ButtonGuideDown = EventManager.RegisterRoutedEvent(
+		public static readonly RoutedEvent ButtonGuideDownEvent = EventManager.RegisterRoutedEvent(
 			"ButtonGuideDown", RoutingStrategy.Bubble, typeof(GamePadEventUi), typeof(WpfGamePad));
-		public static void AddButtonGuideDownHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.AddHandler(ButtonGuideDown, handler);
-		public static void RemoveButtonGuideDownHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.RemoveHandler(ButtonGuideDown, handler);
+		public static void AddButtonGuideDownHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.AddHandler(ButtonGuideDownEvent, handler);
+		public static void RemoveButtonGuideDownHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.RemoveHandler(ButtonGuideDownEvent, handler);
 
-		public static readonly RoutedEvent ButtonGuideUp = EventManager.RegisterRoutedEvent(
+		public static readonly RoutedEvent ButtonGuideUpEvent = EventManager.RegisterRoutedEvent(
 			"ButtonGuideUp", RoutingStrategy.Bubble, typeof(GamePadEventUi), typeof(WpfGamePad));
-		public static void AddButtonGuideUpHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.AddHandler(ButtonGuideUp, handler);
-		public static void RemoveButtonGuideUpHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.RemoveHandler(ButtonGuideUp, handler);
+		public static void AddButtonGuideUpHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.AddHandler(ButtonGuideUpEvent, handler);
+		public static void RemoveButtonGuideUpHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.RemoveHandler(ButtonGuideUpEvent, handler);
 
 
-		public static readonly RoutedEvent ButtonLeftShoulderDown = EventManager.RegisterRoutedEvent(
+		public static readonly RoutedEvent ButtonLeftShoulderDownEvent = EventManager.RegisterRoutedEvent(
 			"ButtonLeftShoulderDown", RoutingStrategy.Bubble, typeof(GamePadEventUi), typeof(WpfGamePad));
-		public static void AddButtonLeftShoulderDownHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.AddHandler(ButtonLeftShoulderDown, handler);
-		public static void RemoveButtonLeftShoulderDownHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.RemoveHandler(ButtonLeftShoulderDown, handler);
+		public static void AddButtonLeftShoulderDownHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.AddHandler(ButtonLeftShoulderDownEvent, handler);
+		public static void RemoveButtonLeftShoulderDownHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.RemoveHandler(ButtonLeftShoulderDownEvent, handler);
 
-		public static readonly RoutedEvent ButtonLeftShoulderUp = EventManager.RegisterRoutedEvent(
+		public static readonly RoutedEvent ButtonLeftShoulderUpEvent = EventManager.RegisterRoutedEvent(
 			"ButtonLeftShoulderUp", RoutingStrategy.Bubble, typeof(GamePadEventUi), typeof(WpfGamePad));
-		public static void AddButtonLeftShoulderUpHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.AddHandler(ButtonLeftShoulderUp, handler);
-		public static void RemoveButtonLeftShoulderUpHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.RemoveHandler(ButtonLeftShoulderUp, handler);
+		public static void AddButtonLeftShoulderUpHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.AddHandler(ButtonLeftShoulderUpEvent, handler);
+		public static void RemoveButtonLeftShoulderUpHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.RemoveHandler(ButtonLeftShoulderUpEvent, handler);
 
 
-		public static readonly RoutedEvent ButtonLeftStickDown = EventManager.RegisterRoutedEvent(
+		public static readonly RoutedEvent ButtonLeftStickDownEvent = EventManager.RegisterRoutedEvent(
 			"ButtonLeftStickDown", RoutingStrategy.Bubble, typeof(GamePadEventUi), typeof(WpfGamePad));
-		public static void AddButtonLeftStickDownHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.AddHandler(ButtonLeftStickDown, handler);
-		public static void RemoveButtonLeftStickDownHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.RemoveHandler(ButtonLeftStickDown, handler);
+		public static void AddButtonLeftStickDownHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.AddHandler(ButtonLeftStickDownEvent, handler);
+		public static void RemoveButtonLeftStickDownHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.RemoveHandler(ButtonLeftStickDownEvent, handler);
 
-		public static readonly RoutedEvent ButtonLeftStickUp = EventManager.RegisterRoutedEvent(
+		public static readonly RoutedEvent ButtonLeftStickUpEvent = EventManager.RegisterRoutedEvent(
 			"ButtonLeftStickUp", RoutingStrategy.Bubble, typeof(GamePadEventUi), typeof(WpfGamePad));
-		public static void AddButtonLeftStickUpHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.AddHandler(ButtonLeftStickUp, handler);
-		public static void RemoveButtonLeftStickUpHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.RemoveHandler(ButtonLeftStickUp, handler);
+		public static void AddButtonLeftStickUpHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.AddHandler(ButtonLeftStickUpEvent, handler);
+		public static void RemoveButtonLeftStickUpHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.RemoveHandler(ButtonLeftStickUpEvent, handler);
 
 
-		public static readonly RoutedEvent ButtonRightShoulderDown = EventManager.RegisterRoutedEvent(
+		public static readonly RoutedEvent ButtonRightShoulderDownEvent = EventManager.RegisterRoutedEvent(
 			"ButtonRightShoulderDown", RoutingStrategy.Bubble, typeof(GamePadEventUi), typeof(WpfGamePad));
-		public static void AddButtonRightShoulderDownHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.AddHandler(ButtonRightShoulderDown, handler);
-		public static void RemoveButtonRightShoulderDownHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.RemoveHandler(ButtonRightShoulderDown, handler);
+		public static void AddButtonRightShoulderDownHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.AddHandler(ButtonRightShoulderDownEvent, handler);
+		public static void RemoveButtonRightShoulderDownHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.RemoveHandler(ButtonRightShoulderDownEvent, handler);
 
-		public static readonly RoutedEvent ButtonRightShoulderUp = EventManager.RegisterRoutedEvent(
+		public static readonly RoutedEvent ButtonRightShoulderUpEvent = EventManager.RegisterRoutedEvent(
 			"ButtonRightShoulderUp", RoutingStrategy.Bubble, typeof(GamePadEventUi), typeof(WpfGamePad));
-		public static void AddButtonRightShoulderUpHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.AddHandler(ButtonRightShoulderUp, handler);
-		public static void RemoveButtonRightShoulderUpHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.RemoveHandler(ButtonRightShoulderUp, handler);
+		public static void AddButtonRightShoulderUpHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.AddHandler(ButtonRightShoulderUpEvent, handler);
+		public static void RemoveButtonRightShoulderUpHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.RemoveHandler(ButtonRightShoulderUpEvent, handler);
 
 
-		public static readonly RoutedEvent ButtonRightStickDown = EventManager.RegisterRoutedEvent(
+		public static readonly RoutedEvent ButtonRightStickDownEvent = EventManager.RegisterRoutedEvent(
 			"ButtonRightStickDown", RoutingStrategy.Bubble, typeof(GamePadEventUi), typeof(WpfGamePad));
-		public static void AddButtonRightStickDownHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.AddHandler(ButtonRightStickDown, handler);
-		public static void RemoveButtonRightStickDownHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.RemoveHandler(ButtonRightStickDown, handler);
+		public static void AddButtonRightStickDownHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.AddHandler(ButtonRightStickDownEvent, handler);
+		public static void RemoveButtonRightStickDownHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.RemoveHandler(ButtonRightStickDownEvent, handler);
 
-		public static readonly RoutedEvent ButtonRightStickUp = EventManager.RegisterRoutedEvent(
+		public static readonly RoutedEvent ButtonRightStickUpEvent = EventManager.RegisterRoutedEvent(
 			"ButtonRightStickUp", RoutingStrategy.Bubble, typeof(GamePadEventUi), typeof(WpfGamePad));
-		public static void AddButtonRightStickUpHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.AddHandler(ButtonRightStickUp, handler);
-		public static void RemoveButtonRightStickUpHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.RemoveHandler(ButtonRightStickUp, handler);
+		public static void AddButtonRightStickUpHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.AddHandler(ButtonRightStickUpEvent, handler);
+		public static void RemoveButtonRightStickUpHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.RemoveHandler(ButtonRightStickUpEvent, handler);
 
 
-		public static readonly RoutedEvent ButtonStartDown = EventManager.RegisterRoutedEvent(
+		public static readonly RoutedEvent ButtonStartDownEvent = EventManager.RegisterRoutedEvent(
 			"ButtonStartDown", RoutingStrategy.Bubble, typeof(GamePadEventUi), typeof(WpfGamePad));
-		public static void AddButtonStartDownHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.AddHandler(ButtonStartDown, handler);
-		public static void RemoveButtonStartDownHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.RemoveHandler(ButtonStartDown, handler);
+		public static void AddButtonStartDownHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.AddHandler(ButtonStartDownEvent, handler);
+		public static void RemoveButtonStartDownHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.RemoveHandler(ButtonStartDownEvent, handler);
 
-		public static readonly RoutedEvent ButtonStartUp = EventManager.RegisterRoutedEvent(
+		public static readonly RoutedEvent ButtonStartUpEvent = EventManager.RegisterRoutedEvent(
 			"ButtonStartUp", RoutingStrategy.Bubble, typeof(GamePadEventUi), typeof(WpfGamePad));
-		public static void AddButtonStartUpHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.AddHandler(ButtonStartUp, handler);
-		public static void RemoveButtonStartUpHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.RemoveHandler(ButtonStartUp, handler);
+		public static void AddButtonStartUpHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.AddHandler(ButtonStartUpEvent, handler);
+		public static void RemoveButtonStartUpHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.RemoveHandler(ButtonStartUpEvent, handler);
 
 
-		public static readonly RoutedEvent DPadLeftDown = EventManager.RegisterRoutedEvent(
+		public static readonly RoutedEvent DPadLeftDownEvent = EventManager.RegisterRoutedEvent(
 			"DPadLeftDown", RoutingStrategy.Bubble, typeof(GamePadEventUi), typeof(WpfGamePad));
-		public static void AddDPadLeftDownHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.AddHandler(DPadLeftDown, handler);
-		public static void RemoveDPadLeftDownHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.RemoveHandler(DPadLeftDown, handler);
+		public static void AddDPadLeftDownHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.AddHandler(DPadLeftDownEvent, handler);
+		public static void RemoveDPadLeftDownHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.RemoveHandler(DPadLeftDownEvent, handler);
 
-		public static readonly RoutedEvent DPadLeftUp = EventManager.RegisterRoutedEvent(
+		public static readonly RoutedEvent DPadLeftUpEvent = EventManager.RegisterRoutedEvent(
 			"DPadLeftUp", RoutingStrategy.Bubble, typeof(GamePadEventUi), typeof(WpfGamePad));
-		public static void AddDPadLeftUpHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.AddHandler(DPadLeftUp, handler);
-		public static void RemoveDPadLeftUpHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.RemoveHandler(DPadLeftUp, handler);
+		public static void AddDPadLeftUpHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.AddHandler(DPadLeftUpEvent, handler);
+		public static void RemoveDPadLeftUpHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.RemoveHandler(DPadLeftUpEvent, handler);
 
 
-		public static readonly RoutedEvent DPadRightDown = EventManager.RegisterRoutedEvent(
+		public static readonly RoutedEvent DPadRightDownEvent = EventManager.RegisterRoutedEvent(
 			"DPadRightDown", RoutingStrategy.Bubble, typeof(GamePadEventUi), typeof(WpfGamePad));
-		public static void AddDPadRightDownHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.AddHandler(DPadRightDown, handler);
-		public static void RemoveDPadRightDownHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.RemoveHandler(DPadRightDown, handler);
+		public static void AddDPadRightDownHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.AddHandler(DPadRightDownEvent, handler);
+		public static void RemoveDPadRightDownHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.RemoveHandler(DPadRightDownEvent, handler);
 
-		public static readonly RoutedEvent DPadRightUp = EventManager.RegisterRoutedEvent(
+		public static readonly RoutedEvent DPadRightUpEvent = EventManager.RegisterRoutedEvent(
 			"DPadRightUp", RoutingStrategy.Bubble, typeof(GamePadEventUi), typeof(WpfGamePad));
-		public static void AddDPadRightUpHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.AddHandler(DPadRightUp, handler);
-		public static void RemoveDPadRightUpHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.RemoveHandler(DPadRightUp, handler);
+		public static void AddDPadRightUpHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.AddHandler(DPadRightUpEvent, handler);
+		public static void RemoveDPadRightUpHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.RemoveHandler(DPadRightUpEvent, handler);
 
 
-		public static readonly RoutedEvent DPadUpDown = EventManager.RegisterRoutedEvent(
+		public static readonly RoutedEvent DPadUpDownEvent = EventManager.RegisterRoutedEvent(
 			"DPadUpDown", RoutingStrategy.Bubble, typeof(GamePadEventUi), typeof(WpfGamePad));
-		public static void AddDPadUpDownHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.AddHandler(DPadUpDown, handler);
-		public static void RemoveDPadUpDownHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.RemoveHandler(DPadUpDown, handler);
+		public static void AddDPadUpDownHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.AddHandler(DPadUpDownEvent, handler);
+		public static void RemoveDPadUpDownHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.RemoveHandler(DPadUpDownEvent, handler);
 
-		public static readonly RoutedEvent DPadUpUp = EventManager.RegisterRoutedEvent(
+		public static readonly RoutedEvent DPadUpUpEvent = EventManager.RegisterRoutedEvent(
 			"DPadUpUp", RoutingStrategy.Bubble, typeof(GamePadEventUi), typeof(WpfGamePad));
-		public static void AddDPadUpUpHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.AddHandler(DPadUpUp, handler);
-		public static void RemoveDPadUpUpHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.RemoveHandler(DPadUpUp, handler);
+		public static void AddDPadUpUpHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.AddHandler(DPadUpUpEvent, handler);
+		public static void RemoveDPadUpUpHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.RemoveHandler(DPadUpUpEvent, handler);
 
 
-		public static readonly RoutedEvent DPadDownDown = EventManager.RegisterRoutedEvent(
+		public static readonly RoutedEvent DPadDownDownEvent = EventManager.RegisterRoutedEvent(
 			"DPadDownDown", RoutingStrategy.Bubble, typeof(GamePadEventUi), typeof(WpfGamePad));
-		public static void AddDPadDownDownHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.AddHandler(DPadDownDown, handler);
-		public static void RemoveDPadDownDownHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.RemoveHandler(DPadDownDown, handler);
+		public static void AddDPadDownDownHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.AddHandler(DPadDownDownEvent, handler);
+		public static void RemoveDPadDownDownHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.RemoveHandler(DPadDownDownEvent, handler);
 
-		public static readonly RoutedEvent DPadDownUp = EventManager.RegisterRoutedEvent(
+		public static readonly RoutedEvent DPadDownUpEvent = EventManager.RegisterRoutedEvent(
 			"DPadDownUp", RoutingStrategy.Bubble, typeof(GamePadEventUi), typeof(WpfGamePad));
-		public static void AddDPadDownUpHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.AddHandler(DPadDownUp, handler);
-		public static void RemoveDPadDownUpHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.RemoveHandler(DPadDownUp, handler);
+		public static void AddDPadDownUpHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.AddHandler(DPadDownUpEvent, handler);
+		public static void RemoveDPadDownUpHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.RemoveHandler(DPadDownUpEvent, handler);
+
 	}
 }
 /*
- var trout = string.Join("\r\n\r\n", new[]{
+var trout = string.Join("\r\n\r\n", new[]{
 	"ButtonA",
 	"ButtonB",
 	"ButtonX",
@@ -210,14 +211,14 @@ namespace PadOS.Input {
 	"DPadUp",
 	"DPadDown"
 }.Select(p =>
-	$"public static readonly RoutedEvent {p}Down = EventManager.RegisterRoutedEvent(\r\n" +
+	$"public static readonly RoutedEvent {p}DownEvent = EventManager.RegisterRoutedEvent(\r\n" +
 	$"	\"{p}Down\", RoutingStrategy.Bubble, typeof(GamePadEventUi), typeof(WpfGamePad));\r\n" +
-	$"public static void Add{p}DownHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.AddHandler({p}Down, handler);\r\n" +
-	$"public static void Remove{p}DownHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.RemoveHandler({p}Down, handler);\r\n\r\n" +
+	$"public static void Add{p}DownHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.AddHandler({p}DownEvent, handler);\r\n" +
+	$"public static void Remove{p}DownHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.RemoveHandler({p}DownEvent, handler);\r\n\r\n" +
 
-	$"public static readonly RoutedEvent {p}Up = EventManager.RegisterRoutedEvent(\r\n" +
+	$"public static readonly RoutedEvent {p}UpEvent = EventManager.RegisterRoutedEvent(\r\n" +
 	$"	\"{p}Up\", RoutingStrategy.Bubble, typeof(GamePadEventUi), typeof(WpfGamePad));\r\n" +
-	$"public static void Add{p}UpHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.AddHandler({p}Up, handler);\r\n" +
-	$"public static void Remove{p}UpHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.RemoveHandler({p}Up, handler);\r\n"
+	$"public static void Add{p}UpHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.AddHandler({p}UpEvent, handler);\r\n" +
+	$"public static void Remove{p}UpHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.RemoveHandler({p}UpEvent, handler);\r\n"
 ).ToArray());
  */

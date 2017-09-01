@@ -7,21 +7,21 @@ namespace PadOS.Input {
 	public partial class WpfGamePad : IDisposable {
 		private static readonly GamePadInput XInput = GamePadInput.StaticInputInstance;
 		private static readonly RoutedEvent[] ButtonEvents = {
-			ButtonADown, ButtonAUp,
-			ButtonBDown, ButtonBUp,
-			ButtonXDown, ButtonXUp,
-			ButtonYDown, ButtonYUp,
-			ButtonBackDown, ButtonBackUp,
-			ButtonGuideDown, ButtonGuideUp,
-			ButtonLeftShoulderDown, ButtonLeftShoulderUp,
-			ButtonLeftStickDown, ButtonLeftStickUp,
-			ButtonRightShoulderDown, ButtonRightShoulderUp,
-			ButtonRightStickDown, ButtonRightStickUp,
-			ButtonStartDown, ButtonStartUp,
-			DPadLeftDown, DPadLeftUp,
-			DPadRightDown, DPadRightUp,
-			DPadUpDown, DPadUpUp,
-			DPadDownDown, DPadDownUp
+			ButtonADownEvent, ButtonAUpEvent,
+			ButtonBDownEvent, ButtonBUpEvent,
+			ButtonXDownEvent, ButtonXUpEvent,
+			ButtonYDownEvent, ButtonYUpEvent,
+			ButtonBackDownEvent, ButtonBackUpEvent,
+			ButtonGuideDownEvent, ButtonGuideUpEvent,
+			ButtonLeftShoulderDownEvent, ButtonLeftShoulderUpEvent,
+			ButtonLeftStickDownEvent, ButtonLeftStickUpEvent,
+			ButtonRightShoulderDownEvent, ButtonRightShoulderUpEvent,
+			ButtonRightStickDownEvent, ButtonRightStickUpEvent,
+			ButtonStartDownEvent, ButtonStartUpEvent,
+			DPadLeftDownEvent, DPadLeftUpEvent,
+			DPadRightDownEvent, DPadRightUpEvent,
+			DPadUpDownEvent, DPadUpUpEvent,
+			DPadDownDownEvent, DPadDownUpEvent
 		};
 
 		public WpfGamePad(UIElement focusOwner) {
@@ -63,7 +63,7 @@ namespace PadOS.Input {
 		private void OnXInputOnThumbLeftChange(int player, GamePadState state, Vector2 value){
 			_focusOwner.Dispatcher.Invoke(
 				() => _focusOwner.RaiseEvent(
-					new GamePadEventArgs<Vector2>(ThumbLeftChange, _focusOwner){
+					new GamePadEventArgs<Vector2>(ThumbLeftChangeEvent, _focusOwner){
 						PlayerIndex = player,
 						GamePadState = state,
 						Value = value

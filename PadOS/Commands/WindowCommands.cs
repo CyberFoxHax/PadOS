@@ -1,12 +1,14 @@
 using System.Linq;
+using System.Windows;
 using System.Windows.Input;
 
 namespace PadOS.Commands {
 	public static class WindowCommands {
-		public static string GetApplicationName {
+		public static readonly DependencyProperty ApplicationNameProperty = DependencyProperty.RegisterAttached(
+			"ApplicationName", typeof(string), typeof(WindowCommands), new PropertyMetadata(default(string)));
+
+		public static string ApplicationName {
 			get {
-				// todo bug: wrong result
-				// because the value is gotten once onload
 				var hWnd = Dll.UserInfo32.GetForegroundWindow();
 				int processId;
 				Dll.UserInfo32.GetWindowThreadProcessId(hWnd, out processId);
@@ -45,8 +47,7 @@ namespace PadOS.Commands {
 			if (current.Id == processId) return;
 
 			var firstOrDefault = System.Diagnostics.Process.GetProcesses().FirstOrDefault(p => p.Id == processId);
-			if (firstOrDefault != null)
-				firstOrDefault.Kill();
+			firstOrDefault?.Kill();
 		}
 	}
 }

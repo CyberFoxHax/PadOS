@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:input="clr-namespace:PadOS.Input"
+    xmlns:nav="clr-namespace:PadOS.Navigation"
     mc:Ignorable="d"
     x:Class="PadOS.Views.Settings.Controls.MultiListItem"
     Height="65"
@@ -15,6 +16,8 @@
 	input:WpfGamePad.ThumbLeftChange = "XInputOnThumbLeftChange"
 	input:WpfGamePad.DPadRightDown	 = "XInputOnDPadRightDown"
 	input:WpfGamePad.DPadLeftDown	 = "XInputOnDPadLeftDown"
+	nav:BlockNavigator.CursorExit="MultiListItem_OnCursorExit"
+	nav:BlockNavigator.ConfirmClick="MultiListItem_OnConfirmClick"
 >
     <Grid>
         <Grid.ColumnDefinitions>

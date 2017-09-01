@@ -8,7 +8,7 @@ namespace PadOS.Views.Settings.Controls{
 
 		public System.Windows.Input.ICommand Click { get; set; }
 
-		public void OnClick(){
+		public void NavigationListItem_OnConfirmClick(object sender, EventArgs args){
 			Click?.Execute(this);
 		}
 
@@ -37,10 +37,6 @@ namespace PadOS.Views.Settings.Controls{
 		{
 			get => (string) GetValue(TextProperty);
 			set => SetValue(TextProperty, value);
-		}
-
-		private void NavigationListItem_OnConfirmClick(object sender, EventArgs args){
-			OnClick();
 		}
 	}
 }
