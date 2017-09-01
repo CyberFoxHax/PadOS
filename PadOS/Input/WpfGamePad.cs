@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using PadOS.Navigation;
 using XInputDotNetPure;
@@ -6,24 +7,6 @@ using XInputDotNetPure;
 namespace PadOS.Input {
 	public partial class WpfGamePad : IDisposable {
 		private static readonly GamePadInput XInput = GamePadInput.StaticInputInstance;
-		private static readonly RoutedEvent[] ButtonEvents = {
-			ButtonADownEvent, ButtonAUpEvent,
-			ButtonBDownEvent, ButtonBUpEvent,
-			ButtonXDownEvent, ButtonXUpEvent,
-			ButtonYDownEvent, ButtonYUpEvent,
-			ButtonBackDownEvent, ButtonBackUpEvent,
-			ButtonGuideDownEvent, ButtonGuideUpEvent,
-			ButtonLeftShoulderDownEvent, ButtonLeftShoulderUpEvent,
-			ButtonLeftStickDownEvent, ButtonLeftStickUpEvent,
-			ButtonRightShoulderDownEvent, ButtonRightShoulderUpEvent,
-			ButtonRightStickDownEvent, ButtonRightStickUpEvent,
-			ButtonStartDownEvent, ButtonStartUpEvent,
-			DPadLeftDownEvent, DPadLeftUpEvent,
-			DPadRightDownEvent, DPadRightUpEvent,
-			DPadUpDownEvent, DPadUpUpEvent,
-			DPadDownDownEvent, DPadDownUpEvent
-		};
-
 		public WpfGamePad(UIElement focusOwner) {
 			_focusOwner = focusOwner;
 			BlockNavigator.AddCursorEnterHandler(_focusOwner, OnCursorEnter);
@@ -39,31 +22,91 @@ namespace PadOS.Input {
 
 		private readonly UIElement _focusOwner;
 		private bool _eventsIsAttached;
+		private readonly Dictionary<RoutedEvent, GamePadEvent> _buttonEvents = new Dictionary<RoutedEvent, GamePadEvent>();
+		private readonly Dictionary<RoutedEvent, GamePadEvent<Vector2>> _thumbstickEvents = new Dictionary<RoutedEvent, GamePadEvent<Vector2>>();
+		private readonly Dictionary<RoutedEvent, GamePadEvent<float>> _triggerEvents = new Dictionary<RoutedEvent, GamePadEvent<float>>();
 
 		private void DetachEvents() {
 			if (_eventsIsAttached == false) return;
+
+			foreach (var routedEvent in ButtonEvents){
+				var dict = _buttonEvents;
+				RemoveXInputHandler(routedEvent, dict[routedEvent]);
+				dict.Remove(routedEvent);
+			}
+
+			foreach (var routedEvent in ThumbstickEvents) {
+				var dict = _thumbstickEvents;
+				RemoveXInputHandler(routedEvent, dict[routedEvent]);
+				dict.Remove(routedEvent);
+			}
+
+			foreach (var routedEvent in TriggerEvents) {
+				var dict = _triggerEvents;
+				RemoveXInputHandler(routedEvent, dict[routedEvent]);
+				dict.Remove(routedEvent);
+			}
+
 			_eventsIsAttached = false;
-			XInput.ThumbLeftChange -= OnXInputOnThumbLeftChange;
 		}
 
 		private void AttachEvents(){
 			if (_eventsIsAttached) return;
+
+			foreach (var routedEvent in ButtonEvents){
+				var dict = _buttonEvents;
+				void OnEvent(int a, GamePadState b) => OnButton(routedEvent, a, b);
+				dict.Add(routedEvent, OnEvent);
+				AddXInputEvent(routedEvent, (GamePadEvent)OnEvent);
+			}
+
+			foreach (var routedEvent in ThumbstickEvents){
+				var dict = _thumbstickEvents;
+				void OnEvent(int a, GamePadState b, Vector2 c) => OnAnalogueChange(routedEvent, a, b, c);
+				dict.Add(routedEvent, OnEvent);
+				AddXInputEvent(routedEvent, (GamePadEvent<Vector2>)OnEvent);
+			}
+
+			foreach (var routedEvent in TriggerEvents){
+				var dict = _triggerEvents;
+				void OnEvent(int a, GamePadState b, float c) => OnAnalogueChange(routedEvent, a, b, c);
+				dict.Add(routedEvent, OnEvent);
+				AddXInputEvent(routedEvent, (GamePadEvent<float>)OnEvent);
+			}
+
 			_eventsIsAttached = true;
-			XInput.ThumbLeftChange += OnXInputOnThumbLeftChange;
-			//foreach (var routedEvent in ButtonEvents) {
-			//	typeof(GamePadInput)
-			//		.GetEvent(routedEvent.Name)hh
-			//		.AddMethod
-			//		.Invoke(XInput, new object[]{
-			//			(GamePadEvent)new Forwarder(routedEvent, XInputOnButtonAUp).GamePadEvent
-			//		});
-			//}
 		}
 
-		private void OnXInputOnThumbLeftChange(int player, GamePadState state, Vector2 value){
+		private void RemoveXInputHandler(RoutedEvent routedEvent, Delegate handler) {
+			typeof(GamePadInput)
+				.GetEvent(routedEvent.Name)
+				.RemoveMethod
+				.Invoke(XInput, new object[] { handler });
+		}
+
+		private void AddXInputEvent(RoutedEvent routedEvent, Delegate handler){
+			typeof(GamePadInput)
+				.GetEvent(routedEvent.Name)
+				.AddMethod
+				.Invoke(XInput, new object[]{ handler });
+		}
+
+		//////////////////////////// <Handlers> ////////////////////////
+		private void OnButton(RoutedEvent routedEvent, int player, GamePadState state) {
 			_focusOwner.Dispatcher.Invoke(
 				() => _focusOwner.RaiseEvent(
-					new GamePadEventArgs<Vector2>(ThumbLeftChangeEvent, _focusOwner){
+					new GamePadEventArgs(routedEvent, _focusOwner) {
+						PlayerIndex = player,
+						GamePadState = state,
+					}
+				)
+			);
+		}
+
+		private void OnAnalogueChange<T>(RoutedEvent routedEvent, int player, GamePadState state, T value) {
+			_focusOwner.Dispatcher.Invoke(
+				() => _focusOwner.RaiseEvent(
+					new GamePadEventArgs<T>(routedEvent, _focusOwner) {
 						PlayerIndex = player,
 						GamePadState = state,
 						Value = value
@@ -71,6 +114,7 @@ namespace PadOS.Input {
 				)
 			);
 		}
+		//////////////////////////// </Handlers> ///////////////////////
 
 		private void OnCursorExit(object sender, EventArgs args) {
 			DetachEvents();

@@ -65,5 +65,13 @@ namespace PadOS.Navigation {
 		public static T OpenWindow<T>(bool cache = false) where T : Window{
 			return (T)OpenWindow(typeof (T), cache);
 		}
+
+		public static void Shutdown(){
+			GamePadInput.StaticInputInstance.ButtonGuideDown -= XInputOnButtonGuideDown;
+			GamePadInput.StaticInputInstance.Dispose();
+			_mainPanel.Close();
+			CurrentWindow?.Close();
+			Windows.Clear();
+		}
 	}
 }

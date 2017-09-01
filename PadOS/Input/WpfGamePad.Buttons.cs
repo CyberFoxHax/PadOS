@@ -191,6 +191,34 @@ namespace PadOS.Input {
 		public static void AddDPadDownUpHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.AddHandler(DPadDownUpEvent, handler);
 		public static void RemoveDPadDownUpHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.RemoveHandler(DPadDownUpEvent, handler);
 
+
+		private static readonly RoutedEvent[] ButtonEvents = {
+			ButtonADownEvent, ButtonAUpEvent,
+			ButtonBDownEvent, ButtonBUpEvent,
+			ButtonXDownEvent, ButtonXUpEvent,
+			ButtonYDownEvent, ButtonYUpEvent,
+			ButtonBackDownEvent, ButtonBackUpEvent,
+			ButtonGuideDownEvent, ButtonGuideUpEvent,
+			ButtonLeftShoulderDownEvent, ButtonLeftShoulderUpEvent,
+			ButtonLeftStickDownEvent, ButtonLeftStickUpEvent,
+			ButtonRightShoulderDownEvent, ButtonRightShoulderUpEvent,
+			ButtonRightStickDownEvent, ButtonRightStickUpEvent,
+			ButtonStartDownEvent, ButtonStartUpEvent,
+			DPadLeftDownEvent, DPadLeftUpEvent,
+			DPadRightDownEvent, DPadRightUpEvent,
+			DPadUpDownEvent, DPadUpUpEvent,
+			DPadDownDownEvent, DPadDownUpEvent
+		};
+
+		private static readonly RoutedEvent[] ThumbstickEvents = {
+			ThumbLeftChangeEvent,
+			ThumbRightChangeEvent
+		};
+
+		private static readonly RoutedEvent[] TriggerEvents = {
+			TriggerLeftChangeEvent,
+			TriggerRightChangeEvent
+		};
 	}
 }
 /*

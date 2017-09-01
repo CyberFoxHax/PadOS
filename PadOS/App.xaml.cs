@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Data.SQLite;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
 using System.Windows;
 using System.Windows.Threading;
 using PadOS.Navigation;
-using PadOS.SaveData;
+using PadOS.Views;
 
 namespace PadOS {
 	public partial class App{
@@ -16,20 +13,29 @@ namespace PadOS {
 			GlobalDispatcher = Dispatcher;
 		}
 
-		protected override void OnStartup(System.Windows.StartupEventArgs e){
+		private SystemTray _systemTray;
+
+		protected override void OnStartup(StartupEventArgs e){
 			var ctx = new SaveData.SaveData();
 			ctx.DeleteIfExists();
 			ctx.CreateDb();
 			ctx.InsertDefault();
 
 			base.OnStartup(e);
-			var systray = new Views.SystemTray();
+			_systemTray = new SystemTray();;
+			Exit += OnExit;
 
 			Navigator.Initialize();
 			if (Debugger.IsAttached == false)
 				return;
 
 			Navigator.OpenMainPanel();
+		}
+
+		private void OnExit(object sender, ExitEventArgs exitEventArgs){
+			Navigator.Shutdown();
+			_systemTray.Dispose();
+			Environment.Exit(0);
 		}
 	}
 }

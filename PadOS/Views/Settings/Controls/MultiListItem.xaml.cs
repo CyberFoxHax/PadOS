@@ -12,6 +12,7 @@ namespace PadOS.Views.Settings.Controls{
 	public partial class MultiListItem : IDisposable{
 		public MultiListItem(){
 			InitializeComponent();
+			Items = new Collection<MultiListItemSubItem>();
 			Loaded+= OnLoaded;
 		}
 
@@ -113,7 +114,7 @@ namespace PadOS.Views.Settings.Controls{
 		}
 
 		public static readonly DependencyProperty ItemsProperty = DependencyProperty.Register(
-			"Items", typeof(Collection<MultiListItemSubItem>), typeof(MultiListItem), new PropertyMetadata(new Collection<MultiListItemSubItem>()));
+			"Items", typeof(Collection<MultiListItemSubItem>), typeof(MultiListItem), new PropertyMetadata(null));
 
 		public Collection<MultiListItemSubItem> Items {
 			get => (Collection<MultiListItemSubItem>) GetValue(ItemsProperty);
