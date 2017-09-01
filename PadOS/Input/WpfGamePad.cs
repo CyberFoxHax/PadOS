@@ -26,8 +26,6 @@ namespace PadOS.Input {
 
 		public WpfGamePad(UIElement focusOwner) {
 			_focusOwner = focusOwner;
-			_focusOwner.GotFocus += OnGotFocus;
-			_focusOwner.LostFocus += OnLostFocus;
 			BlockNavigator.AddCursorEnterHandler(_focusOwner, OnCursorEnter);
 			BlockNavigator.AddCursorExitHandler(_focusOwner, OnCursorExit);
 
@@ -74,10 +72,6 @@ namespace PadOS.Input {
 			);
 		}
 
-		private void OnGotFocus(object sender, RoutedEventArgs e) {
-			AttachEvents();
-		}
-
 		private void OnCursorExit(object sender, EventArgs args) {
 			DetachEvents();
 		}
@@ -94,11 +88,7 @@ namespace PadOS.Input {
 				DetachEvents();
 			}
 		}
-
-		private void OnLostFocus(object sender, RoutedEventArgs routedEventArgs){
-			DetachEvents();
-		}
-
+		
 		private void OnWindowClosed(object sender, EventArgs eventArgs) {
 			Dispose();
 		}
@@ -106,8 +96,6 @@ namespace PadOS.Input {
 		public void Dispose(){
 			DetachEvents();
 
-			_focusOwner.LostFocus -= OnLostFocus;
-			_focusOwner.GotFocus -= OnGotFocus;
 			_focusOwner.IsVisibleChanged -= FocusOwnerOnIsVisibleChanged;
 			BlockNavigator.RemoveCursorExitHandler(_focusOwner, OnCursorExit);
 			BlockNavigator.RemoveCursorEnterHandler(_focusOwner, OnCursorEnter);
