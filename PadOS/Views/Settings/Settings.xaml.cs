@@ -17,10 +17,5 @@ namespace PadOS.Views.Settings {
 					multiItem.ClearValue(MultiListItem.IsActiveProperty);
 			}
 		}
-
-		private void Window_OnMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-			if (e.ChangedButton == System.Windows.Input.MouseButton.Left)
-				DragMove();
-		}
 	}
 }

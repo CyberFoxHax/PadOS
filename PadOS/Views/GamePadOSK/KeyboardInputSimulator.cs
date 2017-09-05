@@ -18,9 +18,12 @@ namespace PadOS.Views.GamePadOSK {
 
 		public int CaretIndex {
 			get => _caretIndex;
-			set {
+			set
+			{
 				_caretIndex = value;
-				CaretChange?.Invoke(value);
+				_caretIndex = _caretIndex > Text.Length ? Text.Length : _caretIndex;
+				_caretIndex = _caretIndex < 0 ? 0 : _caretIndex;
+				CaretChange?.Invoke(_caretIndex);
 			}
 		}
 
@@ -80,7 +83,7 @@ namespace PadOS.Views.GamePadOSK {
 		}
 
 		public void RemoveText() {
-			if (CaretIndex > -1)
+			if (CaretIndex > -1 && CaretIndex < Text.Length)
 				Text = Text.Remove(CaretIndex, 1);
 		}
 

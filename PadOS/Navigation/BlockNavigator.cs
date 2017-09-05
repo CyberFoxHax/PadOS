@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -14,6 +15,8 @@ namespace PadOS.Navigation{
 			var frameworkElement = (FrameworkElement)element;
 			if (frameworkElement == null) return;
 			_ownerElement = frameworkElement;
+			if (frameworkElement is Window window)
+				window.Closed += delegate { Dispose(); };
 			frameworkElement.Loaded += delegate{
 				var layer = GetAdornerLayer(element);
 				var child = (element as Window)?.Content as Visual ?? element;

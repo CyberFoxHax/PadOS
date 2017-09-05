@@ -73,7 +73,7 @@ namespace PadOS.Views.GamePadOSK {
 			}
 
 			if (args.Value < TriggerThreshold && _changeSymbolsDown) {
-				_changeCaseIsDown = false;
+				_changeSymbolsDown = false;
 				ChangeSymbolsUp?.Invoke();
 			}
 		}

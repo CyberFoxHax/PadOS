@@ -24,6 +24,7 @@ namespace PadOS.Views.GamePadOSK {
 			wrapper.ChangeSymbolsDown += OnWrapperOnChangeSymbolsDown;
 			wrapper.ChangeCaseDown += OnWrapperOnChangeCaseDown;
 			wrapper.ChangeCaseUp += OnChangeCaseAndSymbolsUp;
+			wrapper.ChangeSymbolsUp += OnChangeCaseAndSymbolsUp;
 			wrapper.BlockPosChanged += WrapperOnBlockPosChanged;
 			wrapper.CharPosChanged += WrapperOnCharPosChanged;
 			wrapper.DeleteDown += WrapperOnDeleteDown;

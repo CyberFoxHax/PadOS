@@ -10,7 +10,6 @@
         Background="{x:Null}"
         WindowStartupLocation="CenterScreen"
         Style="{StaticResource DefaultWindowStyle}"
-        MouseDown="Window_OnMouseDown"
 		nav:BlockNavigator.IsBlockOwner="True"
     >
     <Border BorderThickness="3">
