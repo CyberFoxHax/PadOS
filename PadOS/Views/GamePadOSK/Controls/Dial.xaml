@@ -1,0 +1,116 @@
+﻿<UserControl x:Class="PadOS.Views.GamePadOSK.Controls.Dial"
+            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+            xmlns:controls="clr-namespace:PadOS.Views.GamePadOSK.Controls"
+            mc:Ignorable="d" Height="512" Width="512" SnapsToDevicePixels="True"
+			>
+	<Canvas x:Name="Wrapper" SnapsToDevicePixels="True">
+		<Canvas.Resources>
+			<Style TargetType="controls:DialItem">
+				<Style.Triggers>
+					<Trigger Property="IsActive" Value="True">
+						<Setter Property="Template">
+							<Setter.Value>
+								<ControlTemplate TargetType="controls:DialItem">
+									<Viewbox>
+										<Border
+											Width="100"
+											Height="100"
+											Background="#FF131313"
+											CornerRadius="100"
+											Padding="10,10,0,0"
+											Margin="-12,-12,0,0"
+											BorderBrush="#FF173553"
+											BorderThickness="2"
+											>
+											<ContentPresenter />
+									</Border>
+									</Viewbox>
+								</ControlTemplate>
+							</Setter.Value>
+						</Setter>
+					</Trigger>
+				</Style.Triggers>
+			</Style>
+		</Canvas.Resources>
+		<Canvas.Background>
+			<ImageBrush ImageSource="/Resources/ControllerOSKSkin/Steam - Daisy Wheel/BackgroundFlower.png" />
+		</Canvas.Background>
+		<controls:DialItem Canvas.Left="107" Canvas.Top="98" />
+		<controls:DialItem Canvas.Left="219" Canvas.Top="44" />
+		<controls:DialItem Canvas.Left="336" Canvas.Top="98" />
+
+		<controls:DialItem Canvas.Left="58" Canvas.Top="213" />
+		<controls:DialItem Canvas.Left="219" Canvas.Top="213" IsActive="True" />
+		<controls:DialItem Canvas.Left="386" Canvas.Top="213" />
+
+		<controls:DialItem Canvas.Left="107" Canvas.Top="325" />
+		<controls:DialItem Canvas.Left="219" Canvas.Top="385" />
+		<controls:DialItem Canvas.Left="336" Canvas.Top="325" />
+	</Canvas>
+</UserControl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

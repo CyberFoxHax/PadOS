@@ -1,5 +1,5 @@
 ﻿using System;
-using PadOS.ViewModels.FunctionButtons;
+using PadOS.Commands.FunctionButtons;
 
 namespace PadOS.SaveData.Models {
 	public class FunctionButton {

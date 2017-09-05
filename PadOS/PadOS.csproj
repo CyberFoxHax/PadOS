@@ -134,7 +134,6 @@
     </Compile>
     <Compile Include="Dll\Kernel32.cs" />
     <Compile Include="Dll\Psapi.cs" />
-    <Compile Include="GlobalEvents.cs" />
     <Compile Include="Input\GamePadEvent.cs" />
     <Compile Include="Input\GamePadEventArgs.cs" />
     <Compile Include="Input\GamePadInput.Buttons.cs" />
@@ -149,10 +148,24 @@
     <Compile Include="SaveData\DefaultData.cs" />
     <Compile Include="SaveData\Models\FunctionButton.cs" />
     <Compile Include="SaveData\SaveData.cs" />
-    <Compile Include="ViewModels\FunctionButtons\FunctionButton.cs" />
-    <Compile Include="ViewModels\FunctionButtons\FunctionType.cs" />
-    <Compile Include="PadOsInternalFunctions.cs" />
+    <Compile Include="Commands\FunctionButtons\FunctionButton.cs" />
+    <Compile Include="Commands\FunctionButtons\FunctionType.cs" />
+    <Compile Include="Commands\PadOsInternalFunctions.cs" />
     <Compile Include="Navigation\BlockNavigator.cs" />
+    <Compile Include="Views\GamePadOSK\Controls\Dial.xaml.cs">
+      <DependentUpon>Dial.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GamePadOSK\Controls\ImageWithLabel.xaml.cs">
+      <DependentUpon>ImageWithLabel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GamePadOSK\Controls\DialItem.xaml.cs">
+      <DependentUpon>DialItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GamePadOSK\GamePadWrapper.cs" />
+    <Compile Include="Views\GamePadOSK\KeyboardInputSimulator.cs" />
+    <Compile Include="Views\GamePadOSK\Osk.xaml.cs">
+      <DependentUpon>Osk.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\MainPanelEditor\ComboBox.xaml.cs">
       <DependentUpon>ComboBox.xaml</DependentUpon>
     </Compile>
@@ -181,9 +194,6 @@
     <Compile Include="Views\ConfigurePlayers\PlayerEditor.xaml.cs">
       <DependentUpon>PlayerEditor.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\GamePadOSK\Osk.xaml.cs">
-      <DependentUpon>Osk.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\Settings\Controls\MultiListItemSubItem.xaml.cs">
       <DependentUpon>MultiListItemSubItem.xaml</DependentUpon>
     </Compile>
@@ -200,6 +210,22 @@
     <Page Include="CustomControls\AlphaSilhouetteBrush.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GamePadOSK\Controls\Dial.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GamePadOSK\Controls\ImageWithLabel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GamePadOSK\Controls\DialItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GamePadOSK\Osk.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\MainPanelEditor\ComboBox.xaml">
       <SubType>Designer</SubType>
@@ -226,10 +252,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ConfigurePlayers\PlayerEditor.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\GamePadOSK\Osk.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -272,6 +294,12 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Resource Include="Resources\ControllerOSKSkin\WoW - Glyphs\active.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\ControllerOSKSkin\WoW - Glyphs\bg.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -284,6 +312,13 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <Resource Include="Resources\ControllerOSKSkin\Steam - Daisy Wheel\BackgroundFlower.png" />
+    <Content Include="Resources\ControllerOSKSkin\Steam - Daisy Wheel\skin.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\ControllerOSKSkin\WoW - Glyphs\skin.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Controllers\Xelu\PS4\PS4_Circle.png" />
@@ -350,6 +385,11 @@
       <Project>{952700cd-a384-43a4-ac4b-52256f83836e}</Project>
       <Name>XInputDotNetPure</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\ControllerOSKSkin\Steam - Daisy Wheel\active.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

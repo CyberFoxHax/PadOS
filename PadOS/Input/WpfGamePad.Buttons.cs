@@ -9,9 +9,9 @@ namespace PadOS.Input {
 		public static void RemoveTriggerLeftChangeHandler(DependencyObject d, GamePadEventUi<float> handler) => (d as UIElement)?.RemoveHandler(TriggerLeftChangeEvent, handler);
 
 		public static readonly RoutedEvent TriggerRightChangeEvent = EventManager.RegisterRoutedEvent(
-			"TriggerRightChange", RoutingStrategy.Bubble, typeof(GamePadEventUi), typeof(WpfGamePad));
-		public static void AddTriggerRightChangeHandler(DependencyObject d, GamePadEventUi<Vector2> handler) => (d as UIElement)?.AddHandler(TriggerRightChangeEvent, handler);
-		public static void RemoveTriggerRightChangeHandler(DependencyObject d, GamePadEventUi<Vector2> handler) => (d as UIElement)?.RemoveHandler(TriggerRightChangeEvent, handler);
+			"TriggerRightChange", RoutingStrategy.Bubble, typeof(GamePadEventUi<float>), typeof(WpfGamePad));
+		public static void AddTriggerRightChangeHandler(DependencyObject d, GamePadEventUi<float> handler) => (d as UIElement)?.AddHandler(TriggerRightChangeEvent, handler);
+		public static void RemoveTriggerRightChangeHandler(DependencyObject d, GamePadEventUi<float> handler) => (d as UIElement)?.RemoveHandler(TriggerRightChangeEvent, handler);
 
 
 
@@ -190,7 +190,6 @@ namespace PadOS.Input {
 			"DPadDownUp", RoutingStrategy.Bubble, typeof(GamePadEventUi), typeof(WpfGamePad));
 		public static void AddDPadDownUpHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.AddHandler(DPadDownUpEvent, handler);
 		public static void RemoveDPadDownUpHandler(DependencyObject d, GamePadEventUi handler) => (d as UIElement)?.RemoveHandler(DPadDownUpEvent, handler);
-
 
 		private static readonly RoutedEvent[] ButtonEvents = {
 			ButtonADownEvent, ButtonAUpEvent,

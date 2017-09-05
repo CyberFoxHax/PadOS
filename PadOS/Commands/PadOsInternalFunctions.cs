@@ -6,7 +6,7 @@ using PadOS.Navigation;
 using PadOS.Views.GamePadOSK;
 using PadOS.Views.Settings;
 
-namespace PadOS {
+namespace PadOS.Commands {
 	public static class PadOsInternalFunctions {
 
 		public static Action GetFunction(string key){

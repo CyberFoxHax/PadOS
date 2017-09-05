@@ -1,11 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using PadOS.Commands.FunctionButtons;
 using PadOS.SaveData.Models;
-using PadOS.ViewModels.FunctionButtons;
 using FunctionButton = PadOS.SaveData.Models.FunctionButton;
 
 namespace PadOS.SaveData {
 	public static class DefaultData{
-		public static FunctionButton[] FunctionButtons ={
+		public static FunctionButton[] FunctionButtons = {
 			new FunctionButton{
 				Parameter = "Empty",
 				Title = "Empty",
@@ -26,8 +25,8 @@ namespace PadOS.SaveData {
 		};
 
 		public static MainPanelData[] MainPanelData = {
-			new MainPanelData { Position = 4, FunctionButton = FunctionButtons[1] },
-			new MainPanelData { Position = 6, FunctionButton = FunctionButtons[2] }
+			new MainPanelData{Position = 4, FunctionButton = FunctionButtons[1]},
+			new MainPanelData{Position = 6, FunctionButton = FunctionButtons[2]}
 		};
 	}
 }

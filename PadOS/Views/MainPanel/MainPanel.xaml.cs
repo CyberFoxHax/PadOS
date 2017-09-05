@@ -3,7 +3,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using PadOS.Input;
-using FunctionButton = PadOS.ViewModels.FunctionButtons.FunctionButton;
+using FunctionButton = PadOS.Commands.FunctionButtons.FunctionButton;
 
 namespace PadOS.Views.MainPanel {
 	public partial class MainPanel {

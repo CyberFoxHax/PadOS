@@ -16,10 +16,11 @@ namespace PadOS {
 		private SystemTray _systemTray;
 
 		protected override void OnStartup(StartupEventArgs e){
-			var ctx = new SaveData.SaveData();
-			ctx.DeleteIfExists();
-			ctx.CreateDb();
-			ctx.InsertDefault();
+			using (var ctx = new SaveData.SaveData()){
+				ctx.DeleteIfExists();
+				ctx.CreateDb();
+				ctx.InsertDefault();
+			}
 
 			base.OnStartup(e);
 			_systemTray = new SystemTray();;

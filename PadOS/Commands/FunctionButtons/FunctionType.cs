@@ -1,4 +1,4 @@
-﻿namespace PadOS.ViewModels.FunctionButtons{
+﻿namespace PadOS.Commands.FunctionButtons{
 	public enum FunctionType{
 		None,
 		PadOsInternal,
