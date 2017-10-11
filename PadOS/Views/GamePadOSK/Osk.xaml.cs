@@ -6,9 +6,7 @@ using System.Windows;
 namespace PadOS.Views.GamePadOSK {
 	public partial class Osk  {
 		public Osk(){
-			System.Windows.Media.RenderOptions.SetBitmapScalingMode(this, System.Windows.Media.BitmapScalingMode.HighQuality);
 			InitializeComponent();
-			Background = System.Windows.Media.Brushes.Transparent;
 			_gamePadWrapper = new GamePadWrapper(this);
 			TextBox.Text = "";
 			System.Windows.Controls.Canvas.SetLeft(Caret, 0);

@@ -25,8 +25,8 @@
 											BorderBrush="#FF173553"
 											BorderThickness="2"
 											>
-											<ContentPresenter />
-									</Border>
+												<ContentPresenter />
+										</Border>
 									</Viewbox>
 								</ControlTemplate>
 							</Setter.Value>

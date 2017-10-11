@@ -33,7 +33,7 @@ namespace PadOS.Views.GamePadOSK.Controls {
 		}
 
 		protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo){
-			return;
+			return; // no usable render size
 			base.OnRenderSizeChanged(sizeInfo);
 			var halfHeight = ActualHeight / 2;
 			var halfWidth = ActualWidth / 2;

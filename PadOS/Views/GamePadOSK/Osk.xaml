@@ -13,12 +13,8 @@
     WindowStyle="None"
     WindowStartupLocation="CenterScreen"
     Background="Transparent"
-    ShowActivated="False"
-    Topmost="True"
-    ShowInTaskbar="False"
     SnapsToDevicePixels="True"
-	xmlns:input="clr-namespace:PadOS.Input" input:WpfGamePad.IsFocusable="True"
-    UseLayoutRounding="True">
+	xmlns:input="clr-namespace:PadOS.Input" input:WpfGamePad.IsFocusable="True">
 	<Border>
         <Grid>
             <Grid.RowDefinitions>
@@ -54,31 +50,33 @@
                             </Canvas>
                         </Grid>
                     </Border>
-                    <controls:ImageWithLabel Grid.Row="1" Margin="461,0,77,32"
-                        ImageSource="/Resources/Controllers/Xelu/Xbox One/XboxOne_Dpad_Down.png"
-                        Text="Enter" />
-                    <controls:ImageWithLabel Margin="595,0,-57,38"
-                        ImageSource="/Resources/Controllers/Xelu/Xbox One/XboxOne_Menu.png"
-                        Text="Enter" Grid.Row="1" />
-                    <controls:ImageWithLabel Grid.Row="1" Margin="0,0,543,32"
-                        ImageSource="/Resources/Controllers/Xelu/Xbox One/XboxOne_LT.png"
-                        Text="Uppercase" />
-                    <controls:ImageWithLabel Margin="161,0,392,32" Grid.Row="1"
-                          ImageSource="/Resources/Controllers/Xelu/Xbox One/XboxOne_RT.png"
-                          Text="Symbols" />
-                    <controls:ImageWithLabel Grid.Row="1" Margin="1,32,552,0"
-                        ImageSource="/Resources/Controllers/Xelu/Xbox One/XboxOne_LB.png"
-                        Text="Delete" />
-                    <controls:ImageWithLabel Margin="161,32,392,0" Grid.Row="1"
-                        ImageSource="/Resources/Controllers/Xelu/Xbox One/XboxOne_RB.png"
-                        Text="Space"/>
-                    <controls:ImageWithLabel Margin="595,37,0,0" Grid.Row="1"
-                        ImageSource="/Resources/Controllers/Xelu/Xbox One/XboxOne_Windows.png"
-                        Text="Show/Hide"/>
-                    <controls:ImageWithLabel Grid.Row="1" Margin="306,0,232,32"
-                    	ImageSource="/Resources/Controllers/Xelu/Xbox One/XboxOne_Dpad_Horizontal.png"
-                    	Text="Move caret" />
-                </Grid>
+					<UniformGrid Grid.Row="1" Rows="2" Columns="4">
+						<controls:ImageWithLabel
+							ImageSource="/Resources/Controllers/Xelu/Xbox One/XboxOne_Dpad_Down.png"
+							Text="Enter" />
+						<controls:ImageWithLabel
+							ImageSource="/Resources/Controllers/Xelu/Xbox One/XboxOne_Menu.png"
+							Text="Enter" />
+						<controls:ImageWithLabel
+							ImageSource="/Resources/Controllers/Xelu/Xbox One/XboxOne_LT.png"
+							Text="Uppercase" />
+						<controls:ImageWithLabel
+							ImageSource="/Resources/Controllers/Xelu/Xbox One/XboxOne_RT.png"
+							Text="Symbols" />
+						<controls:ImageWithLabel
+							ImageSource="/Resources/Controllers/Xelu/Xbox One/XboxOne_LB.png"
+							Text="Delete" />
+						<controls:ImageWithLabel
+							ImageSource="/Resources/Controllers/Xelu/Xbox One/XboxOne_RB.png"
+							Text="Space"/>
+						<controls:ImageWithLabel
+							ImageSource="/Resources/Controllers/Xelu/Xbox One/XboxOne_Windows.png"
+							Text="Show/Hide"/>
+						<controls:ImageWithLabel 
+							ImageSource="/Resources/Controllers/Xelu/Xbox One/XboxOne_Dpad_Horizontal.png"
+							Text="Move caret" />
+					</UniformGrid>
+				</Grid>
             </Border>
         </Grid>
     </Border>

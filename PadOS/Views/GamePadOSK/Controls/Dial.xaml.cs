@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace PadOS.Views.GamePadOSK.Controls {
@@ -55,6 +56,9 @@ namespace PadOS.Views.GamePadOSK.Controls {
 		}
 
 		public void SetBlockFocus(Vector2 value){
+			if (value.GetLength() < 0.5)
+				value = new Vector2();
+			value = value.GetNormalized();
 			FocusBlock(_elmGrid[
 				(int) (value.X + 1),
 				(int) (-value.Y + 1)
@@ -75,7 +79,7 @@ namespace PadOS.Views.GamePadOSK.Controls {
 		static Dial(){
 			BaseChars = QwertySequence;
 			BaseCharsUpper = BaseChars.ToUpper();
-			SymbolChars = "%€|&" + "+-*/" + "=[]\\" + "^<>~" + "'!?." + "°{}¥" + "\":;@" + "_#,-" + "$()£";
+			SymbolChars = "%€|&" + "+-*/" + "=[]\\" + "^<>~" + "'!?." + "°{}¥" + "\":;@" + "_#,€" + "$()£";
 		}
 
 		private const string QwertySequence = "1qew" + "2ryt" + "3uoi" + "4ads" + "5fhg" + "6jlk" + "7zcx" + "8vnb" + "9m0p";
