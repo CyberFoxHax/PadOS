@@ -15,8 +15,8 @@ namespace PadOS {
 
 		private SystemTray _systemTray;
 
-		protected override void OnStartup(StartupEventArgs e){
-			using (var ctx = new SaveData.SaveData()){
+        protected override void OnStartup(StartupEventArgs e){
+            using (var ctx = new SaveData.SaveData()){
 				ctx.DeleteIfExists();
 				ctx.CreateDb();
 				ctx.InsertDefault();

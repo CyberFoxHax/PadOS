@@ -16,6 +16,15 @@ namespace PadOS.Views.Settings {
 				if (child is MultiListItem multiItem)
 					multiItem.ClearValue(MultiListItem.IsActiveProperty);
 			}
-		}
-	}
+
+        }
+
+        public static DependencyProperty ApplicationNameProperty = DependencyProperty.Register("ApplicationName", typeof(string), typeof(Settings));
+
+        public string ApplicationName {
+            get { return (string)GetValue(ApplicationNameProperty); }
+            set { SetValue(ApplicationNameProperty, value); }
+        }
+
+    }
 }
