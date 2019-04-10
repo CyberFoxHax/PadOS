@@ -11,6 +11,7 @@
         WindowStartupLocation="CenterScreen"
         Style="{StaticResource DefaultWindowStyle}"
 		nav:BlockNavigator.IsBlockOwner="True"
+        x:Name="This"
     >
     <Border BorderThickness="3">
         <Border.Background>
@@ -63,9 +64,8 @@
 							<Setter Property="Text" Value="Current Window" />
 							<Style.Triggers>
 								<Trigger Property="nav:BlockNavigator.IsFocused" Value="True">
-									<Setter Property="IsActive" Value="True" />
-									<Setter Property="Text" Value="{x:Static commands:WindowCommands.ApplicationName}" />
-								</Trigger>
+                                    <Setter Property="IsActive" Value="True" />
+                                </Trigger>
 							</Style.Triggers>
 						</Style>
 					</StackPanel.Resources>
@@ -76,7 +76,7 @@
                     <controls:NavigationListItem ImageSource="/Resources/Icons/capture.png" Text="Keyboard Profiles" Click="{x:Static commands:NavigationCommands.EditKeyboardProfilesCommand}" />
                     <controls:NavigationListItem ImageSource="/Resources/Icons/capture.png" Text="Calibration" Click="{x:Static commands:NavigationCommands.EditGamePadCalibrationCommand}" />
                     <controls:NavigationListItem ImageSource="/Resources/Icons/capture.png" Text="Main Panel Profiles" Click="{x:Static commands:NavigationCommands.EditMainPanelProfileCommand}" />
-					<controls:MultiListItem ImageSource="/Resources/Icons/capture.png" IsActive="True">
+                    <controls:MultiListItem ImageSource="/Resources/Icons/capture.png" Text="{}{CurrentWindow}" IsActive="True">
 						<controls:MultiListItem.Items>
                             <controls:MultiListItemSubItem ImageSource="/PadOS;component/Resources/Icons/minimize.png" Click="{x:Static commands:WindowCommands.WindowMinimizeCommand}" />
                             <controls:MultiListItemSubItem ImageSource="/PadOS;component/Resources/Icons/cross.png" Click="{x:Static commands:WindowCommands.WindowCloseCommand}" IsActive="True" />

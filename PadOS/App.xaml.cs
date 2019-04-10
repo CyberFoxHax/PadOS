@@ -9,13 +9,20 @@ namespace PadOS {
 	public partial class App{
 		public static Dispatcher GlobalDispatcher { get; private set; }
 
-		public App(){
+        public App(){
 			GlobalDispatcher = Dispatcher;
 		}
 
 		private SystemTray _systemTray;
 
         protected override void OnStartup(StartupEventArgs e){
+#if DEBUG
+            var resDict = Resources.MergedDictionaries[0] as ResourceDictionary;
+            resDict["ShowActivated"] = true;
+            resDict["Topmost"] = false;
+            resDict["ShowInTaskbar"] = true;
+#endif
+
             using (var ctx = new SaveData.SaveData()){
 				ctx.DeleteIfExists();
 				ctx.CreateDb();

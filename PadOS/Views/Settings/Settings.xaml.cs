@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Windows;
+﻿using System.Windows;
 using PadOS.Views.Settings.Controls;
 
 namespace PadOS.Views.Settings {
@@ -18,13 +16,5 @@ namespace PadOS.Views.Settings {
 			}
 
         }
-
-        public static DependencyProperty ApplicationNameProperty = DependencyProperty.Register("ApplicationName", typeof(string), typeof(Settings));
-
-        public string ApplicationName {
-            get { return (string)GetValue(ApplicationNameProperty); }
-            set { SetValue(ApplicationNameProperty, value); }
-        }
-
     }
 }
