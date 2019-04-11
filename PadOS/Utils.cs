@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 
 namespace PadOS {
 	public static class Utils {
@@ -9,7 +10,14 @@ namespace PadOS {
 			return searchElm as T;
 		}
 
-		public static System.Drawing.Bitmap BitmapSourceToBitmap(System.Windows.Media.Imaging.BitmapSource srs) {
+        public static object FindRootElement(this FrameworkElement elm) {
+            var searchElm = elm;
+            while (searchElm.Parent != null)
+                searchElm = (FrameworkElement)searchElm.Parent;
+            return searchElm;
+        }
+
+        public static System.Drawing.Bitmap BitmapSourceToBitmap(System.Windows.Media.Imaging.BitmapSource srs) {
 			var width = srs.PixelWidth;
 			var height = srs.PixelHeight;
 			var stride = width * ((srs.Format.BitsPerPixel + 7) / 8);
@@ -39,6 +47,6 @@ namespace PadOS {
 			bitmap.EndInit();
 			return bitmap;
 		}
-	}
+    }
 
 }

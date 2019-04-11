@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using PadOS.Input;
 using XInputDotNetPure;
@@ -55,6 +52,8 @@ namespace PadOS.Navigation
 		}
 
 		private void OnThumbChange(int i, GamePadState state, Vector2 value) {
+            if (_blocks.Count == 0)
+                return;
 			var gamePadState = state;
 			var vector = new Vector2(gamePadState.ThumbSticks.Left.X, gamePadState.ThumbSticks.Left.Y);
 			var thumbLength = vector.GetLength();

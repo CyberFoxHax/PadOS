@@ -10,7 +10,6 @@
         Background="{x:Null}"
         WindowStartupLocation="CenterScreen"
         Style="{StaticResource DefaultWindowStyle}"
-		nav:BlockNavigator.IsBlockOwner="True"
         x:Name="This"
     >
     <Border BorderThickness="3">
@@ -42,7 +41,7 @@
 					<StackPanel.Resources>
 						<Style TargetType="controls:BasicListItem">
 							<Setter Property="nav:BlockNavigator.HideCursor" Value="True"></Setter>
-							<Setter Property="nav:BlockNavigator.Registered" Value="True"></Setter>
+							<Setter Property="nav:BlockNavigator.SimulateMouse" Value="True"></Setter>
 							<Style.Triggers>
 								<Trigger Property="nav:BlockNavigator.IsFocused" Value="True">
 									<Setter Property="IsActive" Value="True" />
@@ -51,7 +50,7 @@
 						</Style>
 						<Style TargetType="controls:NavigationListItem">
 							<Setter Property="nav:BlockNavigator.HideCursor" Value="True"></Setter>
-							<Setter Property="nav:BlockNavigator.Registered" Value="True"></Setter>
+                            <Setter Property="nav:BlockNavigator.SimulateMouse" Value="True"></Setter>
 							<Style.Triggers>
 								<Trigger Property="nav:BlockNavigator.IsFocused" Value="True">
 									<Setter Property="IsActive" Value="True" />
@@ -60,7 +59,7 @@
 						</Style>
 						<Style TargetType="controls:MultiListItem">
 							<Setter Property="nav:BlockNavigator.HideCursor" Value="True"></Setter>
-							<Setter Property="nav:BlockNavigator.Registered" Value="True"></Setter>
+                            <Setter Property="nav:BlockNavigator.SimulateMouse" Value="True"></Setter>
 							<Setter Property="Text" Value="Current Window" />
 							<Style.Triggers>
 								<Trigger Property="nav:BlockNavigator.IsFocused" Value="True">

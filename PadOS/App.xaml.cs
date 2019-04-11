@@ -19,7 +19,7 @@ namespace PadOS {
 #if DEBUG
             var resDict = Resources.MergedDictionaries[0] as ResourceDictionary;
             resDict["ShowActivated"] = true;
-            resDict["Topmost"] = false;
+            resDict["TopMost"] = false;
             resDict["ShowInTaskbar"] = true;
 #endif
 

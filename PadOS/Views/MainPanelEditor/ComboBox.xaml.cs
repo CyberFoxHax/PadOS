@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Input;
 
 namespace PadOS.Views.MainPanelEditor {
 	public partial class ComboBox {
@@ -11,7 +12,11 @@ namespace PadOS.Views.MainPanelEditor {
 				return;
 		}
 
-		public static readonly DependencyProperty ItemsSourceProperty = DependencyProperty.Register(
+        protected override void OnMouseUp(MouseButtonEventArgs e) {
+            IsOpen = !IsOpen;
+        }
+
+        public static readonly DependencyProperty ItemsSourceProperty = DependencyProperty.Register(
 			"ItemsSource", typeof(List<string>), typeof(ComboBox), new PropertyMetadata(default(List<string>)));
 
 		public List<string> ItemsSource
@@ -34,5 +39,13 @@ namespace PadOS.Views.MainPanelEditor {
 				SetValue(IsOpenProperty, value);
 			}
 		}
-	}
+
+        public void Open() {
+            IsOpen = true;
+        }
+
+        public void Close() {
+            IsOpen = false;
+        }
+    }
 }

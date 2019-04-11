@@ -9,8 +9,8 @@ namespace PadOS.Input {
 		private static readonly GamePadInput XInput = GamePadInput.StaticInputInstance;
 		public WpfGamePad(UIElement focusOwner) {
 			_focusOwner = focusOwner;
-			BlockNavigator.AddCursorEnterHandler(_focusOwner, OnCursorEnter);
-			BlockNavigator.AddCursorExitHandler(_focusOwner, OnCursorExit);
+			//BlockNavigator.AddCursorEnterHandler(_focusOwner, OnCursorEnter);
+			//BlockNavigator.AddCursorExitHandler(_focusOwner, OnCursorExit);
 
 			if (_focusOwner is Window window) {
 				_focusOwner.IsVisibleChanged += FocusOwnerOnIsVisibleChanged;
@@ -141,8 +141,8 @@ namespace PadOS.Input {
 			DetachEvents();
 
 			_focusOwner.IsVisibleChanged -= FocusOwnerOnIsVisibleChanged;
-			BlockNavigator.RemoveCursorExitHandler(_focusOwner, OnCursorExit);
-			BlockNavigator.RemoveCursorEnterHandler(_focusOwner, OnCursorEnter);
+			//BlockNavigator.RemoveCursorExitHandler(_focusOwner, OnCursorExit);
+			//BlockNavigator.RemoveCursorEnterHandler(_focusOwner, OnCursorEnter);
 
 			if (_focusOwner is Window window)
 				window.Closed -= OnWindowClosed;
