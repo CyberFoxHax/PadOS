@@ -14,7 +14,7 @@
     WindowStartupLocation="CenterScreen"
     Background="Transparent"
     SnapsToDevicePixels="True"
-	xmlns:input="clr-namespace:PadOS.Input" input:WpfGamePad.IsFocusable="True">
+	xmlns:input="clr-namespace:PadOS.Input" input:WpfGamePad.Registered="True">
 	<Border>
         <Grid>
             <Grid.RowDefinitions>

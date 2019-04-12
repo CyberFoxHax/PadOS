@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -85,8 +84,6 @@ namespace PadOS.Navigation{
                         continue;
                     }
                 }
-
-                
                 searchElm = (FrameworkElement)searchElm.Parent;
             }
 			return searchElm;
@@ -131,7 +128,7 @@ namespace PadOS.Navigation{
 			if (frameworkElement == null) return;
 
 			var parent = FindNavigatorElement(frameworkElement);
-            if(parent == registererdControl)
+            if(parent == registererdControl && frameworkElement.Parent != null)
                 parent = FindNavigatorElement((FrameworkElement)frameworkElement.Parent);
 			var nav = GetBlockNavigator(parent);
             if (nav == null) {

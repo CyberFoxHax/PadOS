@@ -4,6 +4,7 @@
         xmlns:commands="clr-namespace:PadOS.Commands"
         xmlns:controls="clr-namespace:PadOS.Views.Settings.Controls"
         xmlns:nav="clr-namespace:PadOS.Navigation"
+        xmlns:input="clr-namespace:PadOS.Input"
         Title="Settings"
         Height="776"
         Width="696"
@@ -64,6 +65,7 @@
 							<Style.Triggers>
 								<Trigger Property="nav:BlockNavigator.IsFocused" Value="True">
                                     <Setter Property="IsActive" Value="True" />
+                                    <Setter Property="input:WpfGamePad.IsFocused" Value="True" />
                                 </Trigger>
 							</Style.Triggers>
 						</Style>

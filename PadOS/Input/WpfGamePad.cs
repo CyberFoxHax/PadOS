@@ -9,8 +9,6 @@ namespace PadOS.Input {
 		private static readonly GamePadInput XInput = GamePadInput.StaticInputInstance;
 		public WpfGamePad(UIElement focusOwner) {
 			_focusOwner = focusOwner;
-			//BlockNavigator.AddCursorEnterHandler(_focusOwner, OnCursorEnter);
-			//BlockNavigator.AddCursorExitHandler(_focusOwner, OnCursorExit);
 
 			if (_focusOwner is Window window) {
 				_focusOwner.IsVisibleChanged += FocusOwnerOnIsVisibleChanged;
@@ -26,7 +24,14 @@ namespace PadOS.Input {
 		private readonly Dictionary<RoutedEvent, GamePadEvent<Vector2>> _thumbstickEvents = new Dictionary<RoutedEvent, GamePadEvent<Vector2>>();
 		private readonly Dictionary<RoutedEvent, GamePadEvent<float>> _triggerEvents = new Dictionary<RoutedEvent, GamePadEvent<float>>();
 
-		private void DetachEvents() {
+        private void FocusChanged(bool isFocused) {
+            if (isFocused)
+                AttachEvents();
+            else
+                DetachEvents();
+        }
+
+        private void DetachEvents() {
 			if (_eventsIsAttached == false) return;
 
 			foreach (var routedEvent in ButtonEvents){
@@ -141,8 +146,6 @@ namespace PadOS.Input {
 			DetachEvents();
 
 			_focusOwner.IsVisibleChanged -= FocusOwnerOnIsVisibleChanged;
-			//BlockNavigator.RemoveCursorExitHandler(_focusOwner, OnCursorExit);
-			//BlockNavigator.RemoveCursorEnterHandler(_focusOwner, OnCursorEnter);
 
 			if (_focusOwner is Window window)
 				window.Closed -= OnWindowClosed;

@@ -1,8 +1,7 @@
 
 BlockNavigator
-    First navigation is ignored
     Activated nested navigator
 
-WpfGamepad not activated on settings multilistitem
-
 MainPanel refactor so the controls will contain it's function attachment, and not the index based on the angle.
+
+UI is too dark, on a bright background all the details disappear

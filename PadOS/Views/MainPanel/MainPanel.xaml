@@ -10,7 +10,7 @@
         Background="{x:Null}"
         WindowStartupLocation="CenterScreen"
         Style="{StaticResource DefaultWindowStyle}"
-		input:WpfGamePad.IsFocusable="True"
+		input:WpfGamePad.Registered="True"
 		input:WpfGamePad.ThumbLeftChange="GamepadInputOnThumbLeftChange"
     >
     <Grid>
