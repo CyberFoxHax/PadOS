@@ -52,7 +52,7 @@ namespace PadOS.Navigation{
                 _isEnabled = value;
                 _xInput.IsEnabled = value;
                 if(_cursor!=null)
-                    _cursor.IsEnabled = value; 
+                    _cursor.Visibility = value ? Visibility.Visible : Visibility.Collapsed;
             }
         }
 
@@ -83,6 +83,7 @@ namespace PadOS.Navigation{
                         searchElm = (FrameworkElement)searchElm.Parent;
                         continue;
                     }
+                    return searchElm;
                 }
                 searchElm = (FrameworkElement)searchElm.Parent;
             }
@@ -161,7 +162,9 @@ namespace PadOS.Navigation{
         }
 
         private void OnActivateNestedNavigator(FrameworkElement _focusElm) {
-
+            IsEnabled = false;
+            var nav = GetBlockNavigator(_focusElm);
+            nav.IsEnabled = true;
         }
     }
 }

@@ -1,6 +1,11 @@
 
 BlockNavigator
-    Activated nested navigator
+	Sometimes the first touch wont respond
+    #Activated nested navigator
+	Exit nested navigator
+
+MainPanelEditor
+	Implement Radial controls when in nested navigation
 
 MainPanel refactor so the controls will contain it's function attachment, and not the index based on the angle.
 

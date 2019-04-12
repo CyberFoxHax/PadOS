@@ -68,14 +68,14 @@
                                 </Style>
                             </Canvas.Resources>
 							<!-- make bindable -->
-                            <customControls:AlphaSilhouetteImage Canvas.Left="365" Canvas.Top="95"  Source="/PadOS;component/Resources/Icons/capture.png" />
-                            <customControls:AlphaSilhouetteImage Canvas.Left="556" Canvas.Top="174" Source="/PadOS;component/Resources/Icons/OSK.png" />
-                            <customControls:AlphaSilhouetteImage Canvas.Left="635" Canvas.Top="365" Source="/PadOS;component/Resources/Icons/Cogs.png" />
-                            <customControls:AlphaSilhouetteImage Canvas.Left="556" Canvas.Top="556" Source="/PadOS;component/Resources/Icons/OSK.png" />
-                            <customControls:AlphaSilhouetteImage Canvas.Left="365" Canvas.Top="635" Source="/PadOS;component/Resources/Icons/capture.png" />
-                            <customControls:AlphaSilhouetteImage Canvas.Left="174" Canvas.Top="556" Source="/PadOS;component/Resources/Icons/Loupe.png" />
-                            <customControls:AlphaSilhouetteImage Canvas.Left="95"  Canvas.Top="365" Source="/PadOS;component/Resources/Icons/Cogs.png" />
-                            <customControls:AlphaSilhouetteImage Canvas.Left="174" Canvas.Top="174" Source="/PadOS;component/Resources/Icons/OSK.png" />
+                            <customControls:AlphaSilhouetteImage nav:BlockNavigator.SimulateMouse="True" Canvas.Left="365" Canvas.Top="95"  Source="/PadOS;component/Resources/Icons/capture.png" />
+                            <customControls:AlphaSilhouetteImage nav:BlockNavigator.SimulateMouse="True" Canvas.Left="556" Canvas.Top="174" Source="/PadOS;component/Resources/Icons/OSK.png" />
+                            <customControls:AlphaSilhouetteImage nav:BlockNavigator.SimulateMouse="True" Canvas.Left="635" Canvas.Top="365" Source="/PadOS;component/Resources/Icons/Cogs.png" />
+                            <customControls:AlphaSilhouetteImage nav:BlockNavigator.SimulateMouse="True" Canvas.Left="556" Canvas.Top="556" Source="/PadOS;component/Resources/Icons/OSK.png" />
+                            <customControls:AlphaSilhouetteImage nav:BlockNavigator.SimulateMouse="True" Canvas.Left="365" Canvas.Top="635" Source="/PadOS;component/Resources/Icons/capture.png" />
+                            <customControls:AlphaSilhouetteImage nav:BlockNavigator.SimulateMouse="True" Canvas.Left="174" Canvas.Top="556" Source="/PadOS;component/Resources/Icons/Loupe.png" />
+                            <customControls:AlphaSilhouetteImage nav:BlockNavigator.SimulateMouse="True" Canvas.Left="95"  Canvas.Top="365" Source="/PadOS;component/Resources/Icons/Cogs.png" />
+                            <customControls:AlphaSilhouetteImage nav:BlockNavigator.SimulateMouse="True" Canvas.Left="174" Canvas.Top="174" Source="/PadOS;component/Resources/Icons/OSK.png" />
 							<!-- -->
                         </Canvas>
 					</Grid>
