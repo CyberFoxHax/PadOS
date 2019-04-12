@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
+using System.Windows.Input;
 using PadOS.Commands;
 using PadOS.Input;
 
@@ -40,9 +41,11 @@ namespace PadOS.Views.Settings.Controls{
 
 		private bool _thumbstickWaitForReturn;
 
-
 		private void MultiListItem_OnConfirmClick(object sender, EventArgs args) {
-			ActiveItem.OnClick();
+			ActiveItem.RaiseEvent(new MouseButtonEventArgs(Mouse.PrimaryDevice, 0, MouseButton.Left) {
+                RoutedEvent = Mouse.MouseUpEvent,
+                Source = this
+            });
 			Click?.Execute(this);
 		}
 

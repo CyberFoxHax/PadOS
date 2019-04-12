@@ -1,3 +1,5 @@
+using System.Windows.Input;
+
 namespace PadOS.Views.Settings.Controls{
 	public partial class MultiListItemSubItem {
 		public MultiListItemSubItem(){
@@ -6,9 +8,9 @@ namespace PadOS.Views.Settings.Controls{
 
 		public System.Windows.Input.ICommand Click { get; set; }
 
-		public void OnClick(){
+        protected override void OnMouseUp(MouseButtonEventArgs e) {
 			Click?.Execute(this);
-		}
+        }
 
 		public static readonly System.Windows.DependencyProperty ImageSourceProperty = System.Windows.DependencyProperty.Register(
 			"ImageSource", typeof (System.Windows.Media.ImageSource), typeof (MultiListItemSubItem), new System.Windows.PropertyMetadata(default(System.Windows.Media.ImageSource)));

@@ -38,8 +38,8 @@ namespace PadOS.Views.Settings.Controls{
 
 		public ICommand Click { get; set; }
 
-		public virtual void OnClick(object sender, EventArgs args) {
+        protected override void OnMouseUp(MouseButtonEventArgs e) {
 			Click?.Execute(this);
-		}
+        }
 	}
 }

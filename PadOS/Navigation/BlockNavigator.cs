@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
+using System.Windows.Input;
 using System.Windows.Media;
 using PadOS.Input;
 
@@ -148,5 +149,22 @@ namespace PadOS.Navigation{
 				nav.AddBlock(frameworkElement);
 			};
 		}
-	}
+
+        private void OnSimulateMouse(FrameworkElement _focusElm) {
+            _focusElm.RaiseEvent(new MouseButtonEventArgs(Mouse.PrimaryDevice, 0, MouseButton.Left) {
+                RoutedEvent = Mouse.MouseUpEvent,
+                Source = this
+            });
+            if (_focusElm is Button) {
+                _focusElm.RaiseEvent(new RoutedEventArgs(System.Windows.Controls.Primitives.ButtonBase.ClickEvent, _focusElm));
+                // since i don't use buttons in my application this remains untested
+                // should a test arise in the future, delete this if it succeeds
+                System.Diagnostics.Debugger.Break();
+            }
+        }
+
+        private void OnActivateNestedNavigator(FrameworkElement _focusElm) {
+
+        }
+    }
 }

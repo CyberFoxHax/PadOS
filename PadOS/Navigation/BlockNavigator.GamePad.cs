@@ -11,9 +11,12 @@ namespace PadOS.Navigation
 
 		private bool _aIsConfirm = true;
 
-		private const double ResetThreshold = 0.3;
-		private bool _waitForReset;
+		private const double MovementThreshold = 0.1;
+		private bool _waitForReturn;
+		private bool _waitForInnerReturn;
 		private readonly GamePadInput _xInput;
+        private double _lowThumbLength;
+        private double _highThumbLength;
 
 		private void InitGamepad(){
 			_xInput.ThumbLeftChange += OnThumbChange;
@@ -30,7 +33,7 @@ namespace PadOS.Navigation
 				_xInput.ButtonBDown += OnConfirmClick;
 			}
 			_xInput.IsEnabled = true;
-			_waitForReset = true;
+			_waitForReturn = false;
 		}
 
 		private void OnCancelClick(int player, GamePadState state){
@@ -40,38 +43,88 @@ namespace PadOS.Navigation
 		}
 
 		private void OnConfirmClick(int player, GamePadState state) {
-			_focusElm?.Dispatcher.Invoke(() => {
-				_focusElm?.RaiseEvent(new RoutedEventArgs(ConfirmClickEvent, _focusElm));
-			});
+            _focusElm?.Dispatcher.Invoke(() => {
+                _focusElm?.RaiseEvent(new RoutedEventArgs(ConfirmClickEvent, _focusElm));
+                if (GetSimulateMouse(_focusElm))
+                    OnSimulateMouse(_focusElm);
+
+                if (GetNestedNavigation(_focusElm))
+                    OnActivateNestedNavigator(_focusElm);
+            });
 		}
 
-		private void OnDPad(Vector2 vector2) {
+        private void OnDPad(Vector2 vector2) {
 			var res = GetSelection(_focusElm, vector2);
 			if (res != null)
 				SetFocus(res);
 		}
 
+        // when navigating in one direction multiple it is easier to jiggle the thumbstick, this alsoritm allows
+        // you to jiggle it in one direction, and for every outward motion that exceeds a delta of 0.1 the nav will go next
+        private bool ShouldNavigate(GamePadState state) {
+            var vector = new Vector2(
+                state.ThumbSticks.Left.X,
+                state.ThumbSticks.Left.Y
+            );
+            var thumbLength = vector.GetLength();
+
+            if(thumbLength < MovementThreshold) {
+                _lowThumbLength = 1;
+                _highThumbLength = 0;
+                _waitForReturn = false;
+                _waitForInnerReturn = false;
+                return false;
+            }
+
+            if (_waitForReturn) {
+                if (_highThumbLength < thumbLength)
+                    _highThumbLength = thumbLength;
+                var highDiff = thumbLength - _highThumbLength;
+
+                if (_waitForInnerReturn) {
+                    if (thumbLength < _lowThumbLength)
+                        _lowThumbLength = thumbLength;
+                    var lowDiff  = thumbLength - _lowThumbLength;
+                    Console.WriteLine($"\nLength: {thumbLength}\nLowest: {_lowThumbLength}\nDiff: {lowDiff}");
+
+                    if (lowDiff > MovementThreshold) {
+                        _waitForInnerReturn = false;
+                        _highThumbLength = _lowThumbLength;
+                        _lowThumbLength = 1;
+                        Console.WriteLine("Next");
+                        return true;
+                    }
+
+                }
+                else {
+                    if(highDiff < -MovementThreshold) {
+                        _waitForInnerReturn = true;
+                    }
+                }
+            }
+            else {
+                if(thumbLength > MovementThreshold) {
+                    _waitForReturn = true;
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
 		private void OnThumbChange(int i, GamePadState state, Vector2 value) {
             if (_blocks.Count == 0)
                 return;
-			var gamePadState = state;
-			var vector = new Vector2(gamePadState.ThumbSticks.Left.X, gamePadState.ThumbSticks.Left.Y);
-			var thumbLength = vector.GetLength();
-			if (_waitForReset && thumbLength > ResetThreshold) return;
 
-			if (thumbLength < ResetThreshold)
-				_waitForReset = false;
-			else if (_waitForReset)
-				return;
-
-			if (thumbLength < ResetThreshold) return;
+            if (ShouldNavigate(state) == false)
+                return;
 
 			var res = GetSelection(_focusElm, new Vector2(
-				vector.X,
-				vector.Y
-			));
+                state.ThumbSticks.Left.X,
+                state.ThumbSticks.Left.Y
+            ));
 			if (res == null) return;
-			_waitForReset = true;
+			_waitForReturn = true;
 			SetFocus(res);
 		}
 

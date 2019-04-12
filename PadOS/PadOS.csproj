@@ -309,6 +309,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Resource Include="Todo.txt" />
     <Resource Include="Resources\ControllerOSKSkin\WoW - Glyphs\active.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>

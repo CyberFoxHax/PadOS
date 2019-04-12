@@ -180,7 +180,7 @@ namespace PadOS.Navigation
         );
 
         public static bool GetSimulateMouse(UIElement element) {
-            throw new NotImplementedException();
+            return (bool)element.GetValue(SimulateMouseProperty);
         }
 
         public static void SetSimulateMouse(UIElement element, bool value) {

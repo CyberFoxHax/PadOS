@@ -38,5 +38,9 @@ namespace PadOS.Views.Settings.Controls{
 			get => (string) GetValue(TextProperty);
 			set => SetValue(TextProperty, value);
 		}
-	}
+
+        private void This_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e) {
+            Click?.Execute(this);
+        }
+    }
 }

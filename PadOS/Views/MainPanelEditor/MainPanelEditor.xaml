@@ -35,7 +35,7 @@
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
             <TextBlock Margin="20,10,0,0" FontSize="18" FontFamily="Courier New" Text="PadOS" Foreground="#888" VerticalAlignment="Top" HorizontalAlignment="Left" />
-            <e:ComboBox Margin="88,3,0,0" Grid.Row="0" Grid.Column="0" nav:BlockNavigator.SimulateMouse="True" nav:BlockNavigator.ConfirmClick="OnClick" />
+            <e:ComboBox Margin="88,3,0,0" Grid.Row="0" Grid.Column="0" nav:BlockNavigator.SimulateMouse="True" />
             <Grid Margin="10,0,0,10" Grid.Row="1" Grid.Column="0" nav:BlockNavigator.NestedNavigation="True">
 				<Grid.Background>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">

@@ -10,7 +10,7 @@
     d:DesignWidth="640"
     Margin="-70,0,0,0"
     x:Name="This"
-	navigation:BlockNavigator.ConfirmClick="NavigationListItem_OnConfirmClick"
+    MouseUp="This_MouseUp"
 	>
     <Grid>
         <Grid.ColumnDefinitions>

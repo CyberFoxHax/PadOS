@@ -1,0 +1,9 @@
+
+BlockNavigator
+	Wait for reset. Let the reset thresh and the nav threshold be different.
+    First navigation is ignored
+    Activated nested navigator
+
+WpfGamepad not activated on settings multilistitem
+
+MainPanel refactor so the controls will contain it's function attachment, and not the index based on the angle.
