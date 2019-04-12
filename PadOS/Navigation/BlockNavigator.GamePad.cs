@@ -17,6 +17,7 @@ namespace PadOS.Navigation
 		private readonly GamePadInput _xInput;
         private double _lowThumbLength;
         private double _highThumbLength;
+        private bool _firstTime = true;
 
 		private void InitGamepad(){
 			_xInput.ThumbLeftChange += OnThumbChange;
@@ -68,7 +69,13 @@ namespace PadOS.Navigation
             );
             var thumbLength = vector.GetLength();
 
-            if(thumbLength < MovementThreshold) {
+            if(_firstTime) {
+                if (thumbLength > MovementThreshold)
+                    return false;
+                _firstTime = false;
+            }
+
+            if (thumbLength < MovementThreshold) {
                 _lowThumbLength = 1;
                 _highThumbLength = 0;
                 _waitForReturn = false;
@@ -85,29 +92,23 @@ namespace PadOS.Navigation
                     if (thumbLength < _lowThumbLength)
                         _lowThumbLength = thumbLength;
                     var lowDiff  = thumbLength - _lowThumbLength;
-                    Console.WriteLine($"\nLength: {thumbLength}\nLowest: {_lowThumbLength}\nDiff: {lowDiff}");
 
                     if (lowDiff > MovementThreshold) {
                         _waitForInnerReturn = false;
                         _highThumbLength = _lowThumbLength;
                         _lowThumbLength = 1;
-                        Console.WriteLine("Next");
                         return true;
                     }
 
                 }
-                else {
-                    if(highDiff < -MovementThreshold) {
-                        _waitForInnerReturn = true;
-                    }
-                }
+                else if(highDiff < -MovementThreshold) 
+                    _waitForInnerReturn = true;
             }
-            else {
+            else 
                 if(thumbLength > MovementThreshold) {
                     _waitForReturn = true;
                     return true;
                 }
-            }
 
             return false;
         }

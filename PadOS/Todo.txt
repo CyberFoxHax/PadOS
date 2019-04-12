@@ -1,6 +1,5 @@
 
 BlockNavigator
-	Wait for reset. Let the reset thresh and the nav threshold be different.
     First navigation is ignored
     Activated nested navigator
 
