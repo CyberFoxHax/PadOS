@@ -74,7 +74,7 @@ namespace PadOS.Views.MainPanel {
 			
 		}
 
-		private void GamepadInputOnThumbLeftChange(object sender, GamePadEventArgs<Vector2> args){
+		private void GamepadInputOnThumbLeftChange(object sender, GamePadEventArgs<Input.Vector2> args){
 			var length = args.Value.GetLength();
 			var angle  = args.Value.GetAngle();
 			if (length > 0.9 && _waitForReturnZero == false) {
@@ -91,5 +91,5 @@ namespace PadOS.Views.MainPanel {
 				Highlight.Visibility = Visibility.Hidden;
 			}
 		}
-	}
+    }
 }

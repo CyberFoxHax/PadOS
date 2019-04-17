@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PadOS.Navigation;
+using System;
 using System.ComponentModel;
 using System.Windows.Input;
 
@@ -14,5 +15,9 @@ namespace PadOS.Views.MainPanelEditor {
 		private void CreateNew_ButtonClick(object sender, MouseButtonEventArgs e){
 
 		}
-	}
+
+        private void Window_CancelClick(object sender, EventArgs args) {
+            Navigator.NavigateBack();
+        }
+    }
 }

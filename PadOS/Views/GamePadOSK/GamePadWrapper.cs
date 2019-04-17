@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Windows;
 using PadOS.Input;
+using PadOS.Input.WpfGamePad;
 
 namespace PadOS.Views.GamePadOSK {
 	public class GamePadWrapper {
 		private readonly DependencyObject _owner;
 
-		public event Action<Vector2> BlockPosChanged;
-		public event Action<Vector2> CharPosChanged;
+		public event Action<Input.Vector2> BlockPosChanged;
+		public event Action<Input.Vector2> CharPosChanged;
 
 		public event Action ChangeCaseDown;
 		public event Action ChangeSymbolsDown;
@@ -88,11 +89,11 @@ namespace PadOS.Views.GamePadOSK {
 		private void OnDeleteUp(object sender, GamePadEventArgs args) => DeleteUp?.Invoke();
 		private void OnMoveRightUp(object sender, GamePadEventArgs args) => MoveRightUp?.Invoke();
 		private void OnMoveLeftUp(object sender, GamePadEventArgs args) => MoveLeftUp?.Invoke();
-		private void OnCharDown(object sender, GamePadEventArgs args) => CharPosChanged?.Invoke(new Vector2(0,-1));
-		private void OnCharLeft(object sender, GamePadEventArgs args) => CharPosChanged?.Invoke(new Vector2(-1,0));
-		private void OnCharRight(object sender, GamePadEventArgs args) => CharPosChanged?.Invoke(new Vector2(1,0));
-		private void OnCharUp(object sender, GamePadEventArgs args) => CharPosChanged?.Invoke(new Vector2(0,1));
-		private void OnBlockPosChanged(object sender, GamePadEventArgs<Vector2> args) => BlockPosChanged?.Invoke(args.Value);
+		private void OnCharDown(object sender, GamePadEventArgs args) => CharPosChanged?.Invoke(new Input.Vector2(0,-1));
+		private void OnCharLeft(object sender, GamePadEventArgs args) => CharPosChanged?.Invoke(new Input.Vector2(-1,0));
+		private void OnCharRight(object sender, GamePadEventArgs args) => CharPosChanged?.Invoke(new Input.Vector2(1,0));
+		private void OnCharUp(object sender, GamePadEventArgs args) => CharPosChanged?.Invoke(new Input.Vector2(0,1));
+		private void OnBlockPosChanged(object sender, GamePadEventArgs<Input.Vector2> args) => BlockPosChanged?.Invoke(args.Value);
 
 		public void Dispose(){
 			WpfGamePad.RemoveThumbLeftChangeHandler(_owner, OnBlockPosChanged);

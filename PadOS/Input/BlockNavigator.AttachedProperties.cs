@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
 
-namespace PadOS.Navigation
+namespace PadOS.Input
 {
     public partial class BlockNavigator{
 
@@ -9,12 +9,12 @@ namespace PadOS.Navigation
 
         private static void RegisterEvent(RoutedEvent evt, DependencyObject d, NavigationEvent handler) {
             (d as UIElement).AddHandler(evt, handler);
-            RegisteredChanged(d);
+            RegisterNavigationBlock(d);
         }
 
         private static void UnregisterEvent(RoutedEvent evt, DependencyObject d, NavigationEvent handler) {
             (d as UIElement).RemoveHandler(CursorEnterEvent, handler);
-            RegisteredChanged(d);
+            RegisterNavigationBlock(d);
         }
 
         /// <summary>
@@ -156,7 +156,7 @@ namespace PadOS.Navigation
             typeof(BlockNavigator),
             new FrameworkPropertyMetadata((a,b)=> {
                 SetBlockNavigator((UIElement)a);
-                RegisteredChanged(a);
+                RegisterNestedNavigationBlock(a);
             })
         );
 
@@ -176,7 +176,7 @@ namespace PadOS.Navigation
             "SimulateMouse",
             typeof(bool),
             typeof(BlockNavigator),
-            new PropertyMetadata((a, b)=> RegisteredChanged(a))
+            new PropertyMetadata((a, b)=> RegisterNavigationBlock(a))
         );
 
         public static bool GetSimulateMouse(UIElement element) {

@@ -37,8 +37,8 @@ namespace PadOS.Views.GamePadOSK {
 		private void WrapperOnEnterDown() => _keyboardInputSimulator.OnEnterButton();
 		private void WrapperOnSpaceDown() => _keyboardInputSimulator.OnSpaceButton();
 		private void WrapperOnDeleteDown() => _keyboardInputSimulator.OnDeleteButton();
-		private void WrapperOnCharPosChanged(Vector2 value) => _keyboardInputSimulator.InsertText(Dial.GetChar(value));
-		private void WrapperOnBlockPosChanged(Vector2 value) => Dial.SetBlockFocus(value);
+		private void WrapperOnCharPosChanged(Input.Vector2 value) => _keyboardInputSimulator.InsertText(Dial.GetChar(value));
+		private void WrapperOnBlockPosChanged(Input.Vector2 value) => Dial.SetBlockFocus(value);
 		private void OnChangeCaseAndSymbolsUp() => Dial.SwitchLowercase();
 		private void OnWrapperOnChangeCaseDown() => Dial.SwitchUppercase();
 		private void OnWrapperOnChangeSymbolsDown() => Dial.SwitchSymbols();

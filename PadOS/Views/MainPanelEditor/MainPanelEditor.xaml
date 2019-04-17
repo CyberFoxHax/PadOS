@@ -3,13 +3,14 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:customControls="clr-namespace:PadOS.CustomControls"
         xmlns:e="clr-namespace:PadOS.Views.MainPanelEditor"
-        xmlns:nav="clr-namespace:PadOS.Navigation"
+        xmlns:nav="clr-namespace:PadOS.Input.BlockNavigator;assembly=PadOS.Input"
         xmlns:functionButtons="clr-namespace:PadOS.Commands.FunctionButtons"
         Title="MainPanelEditor"
         Height="617"
         Width="896"
         Style="{StaticResource DefaultWindowStyle}"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+        nav:BlockNavigator.CancelClick="Window_CancelClick">
     <Border BorderThickness="3">
         <Border.Background>
             <LinearGradientBrush EndPoint="348,809" StartPoint="243.6,-40.45" MappingMode="Absolute">
@@ -36,7 +37,7 @@
             </Grid.ColumnDefinitions>
             <TextBlock Margin="20,10,0,0" FontSize="18" FontFamily="Courier New" Text="PadOS" Foreground="#888" VerticalAlignment="Top" HorizontalAlignment="Left" />
             <e:ComboBox Margin="88,3,0,0" Grid.Row="0" Grid.Column="0" nav:BlockNavigator.SimulateMouse="True" />
-            <Grid Margin="10,0,0,10" Grid.Row="1" Grid.Column="0" nav:BlockNavigator.NestedNavigation="True">
+            <Grid Margin="10,0,0,10" Grid.Row="1" Grid.Column="0" nav:BlockNavigator.IsNestedNavigation="True">
 				<Grid.Background>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                         <GradientStop Color="#161616" />
@@ -108,7 +109,7 @@
                     <TextBlock FontFamily="Segoe UI" Text="Create new..." Foreground="White" FontSize="35" HorizontalAlignment="Center" VerticalAlignment="Center" />
                 </Border>
             </Grid>
-            <ScrollViewer Grid.Row="1" Grid.Column="1" HorizontalScrollBarVisibility="Hidden" nav:BlockNavigator.NestedNavigation="True">
+            <ScrollViewer Grid.Row="1" Grid.Column="1" HorizontalScrollBarVisibility="Hidden" nav:BlockNavigator.IsNestedNavigation="True">
                 <ScrollViewer.DataContext>
                     <functionButtons:FunctionButton />
                 </ScrollViewer.DataContext>

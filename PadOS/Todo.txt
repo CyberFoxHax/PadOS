@@ -1,8 +1,13 @@
-
 BlockNavigator
+	Make sure nested nav also has the ability to disable navigation in cases where you'd like to implement your own mappings
+	#Refactor
 	Sometimes the first touch wont respond
     #Activated nested navigator
-	Exit nested navigator
+	#Exit nested navigator
+
+Navigator
+	Nav back, implement nav history
+	XInput does not go to sleep when a window is hidden. Making recycling windows a no-go
 
 MainPanelEditor
 	Implement Radial controls when in nested navigation

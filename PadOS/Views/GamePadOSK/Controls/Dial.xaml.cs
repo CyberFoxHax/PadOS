@@ -55,9 +55,9 @@ namespace PadOS.Views.GamePadOSK.Controls {
 				children[c].SetChars(seq.Substring(i, 4));
 		}
 
-		public void SetBlockFocus(Vector2 value){
+		public void SetBlockFocus(Input.Vector2 value){
 			if (value.GetLength() < 0.5)
-				value = new Vector2();
+				value = new Input.Vector2();
 			value = value.GetNormalized();
 			FocusBlock(_elmGrid[
 				(int) (value.X + 1),
@@ -65,7 +65,7 @@ namespace PadOS.Views.GamePadOSK.Controls {
 			]);
 		}
 
-		public char GetChar(Vector2 value){
+		public char GetChar(Input.Vector2 value){
 			return _activeElement.GetChar(
 				(int) -value.X,
 				(int) value.Y

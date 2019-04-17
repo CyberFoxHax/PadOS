@@ -4,7 +4,7 @@ using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 
-namespace PadOS.Navigation {
+namespace PadOS.Input.BlockNavigator {
 	public class BlockNavigationCursor : Adorner {
 		public BlockNavigationCursor(UIElement adornedElement) : base(adornedElement) {
 		}

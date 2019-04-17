@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Linq;
 using System.Windows;
-using PadOS.Input;
 using XInputDotNetPure;
+using BlockNavigatorProperty = PadOS.Input.BlockNavigator.BlockNavigator;
 
-namespace PadOS.Navigation
-{
-	public partial class BlockNavigator : IDisposable{
+
+namespace PadOS.Input.BlockNavigator {
+	public partial class BlockNavigatorInternal : IDisposable{
 		private GamePadEvent GetDPadEvent(double x, double y) => (a,b)=>OnDPad(new Vector2(x, y));
 
 		private bool _aIsConfirm = true;
@@ -14,7 +14,7 @@ namespace PadOS.Navigation
 		private const double MovementThreshold = 0.1;
 		private bool _waitForReturn;
 		private bool _waitForInnerReturn;
-		private readonly GamePadInput _xInput;
+		private readonly GamePadInput.GamePadInput _xInput;
         private double _lowThumbLength;
         private double _highThumbLength;
         private bool _firstTime = true;
@@ -38,26 +38,29 @@ namespace PadOS.Navigation
 		}
 
 		private void OnCancelClick(int player, GamePadState state){
-			_focusElm?.Dispatcher.Invoke(() => {
-				_focusElm?.RaiseEvent(new RoutedEventArgs(CancelClickEvent, _focusElm));
-			});
+			_focusElement?.Dispatcher.Invoke(() => {
+                OwnerElement?.RaiseEvent(new RoutedEventArgs(BlockNavigatorProperty.CancelClickEvent, OwnerElement));
+                _focusElement?.RaiseEvent(new RoutedEventArgs(BlockNavigatorProperty.CancelClickEvent, _focusElement));
+                OnNavigateBack();
+            });
 		}
 
 		private void OnConfirmClick(int player, GamePadState state) {
-            _focusElm?.Dispatcher.Invoke(() => {
-                _focusElm?.RaiseEvent(new RoutedEventArgs(ConfirmClickEvent, _focusElm));
-                if (GetSimulateMouse(_focusElm))
-                    OnSimulateMouse(_focusElm);
+            _focusElement?.Dispatcher.Invoke(() => {
+                OwnerElement?.RaiseEvent(new RoutedEventArgs(BlockNavigatorProperty.ConfirmClickEvent, OwnerElement));
+                _focusElement?.RaiseEvent(new RoutedEventArgs(BlockNavigatorProperty.ConfirmClickEvent, _focusElement));
+                if (BlockNavigatorProperty.GetSimulateMouse(_focusElement))
+                    OnSimulateMouse(_focusElement);
 
-                if (GetNestedNavigation(_focusElm))
-                    OnActivateNestedNavigator(_focusElm);
+                if (BlockNavigatorProperty.GetIsNestedNavigation(_focusElement))
+                    OnActivateNestedNavigator(_focusElement);
             });
 		}
 
         private void OnDPad(Vector2 vector2) {
-			var res = GetSelection(_focusElm, vector2);
+			var res = GetSelection(_focusElement, vector2);
 			if (res != null)
-				SetFocus(res);
+				OnFocusChanged(res);
 		}
 
         // when navigating in one direction multiple it is easier to jiggle the thumbstick, this alsoritm allows
@@ -120,13 +123,13 @@ namespace PadOS.Navigation
             if (ShouldNavigate(state) == false)
                 return;
 
-			var res = GetSelection(_focusElm, new Vector2(
+			var res = GetSelection(_focusElement, new Vector2(
                 state.ThumbSticks.Left.X,
                 state.ThumbSticks.Left.Y
             ));
 			if (res == null) return;
 			_waitForReturn = true;
-			SetFocus(res);
+			OnFocusChanged(res);
 		}
 
 		private FrameworkElement GetSelection(FrameworkElement activeElement, Vector2 direction){
