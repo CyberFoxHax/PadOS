@@ -7,7 +7,7 @@ using BlockNavigatorProperty = PadOS.Input.BlockNavigator.BlockNavigator;
 
 
 namespace PadOS.Input.BlockNavigator {
-    public partial class BlockNavigatorInternal {
+    internal partial class BlockNavigatorInternal {
 
         public void OnAddBlock(FrameworkElement elm) {
             if (_blocks.ContainsKey(elm))

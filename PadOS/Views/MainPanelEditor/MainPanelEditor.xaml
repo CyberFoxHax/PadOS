@@ -10,7 +10,8 @@
         Width="896"
         Style="{StaticResource DefaultWindowStyle}"
         WindowStartupLocation="CenterScreen"
-        nav:BlockNavigator.CancelClick="Window_CancelClick">
+        nav:BlockNavigator.CancelClick="Window_CancelClick"
+        x:Name="This">
     <Border BorderThickness="3">
         <Border.Background>
             <LinearGradientBrush EndPoint="348,809" StartPoint="243.6,-40.45" MappingMode="Absolute">
@@ -36,15 +37,15 @@
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
             <TextBlock Margin="20,10,0,0" FontSize="18" FontFamily="Courier New" Text="PadOS" Foreground="#888" VerticalAlignment="Top" HorizontalAlignment="Left" />
-            <e:ComboBox Margin="88,3,0,0" Grid.Row="0" Grid.Column="0" nav:BlockNavigator.SimulateMouse="True" />
-            <Grid Margin="10,0,0,10" Grid.Row="1" Grid.Column="0" nav:BlockNavigator.IsNestedNavigation="True">
+            <e:ComboBox x:Name="Profiles_ComboBox" Margin="88,3,0,0" Grid.Row="0" Grid.Column="0" nav:BlockNavigator.SimulateMouse="True" />
+            <Grid Margin="10,0,0,10" Grid.Row="1" Grid.Column="0" nav:BlockNavigator.IsNestedNavigation="True" nav:BlockNavigator.ConfirmClick="DialArea_ConfirmClick">
 				<Grid.Background>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                         <GradientStop Color="#161616" />
                         <GradientStop Color="#1f1f1f" Offset="1"/>
                     </LinearGradientBrush>
                 </Grid.Background>
-                <Viewbox HorizontalAlignment="Center" Width="440" Height="441" VerticalAlignment="Center">
+                <Viewbox HorizontalAlignment="Center" Width="440" Height="440" VerticalAlignment="Center">
                     <Grid Width="730" Height="730">
                         <Ellipse Fill="#333" Margin="0" />
                         <Ellipse Fill="#161616" Margin="175"/>
@@ -59,7 +60,7 @@
                             </Grid.RenderTransform>
                             <customControls:AlphaSilhouetteImage HorizontalAlignment="Left" Width="150" NormalColor="#FF285A8B" Source="/PadOS;component/Resources/main_panel_highlight.png" />
                         </Grid>
-                        <Canvas x:Name="Canvas">
+                        <Canvas x:Name="DialArea_ButtonsCanvas">
                             <Canvas.Resources>
                                 <Style TargetType="customControls:AlphaSilhouetteImage">
                                     <Setter Property="Width"  Value="130" />
@@ -89,14 +90,11 @@
                         <GradientStop Color="#FF1E6BA4" Offset="1"/>
                     </LinearGradientBrush>
                 </Grid.Background>
-                <Border BorderThickness="2">
+                <Border BorderThickness="0">
                     <Border.Background>
                         <LinearGradientBrush EndPoint="0,-1" StartPoint="1,2">
-                            <GradientStop Color="#7fff" Offset="0.00"/>
-                            <GradientStop Color="#3fff" Offset="0.22"/>
-                            <GradientStop Color="#5fff" Offset="0.37"/>
-                            <GradientStop Color="#3fff" Offset="0.87"/>
-                            <GradientStop Color="#6fff" Offset="0.95"/>
+                            <GradientStop Color="#4fff" Offset="0"/>
+                            <GradientStop Color="#2fff" Offset="1"/>
                         </LinearGradientBrush>
                     </Border.Background>
                     <Border.BorderBrush>
@@ -106,7 +104,7 @@
                             <GradientStop Color="#0fff" Offset="1"/>
                         </LinearGradientBrush>
                     </Border.BorderBrush>
-                    <TextBlock FontFamily="Segoe UI" Text="Create new..." Foreground="White" FontSize="35" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <TextBlock FontFamily="Segoe UI" Text="Create new..." Foreground="White" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center" />
                 </Border>
             </Grid>
             <ScrollViewer Grid.Row="1" Grid.Column="1" HorizontalScrollBarVisibility="Hidden" nav:BlockNavigator.IsNestedNavigation="True">
@@ -132,22 +130,22 @@
                                         <Setter Property="Background">
                                             <Setter.Value>
                                                 <LinearGradientBrush EndPoint="1,1" StartPoint="0,0">
-                                                    <GradientStop Color="#3f7aa1" Offset="0"/>
-                                                    <GradientStop Color="#2b5877" Offset="1"/>
+                                                    <GradientStop Color="#FF51A9DA" Offset="0"/>
+                                                    <GradientStop Color="#FF4B8AB9" Offset="1"/>
                                                 </LinearGradientBrush>
                                             </Setter.Value>
                                         </Setter>
-                                        <Setter Property="BorderBrush" Value="#6290b1" />
+                                        <Setter Property="BorderBrush" Value="#0000" />
                                         <Setter Property="BorderThickness" Value="1" />
                                     </Style>
                                 </Border.Resources>
-                                <Grid>
+                                <Grid Height="96" Width="96" nav:BlockNavigator.SimulateMouse="True">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="43*"/>
                                         <RowDefinition Height="21*"/>
                                     </Grid.RowDefinitions>
 									<customControls:AlphaSilhouetteImage Grid.Row="0" Source="{Binding ImageUri}" NormalColor="#eff6fa" Margin="0, 10, 0, 3" />
-	                                <TextBlock FontFamily="Courier New" Text="{Binding Title}" Foreground="#eff6fa" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,5" Grid.Row="1"/>
+                                    <TextBlock FontFamily="Segoe UI" Text="{Binding Title}" Foreground="#eff6fa" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,5" Grid.Row="1"/>
                                 </Grid>
                             </Border>
                         </DataTemplate>

@@ -7,7 +7,7 @@ using System.Windows.Media;
 using BlockNavigatorProperty = PadOS.Input.BlockNavigator.BlockNavigator;
 
 namespace PadOS.Input.BlockNavigator {
-	public partial class BlockNavigatorInternal{
+	internal partial class BlockNavigatorInternal{
 		internal BlockNavigatorInternal(FrameworkElement element) {
 			_xInput = new GamePadInput.GamePadInput();
 			InitGamepad();
@@ -44,11 +44,14 @@ namespace PadOS.Input.BlockNavigator {
 		private readonly Dictionary<FrameworkElement, Rect> _blocks = new Dictionary<FrameworkElement, Rect>();
         public FrameworkElement OwnerElement { get; private set; }
         public BlockNavigatorInternal ParentNavigator { get; set; }
+        public bool ExplicitDisabled { get; set; }
 
         private bool _isEnabled;
         public bool IsEnabled {
             get { return _isEnabled; }
             set {
+                if (ExplicitDisabled)
+                    return;
                 _isEnabled = value;
                 OnIsEnabledChanged(value);
             }

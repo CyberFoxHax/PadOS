@@ -11,7 +11,7 @@ namespace PadOS.SaveData {
 			
 		}
 
-		public const string DbFileName = "Settings\\PadOsDatabase.sqlite";
+		public const string DbFileName = "Settings\\PadOS.sqlite";
 
 		protected override void OnModelCreating(DbModelBuilder modelBuilder) {
 			var sqliteConnectionInitializer = new SQLite.CodeFirst.SqliteCreateDatabaseIfNotExists<SaveData>(modelBuilder);
@@ -32,16 +32,15 @@ namespace PadOS.SaveData {
 		}
 
 		public void CreateDb(){
-			FunctionButtons.ToList();
+			Functions.ToList();
 		}
 
 		public void InsertDefault(){
-			FunctionButtons.AddRange(DefaultData.FunctionButtons);
-			MainPanelData.AddRange(DefaultData.MainPanelData);
-			SaveChanges();
+            DefaultData.InsertData(this);
 		}
 
-		public virtual DbSet<FunctionButton> FunctionButtons { get; set; }
-		public virtual DbSet<MainPanelData> MainPanelData { get; set; }
+		public virtual DbSet<Profiles> Profiles { get; set; }
+		public virtual DbSet<Function> Functions { get; set; }
+		public virtual DbSet<PanelButton> PanelButtons { get; set; }
 	}
 }

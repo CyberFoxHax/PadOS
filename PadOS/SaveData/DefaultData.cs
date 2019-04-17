@@ -1,32 +1,53 @@
 ﻿using PadOS.Commands.FunctionButtons;
 using PadOS.SaveData.Models;
-using FunctionButton = PadOS.SaveData.Models.FunctionButton;
+using Function = PadOS.SaveData.Models.Function;
 
 namespace PadOS.SaveData {
 	public static class DefaultData{
-		public static FunctionButton[] FunctionButtons = {
-			new FunctionButton{
+        public static void InsertData(SaveData ctx) {
+            ctx.Functions.AddRange(Functions);
+            ctx.PanelButtons.AddRange(PanelButtons);
+            ctx.Profiles.AddRange(Profiles);
+            ctx.SaveChanges();
+        }
+
+		public static Function[] Functions = {
+			new Function{
+                Id = 1,
 				Parameter = "Empty",
 				Title = "Empty",
-				FunctionType = FunctionType.PadOsInternal
+				FunctionType = FunctionType.PadOsInternal,
 			},
-			new FunctionButton{
-				Parameter = "OpenSettings",
-				ImageUri = "Icons/cogs.png",
+			new Function{
+                Id = 2,
+                Parameter = "OpenSettings",
+				ThumbnailUri = "Icons/cogs.png",
 				Title = "Settings",
 				FunctionType = FunctionType.PadOsInternal
 			},
-			new FunctionButton{
-				Parameter = "OpenOsk",
-				ImageUri = "Icons/osk.png",
+			new Function{
+                Id = 3,
+                Parameter = "OpenOsk",
+				ThumbnailUri = "Icons/osk.png",
 				Title = "OSK",
 				FunctionType = FunctionType.PadOsInternal
 			}
 		};
 
-		public static MainPanelData[] MainPanelData = {
-			new MainPanelData{Position = 4, FunctionButton = FunctionButtons[1]},
-			new MainPanelData{Position = 6, FunctionButton = FunctionButtons[2]}
+        public static Profiles[] Profiles = {
+            new Profiles {
+                Id = 1,
+                Name = "Static",
+            },
+            new Profiles {
+                Id = 2,
+                Name = "Default",
+            }
+        };
+
+		public static PanelButton[] PanelButtons = {
+			new PanelButton {Position = 4, Function = Functions[1], Profile = Profiles[0]},
+			new PanelButton {Position = 6, Function = Functions[2], Profile = Profiles[0]}
 		};
 	}
 }

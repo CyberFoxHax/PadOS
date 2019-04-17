@@ -6,7 +6,7 @@ using BlockNavigatorProperty = PadOS.Input.BlockNavigator.BlockNavigator;
 
 
 namespace PadOS.Input.BlockNavigator {
-	public partial class BlockNavigatorInternal : IDisposable{
+	internal partial class BlockNavigatorInternal : IDisposable{
 		private GamePadEvent GetDPadEvent(double x, double y) => (a,b)=>OnDPad(new Vector2(x, y));
 
 		private bool _aIsConfirm = true;
@@ -19,7 +19,7 @@ namespace PadOS.Input.BlockNavigator {
         private double _highThumbLength;
         private bool _firstTime = true;
 
-		private void InitGamepad(){
+        private void InitGamepad(){
 			_xInput.ThumbLeftChange += OnThumbChange;
 			_xInput.DPadDownDown	+= GetDPadEvent( 0, -1);
 			_xInput.DPadUpDown		+= GetDPadEvent( 0,  1);

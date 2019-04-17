@@ -23,7 +23,8 @@ namespace PadOS.Views.MainPanelEditor {
 		{
 			get => (List<string>) GetValue(ItemsSourceProperty);
 			set {
-				ListBox.ItemsSource = value;
+                ListBox.Items.Clear();
+                ListBox.ItemsSource = value;
 				SetValue(ItemsSourceProperty, value);
 			}
 		}

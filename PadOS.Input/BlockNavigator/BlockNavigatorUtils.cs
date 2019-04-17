@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using BlockNavigatorProperty = PadOS.Input.BlockNavigator.BlockNavigator;
@@ -55,6 +56,16 @@ namespace PadOS.Input.BlockNavigator {
             var nav = new BlockNavigatorInternal(element);
             BlockNavigatorProperty.SetBlockNavigator(element, nav);
             return nav;
+        }
+
+        public static void OnDisableBlockNavigatorChanged(FrameworkElement a, bool value) {
+            var nav = BlockNavigatorProperty.GetBlockNavigator(a);
+            if(nav == null) {
+                var elm = FindBlockNavigatorElement(a);
+                nav = BlockNavigatorProperty.GetBlockNavigator(elm);
+            }
+            nav.ExplicitDisabled = value;
+            nav.IsEnabled = !value;
         }
     }
 }

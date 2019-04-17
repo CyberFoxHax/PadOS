@@ -187,6 +187,25 @@ namespace PadOS.Input.BlockNavigator {
         }
 
         /// <summary>
+        /// When you want to implement your own custom control scheme in the UI you can use this to disable the navigator
+        /// </summary>
+        public static readonly DependencyProperty IsDisabledProperty = DependencyProperty.RegisterAttached(
+            "IsDisabled",
+            typeof(bool),
+            typeof(BlockNavigator),
+            new FrameworkPropertyMetadata((a,b)=>Utils.OnDisableBlockNavigatorChanged((FrameworkElement)a, (bool)b.NewValue))
+        );
+
+        public static bool GetIsDisabled(FrameworkElement element) {
+            return (bool)element.GetValue(IsDisabledProperty);
+        }
+
+        public static void SetIsDisabled(FrameworkElement element, bool value) {
+            element.SetValue(IsDisabledProperty, value);
+        }
+
+
+        /// <summary>
         /// Contains the instance of our navigation system. Not singleton. It is per NestedNavigation. It's also a private member, no touchie
         /// </summary>
         internal static readonly DependencyProperty BlockNavigatorProperty = DependencyProperty.RegisterAttached(

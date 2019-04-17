@@ -6,7 +6,7 @@ namespace PadOS.Input.WpfGamePad {
 		private static readonly DependencyProperty InstanceProperty = DependencyProperty.RegisterAttached(
 			"Instance", typeof(WpfGamePad), typeof(WpfGamePad), new FrameworkPropertyMetadata(default(WpfGamePad)));
 		public static WpfGamePad GetInstance(UIElement element) => (WpfGamePad)element.GetValue(InstanceProperty);
-		private static void SetInstance(UIElement element, WpfGamePad value = null) => element.SetValue(InstanceProperty, value ?? new WpfGamePad(element));
+		private static void SetInstance(UIElement element, WpfGamePad value) => element.SetValue(InstanceProperty, value);
 
         public static readonly DependencyProperty IsFocusedProperty = DependencyProperty.RegisterAttached(
             "IsFocused", typeof(bool), typeof(WpfGamePad), new FrameworkPropertyMetadata(IsFocusedPropertyChangedCallback));
@@ -22,7 +22,10 @@ namespace PadOS.Input.WpfGamePad {
 		public static bool GetRegistered(UIElement element) => throw new NotImplementedException();
 		public static void SetRegistered(UIElement element, bool value) => element.SetValue(RegisteredProperty, value);
 		private static void RegisteredPropertyChangedCallback(DependencyObject dep, DependencyPropertyChangedEventArgs args) {
-			SetInstance((UIElement)dep);
-		}
-	}
+            if ((bool)args.NewValue == true)
+                SetInstance((UIElement)dep, new WpfGamePad((UIElement)dep));
+            else
+                dep.ClearValue(InstanceProperty);
+        }
+    }
 }

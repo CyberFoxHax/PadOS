@@ -1,17 +1,16 @@
 BlockNavigator
-	Make sure nested nav also has the ability to disable navigation in cases where you'd like to implement your own mappings
-	#Refactor
-	Sometimes the first touch wont respond
-    #Activated nested navigator
-	#Exit nested navigator
+	Feature: Make sure nested nav also has the ability to disable navigation in cases where you'd like to implement your own mappings
+	Bug: If the nested view has no blocks the entire system ceases to function
+	Bug: Sometimes the first touch wont respond
+	Bug: Doesn't work on ItemsControl
 
 Navigator
-	Nav back, implement nav history
-	XInput does not go to sleep when a window is hidden. Making recycling windows a no-go
+	Feature: Nav back, implement nav history
+	Bug: XInput does not go to sleep when a window is hidden. Making recycling windows a no-go
 
 MainPanelEditor
-	Implement Radial controls when in nested navigation
+	Feature: Implement Radial controls when in nested navigation
 
-MainPanel refactor so the controls will contain it's function attachment, and not the index based on the angle.
+Enhance: MainPanel refactor so the controls will contain it's function attachment, and not the index based on the angle.
 
-UI is too dark, on a bright background all the details disappear
+Enhance: UI is too dark, on a bright background all the details disappear

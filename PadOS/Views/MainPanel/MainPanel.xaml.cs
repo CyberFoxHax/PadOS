@@ -14,13 +14,13 @@ namespace PadOS.Views.MainPanel {
 			IsVisibleChanged += OnIsVisibleChanged;
 
 			var ctx = new SaveData.SaveData();
-			var saveData = ctx.MainPanelData;
+			var saveData = ctx.PanelButtons;
 			foreach (var data in saveData){
 				_buttons[data.Position] = new FunctionButton {
-					ImageUri = new Uri("pack://application:,,,/PadOS;component/Resources/" + data.FunctionButton.ImageUri),
-					Title = data.FunctionButton.Title,
-					Key = data.FunctionButton.Parameter,
-					FunctionType = data.FunctionButton.FunctionType
+					ImageUri = new Uri("pack://application:,,,/PadOS;component/Resources/" + data.Function.ThumbnailUri),
+					Title = data.Function.Title,
+					Key = data.Function.Parameter,
+					FunctionType = data.Function.FunctionType
 				};
 				SetButton(data.Position, _buttons[data.Position]);
 			}
@@ -31,7 +31,7 @@ namespace PadOS.Views.MainPanel {
 			const double segment = tau/upper;
 			for (var i = 0; i < upper; i++){
 				Canvas.SetLeft(elms[i], Math.Cos(segment * i - segment * 2) * 270 + Width / 2);
-				Canvas.SetTop (elms[i], Math.Sin(segment * i - segment * 2) * 270 + Width / 2);
+				Canvas.SetTop (elms[i], Math.Sin(segment * i - segment * 2) * 270 + Height / 2);
 
 				if (_buttons[i] != null) continue;
 				elms[i].Source = null;
