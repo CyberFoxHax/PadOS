@@ -179,7 +179,6 @@
     <Compile Include="Views\MainPanelEditor\DialAreaControl.xaml.cs">
       <DependentUpon>DialAreaControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MainPanelEditor\DialAreaController.cs" />
     <Compile Include="Views\MainPanelEditor\MainPanelEditor.xaml.cs">
       <DependentUpon>MainPanelEditor.xaml</DependentUpon>
     </Compile>
