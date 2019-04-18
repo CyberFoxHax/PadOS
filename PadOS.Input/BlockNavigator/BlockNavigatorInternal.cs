@@ -57,6 +57,10 @@ namespace PadOS.Input.BlockNavigator {
             }
         }
 
+        public void SetFocus(FrameworkElement element) {
+            OnFocusChanged(element);
+        }
+
 		private void SetInitialFocus(){
 			foreach (var block in _blocks) {
 				if (BlockNavigatorProperty.GetInitialFocus(block.Key) == false)

@@ -51,6 +51,7 @@ namespace PadOS.Input.BlockNavigator {
 
         private void OnIsEnabledChanged(bool value) {
             _xInput.IsEnabled = value;
+            _waitForReturn = true;
             if (_cursor != null)
                 _cursor.Visibility = value ? Visibility.Visible : Visibility.Collapsed;
         }
@@ -71,7 +72,7 @@ namespace PadOS.Input.BlockNavigator {
             });
         }
 
-        private void OnNavigateBack() {
+        public void OnNavigateBack() {
             if (ParentNavigator == null)
                 return;
 

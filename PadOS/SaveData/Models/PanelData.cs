@@ -7,5 +7,4 @@ namespace PadOS.SaveData.Models {
         public virtual Profiles Profile { get; set; }
         public virtual Function Function { get; set; }
 	}
-
 }

@@ -73,9 +73,9 @@ namespace PadOS.Input.BlockNavigator {
             var thumbLength = vector.GetLength();
 
             if(_firstTime) {
+                _firstTime = false;
                 if (thumbLength > MovementThreshold)
                     return false;
-                _firstTime = false;
             }
 
             if (thumbLength < MovementThreshold) {

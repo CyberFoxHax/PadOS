@@ -45,43 +45,7 @@
                         <GradientStop Color="#1f1f1f" Offset="1"/>
                     </LinearGradientBrush>
                 </Grid.Background>
-                <Viewbox HorizontalAlignment="Center" Width="440" Height="440" VerticalAlignment="Center">
-                    <Grid Width="730" Height="730">
-                        <Ellipse Fill="#333" Margin="0" />
-                        <Ellipse Fill="#161616" Margin="175"/>
-                        <Grid x:Name="Highlight" RenderTransformOrigin="0.5,0.5">
-                            <Grid.RenderTransform>
-                                <TransformGroup>
-                                    <ScaleTransform/>
-                                    <SkewTransform/>
-                                    <RotateTransform x:Name="HighlightRotate" Angle="0"/>
-                                    <TranslateTransform/>
-                                </TransformGroup>
-                            </Grid.RenderTransform>
-                            <customControls:AlphaSilhouetteImage HorizontalAlignment="Left" Width="150" NormalColor="#FF285A8B" Source="/PadOS;component/Resources/main_panel_highlight.png" />
-                        </Grid>
-                        <Canvas x:Name="DialArea_ButtonsCanvas">
-                            <Canvas.Resources>
-                                <Style TargetType="customControls:AlphaSilhouetteImage">
-                                    <Setter Property="Width"  Value="130" />
-                                    <Setter Property="Height" Value="130" />
-                                    <Setter Property="Margin" Value="-65,-65,0,0" />
-                                    <Setter Property="NormalColor" Value="#FFEBF1F9" />
-                                </Style>
-                            </Canvas.Resources>
-							<!-- make bindable -->
-                            <customControls:AlphaSilhouetteImage nav:BlockNavigator.SimulateMouse="True" Canvas.Left="365" Canvas.Top="95"  Source="/PadOS;component/Resources/Icons/capture.png" />
-                            <customControls:AlphaSilhouetteImage nav:BlockNavigator.SimulateMouse="True" Canvas.Left="556" Canvas.Top="174" Source="/PadOS;component/Resources/Icons/OSK.png" />
-                            <customControls:AlphaSilhouetteImage nav:BlockNavigator.SimulateMouse="True" Canvas.Left="635" Canvas.Top="365" Source="/PadOS;component/Resources/Icons/Cogs.png" />
-                            <customControls:AlphaSilhouetteImage nav:BlockNavigator.SimulateMouse="True" Canvas.Left="556" Canvas.Top="556" Source="/PadOS;component/Resources/Icons/OSK.png" />
-                            <customControls:AlphaSilhouetteImage nav:BlockNavigator.SimulateMouse="True" Canvas.Left="365" Canvas.Top="635" Source="/PadOS;component/Resources/Icons/capture.png" />
-                            <customControls:AlphaSilhouetteImage nav:BlockNavigator.SimulateMouse="True" Canvas.Left="174" Canvas.Top="556" Source="/PadOS;component/Resources/Icons/Loupe.png" />
-                            <customControls:AlphaSilhouetteImage nav:BlockNavigator.SimulateMouse="True" Canvas.Left="95"  Canvas.Top="365" Source="/PadOS;component/Resources/Icons/Cogs.png" />
-                            <customControls:AlphaSilhouetteImage nav:BlockNavigator.SimulateMouse="True" Canvas.Left="174" Canvas.Top="174" Source="/PadOS;component/Resources/Icons/OSK.png" />
-							<!-- -->
-                        </Canvas>
-					</Grid>
-                </Viewbox>
+                <e:DialAreaControl x:Name="DialAreaControl" />
             </Grid>
             <Grid Grid.Row="0" Grid.Column="1" nav:BlockNavigator.SimulateMouse="True" MouseUp="CreateNew_ButtonClick">
                 <Grid.Background>
@@ -104,7 +68,7 @@
                             <GradientStop Color="#0fff" Offset="1"/>
                         </LinearGradientBrush>
                     </Border.BorderBrush>
-                    <TextBlock FontFamily="Segoe UI" Text="Create new..." Foreground="White" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <TextBlock FontFamily="Segoe UI" Text="New function..." Foreground="White" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center" />
                 </Border>
             </Grid>
             <ScrollViewer Grid.Row="1" Grid.Column="1" HorizontalScrollBarVisibility="Hidden" nav:BlockNavigator.IsNestedNavigation="True">

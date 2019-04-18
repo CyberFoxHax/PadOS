@@ -154,7 +154,7 @@
     <Compile Include="Navigation\Navigator.cs" />
     <Compile Include="SaveData\DefaultData.cs" />
     <Compile Include="SaveData\Models\Profiles.cs" />
-    <Compile Include="SaveData\Models\FunctionButton.cs" />
+    <Compile Include="SaveData\Models\Function.cs" />
     <Compile Include="SaveData\SaveData.cs" />
     <Compile Include="Commands\FunctionButtons\FunctionButton.cs" />
     <Compile Include="Commands\FunctionButtons\FunctionType.cs" />
@@ -175,6 +175,9 @@
     </Compile>
     <Compile Include="Views\MainPanelEditor\ComboBox.xaml.cs">
       <DependentUpon>ComboBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MainPanelEditor\DialAreaControl.xaml.cs">
+      <DependentUpon>DialAreaControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainPanelEditor\DialAreaController.cs" />
     <Compile Include="Views\MainPanelEditor\MainPanelEditor.xaml.cs">
@@ -233,6 +236,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\MainPanelEditor\ComboBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MainPanelEditor\DialAreaControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
