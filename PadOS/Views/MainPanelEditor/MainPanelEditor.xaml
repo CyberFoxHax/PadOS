@@ -1,10 +1,8 @@
 ﻿<Window x:Class="PadOS.Views.MainPanelEditor.MainPanelEditor"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:customControls="clr-namespace:PadOS.CustomControls"
         xmlns:e="clr-namespace:PadOS.Views.MainPanelEditor"
         xmlns:nav="clr-namespace:PadOS.Input.BlockNavigator;assembly=PadOS.Input"
-        xmlns:functionButtons="clr-namespace:PadOS.Commands.FunctionButtons"
         Title="MainPanelEditor"
         Height="617"
         Width="896"
@@ -57,8 +55,8 @@
                 <Border BorderThickness="0">
                     <Border.Background>
                         <LinearGradientBrush EndPoint="0,-1" StartPoint="1,2">
-                            <GradientStop Color="#4fff" Offset="0"/>
-                            <GradientStop Color="#2fff" Offset="1"/>
+                            <GradientStop Color="#2fff" Offset="0"/>
+                            <GradientStop Color="#4fff" Offset="1"/>
                         </LinearGradientBrush>
                     </Border.Background>
                     <Border.BorderBrush>
@@ -71,51 +69,7 @@
                     <TextBlock FontFamily="Segoe UI" Text="New function..." Foreground="White" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center" />
                 </Border>
             </Grid>
-            <ScrollViewer Grid.Row="1" Grid.Column="1" HorizontalScrollBarVisibility="Hidden" nav:BlockNavigator.IsNestedNavigation="True">
-                <ScrollViewer.DataContext>
-                    <functionButtons:FunctionButton />
-                </ScrollViewer.DataContext>
-                <ItemsControl Background="#27506e" x:Name="FunctionButtonsList">
-                    <ItemsControl.Items>
-						<functionButtons:FunctionButton Title="Empty" />
-	                    <functionButtons:FunctionButton ImageUri="/Resources/Icons/cogs.png" Title="Settings" />
-	                    <functionButtons:FunctionButton ImageUri="/Resources/Icons/osk.png" Title="OSK" />
-					</ItemsControl.Items>
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <UniformGrid Columns="4" Rows="6" />
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Border>
-                                <Border.Resources>
-                                    <Style TargetType="Border">
-                                        <Setter Property="Background">
-                                            <Setter.Value>
-                                                <LinearGradientBrush EndPoint="1,1" StartPoint="0,0">
-                                                    <GradientStop Color="#FF51A9DA" Offset="0"/>
-                                                    <GradientStop Color="#FF4B8AB9" Offset="1"/>
-                                                </LinearGradientBrush>
-                                            </Setter.Value>
-                                        </Setter>
-                                        <Setter Property="BorderBrush" Value="#0000" />
-                                        <Setter Property="BorderThickness" Value="1" />
-                                    </Style>
-                                </Border.Resources>
-                                <Grid Height="96" Width="96" nav:BlockNavigator.SimulateMouse="True">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="43*"/>
-                                        <RowDefinition Height="21*"/>
-                                    </Grid.RowDefinitions>
-									<customControls:AlphaSilhouetteImage Grid.Row="0" Source="{Binding ImageUri}" NormalColor="#eff6fa" Margin="0, 10, 0, 3" />
-                                    <TextBlock FontFamily="Segoe UI" Text="{Binding Title}" Foreground="#eff6fa" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,5" Grid.Row="1"/>
-                                </Grid>
-                            </Border>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </ScrollViewer>
+            <e:FunctionButtonList x:Name="FunctionButtonList" Grid.Row="1" Grid.Column="1" nav:BlockNavigator.IsNestedNavigation="True" nav:BlockNavigator.NavigationExit="FunctionButtonList_NavigationExit" />
         </Grid>
     </Border>
 </Window>

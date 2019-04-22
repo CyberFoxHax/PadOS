@@ -21,14 +21,14 @@ namespace PadOS.SaveData {
 			new Function{
                 Id = 2,
                 Parameter = "OpenSettings",
-				ThumbnailUri = "Icons/cogs.png",
+				ImageUrl = "Icons/cogs.png",
 				Title = "Settings",
 				FunctionType = FunctionType.PadOsInternal
 			},
 			new Function{
                 Id = 3,
                 Parameter = "OpenOsk",
-				ThumbnailUri = "Icons/osk.png",
+				ImageUrl = "Icons/osk.png",
 				Title = "OSK",
 				FunctionType = FunctionType.PadOsInternal
 			}

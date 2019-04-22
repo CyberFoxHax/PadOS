@@ -18,11 +18,12 @@ namespace PadOS.Views.MainPanelEditor {
             var ctx = new SaveData.SaveData();
             Profiles_ComboBox.ItemsSource = ctx.Profiles.Select(p=>p.Name).ToList();
             DialAreaControl.LoadPanel(ctx.Profiles.First());
+            FunctionButtonList.LoadList(ctx.Functions.ToList());
         }
 
         private void DialArea_ItemPicked(FrameworkElement sender, Commands.FunctionButtons.FunctionButton obj) {
             DialAreaControl.Disable();
-            BlockNavigator.SetFocus(sender, FunctionButtonsList.Parent as FrameworkElement);
+            BlockNavigator.SetFocus(sender, FunctionButtonList.GetFirstItemElement());
         }
 
         private void CreateNew_ButtonClick(object sender, MouseButtonEventArgs e){
@@ -35,11 +36,9 @@ namespace PadOS.Views.MainPanelEditor {
 
 
         public void DialArea_ConfirmClick(object sender, EventArgs args) => DialAreaControl.DialArea_ConfirmClick(sender, args);
-    }
 
-    public class ListAreaController {
-        public void LoadData() {
-
+        private void FunctionButtonList_NavigationExit(object sender, EventArgs args) {
+            DialAreaControl.Reset();
         }
     }
 }

@@ -35,15 +35,20 @@ namespace PadOS.Views.MainPanelEditor {
         private Tuple<FrameworkElement, FunctionButton>[] _buttons = new Tuple<FrameworkElement, FunctionButton>[8];
         private Vector2 _centerHighlightCanvasSize;
 
+        public void Reset() {
+            CenterHighlight.Visibility = Visibility.Collapsed;
+            HighlightKnob.Visibility = Visibility.Collapsed;
+        }
+
         public void LoadPanel(SaveData.Models.Profiles group = null) {
             var ctx = new SaveData.SaveData();
             var saveData = ctx.PanelButtons.Where(p => p.Profile.Id == group.Id);
             var elms = ButtonsCanvas.Children.OfType<CustomControls.AlphaSilhouetteImage>().ToArray();
             foreach (var data in saveData) {
                 var functionButton = new FunctionButton {
-                    ImageUri = new Uri("pack://application:,,,/PadOS;component/Resources/" + data.Function.ThumbnailUri),
+                    ImageUri = new Uri("pack://application:,,,/PadOS;component/Resources/" + data.Function.ImageUrl),
                     Title = data.Function.Title,
-                    Key = data.Function.Parameter,
+                    Identifier = data.Function.Parameter,
                     FunctionType = data.Function.FunctionType
                 };
 
@@ -85,8 +90,7 @@ namespace PadOS.Views.MainPanelEditor {
         }
 
         public void Disable() {
-            BlockNavigator.SetIsDisabled(ButtonsCanvas, true);
-            BlockNavigator.NavigateBack(ButtonsCanvas);
+            BlockNavigator.SetIsDisabled(ButtonsCanvas, false);
             WpfGamePad.RemoveThumbLeftChangeHandler(ButtonsCanvas, OnLeftThumbChanged);
             WpfGamePad.RemoveButtonADownHandler(ButtonsCanvas, OnButtonA);
             WpfGamePad.RemoveButtonBDownHandler(ButtonsCanvas, OnButtonB);
@@ -105,6 +109,7 @@ namespace PadOS.Views.MainPanelEditor {
 
         private void OnButtonB(object sender, GamePadEventArgs args) {
             Disable();
+            BlockNavigator.NavigateBack(ButtonsCanvas);
         }
 
         private void OnLeftThumbChanged(object sender, GamePadEventArgs<Vector2> args) {

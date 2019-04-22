@@ -179,6 +179,9 @@
     <Compile Include="Views\MainPanelEditor\DialAreaControl.xaml.cs">
       <DependentUpon>DialAreaControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\MainPanelEditor\FunctionButtonList.xaml.cs">
+      <DependentUpon>FunctionButtonList.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\MainPanelEditor\MainPanelEditor.xaml.cs">
       <DependentUpon>MainPanelEditor.xaml</DependentUpon>
     </Compile>
@@ -239,6 +242,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MainPanelEditor\DialAreaControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MainPanelEditor\FunctionButtonList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

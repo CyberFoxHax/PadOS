@@ -9,19 +9,27 @@ namespace PadOS.Input.BlockNavigator {
         public static FrameworkElement FindBlockNavigatorElement(FrameworkElement elm) {
             var searchElm = elm;
 
+            DependencyObject GetParent(FrameworkElement child) {
+                return child.Parent ??
+                    child.TemplatedParent ??
+                    System.Windows.Media.VisualTreeHelper.GetParent(child);
+            }
+
             // if we query the navigator on a nested element, make sure we get the parent navigator and not the self
-            if (BlockNavigatorProperty.GetIsNestedNavigation(searchElm) && searchElm.Parent != null)
-                searchElm = (FrameworkElement)searchElm.Parent;
+            if (BlockNavigatorProperty.GetIsNestedNavigation(searchElm) && GetParent(searchElm) != null)
+                searchElm = (FrameworkElement)GetParent(searchElm);
 
             while (true) {
-                if (searchElm.Parent == null)
+                var parent = GetParent(searchElm);
+
+                if (parent == null)
                     return searchElm;
 
                 var isNestedNavigator = BlockNavigatorProperty.GetIsNestedNavigation(searchElm);
                 if (isNestedNavigator)
                     return searchElm;
 
-                searchElm = (FrameworkElement)searchElm.Parent;
+                searchElm = (FrameworkElement)parent;
             }
         }
 

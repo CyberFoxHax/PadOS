@@ -57,8 +57,11 @@ namespace PadOS.Input.BlockNavigator {
             }
         }
 
-        public void SetFocus(FrameworkElement element) {
-            OnFocusChanged(element);
+        public void SetFocus(FrameworkElement element, bool animate = true) {
+            if (_blocks.ContainsKey(element) == false)
+                throw new System.Exception("You are attempting to focus an element that is not registered in the BlockNavigator. " +
+                    "You are most likely trying to focus a child or a parent.\nElement Type: \"" + element + "\"");
+            OnFocusChanged(element, animate);
         }
 
 		private void SetInitialFocus(){
@@ -67,13 +70,13 @@ namespace PadOS.Input.BlockNavigator {
 					continue;
 				_focusElement = block.Key;
 				_hasManualFocus = true;
-				OnFocusChanged(_focusElement);
+				OnFocusChanged(_focusElement, false);
 				return;
 			}
 
             // if user focus not set, set first element as focus.
             if (_hasManualFocus == false && _focusElement == null) {
-                OnFocusChanged(_blocks.First().Key);
+                OnFocusChanged(_blocks.First().Key, false);
             }
         }
         

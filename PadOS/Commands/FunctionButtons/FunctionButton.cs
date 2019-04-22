@@ -6,7 +6,7 @@ namespace PadOS.Commands.FunctionButtons {
 	public class FunctionButton {
 		public Uri ImageUri { get; set; }
 		public string Title { get; set; }
-		public string Key { get; set; }
+		public string Identifier { get; set; }
 		public FunctionType FunctionType { get; set; }
 
 		public void Exec(){
@@ -14,7 +14,7 @@ namespace PadOS.Commands.FunctionButtons {
 				case FunctionType.None:
 					break;
 				case FunctionType.PadOsInternal:
-					var f = PadOsInternalFunctions.GetFunction(Key);
+					var f = PadOsInternalFunctions.GetFunction(Identifier);
 					if (f != null)
 						f();
 					else if(Debugger.IsAttached)

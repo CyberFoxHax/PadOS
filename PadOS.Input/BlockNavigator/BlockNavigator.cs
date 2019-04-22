@@ -28,11 +28,11 @@ namespace PadOS.Input.BlockNavigator {
         );
 
         public static void AddCursorEnterHandler(FrameworkElement d, NavigationEvent handler) {
-            RegisterEvent(CursorEnterEvent, d, handler);;
+            RegisterEvent(CursorEnterEvent, d, handler);
         }
 
         public static void RemoveCursorEnterHandler(FrameworkElement d, NavigationEvent handler) {
-            UnregisterEvent(CursorEnterEvent, d, handler);;
+            UnregisterEvent(CursorEnterEvent, d, handler);
         }
 
         /// <summary>
@@ -46,11 +46,11 @@ namespace PadOS.Input.BlockNavigator {
         );
 
         public static void AddCursorExitHandler(FrameworkElement d, NavigationEvent handler) {
-            RegisterEvent(CursorExitEvent, d, handler);;
+            RegisterEvent(CursorExitEvent, d, handler);
         }
 
         public static void RemoveCursorExitHandler(FrameworkElement d, NavigationEvent handler) {
-            UnregisterEvent(CursorExitEvent, d, handler);;
+            UnregisterEvent(CursorExitEvent, d, handler);
         }
 
         /// <summary>
@@ -64,11 +64,11 @@ namespace PadOS.Input.BlockNavigator {
         );
 
         public static void AddConfirmClickHandler(FrameworkElement d, NavigationEvent handler) {
-            RegisterEvent(ConfirmClickEvent, d, handler);;
+            RegisterEvent(ConfirmClickEvent, d, handler);
         }
 
         public static void RemoveConfirmClickHandler(FrameworkElement d, NavigationEvent handler) {
-            UnregisterEvent(ConfirmClickEvent, d, handler);;
+            UnregisterEvent(ConfirmClickEvent, d, handler);
         }
 
         /// <summary>
@@ -82,11 +82,47 @@ namespace PadOS.Input.BlockNavigator {
         );
 
         public static void AddCancelClickHandler(FrameworkElement d, NavigationEvent handler) {
-            RegisterEvent(CancelClickEvent, d, handler);;
+            RegisterEvent(CancelClickEvent, d, handler);
         }
 
         public static void RemoveCancelClickHandler(FrameworkElement d, NavigationEvent handler) {
-            UnregisterEvent(CancelClickEvent, d, handler);;
+            UnregisterEvent(CancelClickEvent, d, handler);
+        }
+
+        /// <summary>
+        /// When a navigation tree is being entered
+        /// </summary>
+        public static readonly RoutedEvent NavigationEnterEvent = EventManager.RegisterRoutedEvent(
+            "NavigationEnter",
+            RoutingStrategy.Direct,
+            typeof(NavigationEvent),
+            typeof(BlockNavigator)
+        );
+
+        public static void AddNavigationEnterHandler(FrameworkElement d, NavigationEvent handler) {
+            RegisterEvent(NavigationEnterEvent, d, handler);
+        }
+
+        public static void RemoveNavigationEnterHandler(FrameworkElement d, NavigationEvent handler) {
+            UnregisterEvent(NavigationEnterEvent, d, handler);
+        }
+
+        /// <summary>
+        /// When a navigation tree is being left
+        /// </summary>
+        public static readonly RoutedEvent NavigationExitEvent = EventManager.RegisterRoutedEvent(
+            "NavigationExit",
+            RoutingStrategy.Direct,
+            typeof(NavigationEvent),
+            typeof(BlockNavigator)
+        );
+
+        public static void AddNavigationExitHandler(FrameworkElement d, NavigationEvent handler) {
+            RegisterEvent(NavigationEnterEvent, d, handler);
+        }
+
+        public static void RemoveNavigationExitHandler(FrameworkElement d, NavigationEvent handler) {
+            UnregisterEvent(NavigationEnterEvent, d, handler);
         }
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

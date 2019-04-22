@@ -12,6 +12,7 @@
         WindowStartupLocation="CenterScreen"
         Style="{StaticResource DefaultWindowStyle}"
         x:Name="This"
+        nav:BlockNavigator.CancelClick="Root_CancelClick"
     >
     <Border BorderThickness="3">
         <Border.Background>

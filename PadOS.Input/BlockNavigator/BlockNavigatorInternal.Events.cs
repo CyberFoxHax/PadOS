@@ -47,16 +47,19 @@ namespace PadOS.Input.BlockNavigator {
             var nav = BlockNavigatorProperty.GetBlockNavigator(_focusElm);
             nav.ParentNavigator = this;
             nav.IsEnabled = true;
+
+            OwnerElement.RaiseEvent(new RoutedEventArgs(BlockNavigatorProperty.NavigationExitEvent, OwnerElement));
+            nav.OwnerElement.RaiseEvent(new RoutedEventArgs(BlockNavigatorProperty.NavigationEnterEvent, nav.OwnerElement));
         }
 
         private void OnIsEnabledChanged(bool value) {
             _xInput.IsEnabled = value;
-            _waitForReturn = true;
+            _waitForReturn = !value;
             if (_cursor != null)
                 _cursor.Visibility = value ? Visibility.Visible : Visibility.Collapsed;
         }
 
-        private void OnFocusChanged(FrameworkElement elm) {
+        private void OnFocusChanged(FrameworkElement elm, bool animate = true) {
             _focusElement?.Dispatcher.Invoke(() => {
                 BlockNavigatorProperty.SetIsFocused(_focusElement, false);
                 _focusElement?.RaiseEvent(new RoutedEventArgs(BlockNavigatorProperty.CursorExitEvent, _focusElement));
@@ -65,7 +68,7 @@ namespace PadOS.Input.BlockNavigator {
                 _focusElement = elm;
                 BlockNavigatorProperty.SetIsFocused(_focusElement, true);
                 _focusElement.RaiseEvent(new RoutedEventArgs(BlockNavigatorProperty.CursorEnterEvent, _focusElement));
-                _cursor.TargetRect = _blocks[_focusElement];
+                _cursor.SetFocus(_blocks[_focusElement], animate);
                 _cursor.Visibility = BlockNavigatorProperty.GetHideCursor(_focusElement) || IsEnabled == false
                     ? Visibility.Hidden
                     : Visibility.Visible;
@@ -79,6 +82,10 @@ namespace PadOS.Input.BlockNavigator {
             IsEnabled = false;
             var nav = ParentNavigator;
             nav.IsEnabled = true;
+            nav.SetFocus(OwnerElement, false);
+
+            OwnerElement.RaiseEvent(new RoutedEventArgs(BlockNavigatorProperty.NavigationExitEvent, OwnerElement));
+            nav.OwnerElement.RaiseEvent(new RoutedEventArgs(BlockNavigatorProperty.NavigationEnterEvent, nav.OwnerElement));
         }
 
     }

@@ -7,6 +7,6 @@ namespace PadOS.SaveData.Models {
 		public string Title { get; set; }
 		public FunctionType FunctionType { get; set; }
 		public string Parameter { get; set; }
-		public string ThumbnailUri { get; set; }
+		public string ImageUrl { get; set; }
 	}
 }

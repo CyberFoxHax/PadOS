@@ -1,15 +1,12 @@
+Home Button doesn't work
+
 BlockNavigator
-	Feature: Make sure nested nav also has the ability to disable navigation in cases where you'd like to implement your own mappings
 	Bug: If the nested view has no blocks the entire system ceases to function
 	Bug: Sometimes the first touch wont respond
-	Bug: Doesn't work on ItemsControl
 
 Navigator
-	Feature: Nav back, implement nav history
 	Bug: XInput does not go to sleep when a window is hidden. Making recycling windows a no-go
-
-MainPanelEditor
-	Feature: Implement Radial controls when in nested navigation
+	Home button, Nav where? Reset Nav?
 
 Enhance: MainPanel refactor so the controls will contain it's function attachment, and not the index based on the angle.
 

@@ -16,5 +16,9 @@ namespace PadOS.Views.Settings {
 			}
 
         }
+
+        private void Root_CancelClick(object sender, System.EventArgs args) {
+            Navigation.Navigator.NavigateBack();
+        }
     }
 }
