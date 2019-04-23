@@ -6,6 +6,7 @@
              xmlns:customControls="clr-namespace:PadOS.CustomControls"
              xmlns:functionButtons="clr-namespace:PadOS.Commands.FunctionButtons"
              xmlns:nav="clr-namespace:PadOS.Input.BlockNavigator;assembly=PadOS.Input"
+             xmlns:self="clr-namespace:PadOS.Views.MainPanelEditor"
              mc:Ignorable="d" 
              d:DesignHeight="548" d:DesignWidth="311">
     <ScrollViewer HorizontalScrollBarVisibility="Hidden">
@@ -14,9 +15,21 @@
         </ScrollViewer.DataContext>
         <ItemsControl Background="#27506e" x:Name="ItemsControl">
             <ItemsControl.Items>
-                <functionButtons:FunctionButton Title="Empty" />
-                <functionButtons:FunctionButton ImageUri="/Resources/Icons/cogs.png" Title="Settings" />
-                <functionButtons:FunctionButton ImageUri="/Resources/Icons/osk.png" Title="OSK" />
+                <self:FunctionViewModel>
+                    <self:FunctionViewModel.FunctionButton>
+                        <functionButtons:FunctionButton Title="Empty" />
+                    </self:FunctionViewModel.FunctionButton>
+                </self:FunctionViewModel>
+                <self:FunctionViewModel>
+                    <self:FunctionViewModel.FunctionButton>
+                        <functionButtons:FunctionButton ImageUri="/Resources/Icons/cogs.png" Title="Settings" />
+                    </self:FunctionViewModel.FunctionButton>
+                </self:FunctionViewModel>
+                <self:FunctionViewModel>
+                    <self:FunctionViewModel.FunctionButton>
+                        <functionButtons:FunctionButton ImageUri="/Resources/Icons/osk.png" Title="OSK" />
+                    </self:FunctionViewModel.FunctionButton>
+                </self:FunctionViewModel>
             </ItemsControl.Items>
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
@@ -24,8 +37,8 @@
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Border nav:BlockNavigator.SimulateMouse="True">
+                <DataTemplate DataType="{x:Type self:FunctionViewModel}">
+                    <Border nav:BlockNavigator.SimulateMouse="True" MouseUp="Item_OnClick">
                         <Border.Resources>
                             <Style TargetType="Border">
                                 <Setter Property="Background">
@@ -45,8 +58,8 @@
                                 <RowDefinition Height="43*"/>
                                 <RowDefinition Height="21*"/>
                             </Grid.RowDefinitions>
-                            <customControls:AlphaSilhouetteImage Grid.Row="0" Source="{Binding ImageUri}" NormalColor="#eff6fa" Margin="0, 10, 0, 3" />
-                            <TextBlock FontFamily="Segoe UI" Text="{Binding Title}" Foreground="#eff6fa" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,5" Grid.Row="1"/>
+                            <customControls:AlphaSilhouetteImage Grid.Row="0" Source="{Binding FunctionButton.ImageUri}" NormalColor="#eff6fa" Margin="0, 10, 0, 3" />
+                            <TextBlock FontFamily="Segoe UI" Text="{Binding FunctionButton.Title}" Foreground="#eff6fa" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,5" Grid.Row="1"/>
                         </Grid>
                     </Border>
                 </DataTemplate>

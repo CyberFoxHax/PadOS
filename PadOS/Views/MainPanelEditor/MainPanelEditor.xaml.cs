@@ -17,11 +17,13 @@ namespace PadOS.Views.MainPanelEditor {
             DialAreaControl.ItemPicked += DialArea_ItemPicked;
             var ctx = new SaveData.SaveData();
             Profiles_ComboBox.ItemsSource = ctx.Profiles.Select(p=>p.Name).ToList();
-            DialAreaControl.LoadPanel(ctx.Profiles.First());
+            var profile = ctx.Profiles.First();
+            var saveData = ctx.PanelButtons.Where(p => p.Profile.Id == profile.Id);
+            DialAreaControl.LoadPanel(saveData);
             FunctionButtonList.LoadList(ctx.Functions.ToList());
         }
 
-        private void DialArea_ItemPicked(FrameworkElement sender, Commands.FunctionButtons.FunctionButton obj) {
+        private void DialArea_ItemPicked(FrameworkElement sender, FunctionViewModel obj) {
             DialAreaControl.Disable();
             BlockNavigator.SetFocus(sender, FunctionButtonList.GetFirstItemElement());
         }
@@ -39,6 +41,22 @@ namespace PadOS.Views.MainPanelEditor {
 
         private void FunctionButtonList_NavigationExit(object sender, EventArgs args) {
             DialAreaControl.Reset();
+        }
+
+        private void FunctionButtonList_ItemClicked(Commands.FunctionButtons.FunctionButton obj) {
+
+        }
+
+        private void FunctionButtonList_ItemClicked(object sender, FunctionViewModel model) {
+            BlockNavigator.SetFocus(sender as FrameworkElement, DialAreaControl);
+            BlockNavigator.EnterNestedNavigator(DialAreaControl);
+            if (DialAreaControl.IsPicking) {
+                DialAreaControl.ReplaceSelectedItem(model);
+            }
+            else {
+
+            }
+            DialAreaControl.Enable();
         }
     }
 }

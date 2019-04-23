@@ -5,9 +5,7 @@ using PadOS.Input.WpfGamePad;
 using System;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
 using System.Linq;
-using System.Windows.Shapes;
 
 namespace PadOS.Views.MainPanelEditor {
     public partial class DialAreaControl : UserControl {
@@ -29,24 +27,24 @@ namespace PadOS.Views.MainPanelEditor {
             };
         }
 
-        public event Action<FrameworkElement, FunctionButton> ItemPicked;
+        public event Action<FrameworkElement, FunctionViewModel> ItemPicked;
 
         private int _activeButtonIndex = -1;
-        private Tuple<FrameworkElement, FunctionButton>[] _buttons = new Tuple<FrameworkElement, FunctionButton>[8];
+        private FunctionViewModel[] _buttons = new FunctionViewModel[8];
         private Vector2 _centerHighlightCanvasSize;
+
+        public bool IsPicking { get; private set; }
 
         public void Reset() {
             CenterHighlight.Visibility = Visibility.Collapsed;
             HighlightKnob.Visibility = Visibility.Collapsed;
         }
 
-        public void LoadPanel(SaveData.Models.Profiles group = null) {
-            var ctx = new SaveData.SaveData();
-            var saveData = ctx.PanelButtons.Where(p => p.Profile.Id == group.Id);
+        public void LoadPanel(System.Collections.Generic.IEnumerable<SaveData.Models.PanelButton> saveData) {
             var elms = ButtonsCanvas.Children.OfType<CustomControls.AlphaSilhouetteImage>().ToArray();
             foreach (var data in saveData) {
                 var functionButton = new FunctionButton {
-                    ImageUri = new Uri("pack://application:,,,/PadOS;component/Resources/" + data.Function.ImageUrl),
+                    ImageUri = new Uri(Utils.ResourcesPath + data.Function.ImageUrl),
                     Title = data.Function.Title,
                     Identifier = data.Function.Parameter,
                     FunctionType = data.Function.FunctionType
@@ -55,7 +53,10 @@ namespace PadOS.Views.MainPanelEditor {
                 var elm = elms[data.Position];
 
                 elm.Source = new System.Windows.Media.Imaging.BitmapImage(functionButton.ImageUri);
-                _buttons[data.Position] = new Tuple<FrameworkElement, FunctionButton>(elm, functionButton);
+                _buttons[data.Position] = new FunctionViewModel {
+                    FrameworkElement = elm, 
+                    FunctionButton = functionButton
+                };
             }
 
             const int segments = 8;
@@ -68,18 +69,37 @@ namespace PadOS.Views.MainPanelEditor {
                     if (_buttons[i] != null)
                         continue;
                     elms[i].Source = null;
-                    elms[i].Visibility = Visibility.Hidden;
+                    elms[i].Visibility = Visibility.Collapsed;
                 }
             };
         }
 
-        private void OnActivated() {
-            BlockNavigator.SetIsDisabled(ButtonsCanvas, true);
-            WpfGamePad.AddThumbLeftChangeHandler(ButtonsCanvas, OnLeftThumbChanged);
-            WpfGamePad.AddButtonADownHandler(ButtonsCanvas, OnButtonA);
-            WpfGamePad.AddButtonBDownHandler(ButtonsCanvas, OnButtonB);
-            WpfGamePad.SetRegistered(ButtonsCanvas, true);
-            WpfGamePad.SetIsFocused(ButtonsCanvas, true);
+        internal void ReplaceSelectedItem(FunctionViewModel model) {
+            var elms = ButtonsCanvas.Children.OfType<CustomControls.AlphaSilhouetteImage>().ToArray();
+            var elm = elms[_activeButtonIndex];
+            if (model.FunctionButton.ImageUri != null) {
+                elm.Source = new System.Windows.Media.Imaging.BitmapImage(model.FunctionButton.ImageUri);
+                elm.Visibility = Visibility.Visible;
+            }
+            else
+                elm.Visibility = Visibility.Collapsed;
+
+            _buttons[_activeButtonIndex] = new FunctionViewModel {
+                FrameworkElement = elm,
+                FunctionButton = model.FunctionButton,
+                Function = model.Function
+            };
+
+            IsPicking = false;
+        }
+
+        public void Enable() {
+            BlockNavigator.SetIsDisabled(this, true);
+            WpfGamePad.AddThumbLeftChangeHandler(this, OnLeftThumbChanged);
+            WpfGamePad.AddButtonADownHandler(this, OnButtonA);
+            WpfGamePad.AddButtonBDownHandler(this, OnButtonB);
+            WpfGamePad.SetRegistered(this, true);
+            WpfGamePad.SetIsFocused(this, true);
 
             CenterHighlight.Visibility = Visibility.Visible;
             HighlightKnob.Visibility = Visibility.Collapsed;
@@ -90,21 +110,30 @@ namespace PadOS.Views.MainPanelEditor {
         }
 
         public void Disable() {
-            BlockNavigator.SetIsDisabled(ButtonsCanvas, false);
-            WpfGamePad.RemoveThumbLeftChangeHandler(ButtonsCanvas, OnLeftThumbChanged);
-            WpfGamePad.RemoveButtonADownHandler(ButtonsCanvas, OnButtonA);
-            WpfGamePad.RemoveButtonBDownHandler(ButtonsCanvas, OnButtonB);
-            WpfGamePad.SetIsFocused(ButtonsCanvas, false);
-            WpfGamePad.SetRegistered(ButtonsCanvas, false);
+            BlockNavigator.SetIsDisabled(this, false);
+            WpfGamePad.RemoveThumbLeftChangeHandler(this, OnLeftThumbChanged);
+            WpfGamePad.RemoveButtonADownHandler(this, OnButtonA);
+            WpfGamePad.RemoveButtonBDownHandler(this, OnButtonB);
+            WpfGamePad.SetIsFocused(this, false);
+            WpfGamePad.SetRegistered(this, false);
 
             CenterHighlight.Visibility = Visibility.Collapsed;
         }
 
         private void OnButtonA(object sender, GamePadEventArgs args) {
-            if (_activeButtonIndex >= 0) {
-                var funcButton = _buttons[_activeButtonIndex];
-                ItemPicked?.Invoke(funcButton.Item1, funcButton.Item2);
+            if (_activeButtonIndex < 0)
+                return;
+            
+            var model = _buttons[_activeButtonIndex];
+
+            if(model != null)
+                ItemPicked?.Invoke(model.FrameworkElement, model);
+            else {
+                var elms = ButtonsCanvas.Children.OfType<CustomControls.AlphaSilhouetteImage>().ToArray();
+                ItemPicked?.Invoke(elms[_activeButtonIndex], null);
             }
+
+            IsPicking = true;
         }
 
         private void OnButtonB(object sender, GamePadEventArgs args) {
@@ -117,7 +146,6 @@ namespace PadOS.Views.MainPanelEditor {
             if (thumb.GetLength() > 1)
                 thumb /= thumb.GetLength();
 
-            // don't know what i should call this one... It's just an equation thats redundant 2 times
             var somethingSize = new Vector2(
                 _centerHighlightCanvasSize.X / 2 - CenterHighlight.Width / 2,
                 _centerHighlightCanvasSize.Y / 2 - CenterHighlight.Height / 2
@@ -149,10 +177,7 @@ namespace PadOS.Views.MainPanelEditor {
         }
 
         public void DialArea_ConfirmClick(object sender, EventArgs args) {
-            var frameworkElement = sender as FrameworkElement;
-            if (frameworkElement == null)
-                return;
-            OnActivated();
+            Enable();
         }
     }
 }

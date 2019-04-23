@@ -9,7 +9,7 @@ using System.Windows.Media.Animation;
 // BorderThickness = 2
 
 namespace PadOS.Input.BlockNavigator {
-	public class BlockNavigationCursor : Adorner {
+	internal class BlockNavigationCursor : Adorner {
 		public BlockNavigationCursor(UIElement adornedElement) : base(adornedElement) {
 		}
 

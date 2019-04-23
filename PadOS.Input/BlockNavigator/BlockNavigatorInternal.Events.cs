@@ -29,7 +29,7 @@ namespace PadOS.Input.BlockNavigator {
                 SetInitialFocus();
         }
 
-        private void OnSimulateMouse(FrameworkElement _focusElm) {
+        private void SimulateMouse(FrameworkElement _focusElm) {
             _focusElm.RaiseEvent(new MouseButtonEventArgs(Mouse.PrimaryDevice, 0, MouseButton.Left) {
                 RoutedEvent = Mouse.MouseUpEvent,
                 Source = this
@@ -42,9 +42,9 @@ namespace PadOS.Input.BlockNavigator {
             }
         }
 
-        private void OnActivateNestedNavigator(FrameworkElement _focusElm) {
+        public void ActivateNestedNavigator(FrameworkElement focusElm) {
             IsEnabled = false;
-            var nav = BlockNavigatorProperty.GetBlockNavigator(_focusElm);
+            var nav = BlockNavigatorProperty.GetBlockNavigator(focusElm);
             nav.ParentNavigator = this;
             nav.IsEnabled = true;
 
@@ -75,7 +75,7 @@ namespace PadOS.Input.BlockNavigator {
             });
         }
 
-        public void OnNavigateBack() {
+        public void NavigateBack() {
             if (ParentNavigator == null)
                 return;
 

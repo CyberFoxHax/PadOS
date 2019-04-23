@@ -41,7 +41,7 @@ namespace PadOS.Input.BlockNavigator {
 			_focusElement?.Dispatcher.Invoke(() => {
                 OwnerElement?.RaiseEvent(new RoutedEventArgs(BlockNavigatorProperty.CancelClickEvent, OwnerElement));
                 _focusElement?.RaiseEvent(new RoutedEventArgs(BlockNavigatorProperty.CancelClickEvent, _focusElement));
-                OnNavigateBack();
+                NavigateBack();
             });
 		}
 
@@ -50,10 +50,10 @@ namespace PadOS.Input.BlockNavigator {
                 OwnerElement?.RaiseEvent(new RoutedEventArgs(BlockNavigatorProperty.ConfirmClickEvent, OwnerElement));
                 _focusElement?.RaiseEvent(new RoutedEventArgs(BlockNavigatorProperty.ConfirmClickEvent, _focusElement));
                 if (BlockNavigatorProperty.GetSimulateMouse(_focusElement))
-                    OnSimulateMouse(_focusElement);
+                    SimulateMouse(_focusElement);
 
                 if (BlockNavigatorProperty.GetIsNestedNavigation(_focusElement))
-                    OnActivateNestedNavigator(_focusElement);
+                    ActivateNestedNavigator(_focusElement);
             });
 		}
 

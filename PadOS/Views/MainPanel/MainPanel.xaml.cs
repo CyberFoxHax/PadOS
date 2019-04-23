@@ -17,7 +17,7 @@ namespace PadOS.Views.MainPanel {
 			var saveData = ctx.PanelButtons;
 			foreach (var data in saveData){
 				_buttons[data.Position] = new FunctionButton {
-					ImageUri = new Uri("pack://application:,,,/PadOS;component/Resources/" + data.Function.ImageUrl),
+					ImageUri = new Uri(Utils.ResourcesPath + data.Function.ImageUrl),
 					Title = data.Function.Title,
 					Identifier = data.Function.Parameter,
 					FunctionType = data.Function.FunctionType

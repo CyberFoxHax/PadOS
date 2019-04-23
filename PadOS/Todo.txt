@@ -1,13 +1,20 @@
-Home Button doesn't work
+Enhance: Move applicationName to another class
+Bug: Home Button doesn't work
+
+MainPanelEditor
+	save data, are you sure?
+	navigate from button list to dial
+	don't forget special case for empty function
 
 BlockNavigator
 	Bug: If the nested view has no blocks the entire system ceases to function
 	Bug: Sometimes the first touch wont respond
+	Enhance: Reset navigator on exit
+	Feature: scroll views
 
 Navigator
 	Bug: XInput does not go to sleep when a window is hidden. Making recycling windows a no-go
 	Home button, Nav where? Reset Nav?
 
 Enhance: MainPanel refactor so the controls will contain it's function attachment, and not the index based on the angle.
-
 Enhance: UI is too dark, on a bright background all the details disappear

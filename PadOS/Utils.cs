@@ -3,7 +3,10 @@ using System.Windows;
 
 namespace PadOS {
 	public static class Utils {
-		public static T FindParentOfType<T>(this FrameworkElement elm) where T : FrameworkElement {
+
+        public const string ResourcesPath = "pack://application:,,,/PadOS;component/Resources/";
+
+        public static T FindParentOfType<T>(this FrameworkElement elm) where T : FrameworkElement {
 			var searchElm = elm;
 			while (searchElm.Parent != null && searchElm is T == false)
 				searchElm = (FrameworkElement)searchElm.Parent;

@@ -36,14 +36,14 @@
             </Grid.ColumnDefinitions>
             <TextBlock Margin="20,10,0,0" FontSize="18" FontFamily="Courier New" Text="PadOS" Foreground="#888" VerticalAlignment="Top" HorizontalAlignment="Left" />
             <e:ComboBox x:Name="Profiles_ComboBox" Margin="88,3,0,0" Grid.Row="0" Grid.Column="0" nav:BlockNavigator.SimulateMouse="True" />
-            <Grid Margin="10,0,0,10" Grid.Row="1" Grid.Column="0" nav:BlockNavigator.IsNestedNavigation="True" nav:BlockNavigator.ConfirmClick="DialArea_ConfirmClick">
+            <Grid Margin="10,0,0,10" Grid.Row="1" Grid.Column="0">
 				<Grid.Background>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                         <GradientStop Color="#161616" />
                         <GradientStop Color="#1f1f1f" Offset="1"/>
                     </LinearGradientBrush>
                 </Grid.Background>
-                <e:DialAreaControl x:Name="DialAreaControl" />
+                <e:DialAreaControl x:Name="DialAreaControl" nav:BlockNavigator.IsNestedNavigation="True" nav:BlockNavigator.ConfirmClick="DialArea_ConfirmClick" />
             </Grid>
             <Grid Grid.Row="0" Grid.Column="1" nav:BlockNavigator.SimulateMouse="True" MouseUp="CreateNew_ButtonClick">
                 <Grid.Background>
@@ -69,7 +69,13 @@
                     <TextBlock FontFamily="Segoe UI" Text="New function..." Foreground="White" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center" />
                 </Border>
             </Grid>
-            <e:FunctionButtonList x:Name="FunctionButtonList" Grid.Row="1" Grid.Column="1" nav:BlockNavigator.IsNestedNavigation="True" nav:BlockNavigator.NavigationExit="FunctionButtonList_NavigationExit" />
+            <e:FunctionButtonList
+                x:Name="FunctionButtonList"
+                Grid.Row="1" Grid.Column="1"
+                nav:BlockNavigator.IsNestedNavigation="True"
+                nav:BlockNavigator.NavigationExit="FunctionButtonList_NavigationExit"
+                ItemClicked="FunctionButtonList_ItemClicked"
+            />
         </Grid>
     </Border>
 </Window>

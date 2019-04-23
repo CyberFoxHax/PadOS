@@ -44,8 +44,9 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BlockNavigator\BlockNavigator.Methods.cs" />
     <Compile Include="BlockNavigator\BlockNavigationCursor.cs" />
-    <Compile Include="BlockNavigator\BlockNavigator.cs" />
+    <Compile Include="BlockNavigator\BlockNavigator.Properties.cs" />
     <Compile Include="BlockNavigator\BlockNavigatorInternal.cs" />
     <Compile Include="BlockNavigator\BlockNavigatorInternal.Events.cs" />
     <Compile Include="BlockNavigator\BlockNavigatorInternal.GamePad.cs" />

@@ -182,6 +182,7 @@
     <Compile Include="Views\MainPanelEditor\FunctionButtonList.xaml.cs">
       <DependentUpon>FunctionButtonList.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\MainPanelEditor\FunctionViewModel.cs" />
     <Compile Include="Views\MainPanelEditor\MainPanelEditor.xaml.cs">
       <DependentUpon>MainPanelEditor.xaml</DependentUpon>
     </Compile>
