@@ -1,10 +1,8 @@
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
-using PadOS.Commands;
 using PadOS.Input;
 
 namespace PadOS.Views.Settings.Controls{
@@ -30,7 +28,7 @@ namespace PadOS.Views.Settings.Controls{
 			"IsActive", typeof(bool), typeof(MultiListItem), new PropertyMetadata(default(bool), IsActiveChanged));
 
 		private static void IsActiveChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs args){
-			var appName = WindowCommands.ApplicationName;
+			var appName = ActiveApplication.ApplicationName;
 			((MultiListItem)dependencyObject).Text = appName;
 		}
 
