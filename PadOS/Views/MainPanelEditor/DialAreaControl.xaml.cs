@@ -27,13 +27,20 @@ namespace PadOS.Views.MainPanelEditor {
             };
         }
 
-        public event Action<FrameworkElement, FunctionViewModel> ItemPicked;
+        public delegate void ItemPickedEvent(FrameworkElement sender, FunctionViewModel pickedFunction);
+        public event ItemPickedEvent ItemPicked;
 
         private int _activeButtonIndex = -1;
         private FunctionViewModel[] _buttons = new FunctionViewModel[8];
         private Vector2 _centerHighlightCanvasSize;
 
-        public bool IsPicking { get; private set; }
+        public FunctionViewModel Selection {
+            get {
+                if (_activeButtonIndex < 0)
+                    return null;
+                return _buttons[_activeButtonIndex];
+            }
+        }
 
         public void Reset() {
             CenterHighlight.Visibility = Visibility.Collapsed;
@@ -74,7 +81,7 @@ namespace PadOS.Views.MainPanelEditor {
             };
         }
 
-        internal void ReplaceSelectedItem(FunctionViewModel model) {
+        public void ReplaceSelectedItem(FunctionViewModel model) {
             var elms = ButtonsCanvas.Children.OfType<CustomControls.AlphaSilhouetteImage>().ToArray();
             var elm = elms[_activeButtonIndex];
             if (model.FunctionButton.ImageUri != null) {
@@ -89,8 +96,6 @@ namespace PadOS.Views.MainPanelEditor {
                 FunctionButton = model.FunctionButton,
                 Function = model.Function
             };
-
-            IsPicking = false;
         }
 
         public void Enable() {
@@ -132,8 +137,6 @@ namespace PadOS.Views.MainPanelEditor {
                 var elms = ButtonsCanvas.Children.OfType<CustomControls.AlphaSilhouetteImage>().ToArray();
                 ItemPicked?.Invoke(elms[_activeButtonIndex], null);
             }
-
-            IsPicking = true;
         }
 
         private void OnButtonB(object sender, GamePadEventArgs args) {

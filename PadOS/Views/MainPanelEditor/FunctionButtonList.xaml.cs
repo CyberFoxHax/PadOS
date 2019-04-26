@@ -17,7 +17,7 @@ namespace PadOS.Views.MainPanelEditor {
             ItemsControl.Items.Clear();
         }
 
-        public event Action<object, FunctionViewModel> ItemClicked;
+        public event Action<object, FunctionViewModel> ItemSelected;
 
         public void LoadList(List<Function> functions) {
             var functionButtons = functions.Select(p => new FunctionViewModel {
@@ -42,7 +42,7 @@ namespace PadOS.Views.MainPanelEditor {
         private void Item_OnClick(object sender, System.Windows.Input.MouseButtonEventArgs e) {
             var control = sender as FrameworkElement;
             var functionButton = control.DataContext as FunctionViewModel;
-            ItemClicked?.Invoke(sender, functionButton);
+            ItemSelected?.Invoke(sender, functionButton);
         }
     }
 }

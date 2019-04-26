@@ -43,7 +43,7 @@
                         <GradientStop Color="#1f1f1f" Offset="1"/>
                     </LinearGradientBrush>
                 </Grid.Background>
-                <e:DialAreaControl x:Name="DialAreaControl" nav:BlockNavigator.IsNestedNavigation="True" nav:BlockNavigator.ConfirmClick="DialArea_ConfirmClick" />
+                <e:DialAreaControl x:Name="DialAreaControl" nav:BlockNavigator.IsNestedNavigation="True" />
             </Grid>
             <Grid Grid.Row="0" Grid.Column="1" nav:BlockNavigator.SimulateMouse="True" MouseUp="CreateNew_ButtonClick">
                 <Grid.Background>
@@ -73,8 +73,6 @@
                 x:Name="FunctionButtonList"
                 Grid.Row="1" Grid.Column="1"
                 nav:BlockNavigator.IsNestedNavigation="True"
-                nav:BlockNavigator.NavigationExit="FunctionButtonList_NavigationExit"
-                ItemClicked="FunctionButtonList_ItemClicked"
             />
         </Grid>
     </Border>

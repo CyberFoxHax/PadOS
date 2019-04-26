@@ -72,7 +72,7 @@
 						</Style>
 					</StackPanel.Resources>
 					<controls:NavigationListItem ImageSource="/Resources/Icons/gamepads_4_players.png" IsActive="True" Text="Change Players" Click="{x:Static commands:NavigationCommands.ChangePlayersCommand}" />
-                    <controls:NavigationListItem ImageSource="/Resources/Icons/gamepads_diverse.png" Text="GamePads" Click="{x:Static commands:NavigationCommands.EditGamePadsCommand}" />
+                    <controls:NavigationListItem ImageSource="/Resources/Icons/gamepads_diverse.png" Text="Gamepads" Click="{x:Static commands:NavigationCommands.EditGamePadsCommand}" />
 					<controls:NavigationListItem ImageSource="/Resources/Icons/dial_with_selection.png" Text="Edit Main Panel" Click="{x:Static commands:NavigationCommands.EditMainPanelCommand}" />
                     <controls:NavigationListItem ImageSource="/Resources/Icons/keyboard_icon.png" Text="Keyboard Mappings" Click="{x:Static commands:NavigationCommands.EditKeyboardMappingsCommand}" />
                     <controls:NavigationListItem ImageSource="/Resources/Icons/keyboard_icon.png" Text="Keyboard Profiles" Click="{x:Static commands:NavigationCommands.EditKeyboardProfilesCommand}" />

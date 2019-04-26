@@ -176,6 +176,7 @@
     <Compile Include="Views\MainPanelEditor\ComboBox.xaml.cs">
       <DependentUpon>ComboBox.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\MainPanelEditor\ComingFrom.cs" />
     <Compile Include="Views\MainPanelEditor\DialAreaControl.xaml.cs">
       <DependentUpon>DialAreaControl.xaml</DependentUpon>
     </Compile>
@@ -341,6 +342,7 @@
     </None>
     <AppDesigner Include="Properties\" />
     <Resource Include="Resources\ControllerOSKSkin\Steam - Daisy Wheel\BackgroundFlower.png" />
+    <Resource Include="Resources\circle_dots.png" />
     <Content Include="Resources\ControllerOSKSkin\Steam - Daisy Wheel\skin.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
