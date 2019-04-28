@@ -13,7 +13,7 @@ namespace PadOS.Input.BlockNavigator {
         }
 
         private static void UnregisterEvent(RoutedEvent evt, FrameworkElement d, NavigationEvent handler) {
-            (d as UIElement).RemoveHandler(CursorEnterEvent, handler);
+            (d as UIElement).RemoveHandler(evt, handler);
             Utils.RegisterNavigationBlock(d);
         }
 
@@ -118,11 +118,11 @@ namespace PadOS.Input.BlockNavigator {
         );
 
         public static void AddNavigationExitHandler(FrameworkElement d, NavigationEvent handler) {
-            RegisterEvent(NavigationEnterEvent, d, handler);
+            RegisterEvent(NavigationExitEvent, d, handler);
         }
 
         public static void RemoveNavigationExitHandler(FrameworkElement d, NavigationEvent handler) {
-            UnregisterEvent(NavigationEnterEvent, d, handler);
+            UnregisterEvent(NavigationExitEvent, d, handler);
         }
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

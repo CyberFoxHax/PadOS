@@ -48,7 +48,13 @@ namespace PadOS.Views.MainPanelEditor {
         }
 
         public void LoadPanel(System.Collections.Generic.IEnumerable<SaveData.Models.PanelButton> saveData) {
+            for (int i = 0; i < _buttons.Length; i++)
+                _buttons[i] = null;
+
             var elms = ButtonsCanvas.Children.OfType<CustomControls.AlphaSilhouetteImage>().ToArray();
+            foreach (var item in elms)
+                item.Source = null;
+
             foreach (var data in saveData) {
                 var functionButton = new FunctionButton {
                     ImageUri = new Uri(Utils.ResourcesPath + data.Function.ImageUrl),

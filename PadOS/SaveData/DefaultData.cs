@@ -34,12 +34,12 @@ namespace PadOS.SaveData {
 			}
 		};
 
-        public static Profiles[] Profiles = {
-            new Profiles {
+        public static Profile[] Profiles = {
+            new Profile {
                 Id = 1,
                 Name = "Static",
             },
-            new Profiles {
+            new Profile {
                 Id = 2,
                 Name = "Default",
             }

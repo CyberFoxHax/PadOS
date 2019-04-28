@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace PadOS.SaveData.Models {
-    public class Profiles {
+    public class Profile {
         public Int64 Id { get; set; }
         public string Name { get; set; }
     }

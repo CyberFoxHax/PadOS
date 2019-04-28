@@ -39,7 +39,7 @@ namespace PadOS.SaveData {
             DefaultData.InsertData(this);
 		}
 
-		public virtual DbSet<Profiles> Profiles { get; set; }
+		public virtual DbSet<Profile> Profiles { get; set; }
 		public virtual DbSet<Function> Functions { get; set; }
 		public virtual DbSet<PanelButton> PanelButtons { get; set; }
 	}

@@ -1,27 +1,33 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 
 namespace PadOS.Views.MainPanelEditor {
-	public partial class ComboBox {
+    public partial class ComboBox {
 		public ComboBox() {
 			InitializeComponent();
 
 			if (DesignerProperties.GetIsInDesignMode(this))
 				return;
-		}
+
+        }
+
+
+        public delegate void ItemClickedEvent(object sender, ComboBoxItemContainer item);
+        public event ItemClickedEvent ItemClicked;
 
         protected override void OnMouseUp(MouseButtonEventArgs e) {
             IsOpen = !IsOpen;
         }
 
         public static readonly DependencyProperty ItemsSourceProperty = DependencyProperty.Register(
-			"ItemsSource", typeof(List<string>), typeof(ComboBox), new PropertyMetadata(default(List<string>)));
+			"ItemsSource", typeof(List<ComboBoxItemContainer>), typeof(ComboBox), new PropertyMetadata(default(List<ComboBoxItemContainer>)));
 
-		public List<string> ItemsSource
+		public List<ComboBoxItemContainer> ItemsSource
 		{
-			get => (List<string>) GetValue(ItemsSourceProperty);
+			get => (List<ComboBoxItemContainer>) GetValue(ItemsSourceProperty);
 			set {
                 ListBox.Items.Clear();
                 ListBox.ItemsSource = value;
@@ -36,7 +42,7 @@ namespace PadOS.Views.MainPanelEditor {
 		{
 			get { return (bool) GetValue(IsOpenProperty); }
 			set {
-				Popup.IsOpen = value;
+                Popup.Visibility = value ? Visibility.Visible : Visibility.Collapsed;
 				SetValue(IsOpenProperty, value);
 			}
 		}
@@ -47,6 +53,22 @@ namespace PadOS.Views.MainPanelEditor {
 
         public void Close() {
             IsOpen = false;
+        }
+
+        private void NavigationEnter(object sender, System.EventArgs args) {
+            Open();
+        }
+
+        private void NavigationExit(object sender, System.EventArgs args) {
+            Close();
+        }
+
+        private void ListBoxItem_MouseUp(object sender, MouseButtonEventArgs e) {
+            e.Handled = true;
+            var frameworkElement = (FrameworkElement)sender;
+            var data = (ComboBoxItemContainer)frameworkElement.DataContext;
+            TextElement.Text = data.Text;
+            ItemClicked?.Invoke(sender, data);
         }
     }
 }

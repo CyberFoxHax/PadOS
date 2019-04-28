@@ -147,6 +147,9 @@
     <Compile Include="CustomControls\AlphaSilhouetteBrush.xaml.cs">
       <DependentUpon>AlphaSilhouetteBrush.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CustomControls\ConfirmDialogue.xaml.cs">
+      <DependentUpon>ConfirmDialogue.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dll\Kernel32.cs" />
     <Compile Include="Dll\Psapi.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
@@ -176,6 +179,7 @@
     <Compile Include="Views\MainPanelEditor\ComboBox.xaml.cs">
       <DependentUpon>ComboBox.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\MainPanelEditor\ComboBoxItemContainer.cs" />
     <Compile Include="Views\MainPanelEditor\ComingFrom.cs" />
     <Compile Include="Views\MainPanelEditor\DialAreaControl.xaml.cs">
       <DependentUpon>DialAreaControl.xaml</DependentUpon>
@@ -221,6 +225,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="CustomControls\AlphaSilhouetteBrush.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomControls\ConfirmDialogue.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

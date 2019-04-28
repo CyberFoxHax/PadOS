@@ -22,7 +22,7 @@ namespace PadOS.Input.BlockNavigator {
         /// <summary>
         /// Will change the focus to another control. If the control resides within another navigation tree, Then current tree will be disabled and the new tree will be activated
         /// </summary>
-        public static void SetFocus(FrameworkElement currentElement, FrameworkElement newElement) {
+        public static void SetFocus(FrameworkElement currentElement, FrameworkElement newElement, bool animate = false) {
             {
                 var parent = Utils.FindBlockNavigatorElement(currentElement);
                 var nav = GetBlockNavigator(parent);
@@ -32,7 +32,7 @@ namespace PadOS.Input.BlockNavigator {
                 var parent = Utils.FindBlockNavigatorElement(newElement);
                 var nav = GetBlockNavigator(parent);
                 nav.IsEnabled = true;
-                nav.SetFocus(newElement);
+                nav.SetFocus(newElement, animate);
             }
         }
 

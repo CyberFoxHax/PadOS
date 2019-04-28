@@ -1,3 +1,4 @@
+Feature: Confirmation Dialogue
 Consider: Sharing of profiles
 Bug: Home Button doesn't work
 

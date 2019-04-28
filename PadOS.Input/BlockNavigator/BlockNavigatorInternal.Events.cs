@@ -25,8 +25,7 @@ namespace PadOS.Input.BlockNavigator {
                     elm.ActualHeight
                 )
             );
-            if (_focusElement == null)
-                SetInitialFocus();
+            SetInitialFocus(elm);
         }
 
         private void SimulateMouse(FrameworkElement _focusElm) {

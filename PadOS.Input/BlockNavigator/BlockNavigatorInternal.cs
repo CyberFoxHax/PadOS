@@ -64,19 +64,17 @@ namespace PadOS.Input.BlockNavigator {
             OnFocusChanged(element, animate);
         }
 
-		private void SetInitialFocus(){
-			foreach (var block in _blocks) {
-				if (BlockNavigatorProperty.GetInitialFocus(block.Key) == false)
-					continue;
-				_focusElement = block.Key;
-				_hasManualFocus = true;
-				OnFocusChanged(_focusElement, false);
-				return;
-			}
+		private void SetInitialFocus(FrameworkElement elm){
+            var initialFocus = BlockNavigatorProperty.GetInitialFocus(elm);
 
-            // if user focus not set, set first element as focus.
-            if (_hasManualFocus == false && _focusElement == null) {
-                OnFocusChanged(_blocks.First().Key, false);
+            if (initialFocus) {
+                _focusElement = elm;
+                _hasManualFocus = true;
+                OnFocusChanged(elm, false);
+            }
+            else if(_hasManualFocus == false && _focusElement == null) {
+                _focusElement = elm;
+                OnFocusChanged(elm, false);
             }
         }
         

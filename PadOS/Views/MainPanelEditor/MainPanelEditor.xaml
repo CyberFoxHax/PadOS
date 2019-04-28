@@ -35,7 +35,6 @@
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
             <TextBlock Margin="20,10,0,0" FontSize="18" FontFamily="Courier New" Text="PadOS" Foreground="#888" VerticalAlignment="Top" HorizontalAlignment="Left" />
-            <e:ComboBox x:Name="Profiles_ComboBox" Margin="88,3,0,0" Grid.Row="0" Grid.Column="0" nav:BlockNavigator.SimulateMouse="True" />
             <Grid Margin="10,0,0,10" Grid.Row="1" Grid.Column="0">
 				<Grid.Background>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -45,7 +44,7 @@
                 </Grid.Background>
                 <e:DialAreaControl x:Name="DialAreaControl" nav:BlockNavigator.IsNestedNavigation="True" />
             </Grid>
-            <Grid Grid.Row="0" Grid.Column="1" nav:BlockNavigator.SimulateMouse="True" MouseUp="CreateNew_ButtonClick">
+            <Grid Grid.Row="0" Grid.Column="1" nav:BlockNavigator.SimulateMouse="True" MouseUp="CreateNewFunction_ButtonClick">
                 <Grid.Background>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                         <GradientStop Color="#FF2696D4" Offset="0"/>
@@ -73,6 +72,12 @@
                 x:Name="FunctionButtonList"
                 Grid.Row="1" Grid.Column="1"
                 nav:BlockNavigator.IsNestedNavigation="True"
+            />
+            <e:ComboBox x:Name="Profiles_ComboBox" Margin="88,3,0,0" Grid.Row="0" Grid.Column="0" 
+                nav:BlockNavigator.IsNestedNavigation="True"
+                nav:BlockNavigator.InitialFocus="True"
+                ItemClicked="Profiles_ComboBox_ItemClicked"
+                IsOpen="False"
             />
         </Grid>
     </Border>
