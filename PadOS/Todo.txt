@@ -1,17 +1,8 @@
-Feature: Confirmation Dialogue
-Consider: Sharing of profiles
 Bug: Home Button doesn't work
-
-MainPanelEditor
-	serialize savedata
-	save data, are you sure?
-	navigate from button list to dial
-	don't forget special case for empty function
-	make profile selector work
+Consider: Sharing of profiles, consider alternatives to sqlite
 
 BlockNavigator
 	Bug: If the nested view has no blocks the entire system ceases to function
-	Bug: Sometimes the first touch wont respond
 	Enhance: Reset navigator on exit
 	Feature: scroll views
 
