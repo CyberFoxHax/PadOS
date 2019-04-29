@@ -50,8 +50,6 @@ namespace PadOS.Input.BlockNavigator {
         public bool IsEnabled {
             get { return _isEnabled; }
             set {
-                if (ExplicitDisabled)
-                    return;
                 _isEnabled = value;
                 OnIsEnabledChanged(value);
             }

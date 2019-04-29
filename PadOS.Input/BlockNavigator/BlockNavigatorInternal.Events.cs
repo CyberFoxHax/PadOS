@@ -33,12 +33,8 @@ namespace PadOS.Input.BlockNavigator {
                 RoutedEvent = Mouse.MouseUpEvent,
                 Source = this
             });
-            if (_focusElm is Button) {
+            if (_focusElm is Button)
                 _focusElm.RaiseEvent(new RoutedEventArgs(System.Windows.Controls.Primitives.ButtonBase.ClickEvent, _focusElm));
-                // since i don't use "buttons" in my application this remains untested
-                // should a test arise in the future, delete this if it succeeds
-                System.Diagnostics.Debugger.Break();
-            }
         }
 
         public void ActivateNestedNavigator(FrameworkElement focusElm) {

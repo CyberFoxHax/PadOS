@@ -3,6 +3,7 @@ using PadOS.Navigation;
 using System;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
@@ -50,31 +51,49 @@ namespace PadOS.Views.MainPanelEditor {
             DialAreaControl.LoadPanel(data.PanelButtons);
         }
 
-        private enum DialogueResult {
-            Cancel,
-            Yes,
-            No
+        private async void SaveChanges() {
+            var data = DialAreaControl.GetData().ToArray();
+            var ctx = new SaveData.SaveData();
+            var profile = ctx.Profiles.First(p=>p.Id == _editorFormData.Profile.Id);
+            SaveData.Models.Function[] functions;
+            {
+                var functionIds = data.Select(p => p.Function.Id).ToArray();
+                functions = ctx.Functions.Where(p => functionIds.Contains(p.Id)).ToArray();
+            }
+
+            foreach (var item in data) {
+                item.Profile = profile;
+                item.Function = functions.First(p => p.Id == item.Function.Id);
+            }
+
+            var existing = ctx.PanelButtons.Where(p => p.Profile.Id == profile.Id).ToArray();
+            ctx.PanelButtons.RemoveRange(existing);
+            ctx.PanelButtons.AddRange(data);
+            await ctx.SaveChangesAsync();
         }
 
-        private bool ConfirmLeave() {
+        private async Task<bool> ConfirmLeave(FrameworkElement context) {
             if (_hasUnsavedChanges == false)
                 return true;
 
-            var dialogResult = DialogueResult.Cancel; // TODO: Make dialogue
+            BlockNavigator.SetIsDisabled(context, true);
+            var dialogResult = await CustomControls.ConfirmDialogue.ShowDialogAsync();
+            BlockNavigator.SetIsDisabled(context, false);
             switch (dialogResult) {
-                case DialogueResult.Cancel:
+                case CustomControls.ConfirmDialogue.DialogueResult.Cancel:
                     return false;
-                case DialogueResult.Yes:
+                case CustomControls.ConfirmDialogue.DialogueResult.Yes:
+                    SaveChanges();
                     return true;
-                case DialogueResult.No:
+                case CustomControls.ConfirmDialogue.DialogueResult.No:
                     return true;
             }
 
             return false;
         }
 
-        private void Profiles_ComboBox_ItemClicked(object sender, ComboBoxItemContainer item) {
-            if (ConfirmLeave() == false)
+        private async void Profiles_ComboBox_ItemClicked(object sender, ComboBoxItemContainer item) {
+            if (await ConfirmLeave((FrameworkElement)sender) == false)
                 return;
 
             var ctx = new SaveData.SaveData();
@@ -91,8 +110,8 @@ namespace PadOS.Views.MainPanelEditor {
             BlockNavigator.NavigateBack((FrameworkElement)sender);
         }
 
-        private void Window_CancelClick(object sender, EventArgs args) {
-            if (ConfirmLeave() == false)
+        private async void Window_CancelClick(object sender, EventArgs args) {
+            if (await ConfirmLeave(this) == false)
                 return;
             Navigator.NavigateBack();
         }

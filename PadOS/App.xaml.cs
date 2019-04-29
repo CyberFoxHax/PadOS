@@ -24,9 +24,19 @@ namespace PadOS {
 #endif
 
             using (var ctx = new SaveData.SaveData()){
-				ctx.DeleteIfExists();
-				ctx.CreateDb();
-				ctx.InsertDefault();
+                if (ctx.DatabaseExists()) {
+#if DEBUG
+                    //ctx.DeleteIfExists();
+                    //ctx.CreateDb();
+                    //ctx.InsertDefault();
+#endif
+                }
+                else
+                {
+                    ctx.CreateDb();
+                    ctx.InsertDefault();
+                }
+				
 			}
 
 			base.OnStartup(e);

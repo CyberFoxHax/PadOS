@@ -18,7 +18,11 @@ namespace PadOS.SaveData {
 			Database.SetInitializer(sqliteConnectionInitializer);
 		}
 
-		public void DeleteIfExists(){
+        public bool DatabaseExists() {
+            return File.Exists(DbFileName);
+        }
+
+        public void DeleteIfExists(){
 			if (File.Exists(DbFileName) == false)
 				return;
 			if (Database.Connection.DataSource == null) 

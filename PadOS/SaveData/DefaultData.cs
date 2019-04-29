@@ -11,13 +11,26 @@ namespace PadOS.SaveData {
             ctx.SaveChanges();
         }
 
-		public static Function[] Functions = {
-			new Function{
-                Id = 1,
-				Parameter = "Empty",
-				Title = "Empty",
-				FunctionType = FunctionType.PadOsInternal,
-			},
+        public static readonly Function EmptyFunction = new Function {
+            Id = 1,
+            Parameter = "Empty",
+            Title = "Empty",
+            FunctionType = FunctionType.PadOsInternal,
+        };
+
+        public static readonly Profile AllProfile = new Profile {
+            Id = 1,
+            Name = "All",
+        };
+
+        public static readonly Profile DefaultProfile = new Profile {
+            Id = 2,
+            Name = "Default",
+        };
+
+
+        public static Function[] Functions = {
+			EmptyFunction,
 			new Function{
                 Id = 2,
                 Parameter = "OpenSettings",
@@ -35,14 +48,8 @@ namespace PadOS.SaveData {
 		};
 
         public static Profile[] Profiles = {
-            new Profile {
-                Id = 1,
-                Name = "Static",
-            },
-            new Profile {
-                Id = 2,
-                Name = "Default",
-            }
+            AllProfile,
+            DefaultProfile
         };
 
 		public static PanelButton[] PanelButtons = {

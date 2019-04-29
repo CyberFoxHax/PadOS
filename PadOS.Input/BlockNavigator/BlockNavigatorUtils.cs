@@ -72,8 +72,8 @@ namespace PadOS.Input.BlockNavigator {
                 var elm = FindBlockNavigatorElement(a);
                 nav = BlockNavigatorProperty.GetBlockNavigator(elm);
             }
-            nav.ExplicitDisabled = value;
             nav.IsEnabled = !value;
+            nav.ExplicitDisabled = value;
         }
     }
 }

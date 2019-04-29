@@ -31,7 +31,8 @@ namespace PadOS.Views.MainPanelEditor {
 			set {
                 ListBox.Items.Clear();
                 ListBox.ItemsSource = value;
-				SetValue(ItemsSourceProperty, value);
+                TextElement.Text = value.FirstOrDefault()?.Text ?? "";
+                SetValue(ItemsSourceProperty, value);
 			}
 		}
 

@@ -14,7 +14,20 @@ namespace PadOS.Views.MainPanel {
 			IsVisibleChanged += OnIsVisibleChanged;
 
 			var ctx = new SaveData.SaveData();
-			var saveData = ctx.PanelButtons;
+            var currentProfile = ctx.Profiles.First(p=>p.Id == 2);
+			var sharedButtons = ctx.PanelButtons.Where(p=>p.Profile.Id == SaveData.DefaultData.AllProfile.Id).ToArray();
+			var currentButtons = ctx.PanelButtons.Where(p=>p.Profile.Id == currentProfile.Id).ToArray();
+
+            var dict = new System.Collections.Generic.Dictionary<int, SaveData.Models.PanelButton>();
+
+            foreach (var item in sharedButtons)
+                dict[item.Position] = item;
+
+            foreach (var item in currentButtons)
+                dict[item.Position] = item;
+
+            var saveData = dict.Select(p=>p.Value).ToArray();
+
 			foreach (var data in saveData){
 				_buttons[data.Position] = new FunctionButton {
 					ImageUri = new Uri(Utils.ResourcesPath + data.Function.ImageUrl),

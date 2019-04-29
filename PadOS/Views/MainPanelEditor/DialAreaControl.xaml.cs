@@ -34,6 +34,16 @@ namespace PadOS.Views.MainPanelEditor {
         private FunctionViewModel[] _buttons = new FunctionViewModel[8];
         private Vector2 _centerHighlightCanvasSize;
 
+        public System.Collections.Generic.IEnumerable<SaveData.Models.PanelButton> GetData() {
+            return _buttons
+                .Select((item, index)=>new { item, index })
+                .Where(p=>p.item!=null && p.item.Function != null && p.item.Function.Id != SaveData.DefaultData.EmptyFunction.Id)
+                .Select(p=>new SaveData.Models.PanelButton {
+                    Function = p.item.Function,
+                    Position = p.index
+                });
+        }
+
         public FunctionViewModel Selection {
             get {
                 if (_activeButtonIndex < 0)
@@ -66,8 +76,10 @@ namespace PadOS.Views.MainPanelEditor {
                 var elm = elms[data.Position];
 
                 elm.Source = new System.Windows.Media.Imaging.BitmapImage(functionButton.ImageUri);
+                elm.Visibility = Visibility.Visible;
                 _buttons[data.Position] = new FunctionViewModel {
                     FrameworkElement = elm, 
+                    Function = data.Function,
                     FunctionButton = functionButton
                 };
             }
@@ -90,7 +102,7 @@ namespace PadOS.Views.MainPanelEditor {
         public void ReplaceSelectedItem(FunctionViewModel model) {
             var elms = ButtonsCanvas.Children.OfType<CustomControls.AlphaSilhouetteImage>().ToArray();
             var elm = elms[_activeButtonIndex];
-            if (model.FunctionButton.ImageUri != null) {
+            if (model.Function.Id != SaveData.DefaultData.EmptyFunction.Id) {
                 elm.Source = new System.Windows.Media.Imaging.BitmapImage(model.FunctionButton.ImageUri);
                 elm.Visibility = Visibility.Visible;
             }

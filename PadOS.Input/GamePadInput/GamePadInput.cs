@@ -66,6 +66,11 @@ namespace PadOS.Input.GamePadInput {
 			;
 		}
 
+        public void ResetAll() {
+            for (int i = 0; i < _oldGamePadStates.Length; i++)
+                _oldGamePadStates[0] = default(GamePadState);
+        }
+
 		private void Poll(){
 			while (IsEnabled){
 				for (var i = 0; i < 4; i++){

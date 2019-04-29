@@ -1,0 +1,86 @@
+﻿<Window x:Class="PadOS.CustomControls.ConfirmDialogue"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:nav="clr-namespace:PadOS.Input.BlockNavigator;assembly=PadOS.Input"
+        Style="{StaticResource DefaultWindowStyle}"
+        WindowStartupLocation="CenterScreen"
+        nav:BlockNavigator.CancelClick="WindowCancel_Click"
+        x:Name="This"
+        Title="Are you sure?" Height="174.885" Width="469.203" Background="{x:Null}">
+    <Border BorderThickness="3">
+        <Border.Background>
+            <LinearGradientBrush EndPoint="348,809" StartPoint="243.6,-40.45" MappingMode="Absolute">
+                <GradientStop Color="#f6f6f6" Offset="1"/>
+                <GradientStop Color="#202123" Offset="0.15"/>
+                <GradientStop Color="#1e242f"/>
+            </LinearGradientBrush>
+        </Border.Background>
+        <Border.BorderBrush>
+            <LinearGradientBrush EndPoint="1,1">
+                <GradientStop Color="#1f4974"/>
+                <GradientStop Color="#232424" Offset="0.5"/>
+                <GradientStop Color="#1f4974" Offset="1"/>
+            </LinearGradientBrush>
+        </Border.BorderBrush>
+        <Grid Margin="3,-3,-3,3">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="43"/>
+                <RowDefinition/>
+                <RowDefinition Height="48"/>
+            </Grid.RowDefinitions>
+            <TextBlock Margin="20,10,0,0" FontSize="18" FontFamily="Courier New" Text="PadOS" Foreground="#888" VerticalAlignment="Top" HorizontalAlignment="Left" Height="20" Width="54" />
+            <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Height="28" Margin="154,25,155,25" Width="154">
+                <TextBlock Text="Save changes?" Foreground="White" FontFamily="Courier"  FontSize="24" HorizontalAlignment="Center" />
+            </StackPanel>
+
+            <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0 10 10 10" HorizontalAlignment="Right" Width="315">
+                <StackPanel.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="Background">
+                            <Setter.Value>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="#FF2696D4" Offset="0"/>
+                                    <GradientStop Color="#FF1E6BA4" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="Width" Value="100" />
+                        <Setter Property="Margin" Value="0 0 5 0" />
+                    </Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Background" >
+                            <Setter.Value>
+                                <LinearGradientBrush EndPoint="0,-1" StartPoint="1,2">
+                                    <GradientStop Color="#0fff" Offset="0"/>
+                                    <GradientStop Color="#2fff" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="BorderBrush">
+                            <Setter.Value>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.45,0">
+                                    <GradientStop Color="#0fff" Offset="0"/>
+                                    <GradientStop Color="#6fff" Offset="0.5"/>
+                                    <GradientStop Color="#0fff" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="Foreground" Value="White" />
+                        <Setter Property="FontSize" Value="17" />
+                        <Setter Property="FontFamily" Value="Segoe UI" />
+                        <Setter Property="BorderThickness" Value="1" />
+                    </Style>
+                </StackPanel.Resources>
+                <Border>
+                    <Button Content="Yes" nav:BlockNavigator.SimulateMouse="True" Click="ButtonYes_Click" />
+                </Border>
+                <Border>
+                    <Button Content="No" nav:BlockNavigator.SimulateMouse="True" Click="ButtonNo_Click" />
+                </Border>
+                <Border>
+                    <Button Content="Cancel" nav:BlockNavigator.SimulateMouse="True" Click="ButtonCancel_Click" />
+                </Border>
+            </StackPanel>
+        </Grid>
+    </Border>
+</Window>
