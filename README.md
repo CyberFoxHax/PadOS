@@ -3,3 +3,5 @@ Game Controller suite for everthing windows doesn't. Not much info these days, h
 
 ![MainDial](PadOS1.png)
 ![SettingsView](PadOS2.png)
+
+Discord server: https://discord.gg/QRf5SP4
