@@ -156,6 +156,9 @@
     <Compile Include="Dll\UserInfo32.cs" />
     <Compile Include="Navigation\Navigator.cs" />
     <Compile Include="SaveData\DefaultData.cs" />
+    <Compile Include="SaveData\JsonDatastore\JsonContext.cs" />
+    <Compile Include="SaveData\JsonDatastore\JsonCustomSerializer.cs" />
+    <Compile Include="SaveData\JsonDatastore\JsonTable.cs" />
     <Compile Include="SaveData\Models\Profiles.cs" />
     <Compile Include="SaveData\Models\Function.cs" />
     <Compile Include="SaveData\SaveData.cs" />
