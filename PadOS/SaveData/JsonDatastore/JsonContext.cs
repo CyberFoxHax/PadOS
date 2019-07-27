@@ -24,22 +24,18 @@ namespace PadOS.SaveData.JsonDatastore
                 })
                 .ToArray();
 
-            foreach (var table in _tables) {
-                table.LoadData = LoadData(table);
-                table.LazyLoadData = true;
-            }
-
             DirectoryName = directory;
+            LoadData();
         }
 
-        private Func<List<object>> LoadData(JsonTable table) {
-            return () => {
+        private void LoadData() {
+            foreach (var table in _tables) {
                 var path = Path.Combine(DirectoryName, table.Name + ".json");
                 if (File.Exists(path) == false)
-                    return null;
+                    return;
                 var text = File.ReadAllText(path);
                 if (string.IsNullOrEmpty(text) || text == "[]")
-                    return null;
+                    return;
                 var typeArg = table.GetType().GetGenericArguments()[0];
                 var genericType = typeof(List<>).MakeGenericType(typeArg);
                 var methodDef = typeof(Enumerable).GetMethod(nameof(Enumerable.Cast), BindingFlags.Static | BindingFlags.Public);
@@ -47,15 +43,43 @@ namespace PadOS.SaveData.JsonDatastore
                 var data = Deserialize(text, table);
                 var typedResult = (IEnumerable<object>)EnumerableCastObject.Invoke(null, new object[] { data });
                 var listResult = typedResult.ToList();
-                return listResult;
-            };
+                table.SetList(listResult);
+            }
+
+            var bindingFlags = BindingFlags.Instance | BindingFlags.Public;
+            foreach (var table in _tables) {
+                var typeArg = table.GetType().GetGenericArguments()[0];
+                foreach (var item in table) {
+                    var properties = typeArg.GetProperties(bindingFlags);
+                    foreach (var property in properties) {
+                        var value = property.GetValue(item);
+                        var proxy = table.Proxies.FirstOrDefault(p => ReferenceEquals(value, p));
+                        if(proxy == null)
+                            continue;
+                        var idProperty = property.PropertyType.GetProperty("Id", bindingFlags);
+                        var proxyId = idProperty.GetValue(proxy);
+                        if (proxy != null) {
+                            var foreignTable = _tables
+                                .Where(p => p.GetType().GetGenericArguments()[0] == property.PropertyType)
+                                .First();
+                            var foreignRow = foreignTable
+                                .Cast<object>()
+                                .Where(p => (Int64)idProperty.GetValue(p) == (Int64)proxyId)
+                                .First();
+
+                            property.SetValue(item, foreignRow);
+                        }
+                    }
+                }
+                table.Proxies.Clear();
+            }
         }
 
         public Task SaveChangesAsync() {
             return Task.Run((Action)SaveChanges);
         }
 
-        private void AutoIncrement(JsonTable table) {
+        private void AutoIncrement<T>(IEnumerable<T> table) {
             var type = table.GetType().GetGenericArguments()[0];
             var idProperty = type.GetProperty("Id", BindingFlags.Instance | BindingFlags.Public);
             var maxId = table.Cast<object>().Max(p => (Int64)idProperty.GetValue(p));
@@ -70,7 +94,7 @@ namespace PadOS.SaveData.JsonDatastore
             foreach (var table in _tables) {
                 if (table.HasChanged == false)
                     continue;
-                AutoIncrement(table);
+                AutoIncrement(table.Cast<object>());
                 var serialized = Serialize(table);
                 File.WriteAllText(Path.Combine(DirectoryName, table.Name + ".json"), serialized, Encoding.UTF8);
             }

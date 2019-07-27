@@ -26,7 +26,7 @@ namespace PadOS.SaveData.JsonDatastore
                     else {
                         var foreignIdProperty = property.PropertyInfo.PropertyType.GetProperty("Id", bindingFlags);
                         var propertyValue = property.PropertyInfo.GetValue(item);
-                        dict[property.PropertyInfo.Name + "_Id"] = foreignIdProperty.GetValue(propertyValue);
+                        dict[property.PropertyInfo.Name + "_Fk" + property.PropertyInfo.PropertyType.Name] = foreignIdProperty.GetValue(propertyValue);
                     }
                 }
                 list.Add(dict);
@@ -52,11 +52,21 @@ namespace PadOS.SaveData.JsonDatastore
                 var newInstance = Activator.CreateInstance(type);
                 foreach (var property in properties) {
                     if (property.IsVirtual == false) {
-                        var value = (JValue)item[property.PropertyInfo.Name];
-                        property.PropertyInfo.SetValue(newInstance, value.Value);
+                        var jvalue = (JValue)item[property.PropertyInfo.Name];
+                        object value;
+                        if (jvalue.Type == JTokenType.Integer)
+                            value = (Int32)(Int64)jvalue.Value;
+                        else
+                            value = jvalue.Value;
+                        property.PropertyInfo.SetValue(newInstance, value);
                     }
                     else {
-                        
+                        var proxy = Activator.CreateInstance(property.PropertyInfo.PropertyType);
+                        property.PropertyInfo.SetValue(newInstance, proxy);
+                        var idProperty = property.PropertyInfo.PropertyType.GetProperty("Id", bindingFlags);
+                        var jsonValue = (JValue)item[property.PropertyInfo.Name + "_Fk" + property.PropertyInfo.PropertyType.Name];
+                        idProperty.SetValue(proxy, jsonValue.Value);
+                        table.Proxies.Add(proxy);
                     }
                 }
                 newList.Add(newInstance);
