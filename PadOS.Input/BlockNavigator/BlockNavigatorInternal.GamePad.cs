@@ -180,8 +180,8 @@ namespace PadOS.Input.BlockNavigator {
 			}
 			if (angle >= segmentSize * 0 && angle <  segmentSize * 1
 			||	angle >  segmentSize * 7 && angle <= segmentSize * 8) {
-				// down
-				return (
+                // down
+                return (
 					from block in blocks
 					let rect = block.Value
 					where ReferenceEquals(block.Key, activeElement) == false
