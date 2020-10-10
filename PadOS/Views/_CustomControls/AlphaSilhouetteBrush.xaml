@@ -4,17 +4,17 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300" x:Name="Parent" >
+             d:DesignHeight="300" d:DesignWidth="300" x:Name="This">
     <Canvas>
         <Canvas.Style>
             <Style TargetType="Canvas">
                 <Style.Triggers>
-                    <DataTrigger Binding="{Binding IsActive, ElementName=Parent}" Value="True">
-                        <Setter Property="Background" Value="{Binding ActiveColor, ElementName=Parent}"/>
+                    <DataTrigger Binding="{Binding IsActive, ElementName=This}" Value="True">
+                        <Setter Property="Background" Value="{Binding ActiveColor, ElementName=This}"/>
                     </DataTrigger>
                 </Style.Triggers>
-                <Setter Property="Background" Value="{Binding NormalColor, ElementName=Parent}" />
-                <Setter Property="OpacityMask" Value="{Binding Source, ElementName=Parent}" />
+                <Setter Property="Background" Value="{Binding NormalColor, ElementName=This}" />
+                <Setter Property="OpacityMask" Value="{Binding Source, ElementName=This}" />
             </Style>
         </Canvas.Style>
     </Canvas>

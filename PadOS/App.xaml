@@ -4,6 +4,7 @@
              xmlns:app="clr-namespace:PadOS"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              x:Name="This"
+             StartupUri="Views/InputSimulationEditor/InputSimulationMainWindow.xaml"
              >
     <Application.Resources>
         <ResourceDictionary>

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 
-namespace PadOS.Views.MainPanelEditor {
+namespace PadOS.Views.CustomControls {
     public partial class ComboBox {
 		public ComboBox() {
 			InitializeComponent();

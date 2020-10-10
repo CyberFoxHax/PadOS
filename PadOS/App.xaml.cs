@@ -26,6 +26,7 @@ namespace PadOS {
             using (var ctx = new SaveData.SaveData()){
                 if (ctx.DatabaseExists()) {
 #if DEBUG
+                    // Nuke Db
                     //ctx.DeleteIfExists();
                     //ctx.CreateDb();
                     //ctx.InsertDefault();
@@ -40,14 +41,15 @@ namespace PadOS {
 			}
 
 			base.OnStartup(e);
-			_systemTray = new SystemTray();;
+			_systemTray = new SystemTray();
 			Exit += OnExit;
 
 			Navigator.Initialize();
 			if (Debugger.IsAttached == false)
 				return;
 
-			Navigator.OpenMainPanel();
+            if(StartupUri == null)
+                Navigator.OpenMainPanel();
 		}
 
 		private void OnExit(object sender, ExitEventArgs exitEventArgs){

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using PadOS.Views.CustomControls;
 
 namespace PadOS.Views.MainPanelEditor {
     public partial class MainPanelEditor{

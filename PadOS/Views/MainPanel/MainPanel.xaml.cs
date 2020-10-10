@@ -38,7 +38,7 @@ namespace PadOS.Views.MainPanel {
 				SetButton(data.Position, _buttons[data.Position]);
 			}
 
-			var elms = Canvas.Children.OfType<CustomControls.AlphaSilhouetteImage>().ToArray();
+			var elms = Canvas.Children.OfType<PadOS.CustomControls.AlphaSilhouetteImage>().ToArray();
 			const int upper = 8;
 			const double tau = Math.PI * 2;
 			const double segment = tau/upper;
@@ -57,7 +57,7 @@ namespace PadOS.Views.MainPanel {
 		private bool _waitForReturnZero;
 
 		public void SetButton(int index, FunctionButton button) {
-			var elms = Canvas.Children.OfType<CustomControls.AlphaSilhouetteImage>().ToArray();
+			var elms = Canvas.Children.OfType<PadOS.CustomControls.AlphaSilhouetteImage>().ToArray();
 			_buttons[index] = button;
 			elms[index].Source = 
 				new System.Windows.Media.Imaging.BitmapImage(_buttons[index].ImageUri);
@@ -69,7 +69,7 @@ namespace PadOS.Views.MainPanel {
 		}
 
 		public void RemoveButton(int index) {
-			var elms = Canvas.Children.OfType<CustomControls.AlphaSilhouetteImage>().ToArray();
+			var elms = Canvas.Children.OfType<PadOS.CustomControls.AlphaSilhouetteImage>().ToArray();
 			elms[index].Source = null;
 			elms[index].Visibility = Visibility.Hidden;
 			_buttons[index] = null;

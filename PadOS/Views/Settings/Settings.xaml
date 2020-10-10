@@ -71,13 +71,13 @@
 							</Style.Triggers>
 						</Style>
 					</StackPanel.Resources>
-					<controls:NavigationListItem ImageSource="/Resources/Icons/gamepads_4_players.png" IsActive="True" Text="Change Players" Click="{x:Static commands:NavigationCommands.ChangePlayersCommand}" />
-                    <controls:NavigationListItem ImageSource="/Resources/Icons/gamepads_diverse.png" Text="Gamepads" Click="{x:Static commands:NavigationCommands.EditGamePadsCommand}" />
+					<!--<controls:NavigationListItem ImageSource="/Resources/Icons/gamepads_4_players.png" IsActive="True" Text="Change Players" Click="{x:Static commands:NavigationCommands.ChangePlayersCommand}" />-->
+                    <!--<controls:NavigationListItem ImageSource="/Resources/Icons/gamepads_diverse.png" Text="Gamepads" Click="{x:Static commands:NavigationCommands.EditGamePadsCommand}" />-->
 					<controls:NavigationListItem ImageSource="/Resources/Icons/dial_with_selection.png" Text="Edit Main Panel" Click="{x:Static commands:NavigationCommands.EditMainPanelCommand}" />
-                    <controls:NavigationListItem ImageSource="/Resources/Icons/keyboard_icon.png" Text="Keyboard Mappings" Click="{x:Static commands:NavigationCommands.EditKeyboardMappingsCommand}" />
-                    <controls:NavigationListItem ImageSource="/Resources/Icons/keyboard_icon.png" Text="Keyboard Profiles" Click="{x:Static commands:NavigationCommands.EditKeyboardProfilesCommand}" />
-                    <controls:NavigationListItem ImageSource="/Resources/Icons/corshair.png" Text="Calibration" Click="{x:Static commands:NavigationCommands.EditGamePadCalibrationCommand}" />
-                    <controls:NavigationListItem ImageSource="/Resources/Icons/dial_with_selection.png" Text="Main Panel Profiles" Click="{x:Static commands:NavigationCommands.EditMainPanelProfileCommand}" />
+                    <controls:NavigationListItem ImageSource="/Resources/Icons/keyboard_icon.png" Text="Input Profiles" Click="{x:Static commands:NavigationCommands.EditKeyboardProfilesCommand}" />
+                    <controls:NavigationListItem ImageSource="/Resources/Icons/window_icon.png" Text="Profile Association" Click="{x:Static commands:NavigationCommands.EditKeyboardMappingsCommand}" />
+                    <!--<controls:NavigationListItem ImageSource="/Resources/Icons/corshair.png" Text="Calibration" Click="{x:Static commands:NavigationCommands.EditGamePadCalibrationCommand}" />-->
+                    <!--<controls:NavigationListItem ImageSource="/Resources/Icons/dial_with_selection.png" Text="Main Panel Profiles" Click="{x:Static commands:NavigationCommands.EditMainPanelProfileCommand}" />-->
                     <controls:MultiListItem ImageSource="/Resources/Icons/window_icon.png" Text="{}{CurrentWindow}" IsActive="True">
 						<controls:MultiListItem.Items>
                             <controls:MultiListItemSubItem ImageSource="/PadOS;component/Resources/Icons/minimize.png" Click="{x:Static commands:WindowCommands.WindowMinimizeCommand}" />

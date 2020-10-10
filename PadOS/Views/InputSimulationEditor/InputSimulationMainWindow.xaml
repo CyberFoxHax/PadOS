@@ -1,0 +1,182 @@
+﻿<Window x:Class="PadOS.Views.InputSimulationEditor.InputSimulationMainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:nav="clr-namespace:PadOS.Input.BlockNavigator;assembly=PadOS.Input"
+        xmlns:input="clr-namespace:PadOS.Input.WpfGamePad;assembly=PadOS.Input"
+        xmlns:c="clr-namespace:PadOS.Views.CustomControls"
+        xmlns:inputsimulationeditor="clr-namespace:PadOS.Views.InputSimulationEditor"
+        xmlns:customcontrols="clr-namespace:PadOS.CustomControls"
+        xmlns:editors="clr-namespace:PadOS.Views.InputSimulationEditor.Editors"
+        Title="Settings"
+        Height="800" Width="1500"
+        Background="{x:Null}"
+        WindowStartupLocation="CenterScreen"
+        Style="{StaticResource DefaultWindowStyle}"
+        x:Name="This"
+        nav:BlockNavigator.CancelClick="Window_CancelClick"
+    >
+    <Border BorderThickness="3">
+        <Border.Background>
+            <LinearGradientBrush EndPoint="348,809" StartPoint="243.6,-40.45" MappingMode="Absolute">
+                <GradientStop Color="#262626" Offset="1"/>
+                <GradientStop Color="#202123" Offset="0.15"/>
+                <GradientStop Color="#1e242f"/>
+            </LinearGradientBrush>
+        </Border.Background>
+        <Border.BorderBrush>
+            <LinearGradientBrush EndPoint="1,1">
+                <GradientStop Color="#1f4974"/>
+                <GradientStop Color="#232424" Offset="0.5"/>
+                <GradientStop Color="#1f4974" Offset="1"/>
+            </LinearGradientBrush>
+        </Border.BorderBrush>
+        <Grid>
+            <Grid.Resources>
+                <Style TargetType="Panel" x:Key="DarkerBackground">
+                    <Setter Property="Background">
+                        <Setter.Value>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                <GradientStop Color="#161616" Offset="1"/>
+                                <GradientStop Color="#1f1f1f"/>
+                            </LinearGradientBrush>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Grid.Resources>
+            <TextBlock Margin="20,10" FontSize="18" FontFamily="Courier New" Text="PadOS" Foreground="#888" VerticalAlignment="Top" HorizontalAlignment="Left" />
+
+            <Grid Margin="20,10,20,20">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="71*"/>
+                    <RowDefinition Height="693*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="226*"/>
+                    <ColumnDefinition Width="451*"/>
+                </Grid.ColumnDefinitions>
+
+                <c:ComboBox HorizontalAlignment="Right" Width="371" Grid.Row="0" Grid.Column="0" Margin="0 0 0 10" />
+                <Grid Style="{StaticResource DarkerBackground}" Grid.Row="0" Grid.Column="1" Margin="10 0 0 10">
+                    <Grid.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="Background" >
+                                <Setter.Value>
+                                    <LinearGradientBrush EndPoint="1,1" StartPoint="0,0">
+                                        <GradientStop Color="#FF2A6A95" Offset="0"/>
+                                        <GradientStop Color="#FF1C4D6E" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter Property="Margin" Value="10 5 5 5" />
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                        </Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Foreground" Value="White" />
+                            <Setter Property="FontFamily" Value="Arial" />
+                            <Setter Property="FontSize" Value="20" />
+                            <Setter Property="Padding" Value="5" />
+                        </Style>
+                        <Style TargetType="Run" x:Key="NumberHighlight">
+                            <Setter Property="Foreground" Value="#FFFF7BED" />
+                        </Style>
+                    </Grid.Resources>
+                    <StackPanel Orientation="Horizontal">
+                        <Border>
+                            <TextBlock>
+                                <Run>MyDelay </Run>
+                                <Run Style="{StaticResource NumberHighlight}">1000</Run>
+                                <Run>ms</Run>
+                            </TextBlock>
+                        </Border>
+                        <Border>
+                            <TextBlock>
+                                <Run>MyRepeat </Run>
+                                <Run Style="{StaticResource NumberHighlight}">150</Run>
+                                <Run>ms</Run>
+                            </TextBlock>
+                        </Border>
+                    </StackPanel>
+                </Grid>
+                <Grid Style="{StaticResource DarkerBackground}" Grid.Row="1" Grid.Column="0">
+                    <inputsimulationeditor:ItemsList />
+                </Grid>
+                <Grid Grid.Row="1" Grid.Column="1" Margin="10 0 0 0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="39*"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="920*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Style="{StaticResource DarkerBackground}" >
+                        <customcontrols:AlphaSilhouetteImage Padding="3" Height="35" NormalColor="#4f4f4f" Source="/PadOS;component/Resources/Icons/corshair.png" />
+                        <customcontrols:AlphaSilhouetteImage Padding="3" Height="35" NormalColor="#4f4f4f" Source="/PadOS;component/Resources/Icons/Loupe.png" />
+                        <customcontrols:AlphaSilhouetteImage Padding="3" Height="35" NormalColor="White" Background="#326d94" Source="/PadOS;component/Resources/Icons/keyboard_icon.png" />
+                        <customcontrols:AlphaSilhouetteImage Padding="3" Height="35" NormalColor="#4f4f4f" Source="/PadOS;component/Resources/Icons/gamepads_diverse.png" />
+                        <customcontrols:AlphaSilhouetteImage Padding="3" Height="35" NormalColor="#4f4f4f" Source="/PadOS;component/Resources/Icons/cogs.png" />
+                        <customcontrols:AlphaSilhouetteImage Padding="3" Height="35" NormalColor="#4f4f4f" Source="/PadOS;component/Resources/Icons/OSK.png" />
+                        <customcontrols:AlphaSilhouetteImage Padding="3" Height="35" NormalColor="#4f4f4f" Source="/PadOS;component/Resources/Icons/dial_with_selection.png" />
+                    </StackPanel>
+                    <Grid Grid.Column="1" Margin="0 0 0 10">
+                        <Grid.Background>
+                            <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                                <GradientStop Color="#326e95"/>
+                                <GradientStop Color="#00079CFF" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Grid.Background>
+
+                    </Grid>
+                    <Grid Grid.Column="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="10*"/>
+                            <RowDefinition Height="86*"/>
+                            <RowDefinition Height="50"/>
+                        </Grid.RowDefinitions>
+                        <Grid>
+                            <Grid.Background>
+                                <LinearGradientBrush EndPoint="0,-1" StartPoint="1,2">
+                                    <GradientStop Color="#295572" Offset="0"/>
+                                    <GradientStop Color="#326e95" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Grid.Background>
+                            <StackPanel Margin="5">
+                                <TextBlock Foreground="White" FontSize="16" FontFamily="Arial" Text="Keyboard Simulation Node" TextWrapping="Wrap" FontWeight="Bold" />
+                                <TextBlock Foreground="White" FontSize="16" FontFamily="Arial" Text="Bind to one or many buttons on the keyboad to execute hotkeys. Navigate the cursor over the keyboard, use the confirm button to toggle keys. The sequence tracked and shown above the keyboard." TextWrapping="Wrap" />
+                            </StackPanel>
+                        </Grid>
+                        <Grid Style="{StaticResource DarkerBackground}" Grid.Row="1" Margin="10 10 0 10">
+                            <editors:KeyboardInputEditor />
+                        </Grid>
+                        <Border Grid.Row="2" VerticalAlignment="Bottom" Height="10">
+                            <Border.Background>
+                                <LinearGradientBrush EndPoint="1,0" StartPoint="0,0">
+                                    <GradientStop Color="#295572" Offset="1"/>
+                                    <GradientStop Color="#00326E95"/>
+                                </LinearGradientBrush>
+                            </Border.Background>
+
+                        </Border>
+                        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+                            <Border BorderThickness="2" BorderBrush="#FF87CAEA" HorizontalAlignment="Right" Padding="10 0" Margin="0 0 20 0">
+                                <Border.Background>
+                                    <LinearGradientBrush EndPoint="1,1" StartPoint="0,0">
+                                        <GradientStop Color="#FF51AEDA" Offset="0"/>
+                                        <GradientStop Color="#FF4B73B9" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                                <TextBlock Text="Duplicate Node" Foreground="White" FontSize="26" VerticalAlignment="Center" />
+                            </Border>
+                            <Border BorderThickness="2" BorderBrush="#FFEA8787" HorizontalAlignment="Right" Padding="10 0">
+                                <Border.Background>
+                                    <LinearGradientBrush EndPoint="1,1" StartPoint="0,0">
+                                        <GradientStop Color="#FFDA7051" Offset="0"/>
+                                        <GradientStop Color="#FFB94B4B" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                                <TextBlock Text="Delete Node" Foreground="White" FontSize="26" VerticalAlignment="Center" />
+                            </Border>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Grid>
+    </Border>
+</Window>

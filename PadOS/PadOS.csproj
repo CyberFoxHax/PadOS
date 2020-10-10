@@ -141,13 +141,22 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Commands\ApplicationCommands.cs" />
-    <Compile Include="CustomControls\AlphaSilhouetteImage.xaml.cs">
+    <Compile Include="Views\InputSimulationEditor\Editors\KeyboardControl.xaml.cs">
+      <DependentUpon>KeyboardControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\InputSimulationEditor\Editors\KeyboardInputEditor.xaml.cs">
+      <DependentUpon>KeyboardInputEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\InputSimulationEditor\ItemsList.xaml.cs">
+      <DependentUpon>ItemsList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\_CustomControls\AlphaSilhouetteImage.xaml.cs">
       <DependentUpon>AlphaSilhouetteImage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CustomControls\AlphaSilhouetteBrush.xaml.cs">
+    <Compile Include="Views\_CustomControls\AlphaSilhouetteBrush.xaml.cs">
       <DependentUpon>AlphaSilhouetteBrush.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CustomControls\ConfirmDialogue.xaml.cs">
+    <Compile Include="Views\_CustomControls\ConfirmDialogue.xaml.cs">
       <DependentUpon>ConfirmDialogue.xaml</DependentUpon>
     </Compile>
     <Compile Include="Dll\Kernel32.cs" />
@@ -179,11 +188,14 @@
     <Compile Include="Views\GamePadOSK\Osk.xaml.cs">
       <DependentUpon>Osk.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MainPanelEditor\ComboBox.xaml.cs">
+    <Compile Include="Views\InputSimulationEditor\InputSimulationMainWindow.xaml.cs">
+      <DependentUpon>InputSimulationMainWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\_CustomControls\ComboBox.xaml.cs">
       <DependentUpon>ComboBox.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MainPanelEditor\ComboBoxItemContainer.cs" />
-    <Compile Include="Views\MainPanelEditor\ComingFrom.cs" />
+    <Compile Include="Views\_CustomControls\ComboBoxItemContainer.cs" />
+    <Compile Include="Views\MainPanelEditor\FormState.cs" />
     <Compile Include="Views\MainPanelEditor\DialAreaControl.xaml.cs">
       <DependentUpon>DialAreaControl.xaml</DependentUpon>
     </Compile>
@@ -223,15 +235,27 @@
     <Compile Include="Views\SystemTray.xaml.cs">
       <DependentUpon>SystemTray.xaml</DependentUpon>
     </Compile>
-    <Page Include="CustomControls\AlphaSilhouetteImage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="CustomControls\AlphaSilhouetteBrush.xaml">
+    <Page Include="Views\InputSimulationEditor\Editors\KeyboardControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="CustomControls\ConfirmDialogue.xaml">
+    <Page Include="Views\InputSimulationEditor\Editors\KeyboardInputEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\InputSimulationEditor\ItemsList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\_CustomControls\AlphaSilhouetteImage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\_CustomControls\AlphaSilhouetteBrush.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\_CustomControls\ConfirmDialogue.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -251,7 +275,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\MainPanelEditor\ComboBox.xaml">
+    <Page Include="Views\InputSimulationEditor\InputSimulationMainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\_CustomControls\ComboBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -326,6 +354,10 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Resource Include="Views\MainPanelEditor\todo.txt" />
+    <Resource Include="Views\InputSimulationEditor\Todo.txt" />
+    <Resource Include="Resources\DiagonalLines_13_50.jpg" />
+    <Resource Include="Resources\DiagonalLines_23_60.jpg" />
     <Resource Include="Resources\Icons\restart_icon.png" />
     <Resource Include="Resources\Icons\shutdown_icon.png" />
     <Resource Include="Resources\Icons\window_icon.png" />
@@ -416,10 +448,9 @@
     <Resource Include="Resources\Icons\skull.png" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Views\ButtonMappingEditor\" />
-    <Folder Include="Views\ButtonMappingProfiles\" />
     <Folder Include="Views\GamePadEditor\" />
     <Folder Include="Views\GamePadPlayers\" />
+    <Folder Include="Views\ProfilesEditor\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PadOS.Input\PadOS.Input.csproj">

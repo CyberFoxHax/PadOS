@@ -61,7 +61,7 @@ namespace PadOS.Views.MainPanelEditor {
             for (int i = 0; i < _buttons.Length; i++)
                 _buttons[i] = null;
 
-            var elms = ButtonsCanvas.Children.OfType<CustomControls.AlphaSilhouetteImage>().ToArray();
+            var elms = ButtonsCanvas.Children.OfType<PadOS.CustomControls.AlphaSilhouetteImage>().ToArray();
             foreach (var item in elms)
                 item.Source = null;
 
@@ -100,7 +100,7 @@ namespace PadOS.Views.MainPanelEditor {
         }
 
         public void ReplaceSelectedItem(FunctionViewModel model) {
-            var elms = ButtonsCanvas.Children.OfType<CustomControls.AlphaSilhouetteImage>().ToArray();
+            var elms = ButtonsCanvas.Children.OfType<PadOS.CustomControls.AlphaSilhouetteImage>().ToArray();
             var elm = elms[_activeButtonIndex];
             if (model.Function.Id != SaveData.DefaultData.EmptyFunction.Id) {
                 elm.Source = new System.Windows.Media.Imaging.BitmapImage(model.FunctionButton.ImageUri);
@@ -152,7 +152,7 @@ namespace PadOS.Views.MainPanelEditor {
             if(model != null)
                 ItemPicked?.Invoke(model.FrameworkElement, model);
             else {
-                var elms = ButtonsCanvas.Children.OfType<CustomControls.AlphaSilhouetteImage>().ToArray();
+                var elms = ButtonsCanvas.Children.OfType<PadOS.CustomControls.AlphaSilhouetteImage>().ToArray();
                 ItemPicked?.Invoke(elms[_activeButtonIndex], null);
             }
         }

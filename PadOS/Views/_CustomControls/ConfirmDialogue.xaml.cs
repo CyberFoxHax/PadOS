@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace PadOS.CustomControls
+namespace PadOS.Views.CustomControls
 {
     public partial class ConfirmDialogue : Window {
         public ConfirmDialogue() {

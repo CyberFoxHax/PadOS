@@ -1,4 +1,4 @@
-﻿<Window x:Class="PadOS.CustomControls.ConfirmDialogue"
+﻿<Window x:Class="PadOS.Views.CustomControls.ConfirmDialogue"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:nav="clr-namespace:PadOS.Input.BlockNavigator;assembly=PadOS.Input"

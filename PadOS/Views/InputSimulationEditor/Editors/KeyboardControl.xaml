@@ -1,0 +1,249 @@
+﻿<UserControl x:Class="PadOS.Views.InputSimulationEditor.Editors.KeyboardControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="223" d:DesignWidth="900">
+    <UserControl.Resources>
+        <Style TargetType="Button" x:Key="ButtonStyle">
+            <Setter Property="Background" Value="#666" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="FontSize" Value="20" />
+            <Setter Property="Padding" Value="5" />
+            <Setter Property="BorderBrush" Value="Black" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="NamedButtonStyle" TargetType="Button" BasedOn="{StaticResource ButtonStyle}">
+            <Setter Property="FontSize" Value="10"/>
+        </Style>
+        <Style TargetType="Button" BasedOn="{StaticResource ButtonStyle}" />
+        <Style TargetType="Button" x:Key="Highlighted" BasedOn="{StaticResource NamedButtonStyle}">
+            <Setter Property="Background" Value="#FF178BFF" />
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0"  Content="Esc" Style="{DynamicResource NamedButtonStyle}" DataContext="{x:Static Key.Escape}" />
+            <Button Grid.Column="1"  Content="F1" DataContext="{x:Static Key.F1}" />
+            <Button Grid.Column="2"  Content="F2" DataContext="{x:Static Key.F2}" />
+            <Button Grid.Column="3"  Content="F3" DataContext="{x:Static Key.F3}" />
+            <Button Grid.Column="4"  Content="F4" DataContext="{x:Static Key.F4}" />
+            <Button Grid.Column="5"  Content="F5" DataContext="{x:Static Key.F5}" />
+            <Button Grid.Column="6"  Content="F6" DataContext="{x:Static Key.F6}" />
+            <Button Grid.Column="7"  Content="F7" DataContext="{x:Static Key.F7}" />
+            <Button Grid.Column="8"  Content="F8" DataContext="{x:Static Key.F8}" />
+            <Button Grid.Column="9"  Content="F9" DataContext="{x:Static Key.F9}" />
+            <Button Grid.Column="10" Content="F10" DataContext="{x:Static Key.F10}" />
+            <Button Grid.Column="11" Content="F11" DataContext="{x:Static Key.F11}" />
+            <Button Grid.Column="12" Content="F12" DataContext="{x:Static Key.F12}" />
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="1.2*"/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0"  Content="1" DataContext="{x:Static Key.D1}" />
+            <Button Grid.Column="1"  Content="2" DataContext="{x:Static Key.D2}" />
+            <Button Grid.Column="2"  Content="3" DataContext="{x:Static Key.D3}" />
+            <Button Grid.Column="3"  Content="4" DataContext="{x:Static Key.D4}" />
+            <Button Grid.Column="4"  Content="5" DataContext="{x:Static Key.D5}" />
+            <Button Grid.Column="5"  Content="6" DataContext="{x:Static Key.D6}" />
+            <Button Grid.Column="6"  Content="7" DataContext="{x:Static Key.D7}" />
+            <Button Grid.Column="7"  Content="8" DataContext="{x:Static Key.D8}" />
+            <Button Grid.Column="8"  Content="9" DataContext="{x:Static Key.D9}" />
+            <Button Grid.Column="9"  Content="0" DataContext="{x:Static Key.D0}" />
+            <Button Grid.Column="10" Content="Backspace" Style="{DynamicResource NamedButtonStyle}" />
+        </Grid>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1.5*"/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0"  Content="Tab" Style="{DynamicResource NamedButtonStyle}" />
+            <Button Grid.Column="1"  Content="q" DataContext="{x:Static Key.Q}" />
+            <Button Grid.Column="2"  Content="w" DataContext="{x:Static Key.W}" />
+            <Button Grid.Column="3"  Content="e" DataContext="{x:Static Key.E}" />
+            <Button Grid.Column="4"  Content="r" DataContext="{x:Static Key.R}" />
+            <Button Grid.Column="5"  Content="t" DataContext="{x:Static Key.T}" />
+            <Button Grid.Column="6"  Content="y" DataContext="{x:Static Key.Y}" />
+            <Button Grid.Column="7"  Content="u" DataContext="{x:Static Key.U}" />
+            <Button Grid.Column="8"  Content="i" DataContext="{x:Static Key.I}" />
+            <Button Grid.Column="9"  Content="o" DataContext="{x:Static Key.O}" />
+            <Button Grid.Column="10" Content="p" DataContext="{x:Static Key.P}" />
+        </Grid>
+        <Grid Grid.Row="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1.7*"/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="2.8*"/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0"  Content="CpsLck" Style="{DynamicResource NamedButtonStyle}" DataContext="{x:Static Key.CapsLock}" />
+            <Button Grid.Column="1"  Content="a" DataContext="{x:Static Key.A}" />
+            <Button Grid.Column="2"  Content="s" DataContext="{x:Static Key.S}" />
+            <Button Grid.Column="3"  Content="d" DataContext="{x:Static Key.D}" />
+            <Button Grid.Column="4"  Content="f" DataContext="{x:Static Key.F}" />
+            <Button Grid.Column="5"  Content="g" DataContext="{x:Static Key.G}" />
+            <Button Grid.Column="6"  Content="h" DataContext="{x:Static Key.H}" />
+            <Button Grid.Column="7"  Content="j" DataContext="{x:Static Key.J}" />
+            <Button Grid.Column="8"  Content="k" DataContext="{x:Static Key.K}" />
+            <Button Grid.Column="9"  Content="l" DataContext="{x:Static Key.L}" />
+            <Button Grid.Column="10" Content="Enter" Style="{DynamicResource NamedButtonStyle}" DataContext="{x:Static Key.Return}" />
+        </Grid>
+        <Grid Grid.Row="4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="4.5*"/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0"  Content="Shift" Style="{DynamicResource NamedButtonStyle}" DataContext="{x:Static Key.LeftShift}" />
+            <Button Grid.Column="1"  Content="z" DataContext="{x:Static Key.Z}" />
+            <Button Grid.Column="2"  Content="x" DataContext="{x:Static Key.X}" />
+            <Button Grid.Column="3"  Content="c" DataContext="{x:Static Key.C}" />
+            <Button Grid.Column="4"  Content="v" DataContext="{x:Static Key.V}" />
+            <Button Grid.Column="5"  Content="b" DataContext="{x:Static Key.B}" />
+            <Button Grid.Column="6"  Content="n" DataContext="{x:Static Key.N}" />
+            <Button Grid.Column="7"  Content="m" DataContext="{x:Static Key.M}" />
+            <Button Grid.Column="8"  Content="Shift" Style="{DynamicResource NamedButtonStyle}" DataContext="{x:Static Key.RightShift}" />
+        </Grid>
+        <Grid Grid.Row="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="6*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" Content="Ctrl" Style="{DynamicResource Highlighted}" DataContext="{x:Static Key.LeftCtrl}" />
+            <Button Grid.Column="1" Content="Win" Style="{DynamicResource NamedButtonStyle}" DataContext="{x:Static Key.LWin}" />
+            <Button Grid.Column="2" Content="Alt" Style="{DynamicResource Highlighted}" DataContext="{x:Static Key.LeftAlt}" />
+            <Button Grid.Column="3" Content=" " />
+            <Button Grid.Column="4" Content="Alt" Style="{DynamicResource NamedButtonStyle}" DataContext="{x:Static Key.RightCtrl}" />
+            <Button Grid.Column="5" Content="Menu" Style="{DynamicResource NamedButtonStyle}" DataContext="{x:Static Key.RWin}" />
+            <Button Grid.Column="6" Content="Ctrl" Style="{DynamicResource NamedButtonStyle}" DataContext="{x:Static Key.RightAlt}" />
+        </Grid>
+        <UniformGrid Rows="1" Grid.Column="1" Grid.Row="0">
+            <Button Content="PrtSc" Style="{DynamicResource NamedButtonStyle}" DataContext="{x:Static Key.PrintScreen}" />
+            <Button Content="ScrLck" Style="{DynamicResource NamedButtonStyle}" DataContext="{x:Static Key.Scroll}" />
+            <Button Content="Pause" Style="{DynamicResource NamedButtonStyle}" DataContext="{x:Static Key.Pause}" />
+        </UniformGrid>
+        <UniformGrid Rows="2" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2">
+            <Button Content="Insert" Style="{DynamicResource NamedButtonStyle}" DataContext="{x:Static Key.Insert}" />
+            <Button Content="Home" Style="{DynamicResource NamedButtonStyle}" DataContext="{x:Static Key.Home}" />
+            <Button Content="PgUp" Style="{DynamicResource NamedButtonStyle}" DataContext="{x:Static Key.PageUp}" />
+            <Button Content="Delete" Style="{DynamicResource Highlighted}" DataContext="{x:Static Key.Delete}" />
+            <Button Content="End" Style="{DynamicResource NamedButtonStyle}" DataContext="{x:Static Key.End}" />
+            <Button Content="PgDwn" Style="{DynamicResource NamedButtonStyle}" DataContext="{x:Static Key.PageDown}" />
+        </UniformGrid>
+        <UniformGrid Rows="2" Grid.Column="1" Grid.Row="4" Grid.RowSpan="2">
+            <Canvas />
+            <Button Content="↑" DataContext="{x:Static Key.Up}" />
+            <Canvas />
+            <Button Content="←" DataContext="{x:Static Key.Left}" />
+            <Button Content="↓" DataContext="{x:Static Key.Down}" />
+            <Button Content="→" DataContext="{x:Static Key.Right}" />
+        </UniformGrid>
+        <Grid Grid.Column="2" Grid.Row="1" Grid.RowSpan="5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button Content="NumLck" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Style="{DynamicResource NamedButtonStyle}" DataContext="{x:Static Key.NumLock}" />
+            <Button Content="0" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" DataContext="{x:Static Key.NumPad0}" />
+            <Button Content="1" Grid.Column="0" Grid.Row="3" DataContext="{x:Static Key.NumPad1}" />
+            <Button Content="2" Grid.Column="1" Grid.Row="3" DataContext="{x:Static Key.NumPad2}" />
+            <Button Content="3" Grid.Column="2" Grid.Row="3" DataContext="{x:Static Key.NumPad3}" />
+            <Button Content="4" Grid.Column="0" Grid.Row="2" DataContext="{x:Static Key.NumPad4}" />
+            <Button Content="5" Grid.Column="1" Grid.Row="2" DataContext="{x:Static Key.NumPad5}" />
+            <Button Content="6" Grid.Column="2" Grid.Row="2" DataContext="{x:Static Key.NumPad6}" />
+            <Button Content="7" Grid.Column="0" Grid.Row="1" DataContext="{x:Static Key.NumPad7}" />
+            <Button Content="8" Grid.Column="1" Grid.Row="1" DataContext="{x:Static Key.NumPad8}" />
+            <Button Content="9" Grid.Column="2" Grid.Row="1" DataContext="{x:Static Key.NumPad9}" />
+            <Button Content="Enter" Height="Auto" Grid.Column="3" Grid.Row="3" Grid.RowSpan="2" Style="{DynamicResource NamedButtonStyle}" DataContext="{x:Static Key.Enter}" />
+        </Grid>
+    </Grid>
+</UserControl>
