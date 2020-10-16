@@ -114,6 +114,7 @@
                         <customcontrols:AlphaSilhouetteImage Padding="3" Height="35" NormalColor="#4f4f4f" Source="/PadOS;component/Resources/Icons/cogs.png" />
                         <customcontrols:AlphaSilhouetteImage Padding="3" Height="35" NormalColor="#4f4f4f" Source="/PadOS;component/Resources/Icons/OSK.png" />
                         <customcontrols:AlphaSilhouetteImage Padding="3" Height="35" NormalColor="#4f4f4f" Source="/PadOS;component/Resources/Icons/dial_with_selection.png" />
+                        <customcontrols:AlphaSilhouetteImage Padding="3" Height="35" NormalColor="#4f4f4f" Source="/PadOS;component/Resources/Icons/puzzle.png" />
                     </StackPanel>
                     <Grid Grid.Column="1" Margin="0 0 0 10">
                         <Grid.Background>

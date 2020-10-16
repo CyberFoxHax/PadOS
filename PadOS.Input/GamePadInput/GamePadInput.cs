@@ -6,7 +6,7 @@ namespace PadOS.Input.GamePadInput {
 	public partial class GamePadInput : IDisposable{
 		public static GamePadInput StaticInputInstance = new GamePadInput{IsEnabled = true};
 
-		public int PollInterval { get; set; } = 16;
+		public int PollInterval { get; set; } = 15;
 		public double TriggerChangeTolerance { get; set; } = .001;
 		public double TriggerDeadZone { get; set; } = .001;
 		public double ThumbstickChangeTolerance { get; set; } = .001;

@@ -141,6 +141,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Commands\ApplicationCommands.cs" />
+    <Compile Include="Dll\PluginsLoader.cs" />
+    <Compile Include="InputSimulatorPlugin.cs" />
     <Compile Include="Views\InputSimulationEditor\Editors\KeyboardControl.xaml.cs">
       <DependentUpon>KeyboardControl.xaml</DependentUpon>
     </Compile>
@@ -354,6 +356,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Resource Include="Resources\Icons\puzzle.png" />
     <Resource Include="Views\MainPanelEditor\todo.txt" />
     <Resource Include="Views\InputSimulationEditor\Todo.txt" />
     <Resource Include="Resources\DiagonalLines_13_50.jpg" />
