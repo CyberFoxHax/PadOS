@@ -34,7 +34,11 @@ namespace PadOS.Input.GamePadInput {
         public bool _suppressEvents;
 		private readonly GamePadState[] _oldGamePadStates = new GamePadState[4];
 
-		public void Dispose(){
+        public void SetVibration(int playerIndex, double leftMotor, double rightMotor) {
+            GamePad.SetVibration((PlayerIndex)playerIndex, (float)leftMotor, (float)rightMotor);
+        }
+
+        public void Dispose(){
 			IsEnabled = false;
 		}
 
