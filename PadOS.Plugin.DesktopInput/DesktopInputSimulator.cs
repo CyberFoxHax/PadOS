@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using System.Timers;
 using System.Windows.Forms;
 using PadOS.Input.GamePadInput;
@@ -51,10 +52,6 @@ namespace PadOS.Plugin.DesktopInput
             _gamePadInput.ButtonAUp += (p, s) => mouse_event(MOUSEEVENTF_LEFTUP, (int)_cursorPosition.X, (int)_cursorPosition.Y, 0, 0);
             _gamePadInput.ButtonBUp += (p, s) => mouse_event(MOUSEEVENTF_MIDDLEUP, (int)_cursorPosition.X, (int)_cursorPosition.Y, 0, 0);
             _gamePadInput.ButtonXUp += (p, s) => mouse_event(MOUSEEVENTF_RIGHTUP, (int)_cursorPosition.X, (int)_cursorPosition.Y, 0, 0);
-            _gamePadInput.ButtonLeftStickDown += gamePadInput_ButtonLeftStickDown;
-            _gamePadInput.ButtonLeftStickUp += gamePadInput_ButtonLeftStickUp;
-            _gamePadInput.ButtonRightStickDown += gamePadInput_ButtonRightStickDown;
-            _gamePadInput.ButtonRightStickUp += gamePadInput_ButtonRightStickUp;
             _gamePadInput.DPadDownDown += GetDPadHandlerDown(VK_DOWN);
             _gamePadInput.DPadDownUp += GetDPadHandlerUp(VK_DOWN);
             _gamePadInput.DPadUpDown += GetDPadHandlerDown(VK_UP);
@@ -64,12 +61,10 @@ namespace PadOS.Plugin.DesktopInput
             _gamePadInput.DPadRightDown += GetDPadHandlerDown(VK_RIGHT);
             _gamePadInput.DPadRightUp += GetDPadHandlerUp(VK_RIGHT);
             _gamePadInput.ThumbRightChange += gamePadInput_ThumbRightChange;
-
             _keyRepeatTimer.Elapsed += keyRepeatTimer_Elapsed;
             _mouseMoveTimer.Elapsed += MouseMoveTimer_Tick;
             _mouseScrollTimer.Elapsed += MouseScrollTimer_Tick;
-            _rightStickTimer.Elapsed += (s, e) => { gamePadInput_ButtonRightStickUp(-1, default); _rightStickUpConsumed = true; };
-            _leftStickTimer.Elapsed += (s, e) => { gamePadInput_ButtonLeftStickUp(-1, default); _leftStickUpConsumed = true; };
+            SetupHoldHotkeys();
         }
 
         private void keyRepeatTimer_Elapsed(object sender, ElapsedEventArgs e) {
@@ -98,72 +93,83 @@ namespace PadOS.Plugin.DesktopInput
 
         private Stopwatch _rightStickStopwatch = new Stopwatch();
         private Stopwatch _leftStickStopwatch = new Stopwatch();
-        private Timer _rightStickTimer = new Timer { AutoReset = false, Interval = 500 };
-        private Timer _leftStickTimer = new Timer{ AutoReset = false, Interval = 1000 };
-        private bool _rightStickUpConsumed = false;
-        private bool _leftStickUpConsumed = false;
+        private Timer _rightStickTickTimer = new Timer { AutoReset = true, Interval = 500 };
+        private Timer _leftStickTickTimer = new Timer { AutoReset = true, Interval = 500 };
 
-        private void gamePadInput_ButtonRightStickDown(int player, GamePadState state) {
-            _rightStickTimer.Start();
-            _rightStickStopwatch.Reset();
-            _rightStickStopwatch.Start();
+        private void SetupHoldHotkeys() {
+            _gamePadInput.ButtonLeftStickDown += gamePadInput_ButtonLeftStickDown;
+            _gamePadInput.ButtonLeftStickUp += gamePadInput_ButtonLeftStickUp;
+            _gamePadInput.ButtonRightStickDown += gamePadInput_ButtonRightStickDown;
+            _gamePadInput.ButtonRightStickUp += gamePadInput_ButtonRightStickUp;
+
+
+            /* bug, because some some black magic sideeffect,
+             * commenting out the altf4 instruction will cancel vibration*/
+            _rightStickTickTimer.Elapsed += async (s, e) => {
+                await Vibrate(); 
+                if (Math.Floor(_rightStickStopwatch.ElapsedMilliseconds/100d)*100 >= 500) {
+                    _rightStickTickTimer.Stop();
+                    Hotkey_AltF4();
+                    return;
+                }
+            };
+            _leftStickTickTimer.Elapsed += (s, e) => {
+                Vibrate();
+                if (Math.Floor(_leftStickStopwatch.ElapsedMilliseconds/100d)*100 >= 1000) {
+                    _leftStickTickTimer.Stop();
+                    Hotkey_CtrlX();
+                    return;
+                }
+            };
         }
 
-        private void gamePadInput_ButtonLeftStickDown(int player, GamePadState state) {
-            _leftStickTimer.Start();
+        private async Task Vibrate() {
+            _gamePadInput.SetVibration(0, 1, 1);
+            await Task.Delay(100);
+            _gamePadInput.SetVibration(0, 0, 0);
+        }
+
+        private async void gamePadInput_ButtonRightStickDown(int player, GamePadState state) {
+            _rightStickStopwatch.Reset();
+            _rightStickStopwatch.Start();
+            _rightStickTickTimer.Start();
+        }
+
+        private async void gamePadInput_ButtonLeftStickDown(int player, GamePadState state) {
             _leftStickStopwatch.Reset();
             _leftStickStopwatch.Start();
+            _leftStickTickTimer.Start();
         }
 
         private void gamePadInput_ButtonRightStickUp(int player, GamePadState state) {
-            if (_rightStickUpConsumed) {
-                _rightStickUpConsumed = false;
-                return;
-            }
-            _rightStickTimer.Stop();
-            _rightStickStopwatch.Stop();
+            _rightStickTickTimer.Stop();
             if (_rightStickStopwatch.ElapsedMilliseconds < 500) {
-                keybd_event(VK_MENU, 0, KEYEVENTF_KEYDOWN, 0);
-                keybd_event(VK_TAB, 0, KEYEVENTF_KEYDOWN, 0);
-                keybd_event(VK_TAB, 0, KEYEVENTF_KEYUP, 0);
-                keybd_event(VK_MENU, 0, KEYEVENTF_KEYUP, 0);
-            }
-            else {
-                keybd_event(VK_MENU, 0, KEYEVENTF_KEYDOWN, 0);
-                keybd_event(VK_F4, 0, KEYEVENTF_KEYDOWN, 0);
-                keybd_event(VK_F4, 0, KEYEVENTF_KEYUP, 0);
-                keybd_event(VK_MENU, 0, KEYEVENTF_KEYUP, 0);
+                Hotkey_AltTab();
             }
         }
 
         private void gamePadInput_ButtonLeftStickUp(int player, GamePadState state) {
-            if (_leftStickUpConsumed) {
-                _leftStickUpConsumed = false;
-                return;
-            }
-            _leftStickTimer.Stop();
-            _leftStickStopwatch.Stop();
+            _leftStickTickTimer.Stop();
             if (_leftStickStopwatch.ElapsedMilliseconds < 500) {
-                keybd_event(VK_LCONTROL, 0, KEYEVENTF_KEYDOWN, 0);
-                keybd_event(VK_V, 0, KEYEVENTF_KEYDOWN, 0);
-                keybd_event(VK_V, 0, KEYEVENTF_KEYUP, 0);
-                keybd_event(VK_LCONTROL, 0, KEYEVENTF_KEYUP, 0);
+                Hotkey_CtrlV();
             }
             else if (_leftStickStopwatch.ElapsedMilliseconds < 1000) {
-                keybd_event(VK_LCONTROL, 0, KEYEVENTF_KEYDOWN, 0);
-                keybd_event(VK_C, 0, KEYEVENTF_KEYDOWN, 0);
-                keybd_event(VK_C, 0, KEYEVENTF_KEYUP, 0);
-                keybd_event(VK_LCONTROL, 0, KEYEVENTF_KEYUP, 0);
-            }
-            else {
-                keybd_event(VK_LCONTROL, 0, KEYEVENTF_KEYDOWN, 0);
-                keybd_event(VK_X, 0, KEYEVENTF_KEYDOWN, 0);
-                keybd_event(VK_X, 0, KEYEVENTF_KEYUP, 0);
-                keybd_event(VK_LCONTROL, 0, KEYEVENTF_KEYUP, 0);
+                Hotkey_CtrlC();
             }
         }
 
-        
+        private static void Hotkey_CtrlC() => Hotkey(VK_LCONTROL, VK_C);
+        private static void Hotkey_CtrlX() => Hotkey(VK_LCONTROL, VK_X);
+        private static void Hotkey_CtrlV() => Hotkey(VK_LCONTROL, VK_V);
+        private static void Hotkey_AltTab() => Hotkey(VK_MENU, VK_TAB);
+        private static void Hotkey_AltF4() => Hotkey(VK_MENU, VK_F4);
+
+        private static void Hotkey(int btn1, int btn2) {
+            keybd_event(btn1, 0, KEYEVENTF_KEYDOWN, 0);
+            keybd_event(btn2, 0, KEYEVENTF_KEYDOWN, 0);
+            keybd_event(btn2, 0, KEYEVENTF_KEYUP, 0);
+            keybd_event(btn1, 0, KEYEVENTF_KEYUP, 0);
+        }
 
         private void MouseMoveTimer_Tick(object sender, EventArgs e) {
             var val = _thumbStickValue;
