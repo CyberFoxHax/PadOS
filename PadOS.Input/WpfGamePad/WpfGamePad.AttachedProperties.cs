@@ -19,8 +19,8 @@ namespace PadOS.Input.WpfGamePad {
 
         public static readonly DependencyProperty RegisteredProperty = DependencyProperty.RegisterAttached(
 			"Registered", typeof(bool), typeof(WpfGamePad), new FrameworkPropertyMetadata(RegisteredPropertyChangedCallback));
-		public static bool GetRegistered(UIElement element) => throw new NotImplementedException();
-		public static void SetRegistered(UIElement element, bool value) => element.SetValue(RegisteredProperty, value);
+		public static bool GetRegistered(UIElement element) => (bool)element.GetValue(RegisteredProperty);
+        public static void SetRegistered(UIElement element, bool value) => element.SetValue(RegisteredProperty, value);
 		private static void RegisteredPropertyChangedCallback(DependencyObject dep, DependencyPropertyChangedEventArgs args) {
             if ((bool)args.NewValue == true)
                 SetInstance((UIElement)dep, new WpfGamePad((UIElement)dep));

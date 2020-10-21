@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Windows;
 using PadOS.Input.GamePadInput;
-using PadOS.Views.MainPanel;
+using PadOS.Views.CircleDial;
 using XInputDotNetPure;
 
 namespace PadOS.Navigation {
 	public static class Navigator {
 
 		public static void Initialize(){
-			_mainPanel = new MainPanel();
+			_mainPanel = new CircleDial();
 			GamePadInput.StaticInputInstance.ButtonGuideDown += XInputOnButtonGuideDown;
 		}
 
@@ -22,7 +22,7 @@ namespace PadOS.Navigation {
 
 		private static readonly Dictionary<Type, Window> Windows = new Dictionary<Type, Window>();
 		public static Window CurrentWindow { get; private set; }
-		private static MainPanel _mainPanel;
+		private static CircleDial _mainPanel;
         private static Stack<Window> _navigationHistory = new Stack<Window>();
 
 		public static void CloseWindow() {
@@ -30,6 +30,7 @@ namespace PadOS.Navigation {
                 CurrentWindow.Hide();
             else
                 CurrentWindow.Close();
+            CurrentWindow = null;
 		}
 
 		public static void OpenMainPanel(){

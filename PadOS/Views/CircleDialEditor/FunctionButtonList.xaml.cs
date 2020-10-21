@@ -6,7 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using PadOS.SaveData.Models;
 
-namespace PadOS.Views.MainPanelEditor {
+namespace PadOS.Views.CircleDialEditor {
     public partial class FunctionButtonList : UserControl {
         public FunctionButtonList() {
             InitializeComponent();

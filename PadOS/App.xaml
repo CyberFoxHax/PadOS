@@ -3,9 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:app="clr-namespace:PadOS"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
-             x:Name="This"
-             StartupUri="Views/InputSimulationEditor/InputSimulationMainWindow.xaml"
-             >
+             x:Name="This">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

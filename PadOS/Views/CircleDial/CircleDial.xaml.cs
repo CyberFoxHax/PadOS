@@ -5,9 +5,9 @@ using System.Windows.Controls;
 using PadOS.Input;
 using FunctionButton = PadOS.Commands.FunctionButtons.FunctionButton;
 
-namespace PadOS.Views.MainPanel {
-	public partial class MainPanel {
-		public MainPanel() {
+namespace PadOS.Views.CircleDial {
+	public partial class CircleDial {
+		public CircleDial() {
 			InitializeComponent();
 			Highlight.Visibility = Visibility.Hidden;
 

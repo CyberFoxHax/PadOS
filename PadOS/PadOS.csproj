@@ -197,16 +197,16 @@
       <DependentUpon>ComboBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\_CustomControls\ComboBoxItemContainer.cs" />
-    <Compile Include="Views\MainPanelEditor\FormState.cs" />
-    <Compile Include="Views\MainPanelEditor\DialAreaControl.xaml.cs">
+    <Compile Include="Views\CircleDialEditor\FormState.cs" />
+    <Compile Include="Views\CircleDialEditor\DialAreaControl.xaml.cs">
       <DependentUpon>DialAreaControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MainPanelEditor\FunctionButtonList.xaml.cs">
+    <Compile Include="Views\CircleDialEditor\FunctionButtonList.xaml.cs">
       <DependentUpon>FunctionButtonList.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MainPanelEditor\FunctionViewModel.cs" />
-    <Compile Include="Views\MainPanelEditor\MainPanelEditor.xaml.cs">
-      <DependentUpon>MainPanelEditor.xaml</DependentUpon>
+    <Compile Include="Views\CircleDialEditor\FunctionViewModel.cs" />
+    <Compile Include="Views\CircleDialEditor\CircleDialEditor.xaml.cs">
+      <DependentUpon>CircleDialEditor.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Settings\ActiveApplication.cs" />
     <Compile Include="Views\Settings\Controls\BasicListItem.xaml.cs">
@@ -222,12 +222,6 @@
     </Compile>
     <Compile Include="SaveData\Models\PanelData.cs" />
     <Compile Include="Utils.cs" />
-    <Compile Include="Views\ConfigurePlayers\ControllerTemplate.xaml.cs">
-      <DependentUpon>ControllerTemplate.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\ConfigurePlayers\PlayerEditor.xaml.cs">
-      <DependentUpon>PlayerEditor.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\Settings\Controls\MultiListItemSubItem.xaml.cs">
       <DependentUpon>MultiListItemSubItem.xaml</DependentUpon>
     </Compile>
@@ -285,15 +279,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\MainPanelEditor\DialAreaControl.xaml">
+    <Page Include="Views\CircleDialEditor\DialAreaControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\MainPanelEditor\FunctionButtonList.xaml">
+    <Page Include="Views\CircleDialEditor\FunctionButtonList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\MainPanelEditor\MainPanelEditor.xaml">
+    <Page Include="Views\CircleDialEditor\CircleDialEditor.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -309,15 +303,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\ConfigurePlayers\ControllerTemplate.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\ConfigurePlayers\PlayerEditor.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\MainPanel\MainPanel.xaml">
+    <Page Include="Views\CircleDial\CircleDial.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -325,8 +311,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Views\MainPanel\MainPanel.xaml.cs">
-      <DependentUpon>MainPanel.xaml</DependentUpon>
+    <Compile Include="Views\CircleDial\CircleDial.xaml.cs">
+      <DependentUpon>CircleDial.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\Settings\Controls\MultiListItemSubItem.xaml">
@@ -357,7 +343,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Resource Include="Resources\Icons\puzzle.png" />
-    <Resource Include="Views\MainPanelEditor\todo.txt" />
+    <Resource Include="Views\CircleDialEditor\todo.txt" />
     <Resource Include="Views\InputSimulationEditor\Todo.txt" />
     <Resource Include="Resources\DiagonalLines_13_50.jpg" />
     <Resource Include="Resources\DiagonalLines_23_60.jpg" />
@@ -450,11 +436,7 @@
     <Resource Include="Resources\Icons\minimize.png" />
     <Resource Include="Resources\Icons\skull.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\GamePadEditor\" />
-    <Folder Include="Views\GamePadPlayers\" />
-    <Folder Include="Views\ProfilesEditor\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\PadOS.Input\PadOS.Input.csproj">
       <Project>{0655effc-c358-4872-98dc-51e805d5d720}</Project>

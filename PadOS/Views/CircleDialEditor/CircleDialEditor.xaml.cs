@@ -8,9 +8,9 @@ using System.Windows;
 using System.Windows.Input;
 using PadOS.Views.CustomControls;
 
-namespace PadOS.Views.MainPanelEditor {
-    public partial class MainPanelEditor{
-		public MainPanelEditor() {
+namespace PadOS.Views.CircleDialEditor {
+    public partial class CircleDialEditor{
+		public CircleDialEditor() {
 			InitializeComponent();
 
             if (DesignerProperties.GetIsInDesignMode(this))

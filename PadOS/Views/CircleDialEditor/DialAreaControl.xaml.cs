@@ -7,7 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Linq;
 
-namespace PadOS.Views.MainPanelEditor {
+namespace PadOS.Views.CircleDialEditor {
     public partial class DialAreaControl : UserControl {
         public DialAreaControl() {
             InitializeComponent();

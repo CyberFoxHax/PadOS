@@ -1,5 +1,5 @@
 ﻿
-namespace PadOS.Views.MainPanelEditor {
+namespace PadOS.Views.CircleDialEditor {
     public class FunctionViewModel {
         public SaveData.Models.Function Function { get; set; }
         public Commands.FunctionButtons.FunctionButton FunctionButton { get; set; }

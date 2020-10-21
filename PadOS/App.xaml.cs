@@ -11,11 +11,11 @@ namespace PadOS {
 
         public App(){
 			GlobalDispatcher = Dispatcher;
-            var types = Dll.PluginsLoader.LoadAll<InputSimulatorPlugin>();
-            foreach (var type in types) {
-                var instance = (InputSimulatorPlugin)Activator.CreateInstance(type);
-                instance.Load();
-            }
+            //var types = Dll.PluginsLoader.LoadAll<InputSimulatorPlugin>();
+            //foreach (var type in types) {
+            //    var instance = (InputSimulatorPlugin)Activator.CreateInstance(type);
+            //    instance.Load();
+            //}
 		}
 
 		private SystemTray _systemTray;

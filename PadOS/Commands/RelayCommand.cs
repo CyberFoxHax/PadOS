@@ -12,10 +12,15 @@ namespace PadOS.Commands{
 			_canExecute = canExecute;
 		}
 
-		private readonly Func<bool> _canExecute;
-		private readonly Action _execute;
+        public RelayCommand(ICommand editInputSimulatorCommand) {
+            _editInputSimulatorCommand = editInputSimulatorCommand;
+        }
 
-		public event EventHandler CanExecuteChanged {
+        private readonly Func<bool> _canExecute;
+		private readonly Action _execute;
+        private ICommand _editInputSimulatorCommand;
+
+        public event EventHandler CanExecuteChanged {
 			add		{ CommandManager.RequerySuggested += value; }
 			remove	{ CommandManager.RequerySuggested -= value; }
 		}

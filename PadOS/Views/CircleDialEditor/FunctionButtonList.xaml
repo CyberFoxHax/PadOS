@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="PadOS.Views.MainPanelEditor.FunctionButtonList"
+﻿<UserControl x:Class="PadOS.Views.CircleDialEditor.FunctionButtonList"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -6,7 +6,7 @@
              xmlns:customControls="clr-namespace:PadOS.CustomControls"
              xmlns:functionButtons="clr-namespace:PadOS.Commands.FunctionButtons"
              xmlns:nav="clr-namespace:PadOS.Input.BlockNavigator;assembly=PadOS.Input"
-             xmlns:self="clr-namespace:PadOS.Views.MainPanelEditor"
+             xmlns:self="clr-namespace:PadOS.Views.CircleDialEditor"
              mc:Ignorable="d" 
              d:DesignHeight="548" d:DesignWidth="311">
     <ScrollViewer HorizontalScrollBarVisibility="Hidden">

@@ -132,6 +132,8 @@ namespace PadOS.Input.BlockNavigator {
 			OnFocusChanged(res);
 		}
 
+
+        // TODO: This algo is fucking shit
 		private FrameworkElement GetSelection(FrameworkElement activeElement, Vector2 direction){
 			var activeBlock = _blocks[activeElement];
 			var blocks = _blocks;
@@ -185,7 +187,7 @@ namespace PadOS.Input.BlockNavigator {
 					from block in blocks
 					let rect = block.Value
 					where ReferenceEquals(block.Key, activeElement) == false
-					&& rect.Top >= activeBlock.Bottom
+					&& rect.Top+5 >= activeBlock.Bottom
 					orderby rect.Top
 					let overlap = new Rect(
 						activeBlock.Left+intersectionPadding,
@@ -203,7 +205,7 @@ namespace PadOS.Input.BlockNavigator {
 					from block in blocks
 					let rect = block.Value
 					where ReferenceEquals(block.Key, activeElement) == false
-					&& rect.Bottom <= activeBlock.Top
+					&& rect.Bottom-5 <= activeBlock.Top
 					orderby rect.Bottom descending
 					let overlap = new Rect(
 						activeBlock.Left+intersectionPadding,
