@@ -260,6 +260,7 @@ namespace PadOS.Plugin.DesktopInput
         }
 
         private void MouseScrollTimer_Tick(object sender, ElapsedEventArgs e) {
+            // todo horizontal scroll has no length parameter
             var val = _rightStickValue * 50;
             // todo, these two equations may actually be one?
             val *= 1 + (_leftTrigger_scrollSpeed - 1) * _leftTriggerValue;
