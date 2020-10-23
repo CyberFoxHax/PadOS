@@ -143,6 +143,8 @@
     <Compile Include="Commands\ApplicationCommands.cs" />
     <Compile Include="Dll\PluginsLoader.cs" />
     <Compile Include="InputSimulatorPlugin.cs" />
+    <Compile Include="ProfileSwitcher\BackgroundTracker.cs" />
+    <Compile Include="ProfileSwitcher\ProfileManager.cs" />
     <Compile Include="Views\InputSimulationEditor\Editors\KeyboardControl.xaml.cs">
       <DependentUpon>KeyboardControl.xaml</DependentUpon>
     </Compile>

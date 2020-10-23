@@ -11,13 +11,22 @@ namespace PadOS.Navigation {
 		public static void Initialize(){
 			_mainPanel = new CircleDial();
 			GamePadInput.StaticInputInstance.ButtonGuideDown += XInputOnButtonGuideDown;
-		}
 
-		private static void XInputOnButtonGuideDown(int player, GamePadState state){
-			if (CurrentWindow != null)
-				App.GlobalDispatcher.Invoke(CloseWindow);
-			else
-				App.GlobalDispatcher.Invoke(OpenMainPanel);
+            //_profileManager = new ProfileSwitcher.ProfileManager();
+            //_profileManager.ProfileEnabled = true;
+        }
+
+        private static ProfileSwitcher.ProfileManager _profileManager;
+
+        private static void XInputOnButtonGuideDown(int player, GamePadState state){
+			if (CurrentWindow != null) {
+                //_profileManager.ProfileEnabled = true;
+                App.GlobalDispatcher.Invoke(CloseWindow);
+            }
+            else {
+                //_profileManager.ProfileEnabled = false;
+                App.GlobalDispatcher.Invoke(OpenMainPanel);
+            }
 		}
 
 		private static readonly Dictionary<Type, Window> Windows = new Dictionary<Type, Window>();

@@ -6,8 +6,13 @@ using System.Reflection;
 
 namespace PadOS.Dll
 {
+    public class Plugin {
+        public string File { get; set; }
+        public Type Class { get; set; }
+    }
+
     public static class PluginsLoader {
-        public static IEnumerable<Type> LoadAll<T>() where T:class {
+        public static IEnumerable<Plugin> LoadAll<T>() where T:class {
             if (Directory.Exists("Plugins") == false)
                 yield break;
 
@@ -24,7 +29,10 @@ namespace PadOS.Dll
                     }
                     foreach (var type in assembly.ExportedTypes)
                         if (pluginType.IsAssignableFrom(type))
-                            yield return type;
+                            yield return new Plugin {
+                                File = file,
+                                Class = type
+                            };
                 }
         }
     }

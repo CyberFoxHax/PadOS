@@ -11,6 +11,8 @@ using Timer = System.Timers.Timer;
 namespace PadOS.Plugin.DesktopInput
 {
     public class DesktopInputSimulator : PadOS.InputSimulatorPlugin {
+        public string Name => GetType().Name;
+
         private GamePadInput _gamePadInput;
         private Input.Vector2 _cursorPosition;
         private Input.Vector2 _thumbStickValue;
@@ -36,8 +38,8 @@ namespace PadOS.Plugin.DesktopInput
         };
 
         public void Load() {
+            Console.WriteLine("Load");
             _gamePadInput = new GamePadInput();
-            _gamePadInput.IsEnabled = true;
             _gamePadInput.ThumbLeftChange += gamePadInput_ThumbLeftChange;
             _gamePadInput.TriggerLeftChange += (p, s, v) => _leftTriggerValue = v;
             _gamePadInput.TriggerRightChange += (p, s, v) => _rightTriggerValue = v;
@@ -65,6 +67,22 @@ namespace PadOS.Plugin.DesktopInput
             _mouseMoveTimer.Elapsed += MouseMoveTimer_Tick;
             _mouseScrollTimer.Elapsed += MouseScrollTimer_Tick;
             SetupHoldHotkeys();
+            _gamePadInput.IsEnabled = true;
+        }
+
+        public void Unload() {
+            Console.WriteLine("Unload");
+            _gamePadInput.IsEnabled = false;
+            _gamePadInput.Dispose();
+            _mouseMoveTimer.Stop();
+            _mouseMoveTimer.Elapsed -= MouseMoveTimer_Tick;
+            _mouseMoveTimer.Dispose();
+            _leftStickTickTimer.Dispose();
+            _rightStickTickTimer.Dispose();
+            _keyRepeatTimer.Elapsed += keyRepeatTimer_Elapsed;
+            _keyRepeatTimer.Dispose();
+            _mouseScrollTimer.Elapsed += MouseScrollTimer_Tick;
+            _mouseMoveTimer.Dispose();
         }
 
         private void keyRepeatTimer_Elapsed(object sender, ElapsedEventArgs e) {
@@ -202,14 +220,6 @@ namespace PadOS.Plugin.DesktopInput
                 _cursorPosition = new Input.Vector2(Cursor.Position.X, Cursor.Position.Y);
                 _mouseMoveTimer.Enabled = true;
             }
-        }
-
-        public void Unload() {
-            _gamePadInput.IsEnabled = false;
-            _gamePadInput.Dispose();
-            _mouseMoveTimer.Stop();
-            _mouseMoveTimer.Elapsed -= MouseMoveTimer_Tick;
-            _mouseMoveTimer.Dispose();
         }
 
         [DllImport("user32.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall)]

@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Threading;
 using PadOS.Navigation;
 using PadOS.Views;
+using System.Linq;
 
 namespace PadOS {
 	public partial class App{
@@ -11,12 +12,12 @@ namespace PadOS {
 
         public App(){
 			GlobalDispatcher = Dispatcher;
-            //var types = Dll.PluginsLoader.LoadAll<InputSimulatorPlugin>();
-            //foreach (var type in types) {
-            //    var instance = (InputSimulatorPlugin)Activator.CreateInstance(type);
-            //    instance.Load();
-            //}
-		}
+            var dep = Dll.PluginsLoader.LoadAll<InputSimulatorPlugin>().First();
+            var instance = (InputSimulatorPlugin) System.Activator.CreateInstance(dep.Class);
+            instance.Load();
+            instance.Unload();
+            instance.Load();
+        }
 
 		private SystemTray _systemTray;
 
