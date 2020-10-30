@@ -141,10 +141,16 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Commands\ApplicationCommands.cs" />
+    <Compile Include="Dll\Plugin.cs" />
     <Compile Include="Dll\PluginsLoader.cs" />
     <Compile Include="InputSimulatorPlugin.cs" />
     <Compile Include="ProfileSwitcher\BackgroundTracker.cs" />
     <Compile Include="ProfileSwitcher\ProfileManager.cs" />
+    <Compile Include="SaveData\ProfileXML\ApplicationAssociation.cs" />
+    <Compile Include="SaveData\ProfileXML\IAction.cs" />
+    <Compile Include="SaveData\ProfileXML\ITrigger.cs" />
+    <Compile Include="SaveData\ProfileXML\Mapping.cs" />
+    <Compile Include="SaveData\ProfileXML\Variable.cs" />
     <Compile Include="Views\InputSimulationEditor\Editors\KeyboardControl.xaml.cs">
       <DependentUpon>KeyboardControl.xaml</DependentUpon>
     </Compile>
@@ -163,16 +169,16 @@
     <Compile Include="Views\_CustomControls\ConfirmDialogue.xaml.cs">
       <DependentUpon>ConfirmDialogue.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Dll\Kernel32.cs" />
-    <Compile Include="Dll\Psapi.cs" />
+    <Compile Include="DllImport\Kernel32.cs" />
+    <Compile Include="DllImport\Psapi.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
-    <Compile Include="Dll\UserInfo32.cs" />
+    <Compile Include="DllImport\UserInfo32.cs" />
     <Compile Include="Navigation\Navigator.cs" />
     <Compile Include="SaveData\DefaultData.cs" />
     <Compile Include="SaveData\JsonDatastore\JsonContext.cs" />
     <Compile Include="SaveData\JsonDatastore\JsonCustomSerializer.cs" />
     <Compile Include="SaveData\JsonDatastore\JsonTable.cs" />
-    <Compile Include="SaveData\Models\Profiles.cs" />
+    <Compile Include="SaveData\ProfileXML\Profile.cs" />
     <Compile Include="SaveData\Models\Function.cs" />
     <Compile Include="SaveData\SaveData.cs" />
     <Compile Include="Commands\FunctionButtons\FunctionButton.cs" />

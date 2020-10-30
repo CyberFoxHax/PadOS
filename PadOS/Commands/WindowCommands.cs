@@ -2,8 +2,9 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 
-namespace PadOS.Commands {
-	public static class WindowCommands {
+namespace PadOS.Commands
+{
+    public static class WindowCommands {
 		static WindowCommands() {
 			WindowMinimizeCommand = new RelayCommand(WindowMinimize);
 			WindowCloseCommand = new RelayCommand(WindowClose);
@@ -15,20 +16,20 @@ namespace PadOS.Commands {
 		public static ICommand WindowMinimizeCommand { get; private set; }
 
 		private static void WindowMinimize() {
-			var lHwnd = Dll.UserInfo32.GetForegroundWindow();
-			Dll.UserInfo32.SendMessage(lHwnd, Dll.UserInfo32.WmSyscommand, Dll.UserInfo32.ScMinimize, 0);
+			var lHwnd = Plugins.UserInfo32.GetForegroundWindow();
+			Plugins.UserInfo32.SendMessage(lHwnd, Plugins.UserInfo32.WmSyscommand, Plugins.UserInfo32.ScMinimize, 0);
 		}
 
 		private static void WindowClose() {
-			var lHwnd = Dll.UserInfo32.GetForegroundWindow();
-			Dll.UserInfo32.SendMessage(lHwnd, Dll.UserInfo32.WmSyscommand, Dll.UserInfo32.ScClose, 0);
+			var lHwnd = Plugins.UserInfo32.GetForegroundWindow();
+			Plugins.UserInfo32.SendMessage(lHwnd, Plugins.UserInfo32.WmSyscommand, Plugins.UserInfo32.ScClose, 0);
 		}
 
 		private static void WindowKill() {
-			var hWnd = Dll.UserInfo32.GetForegroundWindow();
+			var hWnd = Plugins.UserInfo32.GetForegroundWindow();
 
 			int processId;
-			Dll.UserInfo32.GetWindowThreadProcessId(hWnd, out processId);
+			Plugins.UserInfo32.GetWindowThreadProcessId(hWnd, out processId);
 
 			var current = System.Diagnostics.Process.GetCurrentProcess();
 			if (current.Id == processId) return;

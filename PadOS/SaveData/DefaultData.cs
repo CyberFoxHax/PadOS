@@ -18,12 +18,12 @@ namespace PadOS.SaveData {
             FunctionType = FunctionType.PadOsInternal,
         };
 
-        public static readonly Profile AllProfile = new Profile {
+        public static readonly Profile AllProfile = new ProfileXML {
             Id = 1,
             Name = "All",
         };
 
-        public static readonly Profile DefaultProfile = new Profile {
+        public static readonly Profile DefaultProfile = new ProfileXML {
             Id = 2,
             Name = "Default",
         };

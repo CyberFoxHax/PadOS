@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Timers;
@@ -11,7 +12,20 @@ using Timer = System.Timers.Timer;
 namespace PadOS.Plugin.DesktopInput
 {
     public class DesktopInputSimulator : PadOS.InputSimulatorPlugin {
-        public string Name => GetType().Name;
+        public string Key => GetType().Name;
+
+        private bool _enabled;
+        public bool Enabled {
+            get { return _enabled; }
+            set {
+                _enabled = value;
+                if (value)
+                    Activate();
+                else
+                    Deactivate();
+            }
+        }
+
 
         private GamePadInput _gamePadInput;
         private Input.Vector2 _cursorPosition;
@@ -37,8 +51,7 @@ namespace PadOS.Plugin.DesktopInput
             Enabled = false
         };
 
-        public void Load() {
-            Console.WriteLine("Load");
+        public DesktopInputSimulator() {
             _gamePadInput = new GamePadInput();
             _gamePadInput.ThumbLeftChange += gamePadInput_ThumbLeftChange;
             _gamePadInput.TriggerLeftChange += (p, s, v) => _leftTriggerValue = v;
@@ -63,26 +76,38 @@ namespace PadOS.Plugin.DesktopInput
             _gamePadInput.DPadRightDown += GetDPadHandlerDown(VK_RIGHT);
             _gamePadInput.DPadRightUp += GetDPadHandlerUp(VK_RIGHT);
             _gamePadInput.ThumbRightChange += gamePadInput_ThumbRightChange;
+            _gamePadInput.ButtonLeftStickDown += gamePadInput_ButtonLeftStickDown;
+            _gamePadInput.ButtonLeftStickUp += gamePadInput_ButtonLeftStickUp;
+            _gamePadInput.ButtonRightStickDown += gamePadInput_ButtonRightStickDown;
+            _gamePadInput.ButtonRightStickUp += gamePadInput_ButtonRightStickUp;
+        }
+
+        public void Activate() {
+            Console.WriteLine("Activate");
+            _gamePadInput.IsEnabled = true;
+
+            _rightStickTickTimer.Elapsed += _rightStickTickTimer_Elapsed;
+            _leftStickTickTimer.Elapsed += _leftStickTickTimer_Elapsed;
+
             _keyRepeatTimer.Elapsed += keyRepeatTimer_Elapsed;
             _mouseMoveTimer.Elapsed += MouseMoveTimer_Tick;
             _mouseScrollTimer.Elapsed += MouseScrollTimer_Tick;
-            SetupHoldHotkeys();
-            _gamePadInput.IsEnabled = true;
         }
 
-        public void Unload() {
-            Console.WriteLine("Unload");
+        public void Deactivate() {
+            Console.WriteLine("Deactivate");
             _gamePadInput.IsEnabled = false;
-            _gamePadInput.Dispose();
             _mouseMoveTimer.Stop();
             _mouseMoveTimer.Elapsed -= MouseMoveTimer_Tick;
-            _mouseMoveTimer.Dispose();
-            _leftStickTickTimer.Dispose();
-            _rightStickTickTimer.Dispose();
-            _keyRepeatTimer.Elapsed += keyRepeatTimer_Elapsed;
-            _keyRepeatTimer.Dispose();
-            _mouseScrollTimer.Elapsed += MouseScrollTimer_Tick;
-            _mouseMoveTimer.Dispose();
+            //_mouseMoveTimer.Dispose();
+            //_leftStickTickTimer.Dispose();
+            //_rightStickTickTimer.Dispose();
+            _keyRepeatTimer.Elapsed -= keyRepeatTimer_Elapsed;
+            //_keyRepeatTimer.Dispose();
+            _mouseScrollTimer.Elapsed -= MouseScrollTimer_Tick;
+            //_mouseMoveTimer.Dispose();
+            _rightStickTickTimer.Elapsed -= _rightStickTickTimer_Elapsed;
+            _leftStickTickTimer.Elapsed -= _leftStickTickTimer_Elapsed;
         }
 
         private void keyRepeatTimer_Elapsed(object sender, ElapsedEventArgs e) {
@@ -91,22 +116,30 @@ namespace PadOS.Plugin.DesktopInput
             keybd_event(_repeatButtonCode, 0, KEYEVENTF_KEYUP, 0);
         }
 
+        private Dictionary<int, PadOS.Input.GamePadEvent> _dPadUpHandlers = new Dictionary<int, Input.GamePadEvent>();
         private PadOS.Input.GamePadEvent GetDPadHandlerUp(int vkey) {
-            return (p, s) => {
+            if (_dPadUpHandlers.ContainsKey(vkey))
+                return _dPadUpHandlers[vkey];
+            _dPadUpHandlers[vkey] = (p, s) => {
                 _dpadPadPressedButtonsCount--;
                 if(_dpadPadPressedButtonsCount == 0)
                     _keyRepeatTimer.Stop();
                 keybd_event(vkey, 0, KEYEVENTF_KEYUP, 0);
             };
+            return _dPadUpHandlers[vkey];
         }
+        private Dictionary<int, PadOS.Input.GamePadEvent> _dPadDownHandlers = new Dictionary<int, Input.GamePadEvent>();
         private PadOS.Input.GamePadEvent GetDPadHandlerDown(int vkey) {
-            return (p, s) => {
+            if (_dPadDownHandlers.ContainsKey(vkey))
+                return _dPadDownHandlers[vkey];
+            _dPadDownHandlers[vkey] = (p, s) => {
                 _dpadPadPressedButtonsCount++;
                 _repeatButtonCode = vkey;
                 keybd_event(vkey, 0, KEYEVENTF_KEYDOWN, 0);
                 _keyRepeatTimer.Interval = 500;
                 _keyRepeatTimer.Start();
             };
+            return _dPadDownHandlers[vkey];
         }
 
         private Stopwatch _rightStickStopwatch = new Stopwatch();
@@ -114,31 +147,25 @@ namespace PadOS.Plugin.DesktopInput
         private Timer _rightStickTickTimer = new Timer { AutoReset = true, Interval = 500 };
         private Timer _leftStickTickTimer = new Timer { AutoReset = true, Interval = 500 };
 
-        private void SetupHoldHotkeys() {
-            _gamePadInput.ButtonLeftStickDown += gamePadInput_ButtonLeftStickDown;
-            _gamePadInput.ButtonLeftStickUp += gamePadInput_ButtonLeftStickUp;
-            _gamePadInput.ButtonRightStickDown += gamePadInput_ButtonRightStickDown;
-            _gamePadInput.ButtonRightStickUp += gamePadInput_ButtonRightStickUp;
+        private void _leftStickTickTimer_Elapsed(object sender, ElapsedEventArgs e) {
+            Vibrate();
+            if (Math.Floor(_leftStickStopwatch.ElapsedMilliseconds / 100d) * 100 >= 1000) {
+                _leftStickTickTimer.Stop();
+                Hotkey_CtrlX();
+                return;
+            }
+        }
 
-
+        private async void _rightStickTickTimer_Elapsed(object sender, ElapsedEventArgs e) {
             /* bug, because some some black magic sideeffect,
-             * commenting out the altf4 instruction will cancel vibration*/
-            _rightStickTickTimer.Elapsed += async (s, e) => {
-                await Vibrate(); 
-                if (Math.Floor(_rightStickStopwatch.ElapsedMilliseconds/100d)*100 >= 500) {
-                    _rightStickTickTimer.Stop();
-                    Hotkey_AltF4();
-                    return;
-                }
-            };
-            _leftStickTickTimer.Elapsed += (s, e) => {
-                Vibrate();
-                if (Math.Floor(_leftStickStopwatch.ElapsedMilliseconds/100d)*100 >= 1000) {
-                    _leftStickTickTimer.Stop();
-                    Hotkey_CtrlX();
-                    return;
-                }
-            };
+             * commenting out the altf4 instruction will cancel vibration
+             * waiting for the vibration to finish will fix that*/
+            await Vibrate();
+            if (Math.Floor(_rightStickStopwatch.ElapsedMilliseconds / 100d) * 100 >= 500) {
+                _rightStickTickTimer.Stop();
+                Hotkey_AltF4();
+                return;
+            }
         }
 
         private async Task Vibrate() {

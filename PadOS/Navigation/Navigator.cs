@@ -12,8 +12,8 @@ namespace PadOS.Navigation {
 			_mainPanel = new CircleDial();
 			GamePadInput.StaticInputInstance.ButtonGuideDown += XInputOnButtonGuideDown;
 
-            //_profileManager = new ProfileSwitcher.ProfileManager();
-            //_profileManager.ProfileEnabled = true;
+            _profileManager = new ProfileSwitcher.ProfileManager();
+            _profileManager.ProfileEnabled = true;
         }
 
         private static ProfileSwitcher.ProfileManager _profileManager;

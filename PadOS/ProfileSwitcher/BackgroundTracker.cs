@@ -27,10 +27,10 @@ namespace PadOS.ProfileSwitcher
         private void Poll() {
             while (Enabled) {
                 Thread.Sleep(100);
-                var hWnd = Dll.UserInfo32.GetForegroundWindow();
+                var hWnd = Plugins.UserInfo32.GetForegroundWindow();
 
                 int processId;
-                Dll.UserInfo32.GetWindowThreadProcessId(hWnd, out processId);
+                Plugins.UserInfo32.GetWindowThreadProcessId(hWnd, out processId);
 
                 var current = System.Diagnostics.Process.GetCurrentProcess();
 

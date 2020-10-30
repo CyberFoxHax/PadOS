@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 namespace PadOS
 {
     public interface InputSimulatorPlugin {
-        string Name { get; }
-        void Load();
-        void Unload();
+        string Key { get; }
+        bool Enabled { get; set; }
     }
 }

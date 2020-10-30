@@ -6,22 +6,17 @@ namespace PadOS.ProfileSwitcher
 {
     public class ProfileManager {
         private class PluginInstance {
-            public Dll.Plugin Plugin { get; set; }
+            public Plugins.Plugin Plugin { get; set; }
             public InputSimulatorPlugin Instance { get; set; }
         }
 
-        private class ProfileMapping {
-            public string ProcessName { get; set; }
-            public string DllName { get; set; }
-        }
-
-        private static ProfileMapping[] _profileMappings = new [] {
-            new ProfileMapping{ ProcessName = null, DllName = "PadOS.Plugin.DesktopInput.dll" }
+        private static SaveData.ProfileXML.ApplicationAssociation[] _profileMappings = new [] {
+            new SaveData.ProfileXML.ApplicationAssociation{ Executable = null, DllName = "PadOS.Plugin.DesktopInput.dll" }
             //new ProfileMapping{ ProcessName = "PadOS", DllName = null }
         };
 
         public ProfileManager() {
-            _plugins = Dll.PluginsLoader.LoadAll<InputSimulatorPlugin>()
+            _plugins = Plugins.PluginsLoader.LoadAll<InputSimulatorPlugin>()
                 .Select(p=>new PluginInstance {
                     Plugin = p,
                     Instance = (InputSimulatorPlugin)Activator.CreateInstance(p.Class)
@@ -32,7 +27,7 @@ namespace PadOS.ProfileSwitcher
             tracker.Enabled = true;
             tracker.ProcessChanged += Tracker_ProcessChanged;
 
-            var a = _profileMappings.FirstOrDefault(p => p.ProcessName == null);
+            var a = _profileMappings.FirstOrDefault(p => p.Executable == null);
             var b = _plugins.FirstOrDefault(p => p.Plugin.File.Contains(a.DllName));
             _currentPlugin = b;
         }
@@ -44,29 +39,26 @@ namespace PadOS.ProfileSwitcher
         public bool ProfileEnabled {
             get { return _enabled; }
             set {
-                if (_enabled != value) {
-                    if (value == true)
-                        _currentPlugin.Instance.Load();
-                    else
-                        _currentPlugin.Instance.Unload();
-                }
+                if (_enabled != value)
+                    _currentPlugin.Instance.Enabled = value;
                 _enabled = value;
             }
         }
 
 
         private void Tracker_ProcessChanged(string processName) {
-            _currentPlugin?.Instance.Unload();
+            if(_currentPlugin != null)
+                _currentPlugin.Instance.Enabled = false;
 
-            var dictMatch = _profileMappings.FirstOrDefault(p => p.ProcessName == processName);
+            var dictMatch = _profileMappings.FirstOrDefault(p => p.Executable == processName);
             if (dictMatch == null)
-                dictMatch = _profileMappings.FirstOrDefault(p => p.ProcessName == null);
+                dictMatch = _profileMappings.FirstOrDefault(p => p.Executable == null);
             var plugin = _plugins.FirstOrDefault(p => p.Plugin.File.Contains(dictMatch.DllName));
 
             if (plugin == _currentPlugin)
                 return;
 
-            plugin.Instance.Load();
+            plugin.Instance.Enabled = true;
             _currentPlugin = plugin;
         }
     }

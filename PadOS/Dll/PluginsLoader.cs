@@ -4,12 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 
-namespace PadOS.Dll
+namespace PadOS.Plugins
 {
-    public class Plugin {
-        public string File { get; set; }
-        public Type Class { get; set; }
-    }
 
     public static class PluginsLoader {
         public static IEnumerable<Plugin> LoadAll<T>() where T:class {

@@ -12,11 +12,6 @@ namespace PadOS {
 
         public App(){
 			GlobalDispatcher = Dispatcher;
-            var dep = Dll.PluginsLoader.LoadAll<InputSimulatorPlugin>().First();
-            var instance = (InputSimulatorPlugin) System.Activator.CreateInstance(dep.Class);
-            instance.Load();
-            instance.Unload();
-            instance.Load();
         }
 
 		private SystemTray _systemTray;
