@@ -16,20 +16,20 @@ namespace PadOS.Commands
 		public static ICommand WindowMinimizeCommand { get; private set; }
 
 		private static void WindowMinimize() {
-			var lHwnd = Plugins.UserInfo32.GetForegroundWindow();
-			Plugins.UserInfo32.SendMessage(lHwnd, Plugins.UserInfo32.WmSyscommand, Plugins.UserInfo32.ScMinimize, 0);
+			var lHwnd = DllImport.UserInfo32.GetForegroundWindow();
+            DllImport.UserInfo32.SendMessage(lHwnd, DllImport.UserInfo32.WmSyscommand, DllImport.UserInfo32.ScMinimize, 0);
 		}
 
 		private static void WindowClose() {
-			var lHwnd = Plugins.UserInfo32.GetForegroundWindow();
-			Plugins.UserInfo32.SendMessage(lHwnd, Plugins.UserInfo32.WmSyscommand, Plugins.UserInfo32.ScClose, 0);
+			var lHwnd = DllImport.UserInfo32.GetForegroundWindow();
+            DllImport.UserInfo32.SendMessage(lHwnd, DllImport.UserInfo32.WmSyscommand, DllImport.UserInfo32.ScClose, 0);
 		}
 
 		private static void WindowKill() {
-			var hWnd = Plugins.UserInfo32.GetForegroundWindow();
+			var hWnd = DllImport.UserInfo32.GetForegroundWindow();
 
 			int processId;
-			Plugins.UserInfo32.GetWindowThreadProcessId(hWnd, out processId);
+            DllImport.UserInfo32.GetWindowThreadProcessId(hWnd, out processId);
 
 			var current = System.Diagnostics.Process.GetCurrentProcess();
 			if (current.Id == processId) return;

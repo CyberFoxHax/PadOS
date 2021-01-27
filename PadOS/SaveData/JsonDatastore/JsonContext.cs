@@ -57,14 +57,14 @@ namespace PadOS.SaveData.JsonDatastore
                         if(proxy == null)
                             continue;
                         var idProperty = property.PropertyType.GetProperty("Id", bindingFlags);
-                        var proxyId = idProperty.GetValue(proxy);
+                        var proxyId = Convert.ToInt32(idProperty.GetValue(proxy));
                         if (proxy != null) {
                             var foreignTable = _tables
                                 .Where(p => p.GetType().GetGenericArguments()[0] == property.PropertyType)
                                 .First();
                             var foreignRow = foreignTable
                                 .Cast<object>()
-                                .Where(p => (Int64)idProperty.GetValue(p) == (Int64)proxyId)
+                                .Where(p => Convert.ToInt32(idProperty.GetValue(p)) == proxyId)
                                 .First();
 
                             property.SetValue(item, foreignRow);

@@ -65,7 +65,7 @@ namespace PadOS.SaveData.JsonDatastore
                         property.PropertyInfo.SetValue(newInstance, proxy);
                         var idProperty = property.PropertyInfo.PropertyType.GetProperty("Id", bindingFlags);
                         var jsonValue = (JValue)item[property.PropertyInfo.Name + "_Fk" + property.PropertyInfo.PropertyType.Name];
-                        idProperty.SetValue(proxy, jsonValue.Value);
+                        idProperty.SetValue(proxy, (Int32)(Int64)jsonValue.Value);
                         table.Proxies.Add(proxy);
                     }
                 }

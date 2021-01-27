@@ -146,6 +146,7 @@
     <Compile Include="InputSimulatorPlugin.cs" />
     <Compile Include="ProfileSwitcher\BackgroundTracker.cs" />
     <Compile Include="ProfileSwitcher\ProfileManager.cs" />
+    <Compile Include="SaveData\Models\Profile.cs" />
     <Compile Include="SaveData\ProfileXML\ApplicationAssociation.cs" />
     <Compile Include="SaveData\ProfileXML\IAction.cs" />
     <Compile Include="SaveData\ProfileXML\ITrigger.cs" />
