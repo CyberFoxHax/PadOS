@@ -41,7 +41,7 @@ namespace PadOS.Plugin.DesktopInput
         private int _dpadPadPressedButtonsCount = 0;
 
         private Timer _mouseMoveTimer = new Timer {
-            Interval = 1, // not really 1ms. It locks on the lowest possible speed, which is the monitors refreshrate.
+            Interval = 1, // not really 1ms. It caps at the monitors refreshrate.
             AutoReset = true
         };
 
@@ -63,10 +63,11 @@ namespace PadOS.Plugin.DesktopInput
             _gamePadInput.ButtonADown += (p, s) => mouse_event(MOUSEEVENTF_LEFTDOWN, (int)_cursorPosition.X, (int)_cursorPosition.Y, 0, 0);
             _gamePadInput.ButtonBDown += (p, s) => mouse_event(MOUSEEVENTF_MIDDLEDOWN, (int)_cursorPosition.X, (int)_cursorPosition.Y, 0, 0);
             _gamePadInput.ButtonXDown += (p, s) => mouse_event(MOUSEEVENTF_RIGHTDOWN, (int)_cursorPosition.X, (int)_cursorPosition.Y, 0, 0);
-            _gamePadInput.ButtonYDown += (p, s) => keybd_event(VK_ESCAPE, 0x45, KEYEVENTF_KEYUP, 0);
+            _gamePadInput.ButtonYDown += (p, s) => keybd_event(VK_ESCAPE, 0x45, KEYEVENTF_KEYDOWN, 0);
             _gamePadInput.ButtonAUp += (p, s) => mouse_event(MOUSEEVENTF_LEFTUP, (int)_cursorPosition.X, (int)_cursorPosition.Y, 0, 0);
             _gamePadInput.ButtonBUp += (p, s) => mouse_event(MOUSEEVENTF_MIDDLEUP, (int)_cursorPosition.X, (int)_cursorPosition.Y, 0, 0);
             _gamePadInput.ButtonXUp += (p, s) => mouse_event(MOUSEEVENTF_RIGHTUP, (int)_cursorPosition.X, (int)_cursorPosition.Y, 0, 0);
+            _gamePadInput.ButtonYUp += (p, s) => keybd_event(VK_ESCAPE, 0x45, KEYEVENTF_KEYUP, 0);
             _gamePadInput.DPadDownDown += GetDPadHandlerDown(VK_DOWN);
             _gamePadInput.DPadDownUp += GetDPadHandlerUp(VK_DOWN);
             _gamePadInput.DPadUpDown += GetDPadHandlerDown(VK_UP);
@@ -83,7 +84,6 @@ namespace PadOS.Plugin.DesktopInput
         }
 
         public void Activate() {
-            Console.WriteLine("Activate");
             _gamePadInput.IsEnabled = true;
 
             _rightStickTickTimer.Elapsed += _rightStickTickTimer_Elapsed;
@@ -95,7 +95,6 @@ namespace PadOS.Plugin.DesktopInput
         }
 
         public void Deactivate() {
-            Console.WriteLine("Deactivate");
             _gamePadInput.IsEnabled = false;
             _mouseMoveTimer.Stop();
             _mouseMoveTimer.Elapsed -= MouseMoveTimer_Tick;
@@ -112,8 +111,8 @@ namespace PadOS.Plugin.DesktopInput
 
         private void keyRepeatTimer_Elapsed(object sender, ElapsedEventArgs e) {
             _keyRepeatTimer.Interval = 1000d / 40;
-            keybd_event(_repeatButtonCode, 0, KEYEVENTF_KEYDOWN, 0);
-            keybd_event(_repeatButtonCode, 0, KEYEVENTF_KEYUP, 0);
+            keybd_event(_repeatButtonCode, 0, KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYDOWN, 0);
+            keybd_event(_repeatButtonCode, 0, KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, 0);
         }
 
         private Dictionary<int, PadOS.Input.GamePadEvent> _dPadUpHandlers = new Dictionary<int, Input.GamePadEvent>();
@@ -124,7 +123,7 @@ namespace PadOS.Plugin.DesktopInput
                 _dpadPadPressedButtonsCount--;
                 if(_dpadPadPressedButtonsCount == 0)
                     _keyRepeatTimer.Stop();
-                keybd_event(vkey, 0, KEYEVENTF_KEYUP, 0);
+                keybd_event(vkey, 0, KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, 0);
             };
             return _dPadUpHandlers[vkey];
         }
@@ -135,7 +134,7 @@ namespace PadOS.Plugin.DesktopInput
             _dPadDownHandlers[vkey] = (p, s) => {
                 _dpadPadPressedButtonsCount++;
                 _repeatButtonCode = vkey;
-                keybd_event(vkey, 0, KEYEVENTF_KEYDOWN, 0);
+                keybd_event(vkey, 0, KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYDOWN, 0);
                 _keyRepeatTimer.Interval = 500;
                 _keyRepeatTimer.Start();
             };
@@ -249,10 +248,31 @@ namespace PadOS.Plugin.DesktopInput
             }
         }
 
+        [DllImport("user32.dll", SetLastError = true)]
+        private static extern UInt32 SendInput(UInt32 numberOfInputs, INPUT[] inputs, Int32 sizeOfInputStructure);
+        private struct INPUT{
+            public UInt32 Type;
+            public MOUSEKEYBDHARDWAREINPUT Data;
+        }
+        private struct MOUSEKEYBDHARDWAREINPUT {
+            public KEYBDINPUT Keyboard;
+        }
+        private struct KEYBDINPUT {
+            public UInt16 KeyCode;
+            public UInt16 Scan;
+            public UInt32 Flags;
+            public UInt32 Time;
+            public IntPtr ExtraInfo;
+        }
+
+
+
         [DllImport("user32.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall)]
         private static extern void keybd_event(int bVk, int bScan, uint dwFlags, uint dwExtraInfo);
         private const int KEYEVENTF_KEYDOWN = 0x0000;
+        private const int KEYEVENTF_EXTENDEDKEY = 0x0001;
         private const int KEYEVENTF_KEYUP = 0x0002;
+
         private const int VK_LCONTROL = 0x00A2;
         private const int VK_LSHIFT = 0x00A0;
         private const int VK_MENU = 0x0012;
