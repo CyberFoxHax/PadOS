@@ -10,10 +10,17 @@ namespace PadOS.ProfileSwitcher
             public InputSimulatorPlugin Instance { get; set; }
         }
 
-        private static SaveData.ProfileXML.ApplicationAssociation[] _profileMappings = new [] {
-            new SaveData.ProfileXML.ApplicationAssociation{ Executable = null, DllName = "PadOS.Plugin.DesktopInput.dll" }
-            //new ProfileMapping{ ProcessName = "PadOS", DllName = null }
-        };
+        private static SaveData.ProfileXML.ApplicationAssociation[] _profileMappings;
+
+        public void UpdateProfiles(IEnumerable<SaveData.ProfileXML.ApplicationAssociation> newMappings) {
+            _profileMappings = newMappings as SaveData.ProfileXML.ApplicationAssociation[] ?? newMappings.ToArray();
+
+            if (_currentPlugin == null) {
+                var a = _profileMappings.FirstOrDefault(p => p.Executable == null);
+                var b = _plugins.FirstOrDefault(p => p.Plugin.File.Contains(a.DllName));
+                _currentPlugin = b;
+            }
+        }
 
         public ProfileManager() {
             _plugins = Plugins.PluginsLoader.LoadAll<InputSimulatorPlugin>()
@@ -26,10 +33,6 @@ namespace PadOS.ProfileSwitcher
             var tracker = new BackgroundTracker();
             tracker.Enabled = true;
             tracker.ProcessChanged += Tracker_ProcessChanged;
-
-            var a = _profileMappings.FirstOrDefault(p => p.Executable == null);
-            var b = _plugins.FirstOrDefault(p => p.Plugin.File.Contains(a.DllName));
-            _currentPlugin = b;
         }
 
         private IEnumerable<PluginInstance> _plugins;
@@ -46,17 +49,17 @@ namespace PadOS.ProfileSwitcher
         }
 
 
-        private void Tracker_ProcessChanged(string processName) {
-            if(_currentPlugin != null)
-                _currentPlugin.Instance.Enabled = false;
-
-            var dictMatch = _profileMappings.FirstOrDefault(p => p.Executable == processName);
+        private void Tracker_ProcessChanged(string oldProcess, string newProcess) {
+            var dictMatch = _profileMappings.FirstOrDefault(p => p.Executable == newProcess);
             if (dictMatch == null)
                 dictMatch = _profileMappings.FirstOrDefault(p => p.Executable == null);
             var plugin = _plugins.FirstOrDefault(p => p.Plugin.File.Contains(dictMatch.DllName));
 
             if (plugin == _currentPlugin)
                 return;
+
+            if (_currentPlugin != null)
+                _currentPlugin.Instance.Enabled = false;
 
             plugin.Instance.Enabled = true;
             _currentPlugin = plugin;

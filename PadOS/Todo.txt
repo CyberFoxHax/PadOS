@@ -1,4 +1,8 @@
-Bug: Home Button doesn't work
+Shift not working // https://forums.codeguru.com/showthread.php?457305-keybd_event-API-call-problem-with-SHIFT
+Control Working
+Next: Editor to associate profiles with applications
+
+Bug: Home Button doesn't work on Windows 10. GameBar overrides. Make a solution that can detect this and instruct the user to turn it off.
 Consider: Sharing of profiles, consider alternatives to sqlite
 
 BlockNavigator
@@ -8,7 +12,7 @@ BlockNavigator
 
 Navigator
 	Bug: XInput does not go to sleep when a window is hidden. Making recycling windows a no-go
-	Home button, Nav where? Reset Nav?
+	Home button close, should it always reset the nav stack or should it return to last opened view?
 
 Enhance: MainPanel refactor so the controls will contain it's function attachment, and not the index based on the angle.
 Enhance: UI is too dark, on a bright background all the details disappear. Do this before beginning on the 4th view

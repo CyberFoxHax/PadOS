@@ -8,7 +8,12 @@ namespace PadOS.SaveData.Models
 {
     public class Profile
     {
-        public int Id { get; internal set; }
+        public Int64 Id { get; internal set; }
         public string Name { get; internal set; }
+
+        [Newtonsoft.Json.JsonIgnore]
+        public string[] Plugins { get; internal set; } = {
+            "PadOS.Plugin.DesktopInput.dll"
+        };
     }
 }

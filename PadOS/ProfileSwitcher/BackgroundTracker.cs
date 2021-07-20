@@ -22,7 +22,8 @@ namespace PadOS.ProfileSwitcher
             }
         }
 
-        public event Action<string> ProcessChanged;
+        public delegate void ProcessChangedEvent(string oldProcess, string newProcess);
+        public event ProcessChangedEvent ProcessChanged;
 
         private void Poll() {
             while (Enabled) {
@@ -41,7 +42,7 @@ namespace PadOS.ProfileSwitcher
                 if (newProcess == null)
                     continue;
 
-                ProcessChanged?.Invoke(_lastProcessName);
+                ProcessChanged?.Invoke(_lastProcessName, newProcess);
                 _lastProcessName = newProcess;
             }
         }

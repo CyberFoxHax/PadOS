@@ -11,6 +11,7 @@ namespace PadOS.SaveData.JsonDatastore
             var type = table.GetType().GetGenericArguments()[0];
             var properties = type
                 .GetProperties(bindingFlags)
+                .Where(p => p.GetCustomAttributes(true).Any(pp=>pp is Newtonsoft.Json.JsonIgnoreAttribute)==false)
                 .Select(p => new {
                     PropertyInfo = p,
                     IsVirtual = type.GetMethod("get_"+p.Name).IsVirtual
@@ -40,6 +41,7 @@ namespace PadOS.SaveData.JsonDatastore
             var bindingFlags = System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance;
             var properties = type
                 .GetProperties(bindingFlags)
+                .Where(p => p.GetCustomAttributes(true).Any(pp=>pp is Newtonsoft.Json.JsonIgnoreAttribute)==false)
                 .Select(p => new {
                     PropertyInfo = p,
                     IsVirtual = type.GetMethod("get_" + p.Name).IsVirtual

@@ -29,5 +29,6 @@ namespace PadOS.SaveData {
         public virtual JsonTable<Profile> Profiles { get; set; }
         public virtual JsonTable<Function> Functions { get; set; }
         public virtual JsonTable<PanelButton> PanelButtons { get; set; }
+        public virtual JsonTable<ProfileAssociation> ProfileAssociations { get; set; }
     }
 }

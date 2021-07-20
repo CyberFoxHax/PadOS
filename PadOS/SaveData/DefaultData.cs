@@ -8,6 +8,7 @@ namespace PadOS.SaveData {
             ctx.Functions.AddRange(Functions);
             ctx.PanelButtons.AddRange(PanelButtons);
             ctx.Profiles.AddRange(Profiles);
+            ctx.ProfileAssociations.AddRange(ProfileAssociations);
             ctx.SaveChanges();
         }
 
@@ -56,5 +57,14 @@ namespace PadOS.SaveData {
 			new PanelButton {Position = 4, Function = Functions[1], Profile = Profiles[0]},
 			new PanelButton {Position = 6, Function = Functions[2], Profile = Profiles[0]}
 		};
-	}
+
+        public static readonly ProfileAssociation[] ProfileAssociations = new ProfileAssociation[] {
+            new ProfileAssociation{
+               Executable = null,
+               Profile = DefaultProfile,
+               WindowTitle = null,
+            }
+        };
+
+    }
 }

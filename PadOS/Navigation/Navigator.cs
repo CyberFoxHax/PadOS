@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Windows;
 using PadOS.Input.GamePadInput;
@@ -12,7 +13,15 @@ namespace PadOS.Navigation {
 			_mainPanel = new CircleDial();
 			GamePadInput.StaticInputInstance.ButtonGuideDown += XInputOnButtonGuideDown;
 
+
+            var ctx = new SaveData.SaveData();
             _profileManager = new ProfileSwitcher.ProfileManager();
+            _profileManager.UpdateProfiles(ctx.ProfileAssociations.Select(p => new SaveData.ProfileXML.ApplicationAssociation {
+                DllName = p.Profile.Plugins.FirstOrDefault(),
+                Executable = p.Executable,
+                //Profile = p.Profile,
+                WindowTitle = p.WindowTitle
+            }));
             _profileManager.ProfileEnabled = true;
         }
 
@@ -20,11 +29,11 @@ namespace PadOS.Navigation {
 
         private static void XInputOnButtonGuideDown(int player, GamePadState state){
 			if (CurrentWindow != null) {
-                //_profileManager.ProfileEnabled = true;
+                _profileManager.ProfileEnabled = true;
                 App.GlobalDispatcher.Invoke(CloseWindow);
             }
             else {
-                //_profileManager.ProfileEnabled = false;
+                _profileManager.ProfileEnabled = false;
                 App.GlobalDispatcher.Invoke(OpenMainPanel);
             }
 		}
