@@ -162,6 +162,9 @@
     <Compile Include="Views\InputSimulationEditor\ItemsList.xaml.cs">
       <DependentUpon>ItemsList.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ProfileAssociationEditor\ProfileAssociationEditor.xaml.cs">
+      <DependentUpon>ProfileAssociationEditor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\_CustomControls\AlphaSilhouetteImage.xaml.cs">
       <DependentUpon>AlphaSilhouetteImage.xaml</DependentUpon>
     </Compile>
@@ -250,6 +253,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\InputSimulationEditor\ItemsList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ProfileAssociationEditor\ProfileAssociationEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -71,7 +71,8 @@
 							</Style.Triggers>
 						</Style>
 					</StackPanel.Resources>
-					<controls:NavigationListItem ImageSource="/Resources/Icons/dial_with_selection.png" Text="Edit Main Panel" Click="{x:Static commands:NavigationCommands.EditCircleDialCommand}" />
+                    <controls:NavigationListItem ImageSource="/Resources/Icons/window_icon.png" Text="Profiles" Click="{x:Static commands:NavigationCommands.EditProfileAssociationsCommand}" />
+                    <controls:NavigationListItem ImageSource="/Resources/Icons/dial_with_selection.png" Text="Edit Main Panel" Click="{x:Static commands:NavigationCommands.EditCircleDialCommand}" />
 					<controls:NavigationListItem ImageSource="/Resources/Icons/OSK.png" Text="Input Simulation Profiles" Click="{x:Static commands:NavigationCommands.EditInputSimulatorCommand}" />
                     <controls:MultiListItem ImageSource="/Resources/Icons/window_icon.png" Text="{}{CurrentWindow}" IsActive="True">
 						<controls:MultiListItem.Items>

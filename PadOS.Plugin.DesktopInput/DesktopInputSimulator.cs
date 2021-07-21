@@ -41,7 +41,7 @@ namespace PadOS.Plugin.DesktopInput
         private int _dpadPadPressedButtonsCount = 0;
 
         private Timer _mouseMoveTimer = new Timer {
-            Interval = 1, // not really 1ms. It caps at the monitors refreshrate.
+            Interval = 1, // not really 1ms. It caps at the monitors refreshrate. Which is weird but ironically is excactly what i need.
             AutoReset = true
         };
 

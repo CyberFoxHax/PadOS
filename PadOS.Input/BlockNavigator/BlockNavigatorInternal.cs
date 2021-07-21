@@ -41,7 +41,7 @@ namespace PadOS.Input.BlockNavigator {
         private FrameworkElement _focusElement;
 		private BlockNavigationCursor _cursor;
 		private bool _hasManualFocus;
-		private readonly Dictionary<FrameworkElement, Rect> _blocks = new Dictionary<FrameworkElement, Rect>();
+		internal readonly Dictionary<FrameworkElement, Rect> _blocks = new Dictionary<FrameworkElement, Rect>();
         public FrameworkElement OwnerElement { get; private set; }
         public BlockNavigatorInternal ParentNavigator { get; set; }
         public bool ExplicitDisabled { get; set; }

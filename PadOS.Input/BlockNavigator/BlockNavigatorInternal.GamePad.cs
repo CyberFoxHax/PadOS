@@ -134,7 +134,8 @@ namespace PadOS.Input.BlockNavigator {
 
 
         // TODO: This algo is fucking shit
-		private FrameworkElement GetSelection(FrameworkElement activeElement, Vector2 direction){
+        // Purpose. Determine which element should be selected given the thumbstick direction
+        private FrameworkElement GetSelection(FrameworkElement activeElement, Vector2 direction){
 			var activeBlock = _blocks[activeElement];
 			var blocks = _blocks;
 

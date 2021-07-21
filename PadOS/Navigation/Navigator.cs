@@ -22,7 +22,6 @@ namespace PadOS.Navigation {
                 //Profile = p.Profile,
                 WindowTitle = p.WindowTitle
             }));
-            _profileManager.ProfileEnabled = true;
         }
 
         private static ProfileSwitcher.ProfileManager _profileManager;
@@ -52,6 +51,7 @@ namespace PadOS.Navigation {
 		}
 
 		public static void OpenMainPanel(){
+            _profileManager.ProfileEnabled = false;
             CurrentWindow = _mainPanel;
             _navigationHistory.Push(CurrentWindow);
 			_mainPanel.Highlight.Visibility = Visibility.Hidden;

@@ -127,6 +127,21 @@ namespace PadOS.Input.BlockNavigator {
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+        public static readonly DependencyProperty RegisterProperty = DependencyProperty.RegisterAttached(
+            "Register",
+            typeof(bool),
+            typeof(BlockNavigator),
+            new PropertyMetadata((a, b) => Utils.RegisterNavigationBlock((FrameworkElement)a))
+        );
+
+        public static bool GetRegister(FrameworkElement element) {
+            return (bool)element.GetValue(RegisterProperty);
+        }
+
+        public static void SetRegister(FrameworkElement element, bool value) {
+            element.SetValue(RegisterProperty, value);
+        }
+
         /// <summary>
         /// Runtime property determining whether the control current is focussed or not (Readonly)
         /// </summary>
