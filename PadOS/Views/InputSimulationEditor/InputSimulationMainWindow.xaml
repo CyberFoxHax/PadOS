@@ -14,6 +14,8 @@
         Style="{StaticResource DefaultWindowStyle}"
         x:Name="This"
         nav:BlockNavigator.CancelClick="Window_CancelClick"
+        nav:BlockNavigator.Register="True"
+        nav:BlockNavigator.HideCursor="True"
     >
     <Border BorderThickness="3">
         <Border.Background>

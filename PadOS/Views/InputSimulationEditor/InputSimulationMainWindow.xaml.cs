@@ -13,7 +13,7 @@ namespace PadOS.Views.InputSimulationEditor
         }
 
         private void Window_CancelClick(object sender, EventArgs args) {
-
+            PadOS.Navigation.Navigator.NavigateBack();
         }
     }
 }

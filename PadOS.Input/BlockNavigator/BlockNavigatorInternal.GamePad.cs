@@ -40,7 +40,8 @@ namespace PadOS.Input.BlockNavigator {
 		private void OnCancelClick(int player, GamePadState state){
 			_focusElement?.Dispatcher.Invoke(() => {
                 OwnerElement?.RaiseEvent(new RoutedEventArgs(BlockNavigatorProperty.CancelClickEvent, OwnerElement));
-                _focusElement?.RaiseEvent(new RoutedEventArgs(BlockNavigatorProperty.CancelClickEvent, _focusElement));
+                if(OwnerElement != _focusElement)
+                    _focusElement?.RaiseEvent(new RoutedEventArgs(BlockNavigatorProperty.CancelClickEvent, _focusElement));
                 NavigateBack();
             });
 		}
@@ -48,7 +49,8 @@ namespace PadOS.Input.BlockNavigator {
 		private void OnConfirmClick(int player, GamePadState state) {
             _focusElement?.Dispatcher.Invoke(() => {
                 OwnerElement?.RaiseEvent(new RoutedEventArgs(BlockNavigatorProperty.ConfirmClickEvent, OwnerElement));
-                _focusElement?.RaiseEvent(new RoutedEventArgs(BlockNavigatorProperty.ConfirmClickEvent, _focusElement));
+                if(OwnerElement != _focusElement)
+                    _focusElement?.RaiseEvent(new RoutedEventArgs(BlockNavigatorProperty.ConfirmClickEvent, _focusElement));
                 if (BlockNavigatorProperty.GetSimulateMouse(_focusElement))
                     SimulateMouse(_focusElement);
 
