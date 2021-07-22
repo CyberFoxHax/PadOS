@@ -55,10 +55,14 @@ namespace PadOS.Input.BlockNavigator {
             }
         }
 
+        public FrameworkElement GetFocus() {
+            return _focusElement;
+        }
+
         public void SetFocus(FrameworkElement element, bool animate = true) {
             if (_blocks.ContainsKey(element) == false)
                 throw new System.Exception("You are attempting to focus an element that is not registered in the BlockNavigator. " +
-                    "You are most likely trying to focus a child or a parent.\nElement Type: \"" + element + "\"");
+                    "\nElement Type: \"" + element + "\"");
             OnFocusChanged(element, animate);
         }
 

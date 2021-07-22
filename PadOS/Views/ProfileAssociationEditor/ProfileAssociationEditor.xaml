@@ -91,23 +91,27 @@
             <TextBlock Margin="20,10,0,0" FontSize="18" FontFamily="Courier New" Text="PadOS" Foreground="#888" VerticalAlignment="Top" HorizontalAlignment="Left" />
 
             <StackPanel Style="{StaticResource DarkerBackground}" Grid.Column="0" Margin="5 50 5 5">
-                <Border Grid.Column="1" Style="{StaticResource ItemStyle}" MouseUp="ButtonProfile_Click" nav:BlockNavigator.SimulateMouse="true">
+                <Border Grid.Column="1" Style="{StaticResource ItemStyle}" MouseUp="ButtonProfile_Click" nav:BlockNavigator.SimulateMouse="true" nav:BlockNavigator.CursorEnter="Button_ProfileHover">
                     <WrapPanel VerticalAlignment="Center">
                         <TextBlock Text="Game" TextAlignment="Center" VerticalAlignment="Center" Foreground="White" FontSize="20" Margin="5" />
                     </WrapPanel>
                 </Border>
-                <Border Grid.Column="1" Style="{StaticResource ItemStyle}" MouseUp="ButtonProfile_Click" nav:BlockNavigator.SimulateMouse="true">
+                <Border Grid.Column="1" Style="{StaticResource ItemStyle}" MouseUp="ButtonProfile_Click" nav:BlockNavigator.SimulateMouse="true" nav:BlockNavigator.CursorEnter="Button_ProfileHover">
                     <WrapPanel VerticalAlignment="Center">
                         <TextBlock Text="VLC" TextAlignment="Center" VerticalAlignment="Center" Foreground="White" FontSize="20" Margin="5" />
                     </WrapPanel>
                 </Border>
-                <Border Grid.Column="1" Style="{StaticResource ItemStyle}" MouseUp="ButtonProfile_Click" nav:BlockNavigator.SimulateMouse="true">
+                <Border Grid.Column="1" Style="{StaticResource ItemStyle}" MouseUp="ButtonProfile_Click" nav:BlockNavigator.SimulateMouse="true" nav:BlockNavigator.CursorEnter="Button_ProfileHover">
                     <WrapPanel VerticalAlignment="Center">
                         <TextBlock Text="Snes9x" TextAlignment="Center" VerticalAlignment="Center" Foreground="White" FontSize="20" Margin="5" />
                     </WrapPanel>
                 </Border>
             </StackPanel>
-            <Grid x:Name="Panel_Editor" Grid.Column="1" Style="{StaticResource DarkerBackground}" Margin="5 20 5 5" nav:BlockNavigator.IsNestedNavigation="True">
+            <Grid Grid.Column="1" Style="{StaticResource DarkerBackground}" Margin="5 20 5 5" x:Name="EditPanel"
+                  nav:BlockNavigator.IsNestedNavigation="True"
+                  nav:BlockNavigator.IsFocusable="False"
+                  nav:BlockNavigator.CancelClick="EditPanel_CancelClick"
+                  >
                 <Grid.Resources>
                     <Style TargetType="TextBox">
                         <Setter Property="Background" Value="#111" />
@@ -124,7 +128,7 @@
                             <ColumnDefinition Width="341*"/>
                         </Grid.ColumnDefinitions>
                         <TextBlock Text="Profile:" TextAlignment="Left" Height="25" Grid.ColumnSpan="2" Margin="0,8,-0.667,8.333" />
-                        <TextBox Text="Snes9x" nav:BlockNavigator.ConfirmClick="TextBoxProfile_ConfirmClick" nav:BlockNavigator.Register="True" Padding="10" Margin="43.667,0,-0.667,-0.667" Grid.Column="1" />
+                        <TextBox x:Name="TextBox_ProfileName" Text="Snes9x" nav:BlockNavigator.ConfirmClick="TextBoxProfile_ConfirmClick" nav:BlockNavigator.Register="True" Padding="10" Margin="43.667,0,-0.667,-0.667" Grid.Column="1" />
                     </Grid>
                     <Border Width="Auto" BorderThickness="3 3 0 0" Padding="10">
                         <Border.BorderBrush>
@@ -143,20 +147,20 @@
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Text="snes9x.exe" TextAlignment="Left" VerticalAlignment="Center" Foreground="White" FontSize="14" Margin="5" />
                                     <Border Grid.Column="1" Margin="3" Padding="3" Style="{StaticResource BlueButton}">
-                                        <Button Content="Edit" nav:BlockNavigator.SimulateMouse="True" />
+                                        <Button Content="Edit" nav:BlockNavigator.SimulateMouse="True" Click="Button_EditOnClick" />
                                     </Border>
                                     <Border Grid.Column="2" Margin="3"  Padding="3" Style="{StaticResource BlueButton}">
-                                        <Button Content="Remove" nav:BlockNavigator.SimulateMouse="True" />
+                                        <Button Content="Remove" nav:BlockNavigator.SimulateMouse="True" Click="Button_RemoveOnClick" />
                                     </Border>
                                 </Grid>
                             </StackPanel>
 
                             <StackPanel x:Name="ItemEditView" Visibility="Visible">
                                 <TextBlock Text="Executable:" TextAlignment="Left" Height="25" FontSize="16" />
-                                <TextBox Text="snes9x.exe" nav:BlockNavigator.ConfirmClick="TextBoxProfile_ConfirmClick" nav:BlockNavigator.Register="True" />
+                                <TextBox x:Name="TextBox_Exec" Text="snes9x.exe" nav:BlockNavigator.ConfirmClick="TextBoxProfile_ConfirmClick" nav:BlockNavigator.Register="True" />
 
                                 <TextBlock Text="Window:" TextAlignment="Left" Height="25" FontSize="16" Margin="0 20 0 0"/>
-                                <TextBox Text="" nav:BlockNavigator.ConfirmClick="TextBoxProfile_ConfirmClick"  nav:BlockNavigator.Register="True" />
+                                <TextBox x:Name="TextBox_Window" Text="" nav:BlockNavigator.ConfirmClick="TextBoxProfile_ConfirmClick"  nav:BlockNavigator.Register="True" />
 
                                 <UniformGrid Rows="1" Margin="0 20 0 0">
                                     <Border Margin="5" Padding="3" Style="{StaticResource BlueButton}">

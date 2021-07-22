@@ -5,7 +5,7 @@ using ElementType = System.Windows.FrameworkElement;
 namespace PadOS.Input.BlockNavigator {
     public static partial class BlockNavigator{
 
-	    public delegate void NavigationEvent(object sender, EventArgs args);
+	    public delegate void NavigationEvent(object sender, RoutedEventArgs args);
 
         private static void RegisterEvent(RoutedEvent evt, FrameworkElement d, NavigationEvent handler) {
             (d as UIElement).AddHandler(evt, handler);
@@ -140,6 +140,25 @@ namespace PadOS.Input.BlockNavigator {
 
         public static void SetRegister(FrameworkElement element, bool value) {
             element.SetValue(RegisterProperty, value);
+        }
+
+        /// <summary>
+        /// Can this element be focussed?
+        /// Useful if you have a nested block you only want to activate programatically.
+        /// </summary>
+        public static readonly DependencyProperty IsFocusableProperty = DependencyProperty.RegisterAttached(
+            "IsFocusable",
+            typeof(bool),
+            typeof(BlockNavigator),
+            new PropertyMetadata(true, (a, b) => Utils.OnFocusableChanged((FrameworkElement)a, (bool)b.NewValue))
+        );
+
+        public static void SetIsFocusable(FrameworkElement element, bool value) {
+            element.SetValue(IsFocusableProperty, value);
+        }
+
+        public static bool GetIsFocusable(FrameworkElement element) {
+            return (bool)element.GetValue(IsFocusableProperty);
         }
 
         /// <summary>

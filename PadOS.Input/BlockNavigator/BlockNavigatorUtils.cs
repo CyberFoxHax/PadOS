@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using BlockNavigatorProperty = PadOS.Input.BlockNavigator.BlockNavigator;
 
-namespace PadOS.Input.BlockNavigator {
+namespace PadOS.Input.BlockNavigator
+{
     internal static class Utils {
         public static FrameworkElement FindBlockNavigatorElement(FrameworkElement elm) {
             var searchElm = elm;
@@ -75,5 +75,34 @@ namespace PadOS.Input.BlockNavigator {
             nav.IsEnabled = !value;
             nav.ExplicitDisabled = value;
         }
+
+        public static void OnFocusableChanged(FrameworkElement a, bool value) {
+            void f(FrameworkElement p) {
+                var parent = FindBlockNavigatorElement(a);
+                if (parent == a)
+                    parent = FindBlockNavigatorElement((FrameworkElement)a.Parent);
+                var nav = BlockNavigatorProperty.GetBlockNavigator(parent);
+                if (value == false)
+                    nav._blocks.Remove(a);
+                else {
+                    var point = a
+                        .TransformToAncestor(parent)
+                        .Transform(new Point(0, 0));
+                    nav._blocks[a] = new Rect(
+                        point.X,
+                        point.Y,
+                        a.ActualWidth,
+                        a.ActualHeight
+                    );
+                }
+            }
+
+            if (a.IsLoaded)
+                f(a);
+            else
+                new Await(a, f).Loaded();
+        }
     }
 }
+
+

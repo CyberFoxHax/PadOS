@@ -39,10 +39,15 @@ namespace PadOS.Input.BlockNavigator {
 
 		private void OnCancelClick(int player, GamePadState state){
 			_focusElement?.Dispatcher.Invoke(() => {
-                OwnerElement?.RaiseEvent(new RoutedEventArgs(BlockNavigatorProperty.CancelClickEvent, OwnerElement));
+                RoutedEventArgs args = null;
+                if (OwnerElement != null) {
+                    args = new RoutedEventArgs(BlockNavigatorProperty.CancelClickEvent, OwnerElement);
+                    OwnerElement?.RaiseEvent(args);
+                }
                 if(OwnerElement != _focusElement)
                     _focusElement?.RaiseEvent(new RoutedEventArgs(BlockNavigatorProperty.CancelClickEvent, _focusElement));
-                NavigateBack();
+                if(args == null || args.Handled == false)
+                    NavigateBack();
             });
 		}
 

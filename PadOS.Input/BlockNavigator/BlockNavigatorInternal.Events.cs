@@ -10,7 +10,7 @@ namespace PadOS.Input.BlockNavigator {
     internal partial class BlockNavigatorInternal {
 
         public void OnAddBlock(FrameworkElement elm) {
-            if (_blocks.ContainsKey(elm))
+            if (_blocks.ContainsKey(elm) || BlockNavigator.GetIsFocusable(elm) == false)
                 return;
             var navigatorElement = Utils.FindBlockNavigatorElement(elm);
             var point = elm
@@ -77,7 +77,7 @@ namespace PadOS.Input.BlockNavigator {
             IsEnabled = false;
             var nav = ParentNavigator;
             nav.IsEnabled = true;
-            nav.SetFocus(OwnerElement, false);
+            nav.SetFocus(ParentNavigator.GetFocus(), false);
 
             OwnerElement.RaiseEvent(new RoutedEventArgs(BlockNavigatorProperty.NavigationExitEvent, OwnerElement));
             nav.OwnerElement.RaiseEvent(new RoutedEventArgs(BlockNavigatorProperty.NavigationEnterEvent, nav.OwnerElement));
