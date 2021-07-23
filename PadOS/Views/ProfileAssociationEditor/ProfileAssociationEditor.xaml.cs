@@ -20,7 +20,7 @@ namespace PadOS.Views.ProfileAssociationEditor {
             ItemsListView.Visibility = Visibility.Visible;
             ItemEditView.Visibility = Visibility.Collapsed;
             Input.BlockNavigator.BlockNavigator.SetIsFocusable(EditPanel, true);
-            Input.BlockNavigator.BlockNavigator.RefreshLayout(ItemsListView);
+            Input.BlockNavigator.BlockNavigator.RefreshLayout(EditPanel);
             Input.BlockNavigator.BlockNavigator.SetFocus((FrameworkElement)sender, TextBox_ProfileName, true);
         }
 

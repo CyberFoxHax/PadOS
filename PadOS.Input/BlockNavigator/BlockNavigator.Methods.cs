@@ -1,19 +1,48 @@
 ﻿using System.Windows;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace PadOS.Input.BlockNavigator {
     public static partial class BlockNavigator {
 
+        /// <summary>
+        /// Recalculates the sizes and positions for all controls in this tree.
+        /// It relies on LayoutUpdated therefore it only works once per mutation.
+        /// </summary>
         public static async System.Threading.Tasks.Task RefreshLayout(FrameworkElement elm) {
+            var nav = GetBlockNavigator(elm);
             var parent = Utils.FindBlockNavigatorElement(elm);
 
+            FrameworkElement GetHiddenParent(FrameworkElement c) {
+                while (true) {
+                    if (c.Visibility != Visibility.Visible)
+                        return c;
+                    if (c.Parent != null)
+                        c = (FrameworkElement)c.Parent;
+                    else
+                        break;
+                }
+                return null;
+            }
+
             await new Await(parent, p=> {
-                var nav = GetBlockNavigator(parent);
-                foreach (var item in nav._blocks.Keys.ToArray()) {
+                if(nav == null)
+                    nav = GetBlockNavigator(parent);
+                if (_hiddenBlocks.ContainsKey(nav) == false)
+                    _hiddenBlocks[nav] = new HashSet<FrameworkElement>();
+
+                foreach (var item in nav._blocks.Keys.Concat(_hiddenBlocks[nav]).ToArray()) {
+                    if (GetHiddenParent(item) != null) {
+                        nav._blocks.Remove(item);
+                        _hiddenBlocks[nav].Add(item);
+                        continue;
+                    }
+
                     var point = item
-                        .TransformToAncestor(parent)
+                        .TransformToAncestor(nav.OwnerElement)
                         .Transform(new Point(0, 0));
 
+                    _hiddenBlocks[nav].Remove(item);
                     nav._blocks[item] = new Rect(
                         point.X,
                         point.Y,
@@ -23,7 +52,11 @@ namespace PadOS.Input.BlockNavigator {
                 }
             }).LayoutUpdated().Task();
         }
+        private static Dictionary<BlockNavigatorInternal, HashSet<FrameworkElement>> _hiddenBlocks = new Dictionary<BlockNavigatorInternal, HashSet<FrameworkElement>>();
 
+        /// <summary>
+        /// Forcefully activate a BlockNavigator
+        /// </summary>
         public static void EnterNestedNavigator(FrameworkElement element) {
             var parent = Utils.FindBlockNavigatorElement(element);
             var nav = GetBlockNavigator(parent);

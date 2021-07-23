@@ -137,7 +137,7 @@
                                 <GradientStop Color="#FF1E6BA4" Offset="1"/>
                             </LinearGradientBrush>
                         </Border.BorderBrush>
-                        <Grid>
+                        <StackPanel>
                             <StackPanel x:Name="ItemsListView">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
@@ -171,7 +171,7 @@
                                     </Border>
                                 </UniformGrid>
                             </StackPanel>
-                        </Grid>
+                        </StackPanel>
                     </Border>
                 </StackPanel>
             </Grid>
