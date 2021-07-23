@@ -13,28 +13,34 @@ namespace PadOS.Input.BlockNavigator {
             var nav = GetBlockNavigator(elm);
             var parent = Utils.FindBlockNavigatorElement(elm);
 
-            FrameworkElement GetHiddenParent(FrameworkElement c) {
+            FrameworkElement GetHiddenParent(FrameworkElement c, System.Func<FrameworkElement, bool> condition) {
                 while (true) {
-                    if (c.Visibility != Visibility.Visible)
+                    if (condition(c))
                         return c;
                     if (c.Parent != null)
-                        c = (FrameworkElement)c.Parent;
+                        c = (FrameworkElement)c.Parent; // TODO: parent is null inside listviews. There should be a wpf utility for tree travesal somewhere
                     else
                         break;
                 }
                 return null;
             }
 
-            await new Await(parent, p=> {
+            await new Await(parent, _ => {
                 if(nav == null)
                     nav = GetBlockNavigator(parent);
                 if (_hiddenBlocks.ContainsKey(nav) == false)
                     _hiddenBlocks[nav] = new HashSet<FrameworkElement>();
 
                 foreach (var item in nav._blocks.Keys.Concat(_hiddenBlocks[nav]).ToArray()) {
-                    if (GetHiddenParent(item) != null) {
+                    if (GetHiddenParent(item, p=>p.Visibility != Visibility.Visible) != null) {
                         nav._blocks.Remove(item);
                         _hiddenBlocks[nav].Add(item);
+                        continue;
+                    }
+
+                    var root = GetHiddenParent(item, p => p == nav.OwnerElement);
+
+                    if (GetHiddenParent(item, p => p == nav.OwnerElement) == null) {
                         continue;
                     }
 

@@ -1,4 +1,5 @@
 Editor to associate profiles with applications
+Press the home button on a confirmation dialgue would be catastrophic
 
 Bug: Home Button doesn't work on Windows 10. GameBar overrides. Make a solution that can detect this and instruct the user to turn it off.
 Consider: Sharing of profiles, consider alternatives to sqlite
