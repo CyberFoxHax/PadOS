@@ -17,8 +17,9 @@ namespace PadOS.Input.BlockNavigator {
                 while (true) {
                     if (condition(c))
                         return c;
-                    if (c.Parent != null)
-                        c = (FrameworkElement)c.Parent; // TODO: parent is null inside listviews. There should be a wpf utility for tree travesal somewhere
+                    var p = System.Windows.Media.VisualTreeHelper.GetParent(c);
+                    if (p!=null)
+                        c = (FrameworkElement)p; // TODO: parent is null inside listviews. There should be a wpf utility for tree travesal somewhere
                     else
                         break;
                 }

@@ -67,6 +67,24 @@ namespace PadOS.Views.ProfileAssociationEditor {
 
         private void TextBoxProfile_ConfirmClick(object sender, EventArgs args) {
             // Launch text input
+            var osk = new GamePadOSK.Osk();
+            osk.HideLegend(true);
+            osk.Show();
+            osk.SetScale(0.3);
+            
+
+            var elm = (FrameworkElement)sender;
+            var locationFromScreen = elm.PointToScreen(new Point(0, 0));
+            var source = PresentationSource.FromVisual(this);
+            var targetPoints = source.CompositionTarget.TransformFromDevice.Transform(locationFromScreen);
+            var wpfWindow = osk;
+            wpfWindow.Top = targetPoints.Y;
+            wpfWindow.Left = targetPoints.X;
+
+            osk.LayoutUpdated += (a, b) => {
+                wpfWindow.Top = targetPoints.Y + elm.ActualHeight;
+                wpfWindow.Left = targetPoints.X + elm.ActualWidth;
+            };
         }
 
         private void ButtonCapture_Click(object sender, RoutedEventArgs e) {

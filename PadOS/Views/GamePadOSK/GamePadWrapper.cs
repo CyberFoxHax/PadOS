@@ -10,6 +10,8 @@ namespace PadOS.Views.GamePadOSK {
 		public event Action<Input.Vector2> BlockPosChanged;
 		public event Action<Input.Vector2> CharPosChanged;
 
+        public event Action<double> OnScale;
+
 		public event Action ChangeCaseDown;
 		public event Action ChangeSymbolsDown;
 		public event Action DeleteDown;
@@ -26,14 +28,18 @@ namespace PadOS.Views.GamePadOSK {
 		public event Action MoveLeftUp;
 		public event Action MoveRightUp;
 
-		private bool _changeSymbolsDown;
+        public event Action HideLegend;
+
+        private bool _changeSymbolsDown;
 		private bool _changeCaseIsDown;
 		private const float TriggerThreshold = 0.3f;
 
 		public GamePadWrapper(DependencyObject owner){
 			_owner = owner;
-			WpfGamePad.AddThumbLeftChangeHandler(owner, OnBlockPosChanged);
-			WpfGamePad.AddTriggerLeftChangeHandler(owner, OnChangeCase);
+            WpfGamePad.AddButtonRightStickDownHandler(owner, OnHideLegend);
+            WpfGamePad.AddThumbLeftChangeHandler(owner, OnBlockPosChanged);
+            WpfGamePad.AddThumbRightChangeHandler(owner, OnRightThumbChanged);
+            WpfGamePad.AddTriggerLeftChangeHandler(owner, OnChangeCase);
 			WpfGamePad.AddTriggerRightChangeHandler(owner, OnChangeSymbols);
 
 			WpfGamePad.AddButtonADownHandler(owner, OnCharUp);
@@ -55,7 +61,13 @@ namespace PadOS.Views.GamePadOSK {
 			WpfGamePad.AddButtonRightShoulderUpHandler(owner, OnSpaceUp);
 		}
 
-		private void OnChangeCase(object sender, GamePadEventArgs<float> args) {
+        private void OnRightThumbChanged(object sender, GamePadEventArgs<Vector2> args) {
+            if(_changeSymbolsDown)
+                if(args.Value.Y != 0)
+                    OnScale?.Invoke(args.Value.Y);
+        }
+
+        private void OnChangeCase(object sender, GamePadEventArgs<float> args) {
 			if (args.Value > TriggerThreshold && _changeCaseIsDown == false) {
 				_changeCaseIsDown = true;
 				ChangeCaseDown?.Invoke();
@@ -94,10 +106,13 @@ namespace PadOS.Views.GamePadOSK {
 		private void OnCharRight(object sender, GamePadEventArgs args) => CharPosChanged?.Invoke(new Input.Vector2(1,0));
 		private void OnCharUp(object sender, GamePadEventArgs args) => CharPosChanged?.Invoke(new Input.Vector2(0,1));
 		private void OnBlockPosChanged(object sender, GamePadEventArgs<Input.Vector2> args) => BlockPosChanged?.Invoke(args.Value);
+        private void OnHideLegend(object sender, GamePadEventArgs args) => HideLegend?.Invoke();
 
-		public void Dispose(){
-			WpfGamePad.RemoveThumbLeftChangeHandler(_owner, OnBlockPosChanged);
-			WpfGamePad.RemoveTriggerLeftChangeHandler(_owner, OnChangeCase);
+        public void Dispose(){
+            WpfGamePad.RemoveButtonRightStickDownHandler(_owner, OnHideLegend);
+            WpfGamePad.RemoveThumbLeftChangeHandler(_owner, OnBlockPosChanged);
+            WpfGamePad.RemoveThumbRightChangeHandler(_owner, OnRightThumbChanged);
+            WpfGamePad.RemoveTriggerLeftChangeHandler(_owner, OnChangeCase);
 			WpfGamePad.RemoveTriggerRightChangeHandler(_owner, OnChangeSymbols);
 
 			WpfGamePad.RemoveButtonADownHandler(_owner, OnCharUp);

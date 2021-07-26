@@ -14,18 +14,17 @@
     WindowStartupLocation="CenterScreen"
     Background="Transparent"
     SnapsToDevicePixels="True"
-	xmlns:input="clr-namespace:PadOS.Input.WpfGamePad;assembly=PadOS.Input" input:WpfGamePad.Registered="True">
-	<Border>
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="700" x:Name="ImageAreaRow" />
-                <RowDefinition Height="186" x:Name="InfoAreaHeight" />
-            </Grid.RowDefinitions>
-			<Viewbox Width="700" Height="700">
-				<controls:Dial x:Name="Dial" Width="512" Height="512" HorizontalAlignment="Center" />
-			</Viewbox>
-	        <Border Grid.Row="1" Background="#262626" CornerRadius="10">
-				<Grid>
+	xmlns:input="clr-namespace:PadOS.Input.WpfGamePad;assembly=PadOS.Input"
+    input:WpfGamePad.Registered="True">
+    <Viewbox >
+        <Grid 
+    Width="751"
+    Height="900">
+		    <Viewbox Width="700" Height="700" VerticalAlignment="Top">
+			    <controls:Dial x:Name="Dial" Width="512" Height="512" HorizontalAlignment="Center" />
+		    </Viewbox>
+	        <Border Grid.Row="1" Background="#262626" CornerRadius="10" Height="200" x:Name="BorderLegendArea" VerticalAlignment="Bottom">
+			    <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="33*" />
                         <RowDefinition Height="28*" />
@@ -46,38 +45,38 @@
                                 Text="Diu" />
                             <Canvas>
                                 <Rectangle x:Name="Caret" Fill="#333" Height="88" VerticalAlignment="Top"
-                                           HorizontalAlignment="Left" Width="4" Canvas.Top="-13" Canvas.Left="39" />
+                                    HorizontalAlignment="Left" Width="4" Canvas.Top="-13" Canvas.Left="39" />
                             </Canvas>
                         </Grid>
                     </Border>
-					<UniformGrid Grid.Row="1" Rows="2" Columns="4">
-						<controls:ImageWithLabel
-							ImageSource="/Resources/Controllers/Xelu/Xbox One/XboxOne_Dpad_Down.png"
-							Text="Enter" />
-						<controls:ImageWithLabel
-							ImageSource="/Resources/Controllers/Xelu/Xbox One/XboxOne_Menu.png"
-							Text="Enter" />
-						<controls:ImageWithLabel
-							ImageSource="/Resources/Controllers/Xelu/Xbox One/XboxOne_LT.png"
-							Text="Uppercase" />
-						<controls:ImageWithLabel
-							ImageSource="/Resources/Controllers/Xelu/Xbox One/XboxOne_RT.png"
-							Text="Symbols" />
-						<controls:ImageWithLabel
-							ImageSource="/Resources/Controllers/Xelu/Xbox One/XboxOne_LB.png"
-							Text="Delete" />
-						<controls:ImageWithLabel
-							ImageSource="/Resources/Controllers/Xelu/Xbox One/XboxOne_RB.png"
-							Text="Space"/>
-						<controls:ImageWithLabel
-							ImageSource="/Resources/Controllers/Xelu/Xbox One/XboxOne_Windows.png"
-							Text="Show/Hide"/>
-						<controls:ImageWithLabel 
-							ImageSource="/Resources/Controllers/Xelu/Xbox One/XboxOne_Dpad_Horizontal.png"
-							Text="Move caret" />
-					</UniformGrid>
-				</Grid>
+				    <UniformGrid Grid.Row="1" Rows="2" Columns="4">
+					    <controls:ImageWithLabel
+						    ImageSource="/Resources/Controllers/Xelu/Xbox One/XboxOne_Dpad_Down.png"
+						    Text="Enter" />
+					    <controls:ImageWithLabel
+						    ImageSource="/Resources/Controllers/Xelu/Xbox One/XboxOne_Menu.png"
+						    Text="Enter" />
+					    <controls:ImageWithLabel
+						    ImageSource="/Resources/Controllers/Xelu/Xbox One/XboxOne_LT.png"
+						    Text="Uppercase" />
+					    <controls:ImageWithLabel
+						    ImageSource="/Resources/Controllers/Xelu/Xbox One/XboxOne_RT.png"
+						    Text="Symbols" />
+					    <controls:ImageWithLabel
+						    ImageSource="/Resources/Controllers/Xelu/Xbox One/XboxOne_LB.png"
+						    Text="Delete" />
+					    <controls:ImageWithLabel
+						    ImageSource="/Resources/Controllers/Xelu/Xbox One/XboxOne_RB.png"
+						    Text="Space"/>
+					    <controls:ImageWithLabel
+						    ImageSource="/Resources/Controllers/Xelu/Xbox One/XboxOne_Windows.png"
+						    Text="Show/Hide"/>
+					    <controls:ImageWithLabel 
+						    ImageSource="/Resources/Controllers/Xelu/Xbox One/XboxOne_Dpad_Horizontal.png"
+						    Text="Move caret" />
+				    </UniformGrid>
+			    </Grid>
             </Border>
         </Grid>
-    </Border>
+    </Viewbox>
 </Window>

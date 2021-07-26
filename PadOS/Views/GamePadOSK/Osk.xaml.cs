@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Linq;
 using System.Windows;
 
@@ -28,13 +27,59 @@ namespace PadOS.Views.GamePadOSK {
 			wrapper.DeleteDown += WrapperOnDeleteDown;
 			wrapper.SpaceDown += WrapperOnSpaceDown;
 			wrapper.EnterDown += WrapperOnEnterDown;
+            wrapper.HideLegend += Wrapper_HideLegend;
+            wrapper.OnScale += Wrapper_OnScale;
 
 			_keyboardInputSimulator.CaretChange += KeyboardInputSimulatorOnCaretChange;
 			_keyboardInputSimulator.TextChanged += KeyboardInputSimulatorOnTextChanged;
+
+            _startSize = new Input.Vector2(
+                ActualWidth,
+                ActualHeight
+            );
 		}
 
+        public void SetScale(double scale) {
+            _currentScale = scale;
+            var height = _startSize.Y * _currentScale;
+            var width = _startSize.X * _currentScale;
+            Height = height;
+            Width = width;
+        }
 
-		private void WrapperOnEnterDown() => _keyboardInputSimulator.OnEnterButton();
+        private double _currentScale = 1;
+        private Input.Vector2 _startSize;
+
+        private void Wrapper_OnScale(double v) {
+            _currentScale += v / 10;
+            if (_currentScale < 0)
+                _currentScale = 0;
+            else if (_currentScale > 1.36f)
+                _currentScale = 1.36f;
+
+            var height = _startSize.Y * _currentScale;
+            var heightDiff = height - Height;
+            Height = height;
+            Top -= heightDiff * RenderTransformOrigin.Y;
+
+            var width = _startSize.X * _currentScale;
+            var widthDiff = width - Width;
+            Width = width;
+            Left -= widthDiff * RenderTransformOrigin.X;
+        }
+
+        public void HideLegend(bool v) {
+            if (v)
+                BorderLegendArea.Visibility = Visibility.Collapsed;
+            else
+                BorderLegendArea.Visibility = Visibility.Visible;
+        }
+
+        private void Wrapper_HideLegend() {
+            HideLegend(BorderLegendArea.Visibility == Visibility.Visible);
+        }
+
+        private void WrapperOnEnterDown() => _keyboardInputSimulator.OnEnterButton();
 		private void WrapperOnSpaceDown() => _keyboardInputSimulator.OnSpaceButton();
 		private void WrapperOnDeleteDown() => _keyboardInputSimulator.OnDeleteButton();
 		private void WrapperOnCharPosChanged(Input.Vector2 value) => _keyboardInputSimulator.InsertText(Dial.GetChar(value));
