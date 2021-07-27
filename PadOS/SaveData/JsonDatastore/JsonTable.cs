@@ -10,6 +10,21 @@ namespace PadOS.SaveData.JsonDatastore
         public string Name { get; set; }
         public List<object> Proxies { get; private set; } = new List<object>();
 
+        public void Update(object item) {
+            var index = _innerList.IndexOf(item);
+            if (index == -1) {
+                var prop = item.GetType().GetProperty("Id");
+                var idVal = prop.GetValue(item);
+                var row = _innerList.Find(p => prop.GetValue(p).Equals(idVal));
+                index = _innerList.IndexOf(row);
+            }
+            if (index == -1)
+                throw new Exception("Row not does not exist");
+
+            _innerList[index] = item;
+            HasChanged = true;
+        }
+
         public void AddRange(IEnumerable<object> items) {
             foreach (var item in items) {
                 HasChanged = true;

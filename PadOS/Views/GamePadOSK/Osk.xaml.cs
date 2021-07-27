@@ -4,7 +4,7 @@ using System.Windows;
 
 namespace PadOS.Views.GamePadOSK {
 	public partial class Osk  {
-		public Osk(){
+		public Osk(bool simulate=true){
 			InitializeComponent();
 			_gamePadWrapper = new GamePadWrapper(this);
 			TextBox.Text = "";
@@ -12,7 +12,14 @@ namespace PadOS.Views.GamePadOSK {
 
 			if (System.ComponentModel.DesignerProperties.GetIsInDesignMode(this)) return;
 			Loaded += OnLoaded;
-		}
+
+            _startSize = new Input.Vector2(
+                Width,
+                Height
+            );
+
+            _keyboardInputSimulator.SimulatorKeyboard = simulate;
+        }
 
 		private void OnLoaded(object sender, RoutedEventArgs e){
 			var wrapper = _gamePadWrapper;
@@ -32,12 +39,22 @@ namespace PadOS.Views.GamePadOSK {
 
 			_keyboardInputSimulator.CaretChange += KeyboardInputSimulatorOnCaretChange;
 			_keyboardInputSimulator.TextChanged += KeyboardInputSimulatorOnTextChanged;
+        }
 
-            _startSize = new Input.Vector2(
-                ActualWidth,
-                ActualHeight
-            );
-		}
+        public void Dispose() {
+            _gamePadWrapper.Dispose();
+        }
+
+        /*public SimpleEventSimulator UseEventSimulator() {
+            var sim = new SimpleEventSimulator();
+            _keyboardInputSimulator = sim;
+            return sim;
+        }*/
+
+        public void SetText(string s) {
+            _keyboardInputSimulator.SetText(s);
+            TextBox.Text = s;
+        }
 
         public void SetScale(double scale) {
             _currentScale = scale;
@@ -79,7 +96,10 @@ namespace PadOS.Views.GamePadOSK {
             HideLegend(BorderLegendArea.Visibility == Visibility.Visible);
         }
 
-        private void WrapperOnEnterDown() => _keyboardInputSimulator.OnEnterButton();
+        private void WrapperOnEnterDown() {
+            EnterClick?.Invoke(this);
+            _keyboardInputSimulator.OnEnterButton();
+        }
 		private void WrapperOnSpaceDown() => _keyboardInputSimulator.OnSpaceButton();
 		private void WrapperOnDeleteDown() => _keyboardInputSimulator.OnDeleteButton();
 		private void WrapperOnCharPosChanged(Input.Vector2 value) => _keyboardInputSimulator.InsertText(Dial.GetChar(value));
@@ -91,20 +111,28 @@ namespace PadOS.Views.GamePadOSK {
 		private void OnMoveLeftDown() => _keyboardInputSimulator.CaretIndex--;
 
 		private void KeyboardInputSimulatorOnCaretChange(int i) => CaretIndex = i;
-		private void KeyboardInputSimulatorOnTextChanged(string s) => TextBox.Text = s;
+        private void KeyboardInputSimulatorOnTextChanged(string s) {
+            TextBox.Text = s;
+            TextChanged?.Invoke(this, s);
+        }
 
+        public event Action<Osk> EnterClick;
+        public event Action<Osk, string> TextChanged;
 
-		private readonly GamePadWrapper _gamePadWrapper;
-		private readonly KeyboardInputSimulator _keyboardInputSimulator = new KeyboardInputSimulator();
+        private readonly GamePadWrapper _gamePadWrapper;
+		private KeyboardInputSimulator _keyboardInputSimulator = new KeyboardInputSimulator();
 
 		public int CaretIndex {
 			get => _keyboardInputSimulator.CaretIndex;
-			set
-			{
-				if (value <= -1 || value >= TextBox.Text.Length + 1) return;
+			set {
+                if (BorderLegendArea.Visibility != Visibility.Visible || value <= -1 || value >= TextBox.Text.Length + 1) {
+                    TextChanged?.Invoke(this, _keyboardInputSimulator.Text);
+                    return;
+                }
 				TextBox.CaretIndex = value;
 				var rect = TextBox.GetRectFromCharacterIndex(value);
 				System.Windows.Controls.Canvas.SetLeft(Caret, rect.X);
+                TextChanged?.Invoke(this, _keyboardInputSimulator.Text);
 			}
 		}
 	}

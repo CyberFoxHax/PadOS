@@ -7,19 +7,16 @@
     x:Name="This" mc:Ignorable="d"
     x:Class="PadOS.Views.GamePadOSK.Osk"
     Title="MainWindow"
-    Width="751"
+    Width="700"
     Height="900"
-    AllowsTransparency="True"
-    WindowStyle="None"
-    WindowStartupLocation="CenterScreen"
+    Style="{StaticResource DefaultWindowStyle}"
     Background="Transparent"
-    SnapsToDevicePixels="True"
 	xmlns:input="clr-namespace:PadOS.Input.WpfGamePad;assembly=PadOS.Input"
     input:WpfGamePad.Registered="True">
-    <Viewbox >
+    <Viewbox>
         <Grid 
-    Width="751"
-    Height="900">
+            Width="700"
+            Height="900">
 		    <Viewbox Width="700" Height="700" VerticalAlignment="Top">
 			    <controls:Dial x:Name="Dial" Width="512" Height="512" HorizontalAlignment="Center" />
 		    </Viewbox>

@@ -162,9 +162,6 @@
     <Compile Include="Views\InputSimulationEditor\ItemsList.xaml.cs">
       <DependentUpon>ItemsList.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ProfileAssociationEditor\ListItem.xaml.cs">
-      <DependentUpon>ListItem.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\ProfileAssociationEditor\ListItemData.cs" />
     <Compile Include="Views\ProfileAssociationEditor\ProfileAssociationEditor.xaml.cs">
       <DependentUpon>ProfileAssociationEditor.xaml</DependentUpon>
@@ -257,10 +254,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\InputSimulationEditor\ItemsList.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\ProfileAssociationEditor\ListItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
