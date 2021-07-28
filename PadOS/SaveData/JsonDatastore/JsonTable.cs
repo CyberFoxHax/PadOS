@@ -10,15 +10,22 @@ namespace PadOS.SaveData.JsonDatastore
         public string Name { get; set; }
         public List<object> Proxies { get; private set; } = new List<object>();
 
-        public void Update(object item) {
+        public void UpdateOrInsert(object item) {
             var index = _innerList.IndexOf(item);
             if (index == -1) {
                 var prop = item.GetType().GetProperty("Id");
                 var idVal = prop.GetValue(item);
-                var row = _innerList.Find(p => prop.GetValue(p).Equals(idVal));
-                index = _innerList.IndexOf(row);
+                if(((Int64)0).Equals(idVal)){ // Insert
+                    _innerList.Add(item);
+                    HasChanged = true;
+                    return;
+                }
+                else { // Update
+                    var row = _innerList.Find(p => prop.GetValue(p).Equals(idVal));
+                    index = _innerList.IndexOf(row);
+                }
             }
-            if (index == -1)
+            if (index == -1) // Neither
                 throw new Exception("Row not does not exist");
 
             _innerList[index] = item;
