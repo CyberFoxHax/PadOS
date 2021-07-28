@@ -182,7 +182,7 @@
     <Compile Include="Navigation\Navigator.cs" />
     <Compile Include="SaveData\DefaultData.cs" />
     <Compile Include="SaveData\JsonDatastore\JsonContext.cs" />
-    <Compile Include="SaveData\JsonDatastore\JsonCustomSerializer.cs" />
+    <Compile Include="SaveData\JsonDatastore\JsonForeignKeySerializer.cs" />
     <Compile Include="SaveData\JsonDatastore\JsonTable.cs" />
     <Compile Include="SaveData\ProfileXML\Profile.cs" />
     <Compile Include="SaveData\Models\Function.cs" />

@@ -108,7 +108,7 @@
                     </ListView.ItemTemplate>
                 </ListView>
             </StackPanel>
-            <Grid Grid.Column="1" Style="{StaticResource DarkerBackground}" Margin="5 20 5 5" x:Name="EditPanel"
+            <Grid Grid.Column="1" Style="{StaticResource DarkerBackground}" Margin="5 20 5 5" x:Name="ListPanel"
                   nav:BlockNavigator.IsNestedNavigation="True"
                   nav:BlockNavigator.IsFocusable="False"
                   nav:BlockNavigator.CancelClick="EditPanel_CancelClick"
@@ -129,7 +129,7 @@
                             <ColumnDefinition Width="341*"/>
                         </Grid.ColumnDefinitions>
                         <TextBlock Text="Profile:" TextAlignment="Left" Height="25" Grid.ColumnSpan="2" Margin="0,8,-0.667,8.333" />
-                        <TextBox x:Name="TextBox_ProfileName" Text="Snes9x" nav:BlockNavigator.ConfirmClick="TextBoxProfile_ConfirmClick" nav:BlockNavigator.Register="True" Padding="10" Margin="43.667,0,-0.667,-0.667" Grid.Column="1" />
+                        <TextBox x:Name="TextBox_ProfileName" Text="Snes9x" nav:BlockNavigator.ConfirmClick="TextBox_ConfirmClick" nav:BlockNavigator.Register="True" Padding="10" Margin="43.667,0,-0.667,-0.667" Grid.Column="1" />
                     </Grid>
                     <Border Width="Auto" BorderThickness="3 3 0 0" Padding="10">
                         <Border.BorderBrush>
@@ -170,10 +170,10 @@
 
                             <StackPanel x:Name="ItemEditView" Visibility="Visible">
                                 <TextBlock Text="Executable:" TextAlignment="Left" Height="25" FontSize="16" />
-                                <TextBox x:Name="TextBox_Exec" Text="snes9x.exe" nav:BlockNavigator.ConfirmClick="TextBoxProfile_ConfirmClick" nav:BlockNavigator.Register="True" />
+                                <TextBox x:Name="TextBox_Exec" Text="snes9x.exe" nav:BlockNavigator.ConfirmClick="TextBox_ConfirmClick" nav:BlockNavigator.Register="True" />
 
                                 <TextBlock Text="Window:" TextAlignment="Left" Height="25" FontSize="16" Margin="0 20 0 0"/>
-                                <TextBox x:Name="TextBox_Window" Text="" nav:BlockNavigator.ConfirmClick="TextBoxProfile_ConfirmClick"  nav:BlockNavigator.Register="True" />
+                                <TextBox x:Name="TextBox_Window" Text="" nav:BlockNavigator.ConfirmClick="TextBox_ConfirmClick"  nav:BlockNavigator.Register="True" />
 
                                 <UniformGrid Rows="1" Margin="0 20 0 0">
                                     <Border Margin="5" Padding="3" Style="{StaticResource BlueButton}">

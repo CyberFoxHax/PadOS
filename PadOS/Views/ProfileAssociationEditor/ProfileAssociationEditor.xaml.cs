@@ -80,11 +80,11 @@ namespace PadOS.Views.ProfileAssociationEditor {
             AssociationsStackPanel.Visibility = Visibility.Visible;
             ItemEditView.Visibility = Visibility.Collapsed;
             //Input.BlockNavigator.BlockNavigator.SetIsFocusable(EditPanel, true);
-            Input.BlockNavigator.BlockNavigator.RefreshLayout(EditPanel);
+            Input.BlockNavigator.BlockNavigator.RefreshLayout(ListPanel);
             Input.BlockNavigator.BlockNavigator.SetFocus((FrameworkElement)sender, TextBox_ProfileName, true);
         }
 
-        private void TextBoxProfile_ConfirmClick(object sender, EventArgs args) {
+        private void TextBox_ConfirmClick(object sender, EventArgs args) {
             // Launch text input
             var osk = new GamePadOSK.Osk(false) {
                 Width = 0,
@@ -137,48 +137,66 @@ namespace PadOS.Views.ProfileAssociationEditor {
             // Delete item from list
         }
 
-        private FrameworkElement _lastEditButton;
+        private ListItemData _selectedProfileAssociation;
         private async void Button_EditOnClick(object sender, RoutedEventArgs e) {
             AssociationsStackPanel.Visibility = Visibility.Collapsed;
             ItemEditView.Visibility = Visibility.Visible;
-            await Input.BlockNavigator.BlockNavigator.RefreshLayout(EditPanel);
+            await Input.BlockNavigator.BlockNavigator.RefreshLayout(ListPanel);
             Input.BlockNavigator.BlockNavigator.SetFocus(TextBox_Exec, true);
-            _lastEditButton = (FrameworkElement)sender;
+            _selectedProfileAssociation = (sender as FrameworkElement).DataContext as ListItemData;
 
-            var data = (ListItemData)_lastEditButton.DataContext;
-            TextBox_Exec.Text = data.Data.Executable;
-            TextBox_Window.Text = data.Data.WindowTitle;
+            TextBox_Exec.Text = _selectedProfileAssociation.Data.Executable;
+            TextBox_Window.Text = _selectedProfileAssociation.Data.WindowTitle;
         }
 
         private async void EditPanel_CancelClick(object sender, RoutedEventArgs args) {
-            if (AssociationsStackPanel.Visibility != Visibility.Collapsed)
+            if (AssociationsStackPanel.Visibility == Visibility.Visible)
                 return;
+            args.Handled = true;
 
             AssociationsStackPanel.Visibility = Visibility.Visible;
             ItemEditView.Visibility = Visibility.Collapsed;
-            args.Handled = true;
-            await Input.BlockNavigator.BlockNavigator.RefreshLayout(EditPanel);
+            await Input.BlockNavigator.BlockNavigator.RefreshLayout(ListPanel);
             Input.BlockNavigator.BlockNavigator.SetFocus(TextBox_ProfileName);
 
-            var data = (ListItemData)_lastEditButton.DataContext;
-            if (string.IsNullOrEmpty(data.Data.Executable) && string.IsNullOrEmpty(data.Data.WindowTitle)) {
+            var assocData = _selectedProfileAssociation.Data;
+            if (assocData == null
+                && string.IsNullOrEmpty(TextBox_Exec.Text)
+                && string.IsNullOrEmpty(TextBox_Window.Text))
                 return;
+            if(assocData != null
+                && assocData.Executable == TextBox_Exec.Text
+                && assocData.WindowTitle == TextBox_Window.Text)
+                return;
+
+            if (assocData == null) {
+                assocData = new SaveData.Models.ProfileAssociation {
+                    Profile = _selectedProfile
+                };
+                _selectedProfileAssociation.Data = assocData;
+                _profileAssociations[_selectedProfile].Add(assocData);
             }
-            data.Data.Executable = TextBox_Exec.Text;
-            data.Data.WindowTitle = TextBox_Window.Text;
+            assocData.Executable = TextBox_Exec.Text;
+            assocData.WindowTitle = TextBox_Window.Text;
 
             using (var db = new SaveData.SaveData()) {
-                db.ProfileAssociations.Update(data.Data);
+                db.ProfileAssociations.UpdateOrInsert(assocData);
                 db.SaveChanges();
-                RefreshListView();
             }
+            RefreshListView();
+            await Input.BlockNavigator.BlockNavigator.RefreshLayout(ListPanel);
+
         }
 
-        private void Button_NewOnClick(object sender, RoutedEventArgs e) {
-            var newItem = new SaveData.Models.ProfileAssociation();
-            newItem.Profile = _selectedProfile;
-            _profileAssociations[_selectedProfile].Add(newItem);
-            RefreshListView();
+        private async void Button_NewOnClick(object sender, RoutedEventArgs e) {
+            AssociationsStackPanel.Visibility = Visibility.Collapsed;
+            ItemEditView.Visibility = Visibility.Visible;
+            await Input.BlockNavigator.BlockNavigator.RefreshLayout(ListPanel);
+            Input.BlockNavigator.BlockNavigator.SetFocus(TextBox_Exec, true);
+
+            _selectedProfileAssociation = new ListItemData();
+            TextBox_Exec.Text = "";
+            TextBox_Window.Text = "";
         }
     }
 }
