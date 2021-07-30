@@ -29,6 +29,11 @@ namespace PadOS.SaveData {
             Name = "Default",
         };
 
+        public static readonly Profile SupportedGamesProfile = new Profile {
+            Id = 3,
+            Name = "Supported Game",
+        };
+
 
         public static Function[] Functions = {
 			EmptyFunction,
@@ -50,7 +55,8 @@ namespace PadOS.SaveData {
 
         public static Profile[] Profiles = {
             AllProfile,
-            DefaultProfile
+            DefaultProfile,
+            SupportedGamesProfile
         };
 
 		public static PanelButton[] PanelButtons = {

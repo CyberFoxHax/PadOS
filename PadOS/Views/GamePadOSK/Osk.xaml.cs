@@ -4,7 +4,10 @@ using System.Windows;
 
 namespace PadOS.Views.GamePadOSK {
 	public partial class Osk  {
-		public Osk(bool simulate=true){
+        public Osk() : this(true) {
+
+        }
+		public Osk(bool simulate){
 			InitializeComponent();
 			_gamePadWrapper = new GamePadWrapper(this);
 			TextBox.Text = "";

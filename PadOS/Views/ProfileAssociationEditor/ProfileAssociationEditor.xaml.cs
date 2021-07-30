@@ -15,6 +15,8 @@ namespace PadOS.Views.ProfileAssociationEditor {
             AssociationsListView.ItemsSource = null;
             AssociationsListView.Items.Clear();
 
+            _listViewData = new System.Collections.ObjectModel.ObservableCollection<ListItemData>();
+            AssociationsListView.ItemsSource = _listViewData;
             LoadData();
         }
 
@@ -35,7 +37,7 @@ namespace PadOS.Views.ProfileAssociationEditor {
         private void LoadData() {
             ProfilesListView.Items.Clear();
             using (var data = new SaveData.SaveData()) {
-                ProfilesListView.ItemsSource = data.Profiles.ToArray();
+                ProfilesListView.ItemsSource = data.Profiles.Where(p=>p.Id != 1 && p.Id != 2).ToArray();
                 foreach (var profile in data.Profiles)
                     _profileAssociations[profile] = data.ProfileAssociations.Where(p => p.Profile.Id == profile.Id).ToList();
             }
@@ -44,9 +46,7 @@ namespace PadOS.Views.ProfileAssociationEditor {
         private void RefreshListView(IEnumerable<SaveData.Models.ProfileAssociation> data = null) {
             if (data == null)
                 data = _profileAssociations[_selectedProfile];
-            //AssociationsListView.ItemsSource = null;
-            //AssociationsListView.Items.Clear();
-            AssociationsListView.ItemsSource = data
+            var trout = data
                 .Select(p => {
                     var list = new List<string>();
                     if (string.IsNullOrEmpty(p.Executable) == false) list.Add(p.Executable);
@@ -66,15 +66,20 @@ namespace PadOS.Views.ProfileAssociationEditor {
                     };
                 })
                 .ToArray();
+
+            _listViewData.Clear();
+            foreach (var item in trout) {
+                _listViewData.Add(item);
+            }
+            AssociationsListView.Items.Refresh();
         }
 
-        private void ButtonProfile_Click(object sender, EventArgs args) {
+        private async void ButtonProfile_Click(object sender, EventArgs args) {
             {
                 var s = (System.Windows.Controls.Border)sender;
                 var data = (SaveData.Models.Profile)s.DataContext;
                 _selectedProfile = data;
             }
-
             RefreshListView();
 
             AssociationsStackPanel.Visibility = Visibility.Visible;
@@ -138,6 +143,8 @@ namespace PadOS.Views.ProfileAssociationEditor {
         }
 
         private ListItemData _selectedProfileAssociation;
+        private System.Collections.ObjectModel.ObservableCollection<ListItemData> _listViewData;
+
         private async void Button_EditOnClick(object sender, RoutedEventArgs e) {
             AssociationsStackPanel.Visibility = Visibility.Collapsed;
             ItemEditView.Visibility = Visibility.Visible;
@@ -197,6 +204,10 @@ namespace PadOS.Views.ProfileAssociationEditor {
             _selectedProfileAssociation = new ListItemData();
             TextBox_Exec.Text = "";
             TextBox_Window.Text = "";
+        }
+
+        private void AddNewProfileClick(object sender, RoutedEventArgs e) {
+
         }
     }
 }

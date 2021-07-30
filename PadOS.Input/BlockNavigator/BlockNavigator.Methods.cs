@@ -13,7 +13,7 @@ namespace PadOS.Input.BlockNavigator {
             var nav = GetBlockNavigator(elm);
             var parent = Utils.FindBlockNavigatorElement(elm);
 
-            FrameworkElement GetHiddenParent(FrameworkElement c, System.Func<FrameworkElement, bool> condition) {
+            FrameworkElement GetParent(FrameworkElement c, System.Func<FrameworkElement, bool> condition) {
                 while (true) {
                     if (condition(c))
                         return c;
@@ -32,16 +32,23 @@ namespace PadOS.Input.BlockNavigator {
                 if (_hiddenBlocks.ContainsKey(nav) == false)
                     _hiddenBlocks[nav] = new HashSet<FrameworkElement>();
 
+
                 foreach (var item in nav._blocks.Keys.Concat(_hiddenBlocks[nav]).ToArray()) {
-                    if (GetHiddenParent(item, p=>p.Visibility != Visibility.Visible) != null) {
+                    var isDetached = GetParent(item, p=>p == parent) == null;
+                    if (isDetached) {
+                        nav._blocks.Remove(item);
+                        continue;
+                    }
+                    var isParentHidden = GetParent(item, p => p.Visibility != Visibility.Visible) != null;
+                    if (isParentHidden) {
                         nav._blocks.Remove(item);
                         _hiddenBlocks[nav].Add(item);
                         continue;
                     }
 
-                    var root = GetHiddenParent(item, p => p == nav.OwnerElement);
+                    var root = GetParent(item, p => p == nav.OwnerElement);
 
-                    if (GetHiddenParent(item, p => p == nav.OwnerElement) == null) {
+                    if (GetParent(item, p => p == nav.OwnerElement) == null) {
                         continue;
                     }
 

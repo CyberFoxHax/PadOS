@@ -93,10 +93,13 @@
             <TextBlock Margin="20,10,0,0" FontSize="18" FontFamily="Courier New" Text="PadOS" Foreground="#888" VerticalAlignment="Top" HorizontalAlignment="Left" />
 
             <StackPanel Style="{StaticResource DarkerBackground}" Grid.Column="0" Margin="5 50 5 5">
+                <!--<Border Style="{StaticResource AddNewBrush}" Margin="10 10 10 0">
+                    <Button Content="+" Padding="10" nav:BlockNavigator.Register="True" Click="AddNewProfileClick" />
+                </Border>-->
                 <ListView x:Name="ProfilesListView" Background="{x:Null}" BorderBrush="{x:Null}" HorizontalContentAlignment="Stretch">
                     <models:Profile Name="All" />
                     <models:Profile Name="Default" />
-                    <models:Profile Name="Snes9x" />
+                    <models:Profile Name="Snopes" />
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <Border Style="{StaticResource ItemStyle}" MouseUp="ButtonProfile_Click" nav:BlockNavigator.SimulateMouse="true" nav:BlockNavigator.CursorEnter="Button_ProfileHover">
