@@ -1,8 +1,13 @@
-Editor to associate profiles with applications
+How to create new profiles? What is a profile?
+OSK seems to open at weird positions
+//Editor to associate profiles with applications
 Press the home button on a confirmation dialgue would be catastrophic
 
 Bug: Home Button doesn't work on Windows 10. GameBar overrides. Make a solution that can detect this and instruct the user to turn it off.
 Consider: Sharing of profiles, consider alternatives to sqlite
+
+ProfileAssocEditor
+	"Remove" is not implemented
 
 BlockNavigator
 	Bug: If the nested view has no blocks the entire system ceases to function
