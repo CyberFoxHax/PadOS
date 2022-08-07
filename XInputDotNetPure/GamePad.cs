@@ -221,7 +221,7 @@ namespace XInputDotNetPure
         GamePadThumbSticks thumbSticks;
         GamePadTriggers triggers;
 
-        enum ButtonsConstants
+        public enum ButtonsConstants
         {
             DPadUp = 0x00000001,
             DPadDown = 0x00000002,

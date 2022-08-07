@@ -91,6 +91,7 @@ namespace PadOS.Input.GamePadInput {
 		}
 
 		private void GamepadOnStateChanged(GamePadState oldState, GamePadState newState, int playerIndex){
+            InvokeStateChanged(playerIndex, newState);
 			InvokeUpDown(newState.Buttons.A				, playerIndex, newState, ref _isButtonADown				, ButtonADown				, ButtonAUp				);
 			InvokeUpDown(newState.Buttons.B				, playerIndex, newState, ref _isButtonBDown				, ButtonBDown				, ButtonBUp				);
 			InvokeUpDown(newState.Buttons.X				, playerIndex, newState, ref _isButtonXDown				, ButtonXDown				, ButtonXUp				);
@@ -113,6 +114,10 @@ namespace PadOS.Input.GamePadInput {
 			InvokeTriggerChanged(oldState.Triggers.Left , newState.Triggers.Left , newState, playerIndex, TriggerLeftChange );
 			InvokeTriggerChanged(oldState.Triggers.Right, newState.Triggers.Right, newState, playerIndex, TriggerRightChange);
 		}
+
+        private void InvokeStateChanged(int player, GamePadState state) {
+            StateChanged?.Invoke(player, state);
+        }
 
 		private void InvokeUpDown(ButtonState buttonState, int player, GamePadState newState, ref bool isDown, GamePadEvent callbackDown, GamePadEvent callbackUp) {
 			if (buttonState == ButtonState.Pressed && isDown == false) {

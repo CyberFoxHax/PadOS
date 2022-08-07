@@ -11,4 +11,5 @@ namespace PadOS.SaveData.Models {
         public string WindowTitle { get; set; }
         public virtual Profile Profile { get; set; }
     }
+
 }

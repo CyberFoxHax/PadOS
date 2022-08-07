@@ -5,64 +5,58 @@ using System.Linq;
 namespace PadOS.ProfileSwitcher
 {
     public class ProfileManager {
-        private class PluginInstance {
-            public Plugins.Plugin Plugin { get; set; }
-            public InputSimulatorPlugin Instance { get; set; }
-        }
-
-        private static SaveData.ProfileXML.ApplicationAssociation[] _profileMappings;
-
-        public void UpdateProfiles(IEnumerable<SaveData.ProfileXML.ApplicationAssociation> newMappings) {
-            _profileMappings = newMappings as SaveData.ProfileXML.ApplicationAssociation[] ?? newMappings.ToArray();
-
-            if (_currentPlugin == null) {
-                var a = _profileMappings.FirstOrDefault(p => p.Executable == null);
-                var b = _plugins.FirstOrDefault(p => p.Plugin.File.Contains(a.DllName));
-                _currentPlugin = b;
+        public void Init(SaveData.SaveData saveData) {
+            _profiles = new Dictionary<SaveData.Models.Profile, ProfileExecution.Executor>();
+            foreach (var item in saveData.Profiles) {
+                if (string.IsNullOrEmpty(item.XML))
+                    continue;
+                item.ProfileXML = SaveData.ProfileXML.ParseProfileXML.LoadFile(item.XML).Parse();
+                var input = Input.GamePadInput.GamePadInput.StaticInputInstance;
+                var executor = new ProfileExecution.Executor(item.ProfileXML, input);
+                executor.Init();
+                _profiles[item] = executor;
             }
+            _currentProfile = _profiles.First().Value;
+            _profileMappings = saveData.ProfileAssociations.ToArray();
+
+            _tracker = new BackgroundTracker();
+            _tracker.Enabled = true;
+            _tracker.ProcessChanged += Tracker_ProcessChanged;
         }
 
-        public ProfileManager() {
-            _plugins = Plugins.PluginsLoader.LoadAll<InputSimulatorPlugin>()
-                .Select(p=>new PluginInstance {
-                    Plugin = p,
-                    Instance = (InputSimulatorPlugin)Activator.CreateInstance(p.Class)
-                })
-                .ToArray();
+        private static SaveData.Models.ProfileAssociation[] _profileMappings;
+        private BackgroundTracker _tracker;
+        private Dictionary<SaveData.Models.Profile, ProfileExecution.Executor> _profiles;
+        private ProfileExecution.Executor _currentProfile;
 
-            var tracker = new BackgroundTracker();
-            tracker.Enabled = true;
-            tracker.ProcessChanged += Tracker_ProcessChanged;
-        }
-
-        private IEnumerable<PluginInstance> _plugins;
-        private PluginInstance _currentPlugin;
-
-        private bool _enabled;
+        private bool _profileEnabled;
         public bool ProfileEnabled {
-            get { return _enabled; }
+            get { return _profileEnabled; }
             set {
-                if (_enabled != value)
-                    _currentPlugin.Instance.Enabled = value;
-                _enabled = value;
+                if (_profileEnabled == value)
+                    return;
+                _profileEnabled = value;
+                _tracker.Enabled = value;
+                if (_currentProfile != null)
+                    _currentProfile.Enabled = value;
             }
         }
-
 
         private void Tracker_ProcessChanged(string oldProcess, string newProcess) {
-            var dictMatch = _profileMappings.FirstOrDefault(p => p.Executable == newProcess);
-            if (dictMatch == null)
-                dictMatch = _profileMappings.FirstOrDefault(p => p.Executable == null);
-            var plugin = _plugins.FirstOrDefault(p => p.Plugin.File.Contains(dictMatch.DllName));
+            var processName = System.IO.Path.GetFileName(newProcess);
+            var profileMatch = _profileMappings.FirstOrDefault(p => p.Executable == processName);
+            if (profileMatch == null)
+                profileMatch = _profileMappings.FirstOrDefault(p => p.Executable == null);
 
-            if (plugin == _currentPlugin)
+            var newProfile = _profiles[profileMatch.Profile];
+            if (newProfile == _currentProfile) {
+                Console.WriteLine("Process changed to: " + processName + ". Profile change not needed");
                 return;
-
-            if (_currentPlugin != null)
-                _currentPlugin.Instance.Enabled = false;
-
-            plugin.Instance.Enabled = true;
-            _currentPlugin = plugin;
+            }
+            Console.WriteLine("Process changed to: " + processName + ". Profile changed to \"" + profileMatch.Profile.Name + "\"");
+            _currentProfile.Enabled = false;
+            _currentProfile = newProfile;
+            _currentProfile.Enabled = true;
         }
     }
 }

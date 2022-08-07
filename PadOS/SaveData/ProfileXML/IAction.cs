@@ -1,6 +1,6 @@
 ﻿namespace PadOS.SaveData.ProfileXML
 {
-    public interface IAction
-    {
+    public interface IAction {
+        
     }
 }

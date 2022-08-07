@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Profile>
+	<ButtonTrigger Button="RightShoulder" />
+	<KeyboardAction Button="n" />
+	
+	<ButtonTrigger Button="LeftShoulder" />
+	<KeyboardAction Button="p" />
+	
+	<ButtonTrigger Button="Start" />
+	<KeyboardAction Button="Space" />
+	
+	<ButtonTrigger Button="Menu" />
+	<KeyboardAction Button="f" />
+
+	<ButtonTrigger Button="A" />
+	<KeyboardAction Button="space" />
+	
+	<ButtonTrigger Button="X" />
+	<KeyboardAction Button="t" />
+	
+	<ButtonTrigger Button="Y" />
+	<KeyboardAction Button="m" />
+
+	<ButtonTrigger Button="DPadLeft" />
+	<KeyboardAction Button="Shift+Left" />
+	
+	<ButtonTrigger Button="DPadRight" />
+	<KeyboardAction Button="Shift+Right" />
+	
+	<ButtonTrigger Button="DPadUp" />
+	<KeyboardAction Button="v" />
+	
+	<ButtonTrigger Button="DPadDown" />
+	<KeyboardAction Button="b" />
+	
+	<AnalogueTrigger Axis="LeftStickX" Threshhold="0.5" MultiplyByValue="10" Repeat="1" />
+	<KeyboardAction Button="Left" />
+	
+	<AnalogueTrigger Axis="LeftStickX" Negate="True" Threshhold="0.5" MultiplyByValue="10" Repeat="1" />
+	<KeyboardAction Button="Right" />
+	
+	<AnalogueTrigger Axis="RightStickY" Threshhold="0.5" MultiplyByValue="10" Repeat="1" />
+	<MouseAction ScrollY="1" />
+	
+	<AnalogueTrigger Axis="RightStickY" Negate="True" Threshhold="0.5" MultiplyByValue="10" Repeat="1" />
+	<MouseAction ScrollY="-1" />
+	
+	<AnalogueTrigger Axis="RightStickX" Threshhold="0.5" MultiplyByValue="10" Repeat="1" />
+	<KeyboardAction Button="g" />
+	
+	<AnalogueTrigger Axis="RightStickX" Negate="True" Threshhold="0.5" MultiplyByValue="10" Repeat="1" />
+	<KeyboardAction Button="h" />
+	
+	<TriggerSwitch>
+		<SequenceTrigger Timeout="250">
+			<ButtonTrigger Button="RightThumb" />
+			<ButtonTrigger Button="RightThumb" />
+			<ButtonTrigger Button="RightThumb" />
+		</SequenceTrigger>
+		<SequenceTrigger Timeout="250">
+			<ButtonTrigger Button="RightThumb" />
+			<ButtonTrigger Button="RightThumb" />
+			<ButtonTrigger Button="RightThumb" />
+			<ButtonTrigger Button="RightThumb" />
+		</SequenceTrigger>
+	</TriggerSwitch>
+	<KeyboardAction Button="Alt+Tab" />
+	<KeyboardAction Button="Alt+F4" />
+</Profile>

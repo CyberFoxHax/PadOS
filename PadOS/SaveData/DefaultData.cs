@@ -22,16 +22,19 @@ namespace PadOS.SaveData {
         public static readonly Profile AllProfile = new Profile {
             Id = 1,
             Name = "All",
+            XML = null
         };
 
         public static readonly Profile DefaultProfile = new Profile {
             Id = 2,
             Name = "Default",
+            XML = "Default.xml"
         };
 
         public static readonly Profile SupportedGamesProfile = new Profile {
             Id = 3,
             Name = "Supported Game",
+            XML = "Game.xml"
         };
 
 

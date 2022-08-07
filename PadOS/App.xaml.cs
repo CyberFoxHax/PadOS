@@ -46,11 +46,13 @@ namespace PadOS {
 			Exit += OnExit;
 
 			Navigator.Initialize();
-			if (Debugger.IsAttached == false)
-				return;
-
-            if(StartupUri == null)
-                Navigator.OpenMainPanel();
+            if (Debugger.IsAttached) {
+                if (StartupUri == null)
+                    Navigator.OpenMainPanel();
+            }
+            else {
+                Navigator.EnableProfile();
+            }
 		}
 
 		private void OnExit(object sender, ExitEventArgs exitEventArgs){

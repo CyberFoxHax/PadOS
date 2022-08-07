@@ -22,6 +22,7 @@ namespace PadOS.Input.GamePadInput {
 		private bool _isDPadUpDown;
 		private bool _isDPadDownDown;
 
+        public event GamePadEvent StateChanged;
 		public event GamePadEvent ButtonADown;
 		public event GamePadEvent ButtonAUp;
 		public event GamePadEvent ButtonBDown;

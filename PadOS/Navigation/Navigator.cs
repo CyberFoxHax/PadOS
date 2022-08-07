@@ -13,15 +13,9 @@ namespace PadOS.Navigation {
 			_mainPanel = new CircleDial();
 			GamePadInput.StaticInputInstance.ButtonGuideDown += XInputOnButtonGuideDown;
 
-
             var ctx = new SaveData.SaveData();
             _profileManager = new ProfileSwitcher.ProfileManager();
-            _profileManager.UpdateProfiles(ctx.ProfileAssociations.Select(p => new SaveData.ProfileXML.ApplicationAssociation {
-                DllName = p.Profile.Plugins.FirstOrDefault(),
-                Executable = p.Executable,
-                //Profile = p.Profile,
-                WindowTitle = p.WindowTitle
-            }));
+            _profileManager.Init(ctx);
         }
 
         private static ProfileSwitcher.ProfileManager _profileManager;
@@ -49,6 +43,10 @@ namespace PadOS.Navigation {
                 CurrentWindow.Close();
             CurrentWindow = null;
 		}
+
+        public static void EnableProfile() {
+            _profileManager.ProfileEnabled = true;
+        }
 
 		public static void OpenMainPanel(){
             _profileManager.ProfileEnabled = false;

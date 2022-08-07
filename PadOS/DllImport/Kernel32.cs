@@ -34,5 +34,8 @@ namespace PadOS.DllImport
         public static IntPtr OpenProcess(Process proc, ProcessAccessFlags flags) {
             return OpenProcess(flags, false, proc.Id);
         }
+
+        [DllImport("Kernel32.dll")]
+        public static extern bool QueryFullProcessImageName([In] IntPtr hProcess, [In] uint dwFlags, [Out] System.Text.StringBuilder lpExeName, [In, Out] ref uint lpdwSize);
     }
 }

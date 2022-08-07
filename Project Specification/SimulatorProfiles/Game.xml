@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Profile>
+	<SequenceTrigger>
+		<ButtonTrigger Button="ThumbStickRight" />
+		<ButtonTrigger Button="ThumbStickRight" />
+		<ButtonTrigger Button="ThumbStickRight" />
+	</SequenceTrigger>
+	<KeyboardAction Button="Alt,Tab" />
+	
+	<SequenceTrigger>
+		<ButtonTrigger Button="ThumbStickRight" />
+		<ButtonTrigger Button="ThumbStickRight" />
+		<ButtonTrigger Button="ThumbStickRight" />
+		<ButtonTrigger Button="ThumbStickRight" />
+	</SequenceTrigger>
+	<KeyboardAction Button="Alt,F4" />
+	
+	<ComboTrigger>
+		<ButtonTrigger Button="Start" />
+		<ButtonTrigger Button="Back" />
+		<ButtonTrigger Button="RightBumper" />
+		<ButtonTrigger Button="LeftBumper" />
+		<ButtonTrigger Button="RightTrigger" />
+		<ButtonTrigger Button="LeftTrigger" />
+	</SequenceTrigger>
+	<SystemAction Key="Reboot" />
+</Profile>

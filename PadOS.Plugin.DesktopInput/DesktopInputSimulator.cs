@@ -81,6 +81,7 @@ namespace PadOS.Plugin.DesktopInput
             _gamePadInput.ButtonLeftStickUp += gamePadInput_ButtonLeftStickUp;
             _gamePadInput.ButtonRightStickDown += gamePadInput_ButtonRightStickDown;
             _gamePadInput.ButtonRightStickUp += gamePadInput_ButtonRightStickUp;
+            Console.WriteLine(nameof(DesktopInputSimulator) + " Instance Created");
         }
 
         public void Activate() {

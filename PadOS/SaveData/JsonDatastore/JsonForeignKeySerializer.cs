@@ -6,6 +6,9 @@ using System.Linq;
 namespace PadOS.SaveData.JsonDatastore
 {
     public class JsonForeignKeySerializer {
+        public string GetFieldName(System.Reflection.PropertyInfo property, System.Reflection.PropertyInfo foreignIdProperty)
+            => property.Name + "_Fk" + foreignIdProperty.DeclaringType.Name;
+
         public string Serialize(JsonTable table) {
             var bindingFlags = System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance;
             var type = table.GetType().GetGenericArguments()[0];
@@ -27,7 +30,9 @@ namespace PadOS.SaveData.JsonDatastore
                     else {
                         var foreignIdProperty = property.PropertyInfo.PropertyType.GetProperty("Id", bindingFlags);
                         var propertyValue = property.PropertyInfo.GetValue(item);
-                        dict[property.PropertyInfo.Name + "_Fk" + property.PropertyInfo.PropertyType.Name] = foreignIdProperty.GetValue(propertyValue);
+                        var propName = GetFieldName(property.PropertyInfo, foreignIdProperty);
+                        // property.PropertyInfo.Name + "_Fk" + property.PropertyInfo.PropertyType.Name
+                        dict[propName] = foreignIdProperty.GetValue(propertyValue);
                     }
                 }
                 list.Add(dict);
@@ -55,6 +60,8 @@ namespace PadOS.SaveData.JsonDatastore
                 foreach (var property in properties) {
                     if (property.IsVirtual == false) {
                         var jvalue = (JValue)item[property.PropertyInfo.Name];
+                        if (jvalue == null)
+                            continue;
                         object value;
                         if (jvalue.Type == JTokenType.Integer)
                             value = (Int32)(Int64)jvalue.Value;
@@ -66,7 +73,9 @@ namespace PadOS.SaveData.JsonDatastore
                         var proxy = Activator.CreateInstance(property.PropertyInfo.PropertyType);
                         property.PropertyInfo.SetValue(newInstance, proxy);
                         var idProperty = property.PropertyInfo.PropertyType.GetProperty("Id", bindingFlags);
-                        var jsonValue = (JValue)item[property.PropertyInfo.Name + "_Fk" + property.PropertyInfo.PropertyType.Name];
+                        var propName = GetFieldName(property.PropertyInfo, idProperty);
+                        // property.PropertyInfo.Name + "_Fk" + property.PropertyInfo.PropertyType.Name
+                        var jsonValue = (JValue)item[propName];
                         idProperty.SetValue(proxy, (Int32)(Int64)jsonValue.Value);
                         table.Proxies.Add(proxy);
                     }

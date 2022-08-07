@@ -95,14 +95,6 @@
     <ApplicationIcon>icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.dll</HintPath>
-    </Reference>
-    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
-    </Reference>
     <Reference Include="Hardcodet.Wpf.TaskbarNotification">
       <HintPath>..\packages\Hardcodet.NotifyIcon.Wpf.1.0.8\lib\net45\Hardcodet.Wpf.TaskbarNotification.dll</HintPath>
     </Reference>
@@ -114,16 +106,6 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Data.SQLite">
-      <HintPath>..\packages\System.Data.SQLite.Core.1.0.105.1\lib\net45\System.Data.SQLite.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Data.SQLite.EF6">
-      <HintPath>..\packages\System.Data.SQLite.EF6.1.0.105.1\lib\net45\System.Data.SQLite.EF6.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Data.SQLite.Linq">
-      <HintPath>..\packages\System.Data.SQLite.Linq.1.0.105.1\lib\net45\System.Data.SQLite.Linq.dll</HintPath>
-    </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xaml">
@@ -141,14 +123,41 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Commands\ApplicationCommands.cs" />
-    <Compile Include="Dll\Plugin.cs" />
-    <Compile Include="Dll\PluginsLoader.cs" />
+    <Compile Include="Plugins\Plugin.cs" />
+    <Compile Include="Plugins\PluginsLoader.cs" />
     <Compile Include="InputSimulatorPlugin.cs" />
+    <Compile Include="ProfileExecution\Handlers\KeyboardActionHandler.cs" />
+    <Compile Include="ProfileExecution\Handlers\ComboTriggerHandler.cs" />
+    <Compile Include="ProfileExecution\IActionHandler.cs" />
+    <Compile Include="ProfileExecution\ITriggerHandler.cs" />
+    <Compile Include="ProfileExecution\Executor.cs" />
+    <Compile Include="ProfileExecution\ITriggerSwitchHandler.cs" />
+    <Compile Include="ProfileExecution\Maps.cs" />
+    <Compile Include="ProfileExecution\Handlers\SequenceTriggerHandler.cs" />
+    <Compile Include="ProfileExecution\Handlers\TriggerSwitchHandler.cs" />
+    <Compile Include="ProfileExecution\Handlers\PadOSTriggerHandler.cs" />
     <Compile Include="ProfileSwitcher\BackgroundTracker.cs" />
     <Compile Include="ProfileSwitcher\ProfileManager.cs" />
     <Compile Include="SaveData\Models\Profile.cs" />
     <Compile Include="SaveData\Models\ProfileAssociations.cs" />
-    <Compile Include="SaveData\ProfileXML\ApplicationAssociation.cs" />
+    <Compile Include="SaveData\ProfileXML\DataModels\ActionPlugin.cs" />
+    <Compile Include="SaveData\ProfileXML\DataModels\ButtonTrigger.cs" />
+    <Compile Include="SaveData\ProfileXML\DataModels\ComboTrigger.cs" />
+    <Compile Include="SaveData\ProfileXML\DataModels\HoldSwitch.cs" />
+    <Compile Include="SaveData\ProfileXML\DataModels\KeyboardAction.cs" />
+    <Compile Include="SaveData\ProfileXML\DataModels\MouseAction.cs" />
+    <Compile Include="SaveData\ProfileXML\DataModels\PadOSAction.cs" />
+    <Compile Include="SaveData\ProfileXML\DataModels\PadOSTrigger.cs" />
+    <Compile Include="SaveData\ProfileXML\DataModels\SystemTrigger.cs" />
+    <Compile Include="SaveData\ProfileXML\DataModels\TriggerSwitch.cs" />
+    <Compile Include="SaveData\ProfileXML\IParseXML.cs" />
+    <Compile Include="SaveData\ProfileXML\Param.cs" />
+    <Compile Include="SaveData\ProfileXML\Plugin.cs" />
+    <Compile Include="SaveData\ProfileXML\DataModels\RepeatAction.cs" />
+    <Compile Include="SaveData\ProfileXML\DataModels\SequenceTrigger.cs" />
+    <Compile Include="SaveData\ProfileXML\DataModels\SystemAction.cs" />
+    <Compile Include="SaveData\ProfileXML\DataModels\TriggerPlugin.cs" />
+    <Compile Include="SaveData\ProfileXML\ParseProfileXML.cs" />
     <Compile Include="SaveData\ProfileXML\IAction.cs" />
     <Compile Include="SaveData\ProfileXML\ITrigger.cs" />
     <Compile Include="SaveData\ProfileXML\Mapping.cs" />
@@ -162,7 +171,6 @@
     <Compile Include="Views\InputSimulationEditor\ItemsList.xaml.cs">
       <DependentUpon>ItemsList.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ProfileAssociationEditor\Await.cs" />
     <Compile Include="Views\ProfileAssociationEditor\ListItemData.cs" />
     <Compile Include="Views\ProfileAssociationEditor\ProfileAssociationEditor.xaml.cs">
       <DependentUpon>ProfileAssociationEditor.xaml</DependentUpon>
