@@ -31,13 +31,10 @@ namespace PadOS.ProfileExecution {
                 _lastTrigger = -1;
                 OnTrigger?.Invoke(v);
             }
-            //Console.WriteLine("Timeout _lastTrigger " + _lastTrigger);
         }
 
         private void Handler_OnTrigger(ITriggerHandler trigger) {
             _lastTrigger = _handlers.IndexOf(trigger);
-            //OnTrigger?.Invoke(0);
-            //Console.WriteLine("Trigger _lastTrigger " + _lastTrigger);
         }
 
         public void Init(ITrigger node, GamePadInput input) {

@@ -32,6 +32,7 @@ namespace PadOS.ProfileExecution
             public void Invoke() {
                 foreach (var item in _actions) {
                     item.Invoke();
+                    item.InvokeOff();
                 }
             }
         }
@@ -45,6 +46,7 @@ namespace PadOS.ProfileExecution
 
             public void Invoke(int index) {
                 _actions[index].Invoke();
+                _actions[index].InvokeOff();
             }
         }
 

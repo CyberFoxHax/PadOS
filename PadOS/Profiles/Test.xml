@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Profile>
+  <ButtonTrigger Button="A" />
+  <KeyboardAction Button="a" />
+  <ButtonTrigger Button="B" />
+  <KeyboardAction Button="b" />
+  <ButtonTrigger Button="X" />
+  <KeyboardAction Button="x" />
+  <ButtonTrigger Button="Y" />
+  <KeyboardAction Button="y " />
+</Profile>

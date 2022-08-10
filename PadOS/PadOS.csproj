@@ -126,16 +126,18 @@
     <Compile Include="Plugins\Plugin.cs" />
     <Compile Include="Plugins\PluginsLoader.cs" />
     <Compile Include="InputSimulatorPlugin.cs" />
-    <Compile Include="ProfileExecution\Handlers\KeyboardActionHandler.cs" />
-    <Compile Include="ProfileExecution\Handlers\ComboTriggerHandler.cs" />
+    <Compile Include="ProfileExecution\Handlers\TriggerSwitches\HoldSwitchHandler.cs" />
+    <Compile Include="ProfileExecution\Handlers\Actions\KeyboardActionHandler.cs" />
+    <Compile Include="ProfileExecution\Handlers\Triggers\ButtonTriggerHandler.cs" />
+    <Compile Include="ProfileExecution\Handlers\Triggers\ComboTriggerHandler.cs" />
     <Compile Include="ProfileExecution\IActionHandler.cs" />
     <Compile Include="ProfileExecution\ITriggerHandler.cs" />
     <Compile Include="ProfileExecution\Executor.cs" />
     <Compile Include="ProfileExecution\ITriggerSwitchHandler.cs" />
     <Compile Include="ProfileExecution\Maps.cs" />
-    <Compile Include="ProfileExecution\Handlers\SequenceTriggerHandler.cs" />
-    <Compile Include="ProfileExecution\Handlers\TriggerSwitchHandler.cs" />
-    <Compile Include="ProfileExecution\Handlers\PadOSTriggerHandler.cs" />
+    <Compile Include="ProfileExecution\Handlers\Triggers\SequenceTriggerHandler.cs" />
+    <Compile Include="ProfileExecution\Handlers\TriggerSwitches\TriggerSwitchHandler.cs" />
+    <Compile Include="ProfileExecution\Handlers\Triggers\PadOSTriggerHandler.cs" />
     <Compile Include="ProfileSwitcher\BackgroundTracker.cs" />
     <Compile Include="ProfileSwitcher\ProfileManager.cs" />
     <Compile Include="SaveData\Models\Profile.cs" />
@@ -403,6 +405,21 @@
     <AppDesigner Include="Properties\" />
     <Resource Include="Resources\ControllerOSKSkin\Steam - Daisy Wheel\BackgroundFlower.png" />
     <Resource Include="Resources\circle_dots.png" />
+    <Content Include="Profiles\Test.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Profiles\Default.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Profiles\Example.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Profiles\Game.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Profiles\VLC.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\ControllerOSKSkin\Steam - Daisy Wheel\skin.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

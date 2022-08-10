@@ -18,6 +18,7 @@ namespace PadOS.ProfileExecution {
         }
 
         public event Action OnTrigger;
+        public event Action OnTriggerOff;
 
         private bool _enabled;
         public bool Enabled {

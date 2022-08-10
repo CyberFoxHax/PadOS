@@ -26,6 +26,7 @@ namespace PadOS.ProfileExecution {
         }
 
         public event Action OnTrigger;
+        public event Action OnTriggerOff;
         public event Action OnTimeout;
 
         private bool _enabled;
@@ -75,33 +76,18 @@ namespace PadOS.ProfileExecution {
         }
 
         private void OnButton(ButtonsConstants btn) {
-            /*var now = DateTime.Now;
-            var diff = now - _lastButtonTime;
-            _lastButtonTime = now;*/
-
             _timer.Stop();
             _timer.Start();
-            //var ms = (int)Math.Round(diff.TotalMilliseconds);
-            // maybe need to use an actual timer
-            /*if (_currentPosition > 0 && diff.TotalMilliseconds > _timeout) {
-                //Console.WriteLine("Too late");
-                _currentPosition = 0;
-                OnTimeout?.Invoke();
-            }*/
 
             if (btn != _buttonSequence[_currentPosition]) {
-                //Console.WriteLine("InputNumber: " + _currentPosition + " " + btn + " " + _buttonSequence[_currentPosition] + " Wrong");
                 _currentPosition = 0;
                 return;
             }
-            //else
-            //    Console.WriteLine("InputNumber: " + _currentPosition + " " + btn + " " + _buttonSequence[_currentPosition] + " " + ms);
             _currentPosition++;
 
 
             if (_currentPosition == _buttonSequence.Length) {
                 _currentPosition = 0;
-                //_timer.Stop();
                 OnTrigger?.Invoke();
             }
         }

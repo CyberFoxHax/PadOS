@@ -6,15 +6,11 @@ using System.Threading.Tasks;
 using PadOS.Input.GamePadInput;
 using PadOS.SaveData.ProfileXML;
 
-namespace PadOS.ProfileExecution {
-    public class PadOSTriggerHandler : ITriggerHandler {
-        private bool _enabled;
-        public bool Enabled {
-            get { return _enabled; }
-            set { _enabled = value; }
-        }
+namespace PadOS.ProfileExecution.Handlers {
+    public class HoldSwitchHandler : ITriggerSwitchHandler {
+        public bool Enabled { get; set; }
 
-        public event Action OnTrigger;
+        public event Action<int> OnTrigger;
 
         public void Init(ITrigger node, GamePadInput input) {
             

@@ -1,0 +1,71 @@
+<Profile>
+	<Variable Name="MyDelay" Value="1000" />
+	<Variable Name="MyRepeat" Value="150" />
+
+	<ButtonTrigger Button="DPadUp" />
+	<KeyboardAction Button="W" />
+	
+	<ButtonTrigger Button="DPadDown" />
+	<KeyboardAction Button="S" />
+	
+	<ButtonTrigger Button="RB" />
+	<RepeatAction Delay="{MyDelay}" Interval="{MyRepeat}">
+		<KeyboardAction Button="Backspace" />
+	</RepeatAction>
+	
+	<!-- HoldSwitch handles both trigger and action -->
+	<HoldSwitch Button="RightThumbButton" Delay="1000" />
+	<KeyboardAction Button="Alt+Tab" />
+	<KeyboardAction Button="Alt+F4" />
+	
+	<Plugin Filename="PadOS.Plugin.DesktopInput.dll" />
+	
+	<TriggerPlugin Filename="ReadMemory.dll"><!-- Review -->
+		<Param Key="Address" Value="0x7ffffff" />
+		<Param Key="Size" Value="4" />
+		<Param Key="Equals" Value="-127" />
+		
+		<Param Type="Memory" Address="0x7ffffff" Size="1" Equals="-127" />
+		
+		<Address At="0x7ffffff" Size="1" Equals="-127" />
+	</TriggerPlugin>
+	<PadOSAction Key="SwitchProfile" Value="FavGame_MenuControls" />
+	
+	<ComboTrigger>
+		<ButtonTrigger Button="A" />
+		<ButtonTrigger Button="B" />
+		<ButtonTrigger Button="X" />
+		<ButtonTrigger Button="Y" />
+	</ComboTrigger>
+	<MouseAction>
+		<Click Button="Middle" X="0" Y="0" />
+		<Click Button="Middle" X="0" Y="0" />
+	</MouseAction>
+	<SystemAction Key="Reboot" />
+	
+	<SequenceTrigger>
+		<ButtonTrigger Button="DPadUp" />
+		<ButtonTrigger Button="DPadDown" />
+		<ButtonTrigger Button="DPadLeft" />
+		<ButtonTrigger Button="DPadRight" />
+		<ButtonTrigger Button="X" />
+	</SequenceTrigger>
+	<SystemAction Key="Shutdown" />
+	
+	<PadOSTrigger Key="ProfileChanged" />
+		
+	<TriggerSwitch>
+		<SequenceTrigger Timeout="250">
+			<ButtonTrigger Button="DPadUp" />
+			<ButtonTrigger Button="DPadRight" />
+			<ButtonTrigger Button="DPadDown" />
+		</SequenceTrigger>
+		<SequenceTrigger Timeout="250">
+			<ButtonTrigger Button="DPadUp" />
+			<ButtonTrigger Button="DPadLeft" />
+			<ButtonTrigger Button="DPadDown" />
+		</SequenceTrigger>
+	</TriggerSwitch>
+	<KeyboardAction Button="A+b" />
+	<KeyboardAction Button="y+E" />
+</Profile>

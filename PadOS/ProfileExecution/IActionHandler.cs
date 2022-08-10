@@ -3,5 +3,6 @@
         void Init(SaveData.ProfileXML.IAction actionNode);
         bool Enabled { get; set; }
         void Invoke();
+        void InvokeOff();
     }
 }

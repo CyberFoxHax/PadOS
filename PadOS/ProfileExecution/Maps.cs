@@ -12,6 +12,7 @@ namespace PadOS.ProfileExecution
             TypedMap.Typed<SaveData.ProfileXML.ComboTrigger, ComboTriggerHandler>(),
             TypedMap.Typed<SaveData.ProfileXML.TriggerSwitch, TriggerSwitchHandler>(),
             TypedMap.Typed<SaveData.ProfileXML.PadOSTrigger, PadOSTriggerHandler>(),
+            TypedMap.Typed<SaveData.ProfileXML.ButtonTrigger, ButtonTriggerHandler>(),
         };
 
         public static TypedMap ActionHandlers = new TypedMap {

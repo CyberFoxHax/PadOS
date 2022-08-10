@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Profile>
+	<TriggerSwitch>
+		<SequenceTrigger Timeout="250">
+			<ButtonTrigger Button="RightThumb" />
+			<ButtonTrigger Button="RightThumb" />
+			<ButtonTrigger Button="RightThumb" />
+		</SequenceTrigger>
+		<SequenceTrigger Timeout="250">
+			<ButtonTrigger Button="RightThumb" />
+			<ButtonTrigger Button="RightThumb" />
+			<ButtonTrigger Button="RightThumb" />
+			<ButtonTrigger Button="RightThumb" />
+		</SequenceTrigger>
+	</TriggerSwitch>
+	<KeyboardAction Button="Alt+Tab" />
+	<KeyboardAction Button="Alt+F4" />
+</Profile>

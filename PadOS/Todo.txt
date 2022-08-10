@@ -1,7 +1,15 @@
+Keyboard Handler
+	don't handle uppercase, only process raw input
+	create a text based keyboard handler for text input
+
+combo and sequence handler can be made to operate on ITrigger types instead of Button types
+
 How to create new profiles? What is a profile?
 OSK seems to open at weird positions
 //Editor to associate profiles with applications
 Press the home button on a confirmation dialgue would be catastrophic
+Press the home button while nested OSK is open is also problematic
+	crash repro! Open OSK from a textbox, Press Guide, Press Guide, Open OSK from a textbox, Press Start, Crash
 
 Bug: Home Button doesn't work on Windows 10. GameBar overrides. Make a solution that can detect this and instruct the user to turn it off.
 Consider: Sharing of profiles, consider alternatives to sqlite

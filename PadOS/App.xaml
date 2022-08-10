@@ -20,7 +20,7 @@
 
                         <Setter Property="ShowActivated" Value="{DynamicResource ShowActivated}" />
                         <Setter Property="Topmost" Value="{DynamicResource TopMost}" />
-                        <Setter Property="ShowInTaskbar" Value="{DynamicResource ShowInTaskba}" />
+                        <Setter Property="ShowInTaskbar" Value="{DynamicResource ShowInTaskbar}" />
                     </Style>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
