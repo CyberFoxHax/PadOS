@@ -63,7 +63,10 @@ namespace PadOS.SaveData.ProfileXML
                 else if (property.PropertyType == typeof(string))
                     property.SetValue(instance, attr.Value);
                 else{
-                    var value = TypeDescriptor.GetConverter(property.PropertyType).ConvertFromString(attr.Value);
+                    var converter = TypeDescriptor.GetConverter(property.PropertyType);
+                    if (converter == null || converter.CanConvertFrom(typeof(string))==false)
+                        continue;
+                    var value = converter.ConvertFromString(attr.Value);
                     property.SetValue(instance, value);
                 }
             }

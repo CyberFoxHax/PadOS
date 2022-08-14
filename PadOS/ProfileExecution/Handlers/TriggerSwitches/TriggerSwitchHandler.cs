@@ -19,22 +19,28 @@ namespace PadOS.ProfileExecution {
 
         private List<ITriggerHandler> _handlers;
         private int _lastTrigger = -1;
-        public event Action<int> OnTrigger;
+        public event Action<ITriggerSwitchHandler, int> OnTrigger;
+        private ButtonSequenceTriggerHandler _longenstSequence;
 
         // receive all events, and when timeout happens, trigger the longest one
-        private void Handler_OnTimeout() {
-            foreach (var item in _handlers.OfType<SequenceTriggerHandler>()) {
+        private void Handler_OnTimeout(ITriggerHandler sender) {
+            foreach (var item in _handlers.OfType<ButtonSequenceTriggerHandler>()) {
                 item.Reset();
             }
             if (_lastTrigger != -1) {
                 var v = _lastTrigger;
                 _lastTrigger = -1;
-                OnTrigger?.Invoke(v);
+                OnTrigger?.Invoke(this, v);
             }
         }
 
         private void Handler_OnTrigger(ITriggerHandler trigger) {
+            var seq = (ButtonSequenceTriggerHandler)trigger;
             _lastTrigger = _handlers.IndexOf(trigger);
+            if (seq.SequenceLength == _longenstSequence.SequenceLength) {
+                seq.Reset();
+                Handler_OnTimeout(trigger);
+            }
         }
 
         public void Init(ITrigger node, GamePadInput input) {
@@ -43,11 +49,14 @@ namespace PadOS.ProfileExecution {
             foreach (var item in triggerSwitch.Triggers) {
                 switch (item) {
                     case SequenceTrigger seq:
-                        var handler = Maps.TriggerHandlers.GetInstance<ITrigger, SequenceTriggerHandler>(seq);
+                        var handler = Maps.TriggerHandlers.CreateInstance<ITrigger, ButtonSequenceTriggerHandler>(seq);
                         handler.Init(seq, input);
-                        handler.OnTrigger += ()=>Handler_OnTrigger(handler);
+                        handler.OnTrigger += Handler_OnTrigger;
                         handler.OnTimeout += Handler_OnTimeout;
                         _handlers.Add(handler);
+                        if (_longenstSequence == null || handler.SequenceLength > _longenstSequence.SequenceLength) {
+                            _longenstSequence = handler;
+                        }
                         break;
                     default:
                         break;

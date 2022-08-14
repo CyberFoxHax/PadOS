@@ -4,54 +4,58 @@ using System.Xml;
 namespace PadOS.SaveData.ProfileXML
 {
     public class MouseAction : IAction, IParseXML {
-        public string Delay { get; set; }
-        public List<Click> Buttons { get; set; }
+        public Vector2 Position { get; set; }
+        public EButton Button { get; set; }
+        public EAxis Scroll { get; set; }
+        //public EAxis Move { get; set; } // todo later, not important for V1.0
+        public float Speed { get; set; }
 
-        public class Click {
-            public int Button { get; set; }
-            public int X { get; set; }
-            public int Y { get; set; }
+        public enum EAxis { Undefined, X, Y }
+        public enum EButton {
+            Undefined = 0,
+            Left = 1,
+            Middle = 2,
+            Scroll = 2,
+            Right = 3,
+            Forward = 4,
+            Back = 5
+        }
+
+        public enum EUnit {
+            Pixels,
+            Percentage
+        }
+
+        public struct Vector2 {
+            public float X;
+            public float Y;
+            public EUnit XUnit;
+            public EUnit YUnit;
+            public bool IsNaN() => float.IsNaN(X) || float.IsNaN(Y);
         }
 
         public void Parse(ParseProfileXML ctx, XmlNode node) {
-            Buttons = new List<Click>();
-            foreach (XmlNode item in node.ChildNodes) {
-                if (item.Name == nameof(Click)) {
-                    var button = item.Attributes[nameof(Click.Button)];
-                    var x = item.Attributes[nameof(Click.X)];
-                    var y = item.Attributes[nameof(Click.Y)];
-
-                    var click = new Click();
-                    if(x!=null) click.X = int.Parse(x.Value);
-                    if(y!=null) click.Y = int.Parse(y.Value);
-                    if (button!=null) {
-                        switch (button.Value) {
-                            case "Left":
-                            case "1":
-                                click.Button = 1;
-                                break;
-                            case "Middle":
-                            case "Wheel":
-                            case "2":
-                                click.Button = 2;
-                                break;
-                            case "Right":
-                            case "3":
-                                click.Button = 3;
-                                break;
-                            case "Forward":
-                            case "4":
-                                click.Button = 4;
-                                break;
-                            case "Back":
-                            case "5":
-                                click.Button = 5;
-                                break;
-                        }
-                    }
-                    Buttons.Add(click);
+            var attr = node.Attributes[nameof(Position)];
+            if (attr != null) {
+                var split = attr.Value.Split(' ');
+                var vec2 = new Vector2();
+                if (split.Length == 1) {
+                    split = new[] { split[0], split[0] };
                 }
+                if (split[0].EndsWith("%")) {
+                    split[0] = split[0].Replace("%", "");
+                    vec2.XUnit = EUnit.Percentage;
+                }
+                if (split[1].EndsWith("%")) {
+                    split[1] = split[1].Replace("%", "");
+                    vec2.YUnit = EUnit.Percentage;
+                }
+                vec2.X = float.Parse(split[0]);
+                vec2.Y = float.Parse(split[1]);
+                Position = vec2;
             }
+            else
+                Position = new Vector2 { X=float.NaN, Y=float.NaN };
         }
     }
 }

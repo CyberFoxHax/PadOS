@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Profile>
 	<ButtonTrigger Button="RightShoulder" />
-	<KeyboardAction Button="n" />
+	<KeyboardAction Button="N" />
 	
 	<ButtonTrigger Button="LeftShoulder" />
-	<KeyboardAction Button="p" />
+	<KeyboardAction Button="P" />
 	
 	<ButtonTrigger Button="Start" />
 	<KeyboardAction Button="Space" />
 	
 	<ButtonTrigger Button="Menu" />
-	<KeyboardAction Button="f" />
+	<KeyboardAction Button="F" />
 
 	<ButtonTrigger Button="A" />
 	<KeyboardAction Button="space" />
 	
 	<ButtonTrigger Button="X" />
-	<KeyboardAction Button="t" />
+	<KeyboardAction Button="T" />
 	
 	<ButtonTrigger Button="Y" />
-	<KeyboardAction Button="m" />
+	<KeyboardAction Button="M" />
 
 	<ButtonTrigger Button="DPadLeft" />
 	<KeyboardAction Button="Shift+Left" />
@@ -28,42 +28,39 @@
 	<KeyboardAction Button="Shift+Right" />
 	
 	<ButtonTrigger Button="DPadUp" />
-	<KeyboardAction Button="v" />
+	<KeyboardAction Button="V" />
 	
 	<ButtonTrigger Button="DPadDown" />
-	<KeyboardAction Button="b" />
+	<KeyboardAction Button="B" />
 	
-	<AnalogueTrigger Axis="LeftStickX" Threshhold="0.5" MultiplyByValue="10" Repeat="1" />
+	<AnalogueTrigger Axis="LeftStickX" Value="0.5" Frequency="100" />
 	<KeyboardAction Button="Left" />
 	
-	<AnalogueTrigger Axis="LeftStickX" Negate="True" Threshhold="0.5" MultiplyByValue="10" Repeat="1" />
+	<AnalogueTrigger Axis="LeftStickX" Value="-0.5" Frequency="100" />
 	<KeyboardAction Button="Right" />
 	
-	<AnalogueTrigger Axis="RightStickY" Threshhold="0.5" MultiplyByValue="10" Repeat="1" />
-	<MouseAction ScrollY="1" />
+	<AnalogueTrigger Axis="RightStickY" Value="0.5" Frequency="100" />
+	<MouseAction Scroll="Y" Speed="20" />
 	
-	<AnalogueTrigger Axis="RightStickY" Negate="True" Threshhold="0.5" MultiplyByValue="10" Repeat="1" />
-	<MouseAction ScrollY="-1" />
+	<AnalogueTrigger Axis="RightStickY" Value="-0.5" Frequency="100" />
+  <MouseAction Scroll="Y" Speed="-20" />
 	
-	<AnalogueTrigger Axis="RightStickX" Threshhold="0.5" MultiplyByValue="10" Repeat="1" />
-	<KeyboardAction Button="g" />
+	<AnalogueTrigger Axis="RightStickX" Value="0.5" Frequency="100" />
+	<KeyboardAction Button="G" />
 	
-	<AnalogueTrigger Axis="RightStickX" Negate="True" Threshhold="0.5" MultiplyByValue="10" Repeat="1" />
-	<KeyboardAction Button="h" />
-	
-	<HoldSwitch>
-		<SequenceTrigger Timeout="250">
-			<ButtonTrigger Button="RightThumb" />
-			<ButtonTrigger Button="RightThumb" />
-			<ButtonTrigger Button="RightThumb" />
-		</SequenceTrigger>
-		<SequenceTrigger Timeout="250">
-			<ButtonTrigger Button="RightThumb" />
-			<ButtonTrigger Button="RightThumb" />
-			<ButtonTrigger Button="RightThumb" />
-			<ButtonTrigger Button="RightThumb" />
-		</SequenceTrigger>
-	</TriggerSwitch>
-	<KeyboardAction Button="Alt+Tab" />
-	<KeyboardAction Button="Alt+F4" />
+	<AnalogueTrigger Axis="RightStickX" Value="-0.5" Frequency="100" />
+	<KeyboardAction Button="H" />
+
+
+  <TriggerSwitch>
+    <!--<ButtonTrigger Button="RightThumb" TriggerSwitch.Hold="600" />-->
+    <HoldTrigger Timeout="250">
+      <ButtonTrigger Button="RightThumb" />
+    </HoldTrigger>
+    <HoldTrigger Timeout="500">
+      <ButtonTrigger Button="RightThumb" />
+    </HoldTrigger>
+  </TriggerSwitch>
+  <KeyboardAction Button="Alt+Tab" />
+  <KeyboardAction Button="Alt+F4" />
 </Profile>

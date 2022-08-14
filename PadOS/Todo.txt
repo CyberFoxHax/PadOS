@@ -1,12 +1,11 @@
-Keyboard Handler
-	don't handle uppercase, only process raw input
-	create a text based keyboard handler for text input
+Pass analogues value to actions, if such value exists, otherwise just pass "1"
+Keyboard create a text based keyboard handler for text input? Or just use the keyboard?
 
 combo and sequence handler can be made to operate on ITrigger types instead of Button types
 
 How to create new profiles? What is a profile?
 OSK seems to open at weird positions
-//Editor to associate profiles with applications
+Editor to associate profiles with applications
 Press the home button on a confirmation dialgue would be catastrophic
 Press the home button while nested OSK is open is also problematic
 	crash repro! Open OSK from a textbox, Press Guide, Press Guide, Open OSK from a textbox, Press Start, Crash
@@ -17,7 +16,7 @@ Consider: Sharing of profiles, consider alternatives to sqlite
 ProfileAssocEditor
 	"Remove" is not implemented
 
-BlockNavigator
+BlockNavigator                                    
 	Bug: If the nested view has no blocks the entire system ceases to function
 	Enhance: Reset navigator on exit
 	Feature: scroll views

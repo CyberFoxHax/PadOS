@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--<ButtonTrigger Button="RightThumb" TriggerSwitch.Hold="600" />-->
 <Profile>
-  <ButtonTrigger Button="A" />
-  <KeyboardAction Button="a" />
-  <ButtonTrigger Button="B" />
-  <KeyboardAction Button="b" />
-  <ButtonTrigger Button="X" />
-  <KeyboardAction Button="x" />
-  <ButtonTrigger Button="Y" />
-  <KeyboardAction Button="y " />
+
+  <TriggerSwitch>
+    <!--<ButtonTrigger Button="RightThumb" TriggerSwitch.Hold="600" />-->
+    <HoldTrigger Timeout="250">
+      <ButtonTrigger Button="RightThumb" />
+    </HoldTrigger>
+    <HoldTrigger Timeout="500">
+      <ButtonTrigger Button="RightThumb" />
+    </HoldTrigger>
+  </TriggerSwitch>
+  <KeyboardAction Button="Alt+Tab" />
+  <KeyboardAction Button="Alt+F4" />
+
 </Profile>

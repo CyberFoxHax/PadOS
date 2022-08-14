@@ -17,8 +17,8 @@ namespace PadOS.ProfileExecution {
             _timeout = node.Timeout;
         }
 
-        public event Action OnTrigger;
-        public event Action OnTriggerOff;
+        public event TriggerEvent OnTrigger;
+        public event TriggerEvent OnTriggerOff;
 
         private bool _enabled;
         public bool Enabled {
@@ -80,7 +80,7 @@ namespace PadOS.ProfileExecution {
 
             if (_awaitRelease == false && _comboCount == _buttonSequence.Length) {
                 _awaitRelease = true;
-                OnTrigger?.Invoke();
+                OnTrigger?.Invoke(this);
             }
             if (_comboCount == 0)
                 _awaitRelease = false;

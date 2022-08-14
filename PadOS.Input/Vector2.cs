@@ -2,9 +2,7 @@
 
 namespace PadOS.Input{
 	public struct Vector2 : System.Collections.Generic.IEnumerable<double> {
-		public Vector2(double x) : this(x,0){}
-		public Vector2(double x, double y)
-			: this() {
+		public Vector2(double x, double y) : this() {
 			X = x;
 			Y = y;
 		}
@@ -80,6 +78,8 @@ namespace PadOS.Input{
 		public static bool operator !=(Vector2 a, Vector2 b) => !(a == b);
 
 		public bool Equals(Vector2 other) => X.Equals(other.X) && Y.Equals(other.Y);
+
+        public bool IsNaN() => double.IsNaN(X) || double.IsNaN(Y);
 
 		public override bool Equals(object obj) {
 			if (ReferenceEquals(null, obj)) return false;

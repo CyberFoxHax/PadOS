@@ -6,9 +6,9 @@ using PadOS.Input.GamePadInput;
 using static XInputDotNetPure.GamePadState;
 
 namespace PadOS.ProfileExecution {
-    public class SequenceTriggerHandler : ITriggerHandler {
+    public class ButtonSequenceTriggerHandler : ITriggerHandler {
 
-        public SequenceTriggerHandler() {
+        public ButtonSequenceTriggerHandler() {
             _timer.Elapsed += Timer_Elapsed;
             _timer.AutoReset = false;
             _timer.Stop();
@@ -25,9 +25,11 @@ namespace PadOS.ProfileExecution {
             _timer.Interval = _timeout;
         }
 
-        public event Action OnTrigger;
-        public event Action OnTriggerOff;
-        public event Action OnTimeout;
+
+        public int SequenceLength => _buttonSequence.Length;
+        public event TriggerEvent OnTrigger;
+        public event TriggerEvent OnTriggerOff;
+        public event TriggerEvent OnTimeout;
 
         private bool _enabled;
         public bool Enabled {
@@ -44,38 +46,30 @@ namespace PadOS.ProfileExecution {
         }
 
         private void Enable() {
-            var type = _input.GetType();
-            foreach (var item in Maps.ButtonDownEventMap) {
-                var evt = type.GetEvent(item.Value);
-                _dict[evt] = (a, b) => OnButton(item.Key);
-                evt.AddEventHandler(_input, _dict[evt]);
-            }
+            _input.ButtonDown += OnButton;
         }
         private void Disable() {
-            foreach (var item in _dict) {
-                item.Key.RemoveEventHandler(_input, item.Value);
-            }
+            _input.ButtonDown -= OnButton;
         }
 
-        private Dictionary<System.Reflection.EventInfo, Input.GamePadEvent> _dict = new Dictionary<System.Reflection.EventInfo, Input.GamePadEvent>();
         private GamePadInput _input;
         private ButtonsConstants[] _buttonSequence;
-        //private DateTime _lastButtonTime;
         private int _timeout;
         private int _currentPosition = 0;
         private readonly System.Timers.Timer _timer = new System.Timers.Timer();
 
         public void Reset() {
             _currentPosition = 0;
+            _timer.Stop();
         }
 
         private void Timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e) {
             _currentPosition = 0;
-            OnTimeout?.Invoke();
+            OnTimeout?.Invoke(this);
             _timer.Stop();
         }
 
-        private void OnButton(ButtonsConstants btn) {
+        private void OnButton(ButtonsConstants btn, int player, XInputDotNetPure.GamePadState state) {
             _timer.Stop();
             _timer.Start();
 
@@ -85,10 +79,9 @@ namespace PadOS.ProfileExecution {
             }
             _currentPosition++;
 
-
             if (_currentPosition == _buttonSequence.Length) {
                 _currentPosition = 0;
-                OnTrigger?.Invoke();
+                OnTrigger?.Invoke(this);
             }
         }
     }

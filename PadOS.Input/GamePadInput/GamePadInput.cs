@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using XInputDotNetPure;
+using static XInputDotNetPure.GamePadState;
 
 namespace PadOS.Input.GamePadInput {
 	public partial class GamePadInput : IDisposable{
@@ -92,21 +93,21 @@ namespace PadOS.Input.GamePadInput {
 
 		private void GamepadOnStateChanged(GamePadState oldState, GamePadState newState, int playerIndex){
             InvokeStateChanged(playerIndex, newState);
-			InvokeUpDown(newState.Buttons.A				, playerIndex, newState, ref _isButtonADown				, ButtonADown				, ButtonAUp				);
-			InvokeUpDown(newState.Buttons.B				, playerIndex, newState, ref _isButtonBDown				, ButtonBDown				, ButtonBUp				);
-			InvokeUpDown(newState.Buttons.X				, playerIndex, newState, ref _isButtonXDown				, ButtonXDown				, ButtonXUp				);
-			InvokeUpDown(newState.Buttons.Y				, playerIndex, newState, ref _isButtonYDown				, ButtonYDown				, ButtonYUp				);
-			InvokeUpDown(newState.Buttons.Back			, playerIndex, newState, ref _isButtonBackDown			, ButtonBackDown			, ButtonBackUp			);
-			InvokeUpDown(newState.Buttons.Guide			, playerIndex, newState, ref _isButtonGuideDown			, ButtonGuideDown			, ButtonGuideUp			);
-			InvokeUpDown(newState.Buttons.LeftShoulder	, playerIndex, newState, ref _isButtonLeftShoulderDown	, ButtonLeftShoulderDown	, ButtonLeftShoulderUp	);
-			InvokeUpDown(newState.Buttons.LeftStick		, playerIndex, newState, ref _isButtonLeftStickDown		, ButtonLeftStickDown		, ButtonLeftStickUp		);
-			InvokeUpDown(newState.Buttons.RightShoulder	, playerIndex, newState, ref _isButtonRightShoulderDown	, ButtonRightShoulderDown	, ButtonRightShoulderUp	);
-			InvokeUpDown(newState.Buttons.RightStick	, playerIndex, newState, ref _isButtonRightStickDown	, ButtonRightStickDown		, ButtonRightStickUp	);
-			InvokeUpDown(newState.Buttons.Start			, playerIndex, newState, ref _isButtonStartDown			, ButtonStartDown			, ButtonStartUp			);
-			InvokeUpDown(newState.DPad.Left				, playerIndex, newState, ref _isDPadLeftDown			, DPadLeftDown				, DPadLeftUp			);
-			InvokeUpDown(newState.DPad.Right			, playerIndex, newState, ref _isDPadRightDown			, DPadRightDown				, DPadRightUp			);
-			InvokeUpDown(newState.DPad.Up				, playerIndex, newState, ref _isDPadUpDown				, DPadUpDown				, DPadUpUp				);
-			InvokeUpDown(newState.DPad.Down				, playerIndex, newState, ref _isDPadDownDown			, DPadDownDown				, DPadDownUp			);
+			InvokeUpDown(ButtonsConstants.A,            newState.Buttons.A				, playerIndex, newState, ref _isButtonADown				, ButtonADown				, ButtonAUp				);
+			InvokeUpDown(ButtonsConstants.B,            newState.Buttons.B				, playerIndex, newState, ref _isButtonBDown				, ButtonBDown				, ButtonBUp				);
+			InvokeUpDown(ButtonsConstants.X,            newState.Buttons.X				, playerIndex, newState, ref _isButtonXDown				, ButtonXDown				, ButtonXUp				);
+			InvokeUpDown(ButtonsConstants.Y,            newState.Buttons.Y				, playerIndex, newState, ref _isButtonYDown				, ButtonYDown				, ButtonYUp				);
+			InvokeUpDown(ButtonsConstants.Back,         newState.Buttons.Back			, playerIndex, newState, ref _isButtonBackDown			, ButtonBackDown			, ButtonBackUp			);
+			InvokeUpDown(ButtonsConstants.Guide,        newState.Buttons.Guide			, playerIndex, newState, ref _isButtonGuideDown			, ButtonGuideDown			, ButtonGuideUp			);
+			InvokeUpDown(ButtonsConstants.LeftShoulder, newState.Buttons.LeftShoulder	, playerIndex, newState, ref _isButtonLeftShoulderDown	, ButtonLeftShoulderDown	, ButtonLeftShoulderUp	);
+			InvokeUpDown(ButtonsConstants.LeftThumb,    newState.Buttons.LeftStick		, playerIndex, newState, ref _isButtonLeftStickDown		, ButtonLeftStickDown		, ButtonLeftStickUp		);
+			InvokeUpDown(ButtonsConstants.RightShoulder,newState.Buttons.RightShoulder	, playerIndex, newState, ref _isButtonRightShoulderDown	, ButtonRightShoulderDown	, ButtonRightShoulderUp	);
+			InvokeUpDown(ButtonsConstants.RightThumb,   newState.Buttons.RightStick	    , playerIndex, newState, ref _isButtonRightStickDown	, ButtonRightStickDown		, ButtonRightStickUp	);
+			InvokeUpDown(ButtonsConstants.Start,        newState.Buttons.Start			, playerIndex, newState, ref _isButtonStartDown			, ButtonStartDown			, ButtonStartUp			);
+			InvokeUpDown(ButtonsConstants.DPadLeft,     newState.DPad.Left				, playerIndex, newState, ref _isDPadLeftDown			, DPadLeftDown				, DPadLeftUp			);
+			InvokeUpDown(ButtonsConstants.DPadRight,    newState.DPad.Right			    , playerIndex, newState, ref _isDPadRightDown			, DPadRightDown				, DPadRightUp			);
+			InvokeUpDown(ButtonsConstants.DPadUp,       newState.DPad.Up				, playerIndex, newState, ref _isDPadUpDown				, DPadUpDown				, DPadUpUp				);
+			InvokeUpDown(ButtonsConstants.DPadDown,     newState.DPad.Down				, playerIndex, newState, ref _isDPadDownDown			, DPadDownDown				, DPadDownUp			);
 
 			InvokeThumbChanged(oldState.ThumbSticks.Left , newState.ThumbSticks.Left , newState, playerIndex, ThumbLeftChange );
 			InvokeThumbChanged(oldState.ThumbSticks.Right, newState.ThumbSticks.Right, newState, playerIndex, ThumbRightChange);
@@ -119,17 +120,21 @@ namespace PadOS.Input.GamePadInput {
             StateChanged?.Invoke(player, state);
         }
 
-		private void InvokeUpDown(ButtonState buttonState, int player, GamePadState newState, ref bool isDown, GamePadEvent callbackDown, GamePadEvent callbackUp) {
+		private void InvokeUpDown(ButtonsConstants btn, ButtonState buttonState, int player, GamePadState newState, ref bool isDown, GamePadEvent callbackDown, GamePadEvent callbackUp) {
 			if (buttonState == ButtonState.Pressed && isDown == false) {
 				isDown = true;
-                if (_suppressEvents == false)
+                if (_suppressEvents == false) {
                     callbackDown?.Invoke(player, newState);
+                    ButtonUp?.Invoke(btn, player, newState);
+                }
 			}
 			else if (buttonState == ButtonState.Released && isDown) {
 				isDown = false;
-                if (_suppressEvents == false)
+                if (_suppressEvents == false) {
                     callbackUp?.Invoke(player, newState);
-			}
+                    ButtonDown?.Invoke(btn, player, newState);
+                }
+            }
 		}
 
 		private void InvokeThumbChanged(GamePadThumbSticks.StickValue oldValue, GamePadThumbSticks.StickValue newValue, GamePadState newState, int playerIndex, GamePadEvent<Vector2> callback){

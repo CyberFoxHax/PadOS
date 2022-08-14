@@ -10,7 +10,7 @@ namespace PadOS.ProfileExecution.Handlers {
     public class HoldSwitchHandler : ITriggerSwitchHandler {
         public bool Enabled { get; set; }
 
-        public event Action<int> OnTrigger;
+        public event Action<ITriggerSwitchHandler, int> OnTrigger;
 
         public void Init(ITrigger node, GamePadInput input) {
             

@@ -23,20 +23,26 @@ namespace PadOS.ProfileExecution {
         }
 
 
-        public event Action OnTrigger;
-        public event Action OnTriggerOff;
+        public event TriggerEvent OnTrigger;
+        public event TriggerEvent OnTriggerOff;
 
         private GamePadInput _input;
         private Action<Input.GamePadEvent> Down_AddMethod;
         private Action<Input.GamePadEvent> Down_RemoveMethod;
         private Action<Input.GamePadEvent> Up_AddMethod;
         private Action<Input.GamePadEvent> Up_RemoveMethod;
+        private ButtonsConstants _button;
+
+        public override string ToString() {
+            return $"{nameof(ButtonTriggerHandler)} => {_button}";
+        }
 
         public void Init(ITrigger node, GamePadInput input) {
             var buttonNode = (ButtonTrigger)node;
             _input = input;
 
             var key = Maps.StringToButton(buttonNode.Button);
+            _button = key;
 
             var type = _input.GetType();
             {
@@ -54,11 +60,11 @@ namespace PadOS.ProfileExecution {
         }
 
         private void OnButton(int player, GamePadState state) {
-            OnTrigger?.Invoke();
+            OnTrigger?.Invoke(this);
         }
 
         private void OnButtonUp(int player, GamePadState state) {
-            OnTriggerOff?.Invoke();
+            OnTriggerOff?.Invoke(this);
         }
 
         private void Enable() {

@@ -8,15 +8,17 @@ namespace PadOS.ProfileExecution
 {
     public static class Maps {
         public static TypedMap TriggerHandlers = new TypedMap {
-            TypedMap.Typed<SaveData.ProfileXML.SequenceTrigger, SequenceTriggerHandler>(),
+            TypedMap.Typed<SaveData.ProfileXML.SequenceTrigger, ButtonSequenceTriggerHandler>(),
             TypedMap.Typed<SaveData.ProfileXML.ComboTrigger, ComboTriggerHandler>(),
             TypedMap.Typed<SaveData.ProfileXML.TriggerSwitch, TriggerSwitchHandler>(),
             TypedMap.Typed<SaveData.ProfileXML.PadOSTrigger, PadOSTriggerHandler>(),
             TypedMap.Typed<SaveData.ProfileXML.ButtonTrigger, ButtonTriggerHandler>(),
+            TypedMap.Typed<SaveData.ProfileXML.AnalogueTrigger, AnalogueTriggerHandler>(),
         };
 
         public static TypedMap ActionHandlers = new TypedMap {
             TypedMap.Typed<SaveData.ProfileXML.KeyboardAction, KeyboardActionHandler>(),
+            TypedMap.Typed<SaveData.ProfileXML.MouseAction, MouseActionHandler>(),
         };
 
         public static readonly Dictionary<ButtonsConstants, string> ButtonDownEventMap = new Dictionary<ButtonsConstants, string> {
@@ -62,7 +64,7 @@ namespace PadOS.ProfileExecution
         public class TypedMap : IEnumerable<KeyValuePair<Type, Type>>{
             public Dictionary<Type, Type> TriggerHandlers = new Dictionary<Type, Type>();
 
-            public T2 GetInstance<T1, T2>(T1 instance) {
+            public T2 CreateInstance<T1, T2>(T1 instance) {
                 var triggerType = instance.GetType();
                 Type type;
                 if (TriggerHandlers.TryGetValue(triggerType, out type) == false)

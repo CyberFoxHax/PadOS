@@ -22,18 +22,19 @@ namespace PadOS.ProfileExecution {
             "Shift","Ctrl","Alt","Tab",
             "Up","Down","Left","Right",
             "Delete","Backspace","Enter",
-            "Escape","Space"
+            "Escape","Space","Win"
         };
 
         public void Init(SaveData.ProfileXML.IAction node) {
             var keyboard = (SaveData.ProfileXML.KeyboardAction)node;
-            _buttons = keyboard.Buttons.Where(
-                p=>(p.Length==1 && SupportedCharacters.Contains(p[0]))
-                || (p.Length>1 && SupportedKeys.Contains(p))
-            ).ToList();
+            _buttons = keyboard.Buttons
+                .Select(p=>p.Trim())
+                .Where(
+                    p=>(p.Length==1 && SupportedCharacters.Contains(p[0]))
+                    || (p.Length>1 && SupportedKeys.Contains(p))
+                ).ToList();
 
-            var capsCount = _buttons.Count(p =>p.Length == 1 && p[0] >= 'A' && p[0] <= 'Z');
-            var seq = new int[_buttons.Count + capsCount];
+            var seq = new int[_buttons.Count];
             for (int i=0,ii=0;ii<_buttons.Count;i++,ii++) {
                 string btn = _buttons[ii];
                 switch (btn) {
@@ -50,13 +51,13 @@ namespace PadOS.ProfileExecution {
                     case "Enter": seq[i] = DllImport.UserInfo32.VK_RETURN; continue;
                     case "Escape": seq[i] = DllImport.UserInfo32.VK_ESCAPE; continue;
                     case "Space": seq[i] = DllImport.UserInfo32.VK_SPACE; continue;
+                    case "Win": seq[i] = DllImport.UserInfo32.VK_LWIN; continue;
                 }
                 if (btn[0] == 'F' && btn.Length > 1) {
-                    var vkfstart = 0x70 - 1;
                     var fnum = int.Parse(btn.Substring(1));
                     if (fnum > 24)
                         continue;
-                    seq[i] = vkfstart + fnum;
+                    seq[i] = 0x6F + fnum;
                     continue;
                 }
                 // VK numbers 0x30-0x39
@@ -66,8 +67,6 @@ namespace PadOS.ProfileExecution {
                 // ASCII uppercase 0x41-0x5A
 
                 if (btn[0] >= 'A' && btn[0] <= 'Z') {
-                    seq[i] = DllImport.UserInfo32.VK_LSHIFT;
-                    i++;
                     seq[i] = btn[0];
                 }
                 else if (btn[0] >= 'a' && btn[0] <= 'z') {
@@ -81,13 +80,15 @@ namespace PadOS.ProfileExecution {
         }
 
         public void Invoke() {
-            for (int i = 0; i < _vkSequence.Length; i++)
+            if (_enabled)
+                for (int i = 0; i < _vkSequence.Length; i++)
                     DllImport.UserInfo32.keybd_event(_vkSequence[i], 0, DllImport.UserInfo32.KEYEVENTF_KEYDOWN, 0);
         }
 
         public void InvokeOff() {
-            for (int i = _vkSequence.Length - 1; i >= 0; i--)
-                DllImport.UserInfo32.keybd_event(_vkSequence[i], 0, DllImport.UserInfo32.KEYEVENTF_KEYUP, 0);
+            if (_enabled)
+                for (int i = _vkSequence.Length - 1; i >= 0; i--)
+                    DllImport.UserInfo32.keybd_event(_vkSequence[i], 0, DllImport.UserInfo32.KEYEVENTF_KEYUP, 0);
         }
     }
 }

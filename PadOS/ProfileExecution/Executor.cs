@@ -17,38 +17,10 @@ namespace PadOS.ProfileExecution
         private GamePadInput _gamePadInput;
         private readonly Profile _profile;
         private List<InputSimulatorPlugin> _plugins;
-        private List<ITriggerHandler> _triggers = new List<ITriggerHandler>();
-        private List<ITriggerSwitchHandler> _triggersSwitches = new List<ITriggerSwitchHandler>();
+        private readonly List<ITriggerHandler> _triggers = new List<ITriggerHandler>();
+        private readonly List<ITriggerSwitchHandler> _triggersSwitches = new List<ITriggerSwitchHandler>();
 
         private List<IActionHandler> _actions = new List<IActionHandler>();
-
-        private class MappingHandler {
-            private List<IActionHandler> _actions = new List<IActionHandler>();
-
-            public void Add(IActionHandler action) {
-                _actions.Add(action);
-            }
-
-            public void Invoke() {
-                foreach (var item in _actions) {
-                    item.Invoke();
-                    item.InvokeOff();
-                }
-            }
-        }
-
-        private class SwitchMappingHandler {
-            private List<IActionHandler> _actions = new List<IActionHandler>();
-
-            public void Add(IActionHandler action) {
-                _actions.Add(action);
-            }
-
-            public void Invoke(int index) {
-                _actions[index].Invoke();
-                _actions[index].InvokeOff();
-            }
-        }
 
         public void Init() {
             var plugins = Plugins.PluginsLoader.FindCorrectDll(_profile.Plugins.Select(p => p.Filename));
@@ -61,26 +33,26 @@ namespace PadOS.ProfileExecution
                     if (trigger is TriggerSwitch) {
                         if(switchMapping == null)
                             switchMapping = new SwitchMappingHandler();
-                        var sw = Maps.TriggerHandlers.GetInstance<ITrigger, ITriggerSwitchHandler>(trigger);
+                        var sw = Maps.TriggerHandlers.CreateInstance<ITrigger, ITriggerSwitchHandler>(trigger);
                         sw.Init(trigger, _gamePadInput);
-                        sw.OnTrigger += p => {
-                            switchMapping.Invoke(p);
+                        sw.OnTrigger += (s, i) => {
+                            switchMapping.Invoke(i);
                         };
                         _triggersSwitches.Add(sw);
                     }
                     else {
                         if (mappingHandler == null)
                             mappingHandler = new MappingHandler();
-                        var handler = Maps.TriggerHandlers.GetInstance<ITrigger, ITriggerHandler>(trigger);
+                        var handler = Maps.TriggerHandlers.CreateInstance<ITrigger, ITriggerHandler>(trigger);
                         handler.Init(trigger, _gamePadInput);
-                        handler.OnTrigger += () => {
+                        handler.OnTrigger += p => {
                             mappingHandler.Invoke();
                         };
                         _triggers.Add(handler);
                     }
                 }
                 foreach (var action in mapping.Actions) {
-                    var handler = Maps.ActionHandlers.GetInstance<IAction, IActionHandler>(action);
+                    var handler = Maps.ActionHandlers.CreateInstance<IAction, IActionHandler>(action);
                     handler.Init(action);
                     _actions.Add(handler);
                     if (switchMapping != null)
@@ -113,6 +85,8 @@ namespace PadOS.ProfileExecution
                 item.Enabled = v;
             foreach (var item in _triggersSwitches)
                 item.Enabled = v;
+            foreach (var item in _actions)
+                item.Enabled = v;
         }
 
         private void OnDeactivate() {
@@ -122,6 +96,8 @@ namespace PadOS.ProfileExecution
             foreach (var item in _triggers)
                 item.Enabled = v;
             foreach (var item in _triggersSwitches)
+                item.Enabled = v;
+            foreach (var item in _actions)
                 item.Enabled = v;
         }
     }
