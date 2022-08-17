@@ -32,6 +32,7 @@ namespace PadOS.ProfileExecution {
                 .Where(
                     p=>(p.Length==1 && SupportedCharacters.Contains(p[0]))
                     || (p.Length>1 && SupportedKeys.Contains(p))
+                    || p.Length==2 && p[0]=='F'
                 ).ToList();
 
             var seq = new int[_buttons.Count];

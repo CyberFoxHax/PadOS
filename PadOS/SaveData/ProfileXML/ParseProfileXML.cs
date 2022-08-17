@@ -128,7 +128,6 @@ namespace PadOS.SaveData.ProfileXML
             {"ButtonTrigger", typeof(ButtonTrigger)},
             {"KeyboardAction", typeof(KeyboardAction)},
             {"RepeatAction", typeof(RepeatAction)},
-            {"HoldSwitch", typeof(HoldSwitch)},
             {"Plugin", typeof(Plugin)},
             {"TriggerPlugin", typeof(TriggerPlugin)},
             {"PadOSAction", typeof(PadOSAction)},

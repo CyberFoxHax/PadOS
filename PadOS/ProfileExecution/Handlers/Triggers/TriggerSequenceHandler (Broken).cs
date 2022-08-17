@@ -20,7 +20,7 @@ namespace PadOS.ProfileExecution {
             _sequence = new ITriggerHandler[node.Sequence.Count];
             for (int i = 0; i < node.Sequence.Count; i++) {
                 var triggerNode = node.Sequence[i];
-                var handler = Maps.TriggerHandlers.CreateInstance<ITrigger, ITriggerHandler>(triggerNode);
+                var handler = Maps.TriggerHandlers.InstanceFromNode(triggerNode);
                 handler.Init(triggerNode, input);
                 _sequence[i] = handler;
             }

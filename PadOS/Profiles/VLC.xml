@@ -51,16 +51,10 @@
 	<AnalogueTrigger Axis="RightStickX" Value="-0.5" Frequency="100" />
 	<KeyboardAction Button="H" />
 
-
-  <TriggerSwitch>
-    <!--<ButtonTrigger Button="RightThumb" TriggerSwitch.Hold="600" />-->
-    <HoldTrigger Timeout="250">
-      <ButtonTrigger Button="RightThumb" />
-    </HoldTrigger>
-    <HoldTrigger Timeout="500">
-      <ButtonTrigger Button="RightThumb" />
-    </HoldTrigger>
-  </TriggerSwitch>
+  <HoldSwitch>
+    <ButtonTrigger Button="RightThumb" HoldSwitch.Timeout="0" />
+    <ButtonTrigger Button="RightThumb" HoldSwitch.Timeout="1000" />
+  </HoldSwitch>
   <KeyboardAction Button="Alt+Tab" />
   <KeyboardAction Button="Alt+F4" />
 </Profile>

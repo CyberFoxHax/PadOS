@@ -5,7 +5,7 @@ using PadOS.Input.GamePadInput;
 using PadOS.SaveData.ProfileXML;
 
 namespace PadOS.ProfileExecution {
-    public class TriggerSwitchHandler : ITriggerSwitchHandler {
+    public class TriggerSequenceSwitchHandler : ITriggerSwitchHandler {
         private bool _enabled;
         public bool Enabled {
             get { return _enabled; }
@@ -17,9 +17,10 @@ namespace PadOS.ProfileExecution {
             }
         }
 
+        public event Action<ITriggerSwitchHandler, int> OnTrigger;
+
         private List<ITriggerHandler> _handlers;
         private int _lastTrigger = -1;
-        public event Action<ITriggerSwitchHandler, int> OnTrigger;
         private ButtonSequenceTriggerHandler _longenstSequence;
 
         // receive all events, and when timeout happens, trigger the longest one
@@ -49,7 +50,7 @@ namespace PadOS.ProfileExecution {
             foreach (var item in triggerSwitch.Triggers) {
                 switch (item) {
                     case SequenceTrigger seq:
-                        var handler = Maps.TriggerHandlers.CreateInstance<ITrigger, ButtonSequenceTriggerHandler>(seq);
+                        var handler = (ButtonSequenceTriggerHandler)Maps.TriggerHandlers.InstanceFromNode(seq);
                         handler.Init(seq, input);
                         handler.OnTrigger += Handler_OnTrigger;
                         handler.OnTimeout += Handler_OnTimeout;

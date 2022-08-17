@@ -30,10 +30,10 @@ namespace PadOS.ProfileExecution
                 MappingHandler mappingHandler = null;
                 SwitchMappingHandler switchMapping = null;
                 foreach (var trigger in mapping.Triggers) {
-                    if (trigger is TriggerSwitch) {
+                    if (trigger is TriggerSwitch || trigger is HoldSwitch) {
                         if(switchMapping == null)
                             switchMapping = new SwitchMappingHandler();
-                        var sw = Maps.TriggerHandlers.CreateInstance<ITrigger, ITriggerSwitchHandler>(trigger);
+                        var sw = Maps.TriggerSwitchHandlers.InstanceFromNode(trigger);
                         sw.Init(trigger, _gamePadInput);
                         sw.OnTrigger += (s, i) => {
                             switchMapping.Invoke(i);
@@ -43,7 +43,7 @@ namespace PadOS.ProfileExecution
                     else {
                         if (mappingHandler == null)
                             mappingHandler = new MappingHandler();
-                        var handler = Maps.TriggerHandlers.CreateInstance<ITrigger, ITriggerHandler>(trigger);
+                        var handler = Maps.TriggerHandlers.InstanceFromNode(trigger);
                         handler.Init(trigger, _gamePadInput);
                         handler.OnTrigger += p => {
                             mappingHandler.Invoke();
@@ -52,7 +52,7 @@ namespace PadOS.ProfileExecution
                     }
                 }
                 foreach (var action in mapping.Actions) {
-                    var handler = Maps.ActionHandlers.CreateInstance<IAction, IActionHandler>(action);
+                    var handler = Maps.ActionHandlers.InstanceFromNode(action);
                     handler.Init(action);
                     _actions.Add(handler);
                     if (switchMapping != null)

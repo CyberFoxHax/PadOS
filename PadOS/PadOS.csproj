@@ -128,6 +128,7 @@
     <Compile Include="InputSimulatorPlugin.cs" />
     <Compile Include="ProfileExecution\Handlers\Actions\MouseActionHandler.cs" />
     <Compile Include="ProfileExecution\Handlers\Triggers\AnalogueTriggerHandler.cs" />
+    <Compile Include="ProfileExecution\ITriggerInit.cs" />
     <Compile Include="ProfileExecution\TriggerEvent_Delegate.cs" />
     <Compile Include="ProfileExecution\Handlers\TriggerSwitches\HoldSwitchHandler.cs" />
     <Compile Include="ProfileExecution\Handlers\Actions\KeyboardActionHandler.cs" />
@@ -142,7 +143,7 @@
     <Compile Include="ProfileExecution\MappingHandlers\MappingHandler.cs" />
     <Compile Include="ProfileExecution\Maps.cs" />
     <Compile Include="ProfileExecution\Handlers\Triggers\TriggerSequenceHandler %28Broken%29.cs" />
-    <Compile Include="ProfileExecution\Handlers\TriggerSwitches\TriggerSwitchHandler.cs" />
+    <Compile Include="ProfileExecution\Handlers\TriggerSwitches\TriggerSequenceSwitchHandler.cs" />
     <Compile Include="ProfileExecution\Handlers\Triggers\PadOSTriggerHandler.cs" />
     <Compile Include="ProfileSwitcher\BackgroundTracker.cs" />
     <Compile Include="ProfileSwitcher\ProfileManager.cs" />

@@ -7,18 +7,55 @@ using GamePadInput = PadOS.Input.GamePadInput.GamePadInput;
 namespace PadOS.ProfileExecution
 {
     public static class Maps {
-        public static TypedMap TriggerHandlers = new TypedMap {
-            TypedMap.Typed<SaveData.ProfileXML.SequenceTrigger, ButtonSequenceTriggerHandler>(),
-            TypedMap.Typed<SaveData.ProfileXML.ComboTrigger, ComboTriggerHandler>(),
-            TypedMap.Typed<SaveData.ProfileXML.TriggerSwitch, TriggerSwitchHandler>(),
-            TypedMap.Typed<SaveData.ProfileXML.PadOSTrigger, PadOSTriggerHandler>(),
-            TypedMap.Typed<SaveData.ProfileXML.ButtonTrigger, ButtonTriggerHandler>(),
-            TypedMap.Typed<SaveData.ProfileXML.AnalogueTrigger, AnalogueTriggerHandler>(),
+        public class TypeMap<T1, T2> : Dictionary<Type, Type> {
+            public static KeyValuePair<Type, Type> Pair<TT1, TT2>() where TT1:T1 where TT2:T2{
+                return new KeyValuePair<Type, Type>(typeof(TT1), typeof(TT2));
+            }
+
+            public void Add(KeyValuePair<Type, Type> p) {
+                base.Add(p.Key, p.Value);
+            }
+
+            public T2 InstanceFromNode(T1 instance) {
+                var triggerType = instance.GetType();
+                Type type;
+                if (TryGetValue(triggerType, out type) == false)
+                    return default;
+                return (T2)Activator.CreateInstance(type);
+            }
+
+            public T2 InitHandler(SaveData.ProfileXML.ITrigger node, GamePadInput input) {
+                var instance = InstanceFromNode((T1)node);
+                if(instance is ITriggerInit init)
+                    init.Init(node, input);
+                return instance;
+            }
+        }
+
+        public class TriggerMap : TypeMap<SaveData.ProfileXML.ITrigger, ITriggerHandler> { }
+        public class TriggerSwitchMap : TypeMap<SaveData.ProfileXML.ITrigger, ITriggerSwitchHandler> { }
+        public class ActionMap : TypeMap<SaveData.ProfileXML.IAction, IActionHandler> { }
+
+        public static TriggerMap derp = new TriggerMap {
+            TriggerMap.Pair<SaveData.ProfileXML.ButtonTrigger, ButtonTriggerHandler>()
         };
 
-        public static TypedMap ActionHandlers = new TypedMap {
-            TypedMap.Typed<SaveData.ProfileXML.KeyboardAction, KeyboardActionHandler>(),
-            TypedMap.Typed<SaveData.ProfileXML.MouseAction, MouseActionHandler>(),
+        public static TriggerMap TriggerHandlers = new TriggerMap {
+            TriggerMap.Pair<SaveData.ProfileXML.SequenceTrigger, ButtonSequenceTriggerHandler>(),
+            TriggerMap.Pair<SaveData.ProfileXML.ComboTrigger, ComboTriggerHandler>(),
+            TriggerMap.Pair<SaveData.ProfileXML.PadOSTrigger, PadOSTriggerHandler>(),
+            TriggerMap.Pair<SaveData.ProfileXML.ButtonTrigger, ButtonTriggerHandler>(),
+            TriggerMap.Pair<SaveData.ProfileXML.AnalogueTrigger, AnalogueTriggerHandler>(),
+        };
+
+        public static TriggerSwitchMap TriggerSwitchHandlers = new TriggerSwitchMap {
+            TriggerSwitchMap.Pair<SaveData.ProfileXML.TriggerSwitch, TriggerSequenceSwitchHandler>(),
+            TriggerSwitchMap.Pair<SaveData.ProfileXML.HoldSwitch, HoldSwitchHandler>(),
+        };
+
+        public static ActionMap ActionHandlers = new ActionMap {
+            ActionMap.Pair<SaveData.ProfileXML.KeyboardAction, KeyboardActionHandler>(),
+            ActionMap.Pair<SaveData.ProfileXML.MouseAction, MouseActionHandler>(),
         };
 
         public static readonly Dictionary<ButtonsConstants, string> ButtonDownEventMap = new Dictionary<ButtonsConstants, string> {
@@ -61,7 +98,7 @@ namespace PadOS.ProfileExecution
             return (ButtonsConstants)System.Enum.Parse(typeof(ButtonsConstants), btn);
         }
 
-        public class TypedMap : IEnumerable<KeyValuePair<Type, Type>>{
+        /*public class TypedMap : IEnumerable<KeyValuePair<Type, Type>>{
             public Dictionary<Type, Type> TriggerHandlers = new Dictionary<Type, Type>();
 
             public T2 CreateInstance<T1, T2>(T1 instance) {
@@ -82,6 +119,6 @@ namespace PadOS.ProfileExecution
 
             public IEnumerator<KeyValuePair<Type, Type>> GetEnumerator() => null;
             IEnumerator IEnumerable.GetEnumerator() => null;
-        }
+        }*/
     }
 }
