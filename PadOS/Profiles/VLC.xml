@@ -9,7 +9,7 @@
 	<ButtonTrigger Button="Start" />
 	<KeyboardAction Button="Space" />
 	
-	<ButtonTrigger Button="Menu" />
+	<ButtonTrigger Button="Back" />
 	<KeyboardAction Button="F" />
 
 	<ButtonTrigger Button="A" />
@@ -29,26 +29,26 @@
 	
 	<ButtonTrigger Button="DPadUp" />
 	<KeyboardAction Button="V" />
-	
+
 	<ButtonTrigger Button="DPadDown" />
 	<KeyboardAction Button="B" />
-	
-	<AnalogueTrigger Axis="LeftStickX" Value="0.5" Frequency="100" />
+
+	<AnalogueTrigger Axis="LeftThumbX" Value="-0.5" Frequency="500" />
 	<KeyboardAction Button="Left" />
-	
-	<AnalogueTrigger Axis="LeftStickX" Value="-0.5" Frequency="100" />
+
+	<AnalogueTrigger Axis="LeftThumbX" Value="0.5" Frequency="500" />
 	<KeyboardAction Button="Right" />
-	
-	<AnalogueTrigger Axis="RightStickY" Value="0.5" Frequency="100" />
-	<MouseAction Scroll="Y" Speed="20" />
-	
-	<AnalogueTrigger Axis="RightStickY" Value="-0.5" Frequency="100" />
+
+	<AnalogueTrigger Axis="RightThumbY" Value="-0.5" Frequency="100" />
   <MouseAction Scroll="Y" Speed="-20" />
-	
-	<AnalogueTrigger Axis="RightStickX" Value="0.5" Frequency="100" />
+
+	<AnalogueTrigger Axis="RightThumbY" Value="0.5" Frequency="100" />
+	<MouseAction Scroll="Y" Speed="20" />
+
+	<AnalogueTrigger Axis="RightThumbX" Value="-0.5" Frequency="100" />
 	<KeyboardAction Button="G" />
-	
-	<AnalogueTrigger Axis="RightStickX" Value="-0.5" Frequency="100" />
+
+	<AnalogueTrigger Axis="RightThumbX" Value="0.5" Frequency="100" />
 	<KeyboardAction Button="H" />
 
   <HoldSwitch>

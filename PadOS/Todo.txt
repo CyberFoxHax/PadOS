@@ -1,10 +1,12 @@
+OSK seems to open at weird positions
+When profile is changed, Wait for all buttons up before enabling input.
+
 Pass analogues value to actions, if such value exists, otherwise just pass "1"
 Keyboard create a text based keyboard handler for text input? Or just use the keyboard?
 
 combo and sequence handler can be made to operate on ITrigger types instead of Button types
 
 How to create new profiles? What is a profile?
-OSK seems to open at weird positions
 Editor to associate profiles with applications
 Press the home button on a confirmation dialgue would be catastrophic
 Press the home button while nested OSK is open is also problematic

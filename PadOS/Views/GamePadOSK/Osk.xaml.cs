@@ -8,7 +8,8 @@ namespace PadOS.Views.GamePadOSK {
 
         }
 		public Osk(bool simulate){
-			InitializeComponent();
+            System.Windows.Media.RenderOptions.SetBitmapScalingMode(this, System.Windows.Media.BitmapScalingMode.HighQuality);
+            InitializeComponent();
 			_gamePadWrapper = new GamePadWrapper(this);
 			TextBox.Text = "";
 			System.Windows.Controls.Canvas.SetLeft(Caret, 0);
@@ -39,6 +40,7 @@ namespace PadOS.Views.GamePadOSK {
 			wrapper.EnterDown += WrapperOnEnterDown;
             wrapper.HideLegend += Wrapper_HideLegend;
             wrapper.OnScale += Wrapper_OnScale;
+            wrapper.OnMove += Wrapper_OnMove;
 
 			_keyboardInputSimulator.CaretChange += KeyboardInputSimulatorOnCaretChange;
 			_keyboardInputSimulator.TextChanged += KeyboardInputSimulatorOnTextChanged;
@@ -69,6 +71,46 @@ namespace PadOS.Views.GamePadOSK {
 
         private double _currentScale = 1;
         private Input.Vector2 _startSize;
+        private const float Speed = 20;
+
+        private void Wrapper_OnMove(Input.Vector2 dir) {
+            // move
+            var top = Top + -dir.Y * Speed;
+            var left = Left + dir.X * Speed;
+            
+            if (BorderLegendArea.Visibility == System.Windows.Visibility.Visible) {
+                if (top + ActualHeight > System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Height)
+                    Top = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Height - Height;
+                else if (top < 0)
+                    Top = 0;
+                else
+                    Top = top;
+
+                if (left + ActualWidth > System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Width)
+                    Left = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Width - Width;
+                else if (left < 0)
+                    Left = 0;
+                else
+                    Left = left;
+            }
+            else {
+                if (top + Dial.ActualHeight * _currentScale > System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Height)
+                    Top = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Height - Dial.ActualHeight * _currentScale;
+                else if (top < 0)
+                    Top = 0;
+                else
+                    Top = top;
+
+                var helperToInputControlSizeDiff = (BorderLegendArea.ActualWidth - BorderLegendArea.ActualWidth) / 2 * _currentScale;
+
+                if (left + helperToInputControlSizeDiff + Dial.ActualWidth * _currentScale > System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Width)
+                    Left = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Width - helperToInputControlSizeDiff - Dial.ActualWidth * _currentScale;
+                else if (left < -helperToInputControlSizeDiff)
+                    Left = -helperToInputControlSizeDiff;
+                else
+                    Left = left;
+            }
+        }
 
         private void Wrapper_OnScale(double v) {
             _currentScale += v / 10;
@@ -80,12 +122,12 @@ namespace PadOS.Views.GamePadOSK {
             var height = _startSize.Y * _currentScale;
             var heightDiff = height - Height;
             Height = height;
-            Top -= heightDiff * RenderTransformOrigin.Y;
+            Top -= heightDiff * 0.5;
 
             var width = _startSize.X * _currentScale;
             var widthDiff = width - Width;
             Width = width;
-            Left -= widthDiff * RenderTransformOrigin.X;
+            Left -= widthDiff * 0.55;
         }
 
         public void HideLegend(bool v) {

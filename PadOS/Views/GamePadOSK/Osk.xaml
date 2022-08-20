@@ -7,9 +7,11 @@
     x:Name="This" mc:Ignorable="d"
     x:Class="PadOS.Views.GamePadOSK.Osk"
     Title="MainWindow"
-    Width="700"
-    Height="900"
+    Width="500"
+    Height="700"
     Style="{StaticResource DefaultWindowStyle}"
+    WindowStartupLocation="CenterScreen"
+    SnapsToDevicePixels="True"
     Background="Transparent"
 	xmlns:input="clr-namespace:PadOS.Input.WpfGamePad;assembly=PadOS.Input"
     input:WpfGamePad.Registered="True">

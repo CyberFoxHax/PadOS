@@ -11,8 +11,9 @@ namespace PadOS.Views.GamePadOSK {
 		public event Action<Input.Vector2> CharPosChanged;
 
         public event Action<double> OnScale;
+        public event Action<Vector2> OnMove;
 
-		public event Action ChangeCaseDown;
+        public event Action ChangeCaseDown;
 		public event Action ChangeSymbolsDown;
 		public event Action DeleteDown;
 		public event Action SpaceDown;
@@ -59,12 +60,34 @@ namespace PadOS.Views.GamePadOSK {
 			WpfGamePad.AddButtonStartUpHandler(owner, OnEnterUp);
 			WpfGamePad.AddButtonLeftShoulderUpHandler(owner, OnDeleteUp);
 			WpfGamePad.AddButtonRightShoulderUpHandler(owner, OnSpaceUp);
+            _timer.Elapsed += _timer_Elapsed;
 		}
 
+        private bool _blocking = false;
+        private void _timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e) {
+            if (_blocking)
+                return;
+            _blocking = true;
+            _owner.Dispatcher.Invoke(()=> {
+                if (_changeSymbolsDown) 
+                    OnScale?.Invoke(_rightAnalogueValue.Y);
+                else
+                    OnMove?.Invoke(_rightAnalogueValue);
+                _blocking = false;
+            });
+        }
+
+        private Vector2 _rightAnalogueValue;
+        private System.Timers.Timer _timer = new System.Timers.Timer { Interval = 30, AutoReset = true };
+
         private void OnRightThumbChanged(object sender, GamePadEventArgs<Vector2> args) {
-            if(_changeSymbolsDown)
-                if(args.Value.Y != 0)
-                    OnScale?.Invoke(args.Value.Y);
+            _rightAnalogueValue = args.Value;
+            if (Math.Abs(args.Value.X) < 0.1 && Math.Abs(args.Value.Y) < 0.1)
+                _timer.Stop();
+            else {
+                if(_timer.Enabled == false)
+                    _timer.Start();
+            }
         }
 
         private void OnChangeCase(object sender, GamePadEventArgs<float> args) {
