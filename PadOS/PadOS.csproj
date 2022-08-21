@@ -375,7 +375,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Resource Include="SaveData\Default.xml" />
     <Resource Include="Resources\Icons\puzzle.png" />
     <Resource Include="Views\CircleDialEditor\todo.txt" />
     <Resource Include="Views\InputSimulationEditor\Todo.txt" />
@@ -409,6 +408,9 @@
     <AppDesigner Include="Properties\" />
     <Resource Include="Resources\ControllerOSKSkin\Steam - Daisy Wheel\BackgroundFlower.png" />
     <Resource Include="Resources\circle_dots.png" />
+    <Resource Include="Profiles\PCSX2.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Content Include="Profiles\Test.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -421,6 +423,9 @@
     <Content Include="Profiles\Game.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Profiles\Dolphin.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Content Include="Profiles\VLC.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

@@ -6,6 +6,20 @@ using System.Threading.Tasks;
 
 namespace PadOS.ProfileExecution {
     public class KeyboardActionHandler : IActionHandler {
+
+        private static readonly float KeyboardInterval;
+        private static readonly float KeyboardDelay;
+        static KeyboardActionHandler(){
+            // https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.systeminformation.keyboardspeed
+            var interval = System.Windows.Forms.SystemInformation.KeyboardSpeed;
+            var repeatsPerSecond = 2.5f + (30-2.5f)/31 * interval;
+            KeyboardInterval = 1000f/repeatsPerSecond;
+
+            // https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.systeminformation.keyboarddelay
+            var delay = System.Windows.Forms.SystemInformation.KeyboardDelay;
+            KeyboardDelay = 250 + (1000-250)/3 * delay;
+        }
+
         private bool _enabled;
         public bool Enabled {
             get => _enabled;

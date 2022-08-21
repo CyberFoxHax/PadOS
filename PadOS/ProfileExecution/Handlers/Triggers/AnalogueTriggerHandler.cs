@@ -79,6 +79,7 @@ namespace PadOS.ProfileExecution {
                 _triggerOn = true;
                 _timer.Start();
                 OnTrigger?.Invoke(this);
+                OnTriggerOff?.Invoke(this);
             }
         }
 

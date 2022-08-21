@@ -31,10 +31,14 @@ namespace PadOS.ProfileExecution {
 
         private void _timer_Elapsed(object sender, ElapsedEventArgs e) {
             _timer.Stop();
-            if (_enabled == false && _key == PadOSTrigger.EPadOSTrigger.ProfileDisabled)
+            if (_enabled == false && _key == PadOSTrigger.EPadOSTrigger.ProfileDisabled) {
                 OnTrigger?.Invoke(this);
-            else if (_enabled && _key == PadOSTrigger.EPadOSTrigger.ProfileEnabled)
+                OnTriggerOff?.Invoke(this);
+            }
+            else if (_enabled && _key == PadOSTrigger.EPadOSTrigger.ProfileEnabled) {
                 OnTrigger?.Invoke(this);
+                OnTriggerOff?.Invoke(this);
+            }
         }
     }
 }

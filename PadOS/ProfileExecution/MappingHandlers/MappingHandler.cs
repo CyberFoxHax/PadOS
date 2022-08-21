@@ -11,6 +11,10 @@ namespace PadOS.ProfileExecution {
         public void Invoke() {
             foreach (var item in _actions) {
                 item.Invoke();
+            }
+        }
+        public void InvokeOff() {
+            foreach (var item in _actions) {
                 item.InvokeOff();
             }
         }

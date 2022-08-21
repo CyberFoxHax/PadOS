@@ -81,6 +81,7 @@ namespace PadOS.ProfileExecution {
             if (_awaitRelease == false && _comboCount == _buttonSequence.Length) {
                 _awaitRelease = true;
                 OnTrigger?.Invoke(this);
+                OnTriggerOff?.Invoke(this);
             }
             if (_comboCount == 0)
                 _awaitRelease = false;

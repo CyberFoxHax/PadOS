@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Profile>
+  <HoldSwitch>
+    <ButtonTrigger Button="LeftThumb" HoldSwitch.Timeout="0" />
+    <ButtonTrigger Button="LeftThumb" HoldSwitch.Timeout="500" />
+  </HoldSwitch>
+  <KeyboardAction Button="F3" />
+  <KeyboardAction Button="F1" />
+
+  <HoldSwitch>
+    <ButtonTrigger Button="RightThumb" HoldSwitch.Timeout="500" />
+  </HoldSwitch>
+  <KeyboardAction Button="Alt+F4+Escape" />
+</Profile>

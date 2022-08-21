@@ -31,12 +31,6 @@ namespace PadOS.SaveData {
             XML = "Default.xml"
         };
 
-        public static readonly Profile SupportedGamesProfile = new Profile {
-            Id = 3,
-            Name = "Supported Game",
-            XML = "Game.xml"
-        };
-
 
         public static Function[] Functions = {
 			EmptyFunction,
@@ -59,7 +53,26 @@ namespace PadOS.SaveData {
         public static Profile[] Profiles = {
             AllProfile,
             DefaultProfile,
-            SupportedGamesProfile
+            new Profile {
+                Id = 3,
+                Name = "Supported Game",
+                XML = "Game.xml"
+            },
+            new Profile {
+                Id = 4,
+                Name = "VLC",
+                XML = "VLC.xml"
+            },
+            new Profile {
+                Id = 5,
+                Name = "Dolphin",
+                XML = "Dolphin.xml"
+            },
+            new Profile {
+                Id = 6,
+                Name = "PCSX2",
+                XML = "PCSX2.xml"
+            },
         };
 
 		public static PanelButton[] PanelButtons = {
@@ -72,7 +85,22 @@ namespace PadOS.SaveData {
                Executable = null,
                Profile = DefaultProfile,
                WindowTitle = null,
-            }
+            },
+            new ProfileAssociation{
+               Executable = "vlc.exe",
+               Profile = Profiles[4-1],
+               WindowTitle = null,
+            },
+            new ProfileAssociation{
+               Executable = "dolphin.exe",
+               Profile = Profiles[5-1],
+               WindowTitle = null,
+            },
+            new ProfileAssociation{
+               Executable = "pcsx2.exe",
+               Profile = Profiles[6-1],
+               WindowTitle = null,
+            },
         };
 
     }

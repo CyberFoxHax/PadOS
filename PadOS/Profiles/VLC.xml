@@ -9,11 +9,11 @@
 	<ButtonTrigger Button="Start" />
 	<KeyboardAction Button="Space" />
 	
+	<ButtonTrigger Button="A" />
+	<KeyboardAction Button="Space" />
+  
 	<ButtonTrigger Button="Back" />
 	<KeyboardAction Button="F" />
-
-	<ButtonTrigger Button="A" />
-	<KeyboardAction Button="space" />
 	
 	<ButtonTrigger Button="X" />
 	<KeyboardAction Button="T" />
@@ -22,10 +22,10 @@
 	<KeyboardAction Button="M" />
 
 	<ButtonTrigger Button="DPadLeft" />
-	<KeyboardAction Button="Shift+Left" />
+	<KeyboardAction Button="Ctrl+Left" />
 	
 	<ButtonTrigger Button="DPadRight" />
-	<KeyboardAction Button="Shift+Right" />
+	<KeyboardAction Button="Ctrl+Right" />
 	
 	<ButtonTrigger Button="DPadUp" />
 	<KeyboardAction Button="V" />
@@ -34,10 +34,10 @@
 	<KeyboardAction Button="B" />
 
 	<AnalogueTrigger Axis="LeftThumbX" Value="-0.5" Frequency="500" />
-	<KeyboardAction Button="Left" />
+	<KeyboardAction Button="Shift+Left" />
 
 	<AnalogueTrigger Axis="LeftThumbX" Value="0.5" Frequency="500" />
-	<KeyboardAction Button="Right" />
+	<KeyboardAction Button="Shift+Right" />
 
 	<AnalogueTrigger Axis="RightThumbY" Value="-0.5" Frequency="100" />
   <MouseAction Scroll="Y" Speed="-20" />
@@ -53,7 +53,7 @@
 
   <HoldSwitch>
     <ButtonTrigger Button="RightThumb" HoldSwitch.Timeout="0" />
-    <ButtonTrigger Button="RightThumb" HoldSwitch.Timeout="1000" />
+    <ButtonTrigger Button="RightThumb" HoldSwitch.Timeout="500" />
   </HoldSwitch>
   <KeyboardAction Button="Alt+Tab" />
   <KeyboardAction Button="Alt+F4" />

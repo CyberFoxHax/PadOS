@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Profile>
+	<ButtonTrigger Button="DPadUp" />
+	<KeyboardAction Button="Up" />
+
+  <ButtonTrigger Button="DPadDown" />
+  <KeyboardAction Button="Down" />
+
+  <HoldSwitch>
+    <ButtonTrigger Button="LeftThumb" HoldSwitch.Timeout="0" />
+    <ButtonTrigger Button="LeftThumb" HoldSwitch.Timeout="500" />
+  </HoldSwitch>
+  <KeyboardAction Button="F1" />
+  <KeyboardAction Button="Shift+F1" />
+
+  <HoldSwitch>
+    <ButtonTrigger Button="RightThumb" HoldSwitch.Timeout="0" />
+    <ButtonTrigger Button="RightThumb" HoldSwitch.Timeout="500" />
+  </HoldSwitch>
+  <KeyboardAction Button="Alt+Tab" />
+  <KeyboardAction Button="Alt+F4" />
+</Profile>

@@ -82,6 +82,7 @@ namespace PadOS.ProfileExecution {
             if (_currentPosition == _buttonSequence.Length) {
                 _currentPosition = 0;
                 OnTrigger?.Invoke(this);
+                OnTriggerOff?.Invoke(this);
             }
         }
     }

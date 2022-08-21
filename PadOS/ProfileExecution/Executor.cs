@@ -48,6 +48,9 @@ namespace PadOS.ProfileExecution
                         handler.OnTrigger += p => {
                             mappingHandler.Invoke();
                         };
+                        handler.OnTriggerOff += p => {
+                            mappingHandler.InvokeOff();
+                        };
                         _triggers.Add(handler);
                     }
                 }

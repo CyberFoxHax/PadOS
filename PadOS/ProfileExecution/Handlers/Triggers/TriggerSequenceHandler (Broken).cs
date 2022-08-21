@@ -74,6 +74,7 @@ namespace PadOS.ProfileExecution {
             if (_currentPosition == _sequence.Length) {
                 _currentPosition = 0;
                 OnTrigger?.Invoke(this);
+                OnTriggerOff?.Invoke(this);
             }
         }
 

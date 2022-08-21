@@ -1,19 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Profile>
 
-  <HoldSwitch>
-    <ButtonTrigger Button="RightThumb" HoldSwitch.Timeout="0" />
-    <ButtonTrigger Button="RightThumb" HoldSwitch.Timeout="500" />
-    <ButtonTrigger Button="RightThumb" HoldSwitch.Timeout="1000" />
-    <ButtonTrigger Button="RightThumb" HoldSwitch.Timeout="1500" />
-    <ButtonTrigger Button="RightThumb" HoldSwitch.Timeout="2000" />
-    <ButtonTrigger Button="RightThumb" HoldSwitch.Timeout="3500" />
-  </HoldSwitch> 
-  <KeyboardAction Button="1" />
-  <KeyboardAction Button="2" />
-  <KeyboardAction Button="3" />
-  <KeyboardAction Button="4" />
-  <KeyboardAction Button="5" />
-  <KeyboardAction Button="6" />
+  <ButtonTrigger Button="X" />
+  <KeyboardAction Button="X" />
+
+  <ButtonTrigger Button="Y" />
+  <KeyboardAction Button="Y" />
+
+  <ButtonTrigger Button="B" />
+  <KeyboardAction Button="B" />
+
+  <ButtonTrigger Button="A" />
+  <KeyboardAction Button="A" />
 
 </Profile>
