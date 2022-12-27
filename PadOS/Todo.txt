@@ -1,9 +1,9 @@
-<MessageBox Text="Hello" /> // show bubble in sys tray? or just show dialogue
-Keyboard hold bindings (finished, but needs test)
-keyboard repeat
+Shift+Right doesn't work, but Shift+A does
 When profile is changed, Wait for all buttons up before enabling input.
+Vibrate action (and vibrate for hold switches)
 
-Pass analogues value to actions, if such value exists, otherwise just pass "1"
+move user data into AppData and put a shortcut in local folders
+Pass analogues value to actions, if such value exists, otherwise just pass "1f" (what about negatives?)
 Keyboard create a text based keyboard handler for text input? Or just use the keyboard?
 
 How to create new profiles? What is a profile?
@@ -12,8 +12,7 @@ Press the home button on a confirmation dialgue would be catastrophic
 Press the home button while nested OSK is open is also problematic
 	crash repro! Open OSK from a textbox, Press Guide, Press Guide, Open OSK from a textbox, Press Start, Crash
 
-Bug: Home Button doesn't work on Windows 10. GameBar overrides. Make a solution that can detect this and instruct the user to turn it off.
-Consider: Sharing of profiles, consider alternatives to sqlite
+Bug: Home Button doesn't work on Windows 10. GameBar overrides. Make a solution that can detect this and instruct the user to turn it off. (or do it automatically)
 
 ProfileAssocEditor
 	"Remove" is not implemented

@@ -20,6 +20,7 @@ namespace PadOS.ProfileExecution {
         }
 
         public event Action<ITriggerSwitchHandler, int> OnTrigger;
+        public event Action<ITriggerSwitchHandler> OnTriggerOff;
 
         private ITriggerHandler[] _triggerHandlers;
         private float[] _timeouts;
@@ -27,6 +28,8 @@ namespace PadOS.ProfileExecution {
         private DateTime _endTime;
         private Timer _timer = new Timer { AutoReset = false };
         private bool _on;
+
+        private int _buttonsDownCount = 0;
 
         public void Init(ITrigger node, GamePadInput input) {
             var sw = node as HoldSwitch;
@@ -48,17 +51,18 @@ namespace PadOS.ProfileExecution {
             _on = false;
             _endTime = DateTime.Now;
             var diff = (_endTime - _startTime).TotalMilliseconds;
-            Console.WriteLine(diff);
 
             _endTime = default;
             _startTime = default;
             var index = _triggerHandlers.Length - 1;
-            Console.WriteLine(index);
             OnTrigger?.Invoke(this, index);
-
         }
 
         private void HoldSwitchHandler_OnTriggerOff(ITriggerHandler sender) {
+            _buttonsDownCount--;
+            if (_buttonsDownCount == 0) {
+                OnTriggerOff?.Invoke(this);
+            }
             if (_on == false)
                 return;
             _timer.Stop();
@@ -66,25 +70,15 @@ namespace PadOS.ProfileExecution {
             _endTime = DateTime.Now;
 
             var diff = (_endTime - _startTime).TotalMilliseconds;
-            Console.WriteLine(diff);
             var index = 0;
             float t = 0;
-            if(diff > _timeouts[1])
+            if (diff > _timeouts[1]) {
                 for (int i = _timeouts.Length - 1; i >= 0; i--)
                     if (diff > _timeouts[i]) {
                         index = i;
                         break;
                     }
-
-            /*if (diff < _timeouts[1]) {
-                index = 0;
             }
-            else if (diff > _timeouts[2]) {
-                index = 2;
-            }
-            else if (diff > _timeouts[0]) {
-                index = 1;
-            }*/
 
 
             _endTime = default;
@@ -93,6 +87,7 @@ namespace PadOS.ProfileExecution {
         }
 
         private void HoldSwitchHandler_OnTrigger(ITriggerHandler sender) {
+            _buttonsDownCount++;
             _startTime = DateTime.Now;
             _on = true;
             _timer.Start();

@@ -5,6 +5,7 @@ namespace PadOS.SaveData.ProfileXML
 {
     public class KeyboardAction : IAction, IParseXML  {
         public List<string> Buttons { get; set; }
+        public bool Repeat { get; set; }
 
         public void Parse(ParseProfileXML ctx, XmlNode node) {
             var button = node.Attributes["Button"].Value;

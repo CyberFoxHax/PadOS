@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 
+// https://docs.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes
+// https://www.rapidtables.com/code/text/ascii-table.html
 namespace PadOS.ProfileExecution {
     public class KeyboardActionHandler : IActionHandler {
 
@@ -25,11 +28,24 @@ namespace PadOS.ProfileExecution {
             get => _enabled;
             set {
                 _enabled = value;
+                if (_repeat) {
+                    _delayTimer.Stop();
+                    _intervalTimer.Stop();
+                }
+                // prevent getting stuck in downstate when switching profiles
+                if (value == false && _isDown) {
+                    KeysUp();
+                }
             }
         }
 
         private List<string> _buttons;
         private int[] _vkSequence;
+
+        private Timer _delayTimer;
+        private Timer _intervalTimer;
+        private bool _repeat = false;
+        private bool _isDown = false;
 
         private const string SupportedCharacters = "QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm0123456789";
         private static readonly string[] SupportedKeys = {
@@ -41,6 +57,13 @@ namespace PadOS.ProfileExecution {
 
         public void Init(SaveData.ProfileXML.IAction node) {
             var keyboard = (SaveData.ProfileXML.KeyboardAction)node;
+            _repeat = keyboard.Repeat;
+            if (keyboard.Repeat) {
+                _delayTimer = new Timer { AutoReset = false, Interval = KeyboardDelay };
+                _intervalTimer = new Timer { AutoReset = true, Interval = KeyboardInterval };
+                _delayTimer.Elapsed += delayTimer_Elapsed;
+                _intervalTimer.Elapsed += intervalTimer_Elapsed;
+            }
             _buttons = keyboard.Buttons
                 .Select(p=>p.Trim())
                 .Where(
@@ -94,16 +117,62 @@ namespace PadOS.ProfileExecution {
             _vkSequence = seq.ToArray();
         }
 
+        private void intervalTimer_Elapsed(object sender, ElapsedEventArgs e) {
+            KeysDown();
+        }
+
+        private void delayTimer_Elapsed(object sender, ElapsedEventArgs e) {
+            _delayTimer.Stop();
+            _intervalTimer.Start();
+            KeysDown();
+        }
+
         public void Invoke() {
-            if (_enabled)
-                for (int i = 0; i < _vkSequence.Length; i++)
-                    DllImport.UserInfo32.keybd_event(_vkSequence[i], 0, DllImport.UserInfo32.KEYEVENTF_KEYDOWN, 0);
+            if (_enabled == false)
+                return;
+            KeysDown();
+            if (_repeat) {
+                _delayTimer.Start();
+                _intervalTimer.Stop();
+            }
         }
 
         public void InvokeOff() {
-            if (_enabled)
-                for (int i = _vkSequence.Length - 1; i >= 0; i--)
-                    DllImport.UserInfo32.keybd_event(_vkSequence[i], 0, DllImport.UserInfo32.KEYEVENTF_KEYUP, 0);
+            if (_enabled == false)
+                return;
+            KeysUp();
+            if (_repeat) {
+                _delayTimer.Stop();
+                _intervalTimer.Stop();
+            }
+        }
+
+        private void KeysDown() {
+            _isDown = true;
+            var trout = "";
+            for (int i = 0; i < _vkSequence.Length; i++)
+                trout += _vkSequence[i]+" ";
+            Console.WriteLine(trout);
+            for (int i = 0; i < _vkSequence.Length; i++) {
+                uint tf = DllImport.UserInfo32.KEYEVENTF_KEYDOWN;
+                //if (_vkSequence[i] == DllImport.UserInfo32.VK_LSHIFT)
+                //    tf |= DllImport.UserInfo32.KEYEVENTF_EXTENDEDKEY;
+                DllImport.UserInfo32.keybd_event(_vkSequence[i], 0, tf, 0);
+            }
+        }
+
+        private void KeysUp() {
+            _isDown = false;
+            var trout = "";
+            for (int i = _vkSequence.Length - 1; i >= 0; i--)
+                trout += _vkSequence[i]+" ";
+            Console.WriteLine(trout);
+            for (int i = _vkSequence.Length - 1; i >= 0; i--) {
+                uint tf = DllImport.UserInfo32.KEYEVENTF_KEYUP;
+                //if (_vkSequence[i] == DllImport.UserInfo32.VK_LSHIFT)
+                //    tf |= DllImport.UserInfo32.KEYEVENTF_EXTENDEDKEY;
+                DllImport.UserInfo32.keybd_event(_vkSequence[i], 0, tf, 0);
+            }
         }
     }
 }

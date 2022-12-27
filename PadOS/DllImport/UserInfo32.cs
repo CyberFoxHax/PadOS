@@ -47,7 +47,7 @@ namespace PadOS.DllImport
         public const int KEYEVENTF_KEYUP = 0x02;
         public const int VK_LCONTROL = 0xA2;
         public const int VK_LSHIFT = 0xA0;
-        public const int VK_MENU = 0x12;
+        public const int VK_MENU = 0x12; // ALT
         public const int VK_ESCAPE = 0x1B;
         public const int VK_F4 = 0x73;
         public const int VK_TAB = 0x09;

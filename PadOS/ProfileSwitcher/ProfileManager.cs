@@ -42,7 +42,7 @@ namespace PadOS.ProfileSwitcher
             }
         }
 
-        private void Tracker_ProcessChanged(string oldProcess, string newProcess) {
+        private async void Tracker_ProcessChanged(string oldProcess, string newProcess) {
             var processName = System.IO.Path.GetFileName(newProcess);
             var profileMatch = _profileMappings.FirstOrDefault(p => p.Executable == processName);
             if (profileMatch == null)
@@ -54,9 +54,13 @@ namespace PadOS.ProfileSwitcher
                 return;
             }
             Console.WriteLine("Process changed to: " + processName + ". Profile changed to \"" + profileMatch.Profile.Name + "\"");
+            _tracker.Enabled = false;
+            await _currentProfile.AwaitAllKeysUp();
+            Console.WriteLine("Wait completed");
             _currentProfile.Enabled = false;
             _currentProfile = newProfile;
             _currentProfile.Enabled = true;
+            _tracker.Enabled = true;
         }
     }
 }

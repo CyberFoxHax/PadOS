@@ -18,6 +18,7 @@ namespace PadOS.ProfileExecution {
         }
 
         public event Action<ITriggerSwitchHandler, int> OnTrigger;
+        public event Action<ITriggerSwitchHandler> OnTriggerOff;
 
         private List<ITriggerHandler> _handlers;
         private int _lastTrigger = -1;
@@ -32,6 +33,7 @@ namespace PadOS.ProfileExecution {
                 var v = _lastTrigger;
                 _lastTrigger = -1;
                 OnTrigger?.Invoke(this, v);
+                OnTriggerOff?.Invoke(this);
             }
         }
 

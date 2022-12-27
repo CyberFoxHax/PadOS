@@ -2,8 +2,12 @@
 
 namespace PadOS.SaveData.ProfileXML
 {
-    public class PadOSAction : IAction {
-        public string Key { get; set; }
+    /*public class PadOSAction : IAction {
+        public EPadOSAction Name { get; set; }
         public string Value { get; set; }
-    }
+
+        public enum EPadOSAction {
+            ChangeProfile,
+        }
+    }*/
 }

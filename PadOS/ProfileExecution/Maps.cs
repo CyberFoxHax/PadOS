@@ -56,6 +56,7 @@ namespace PadOS.ProfileExecution
         public static ActionMap ActionHandlers = new ActionMap {
             ActionMap.Pair<SaveData.ProfileXML.KeyboardAction, KeyboardActionHandler>(),
             ActionMap.Pair<SaveData.ProfileXML.MouseAction, MouseActionHandler>(),
+            ActionMap.Pair<SaveData.ProfileXML.ShowMessage, ShowMessageHandler>(),
         };
 
         public static readonly Dictionary<ButtonsConstants, string> ButtonDownEventMap = new Dictionary<ButtonsConstants, string> {

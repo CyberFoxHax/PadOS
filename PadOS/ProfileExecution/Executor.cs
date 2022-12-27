@@ -21,6 +21,9 @@ namespace PadOS.ProfileExecution
         private readonly List<ITriggerSwitchHandler> _triggersSwitches = new List<ITriggerSwitchHandler>();
 
         private List<IActionHandler> _actions = new List<IActionHandler>();
+        private List<MappingHandler> _mappingHandlers = new List<MappingHandler>();
+        private List<SwitchMappingHandler> _switchMappingHandlers = new List<SwitchMappingHandler>();
+
 
         public void Init() {
             var plugins = Plugins.PluginsLoader.FindCorrectDll(_profile.Plugins.Select(p => p.Filename));
@@ -36,7 +39,13 @@ namespace PadOS.ProfileExecution
                         var sw = Maps.TriggerSwitchHandlers.InstanceFromNode(trigger);
                         sw.Init(trigger, _gamePadInput);
                         sw.OnTrigger += (s, i) => {
-                            switchMapping.Invoke(i);
+                            if (_awaitKeysUpTask == null)
+                                switchMapping.Invoke(i);
+                        };
+                        sw.OnTriggerOff += (s) => {
+                            switchMapping.InvokeOff();
+                            if (_awaitKeysUpTask != null)
+                                CheckAwaitKeysUp();
                         };
                         _triggersSwitches.Add(sw);
                     }
@@ -46,10 +55,13 @@ namespace PadOS.ProfileExecution
                         var handler = Maps.TriggerHandlers.InstanceFromNode(trigger);
                         handler.Init(trigger, _gamePadInput);
                         handler.OnTrigger += p => {
-                            mappingHandler.Invoke();
+                            if (_awaitKeysUpTask == null)
+                                mappingHandler.Invoke();
                         };
                         handler.OnTriggerOff += p => {
                             mappingHandler.InvokeOff();
+                            if (_awaitKeysUpTask != null)
+                                CheckAwaitKeysUp();
                         };
                         _triggers.Add(handler);
                     }
@@ -63,7 +75,36 @@ namespace PadOS.ProfileExecution
                     else if (mappingHandler != null)
                         mappingHandler.Add(handler);
                 }
+                if (mappingHandler != null)
+                    _mappingHandlers.Add(mappingHandler);
+                else if (switchMapping != null)
+                    _switchMappingHandlers.Add(switchMapping);
             }
+        }
+
+        private void CheckAwaitKeysUp() {
+            if (_mappingHandlers.All(p => p.AnyDown == false)
+            && _switchMappingHandlers.All(p=>p.AnyDown == false)) {
+                var t = _awaitKeysUpTask;
+                _awaitKeysUpTask = null;
+                t.SetResult(true);
+            }
+        }
+
+        private TaskCompletionSource<bool> _awaitKeysUpTask;
+        public Task AwaitAllKeysUp() {
+            if (_mappingHandlers.All(p => p.AnyDown == false)
+            && _switchMappingHandlers.All(p => p.AnyDown == false)
+            && _awaitKeysUpTask == null) {
+                Console.WriteLine("Dont wait");
+                return Task.FromResult(true);
+            }
+
+            if (_awaitKeysUpTask != null)
+                return _awaitKeysUpTask.Task;
+            _awaitKeysUpTask = new TaskCompletionSource<bool>();
+            Console.WriteLine("Wait");
+            return _awaitKeysUpTask.Task;
         }
 
         private bool _enabled;

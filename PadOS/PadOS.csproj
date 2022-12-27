@@ -123,6 +123,7 @@
     <Compile Include="Plugins\PluginsLoader.cs" />
     <Compile Include="InputSimulatorPlugin.cs" />
     <Compile Include="ProfileExecution\Handlers\Actions\MouseActionHandler.cs" />
+    <Compile Include="ProfileExecution\Handlers\Actions\ShowMessageHandler.cs" />
     <Compile Include="ProfileExecution\Handlers\Triggers\AnalogueTriggerHandler.cs" />
     <Compile Include="ProfileExecution\ITriggerInit.cs" />
     <Compile Include="ProfileExecution\TriggerEvent_Delegate.cs" />
@@ -154,6 +155,7 @@
     <Compile Include="SaveData\ProfileXML\DataModels\MouseAction.cs" />
     <Compile Include="SaveData\ProfileXML\DataModels\PadOSAction.cs" />
     <Compile Include="SaveData\ProfileXML\DataModels\PadOSTrigger.cs" />
+    <Compile Include="SaveData\ProfileXML\DataModels\ShowMessage.cs" />
     <Compile Include="SaveData\ProfileXML\DataModels\SystemTrigger.cs" />
     <Compile Include="SaveData\ProfileXML\DataModels\TriggerSwitch.cs" />
     <Compile Include="SaveData\ProfileXML\IParseXML.cs" />
@@ -408,9 +410,9 @@
     <AppDesigner Include="Properties\" />
     <Resource Include="Resources\ControllerOSKSkin\Steam - Daisy Wheel\BackgroundFlower.png" />
     <Resource Include="Resources\circle_dots.png" />
-    <Resource Include="Profiles\PCSX2.xml">
+    <Content Include="Profiles\PCSX2.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
+    </Content>
     <Content Include="Profiles\Test.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -423,9 +425,9 @@
     <Content Include="Profiles\Game.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Resource Include="Profiles\Dolphin.xml">
+    <Content Include="Profiles\Dolphin.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
+    </Content>
     <Content Include="Profiles\VLC.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

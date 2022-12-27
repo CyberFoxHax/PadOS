@@ -22,10 +22,10 @@
 	<KeyboardAction Button="M" />
 
 	<ButtonTrigger Button="DPadLeft" />
-	<KeyboardAction Button="Ctrl+Left" />
+	<KeyboardAction Button="Ctrl+Left" Repeat="True" />
 	
 	<ButtonTrigger Button="DPadRight" />
-	<KeyboardAction Button="Ctrl+Right" />
+	<KeyboardAction Button="Ctrl+Right" Repeat="True" />
 	
 	<ButtonTrigger Button="DPadUp" />
 	<KeyboardAction Button="V" />
@@ -33,8 +33,8 @@
 	<ButtonTrigger Button="DPadDown" />
 	<KeyboardAction Button="B" />
 
-	<AnalogueTrigger Axis="LeftThumbX" Value="-0.5" Frequency="500" />
-	<KeyboardAction Button="Shift+Left" />
+  <AnalogueTrigger Axis="LeftThumbX" Value="-0.5" Frequency="500" />
+  <KeyboardAction Button="Shift+Left" />
 
 	<AnalogueTrigger Axis="LeftThumbX" Value="0.5" Frequency="500" />
 	<KeyboardAction Button="Shift+Right" />

@@ -23,7 +23,7 @@ namespace PadOS.ProfileExecution {
 
         public void Init(ITrigger p, GamePadInput input) {
             var node = (PadOSTrigger)p;
-            _key = node.Key;
+            _key = node.Name;
             if(node.Delay > 1)
                 _timer.Interval = node.Delay;
             _timer.Elapsed += _timer_Elapsed;

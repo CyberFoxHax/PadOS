@@ -1,16 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Profile>
 
-  <ButtonTrigger Button="X" />
-  <KeyboardAction Button="X" />
-
-  <ButtonTrigger Button="Y" />
-  <KeyboardAction Button="Y" />
+  <ButtonTrigger Button="DPadUp" />
+  <KeyboardAction Button="Shift+A" />
+  
+  <ButtonTrigger Button="LeftShoulder" />
+  <KeyboardAction Button="Shift" />
 
   <ButtonTrigger Button="B" />
-  <KeyboardAction Button="B" />
+  <KeyboardAction Button="Ctrl+Right" />
+  
+  <ButtonTrigger Button="X" />
+  <KeyboardAction Button="Ctrl+Left" />
 
-  <ButtonTrigger Button="A" />
-  <KeyboardAction Button="A" />
+  <ButtonTrigger Button="DPadRight" />
+  <KeyboardAction Button="Shift+Right" />
+
+  <ButtonTrigger Button="DPadLeft" />
+  <KeyboardAction Button="Shift+Left" />
 
 </Profile>
