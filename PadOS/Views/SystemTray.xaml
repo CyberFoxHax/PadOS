@@ -17,6 +17,7 @@
             <ContextMenu>
                 <MenuItem Header="  PadOS" IsEnabled="False" />
                 <Separator />
+                <MenuItem Header="Show/Hide" Click="ShowHide_OnClick" />
                 <MenuItem Header="Exit" Click="Exit_OnClick" />
             </ContextMenu>
         </tb:TaskbarIcon.ContextMenu>

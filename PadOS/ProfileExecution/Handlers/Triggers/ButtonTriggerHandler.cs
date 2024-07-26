@@ -60,6 +60,7 @@ namespace PadOS.ProfileExecution {
         }
 
         private void OnButton(int player, GamePadState state) {
+            // called too many times
             OnTrigger?.Invoke(this);
         }
 

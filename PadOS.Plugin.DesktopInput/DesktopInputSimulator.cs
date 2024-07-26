@@ -11,7 +11,7 @@ using Timer = System.Timers.Timer;
 
 namespace PadOS.Plugin.DesktopInput
 {
-    public class DesktopInputSimulator : PadOS.InputSimulatorPlugin {
+    public class DesktopInputSimulator : PadOS.IInputSimulatorPlugin {
         public string Key => GetType().Name;
 
         private bool _enabled;
@@ -81,7 +81,7 @@ namespace PadOS.Plugin.DesktopInput
             _gamePadInput.ButtonLeftStickUp += gamePadInput_ButtonLeftStickUp;
             _gamePadInput.ButtonRightStickDown += gamePadInput_ButtonRightStickDown;
             _gamePadInput.ButtonRightStickUp += gamePadInput_ButtonRightStickUp;
-            Console.WriteLine(nameof(DesktopInputSimulator) + " Instance Created");
+            Console.WriteLine($"[{nameof(DesktopInputSimulator)}] Load completed");
         }
 
         public void Activate() {

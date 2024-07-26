@@ -43,6 +43,7 @@ namespace PadOS {
 
 			base.OnStartup(e);
 			_systemTray = new SystemTray();
+            _systemTray.ShowHideOnClick += Navigator.ToggleMainPanel;
 			Exit += OnExit;
 
 			Navigator.Initialize();

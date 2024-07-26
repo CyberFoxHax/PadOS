@@ -53,8 +53,12 @@
 
   <HoldSwitch>
     <ButtonTrigger Button="RightThumb" HoldSwitch.Timeout="0" />
-    <ButtonTrigger Button="RightThumb" HoldSwitch.Timeout="500" />
+    <ButtonTrigger Button="RightThumb" HoldSwitch.Timeout="1000" />
+    <ButtonTrigger Button="RightThumb" HoldSwitch.Timeout="2000" />
+    <ButtonTrigger Button="RightThumb" HoldSwitch.Timeout="3000" />
   </HoldSwitch>
-  <KeyboardAction Button="Alt+Tab" />
-  <KeyboardAction Button="Alt+F4" />
+  <KeyboardAction Button="N" />
+  <KeyboardAction Button="N" />
+  <KeyboardAction Button="N" />
+  <KeyboardAction Button="N" />
 </Profile>

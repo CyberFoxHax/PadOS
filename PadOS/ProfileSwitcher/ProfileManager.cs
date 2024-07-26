@@ -50,10 +50,10 @@ namespace PadOS.ProfileSwitcher
 
             var newProfile = _profiles[profileMatch.Profile];
             if (newProfile == _currentProfile) {
-                Console.WriteLine("Process changed to: " + processName + ". Profile change not needed");
+                Console.WriteLine("[ProfileManager/Tracker_ProcessChanged] Process changed to: " + processName + ". Profile change not needed");
                 return;
             }
-            Console.WriteLine("Process changed to: " + processName + ". Profile changed to \"" + profileMatch.Profile.Name + "\"");
+            Console.WriteLine("[ProfileManager/Tracker_ProcessChanged] Process changed to: " + processName + ". Profile changed to \"" + profileMatch.Profile.Name + "\"");
             _tracker.Enabled = false;
             await _currentProfile.AwaitAllKeysUp();
             Console.WriteLine("Wait completed");

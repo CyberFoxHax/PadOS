@@ -8,10 +8,19 @@ namespace PadOS.Plugins
 {
 
     public static class PluginsLoader {
-        public static IEnumerable<string> FindCorrectDll(IEnumerable<string> configNames) {
-            configNames = configNames as IList<string> ?? configNames.ToArray();
+
+        /// <summary>
+        /// Looks for the dllfile names, returns an array of files should multiple candidates exist.
+        /// Takes a list of paths forcing you to cache the result, and not run repeated queries on the filesystem.
+        /// </summary>
+        /// <param name="pluginPaths">list of paths, relative or absolute</param>
+        /// <returns></returns>
+        public static IEnumerable<string> FindCorrectDll(IEnumerable<string> pluginPaths) {
+            pluginPaths = pluginPaths as IList<string> ?? pluginPaths.ToArray();
 
             var pluginsRoot = Path.Combine(Environment.CurrentDirectory, "Plugins");
+            if (Directory.Exists(pluginsRoot) == false)
+                Directory.CreateDirectory(pluginsRoot);
             var allDll = Directory.EnumerateDirectories(pluginsRoot)
                 .SelectMany(Directory.EnumerateFiles)
                 .Where(p => p.EndsWith(".dll"))
@@ -19,15 +28,15 @@ namespace PadOS.Plugins
 
             var plugins = new Dictionary<string, string>();
             // find all DLL with matching file names
-            foreach (var item in configNames) {
+            foreach (var item in pluginPaths) {
                 var a = allDll
                     .FirstOrDefault(p => Path.GetFileName(p) == Path.GetFileName(item));
 
                 if (string.IsNullOrEmpty(a) == false)
-                    plugins[a] = item;
+                    plugins[item] = a;
             }
             // find all DLL with matching file name, but only those with a path
-            foreach (var item in configNames) {
+            foreach (var item in pluginPaths) {
                 var file = Path.GetFileName(item);
                 if (file.Length < item.Length)
                     continue;
@@ -35,15 +44,19 @@ namespace PadOS.Plugins
                     .FirstOrDefault(p => Path.GetFileName(p) == file);
 
                 if (string.IsNullOrEmpty(a) == false)
-                    plugins[a] = item;
+                    plugins[item] = a;
             }
             // absolute path
-            foreach (var item in configNames) {
+            foreach (var item in pluginPaths) {
                 if (File.Exists(item))
                     plugins[item] = item;
             }
 
-            return plugins.Keys;
+            foreach (var p in pluginPaths) {
+                if (plugins.ContainsKey(p) == false)
+                    Console.Error.WriteLine("[PluginsLoader/FindCorrectDll] Plugin not found: \"" + p + "\"");
+            }
+            return plugins.Values;
         }
 
         public static Plugin<T> Load<T>(string file) {

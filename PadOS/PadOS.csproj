@@ -121,7 +121,7 @@
     <Compile Include="Commands\ApplicationCommands.cs" />
     <Compile Include="Plugins\Plugin.cs" />
     <Compile Include="Plugins\PluginsLoader.cs" />
-    <Compile Include="InputSimulatorPlugin.cs" />
+    <Compile Include="IInputSimulatorPlugin.cs" />
     <Compile Include="ProfileExecution\Handlers\Actions\MouseActionHandler.cs" />
     <Compile Include="ProfileExecution\Handlers\Actions\ShowMessageHandler.cs" />
     <Compile Include="ProfileExecution\Handlers\Triggers\AnalogueTriggerHandler.cs" />

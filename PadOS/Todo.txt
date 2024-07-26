@@ -1,4 +1,4 @@
-Shift+Right doesn't work, but Shift+A does
+#Shift+Right doesn't work, but Shift+A does
 When profile is changed, Wait for all buttons up before enabling input.
 Vibrate action (and vibrate for hold switches)
 
@@ -13,6 +13,7 @@ Press the home button while nested OSK is open is also problematic
 	crash repro! Open OSK from a textbox, Press Guide, Press Guide, Open OSK from a textbox, Press Start, Crash
 
 Bug: Home Button doesn't work on Windows 10. GameBar overrides. Make a solution that can detect this and instruct the user to turn it off. (or do it automatically)
+Bug: Home button doesn't work on RDP?
 
 ProfileAssocEditor
 	"Remove" is not implemented
@@ -28,3 +29,4 @@ Navigator
 
 Enhance: MainPanel refactor so the controls will contain it's function attachment, and not the index based on the angle.
 Enhance: UI is too dark, on a bright background all the details disappear. Do this before beginning on the 4th view
+Custom logging

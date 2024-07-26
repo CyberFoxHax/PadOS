@@ -20,8 +20,8 @@ namespace PadOS.Navigation {
 
         private static ProfileSwitcher.ProfileManager _profileManager;
 
-        private static void XInputOnButtonGuideDown(int player, GamePadState state){
-			if (CurrentWindow != null) {
+        public static void ToggleMainPanel() {
+            if (CurrentWindow != null) {
                 _profileManager.ProfileEnabled = true;
                 App.GlobalDispatcher.Invoke(CloseWindow);
             }
@@ -29,7 +29,12 @@ namespace PadOS.Navigation {
                 _profileManager.ProfileEnabled = false;
                 App.GlobalDispatcher.Invoke(OpenMainPanel);
             }
-		}
+        }
+
+
+        private static void XInputOnButtonGuideDown(int player, GamePadState state){
+            ToggleMainPanel();
+        }
 
 		private static readonly Dictionary<Type, Window> Windows = new Dictionary<Type, Window>();
 		public static Window CurrentWindow { get; private set; }

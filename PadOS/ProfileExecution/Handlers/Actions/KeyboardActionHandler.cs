@@ -152,7 +152,7 @@ namespace PadOS.ProfileExecution {
             var trout = "";
             for (int i = 0; i < _vkSequence.Length; i++)
                 trout += _vkSequence[i]+" ";
-            Console.WriteLine(trout);
+            //Console.WriteLine(trout);
             for (int i = 0; i < _vkSequence.Length; i++) {
                 uint tf = DllImport.UserInfo32.KEYEVENTF_KEYDOWN;
                 //if (_vkSequence[i] == DllImport.UserInfo32.VK_LSHIFT)
@@ -166,7 +166,7 @@ namespace PadOS.ProfileExecution {
             var trout = "";
             for (int i = _vkSequence.Length - 1; i >= 0; i--)
                 trout += _vkSequence[i]+" ";
-            Console.WriteLine(trout);
+            //Console.WriteLine(trout);
             for (int i = _vkSequence.Length - 1; i >= 0; i--) {
                 uint tf = DllImport.UserInfo32.KEYEVENTF_KEYUP;
                 //if (_vkSequence[i] == DllImport.UserInfo32.VK_LSHIFT)

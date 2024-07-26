@@ -8,6 +8,7 @@ using PadOS.Input.GamePadInput;
 using PadOS.SaveData.ProfileXML;
 
 namespace PadOS.ProfileExecution {
+    // add default value if no timeout is defined
     public class HoldSwitchHandler : ITriggerSwitchHandler {
         private bool _enabled;
         public bool Enabled {
@@ -30,8 +31,21 @@ namespace PadOS.ProfileExecution {
         private bool _on;
 
         private int _buttonsDownCount = 0;
+        private GamePadInput _gamePad;
+
+        private async void VibrateHolds() {
+            foreach (var t in _timeouts) {
+                if (t == 0)
+                    continue;
+                await Task.Delay((int)t);
+                if (_on == false)
+                    break;
+                _gamePad.SetVibration(0, 1, 1, 250);
+            }
+        }
 
         public void Init(ITrigger node, GamePadInput input) {
+            _gamePad = input;
             var sw = node as HoldSwitch;
             _triggerHandlers = new ITriggerHandler[sw.Buttons.Count];
             _timeouts = new float[_triggerHandlers.Length];
@@ -47,6 +61,7 @@ namespace PadOS.ProfileExecution {
         }
 
         private void timer_Elapsed(object sender, ElapsedEventArgs e) {
+            Console.WriteLine("[PadOS] timer_Elapsed");
             _timer.Stop();
             _on = false;
             _endTime = DateTime.Now;
@@ -59,6 +74,8 @@ namespace PadOS.ProfileExecution {
         }
 
         private void HoldSwitchHandler_OnTriggerOff(ITriggerHandler sender) {
+            Console.WriteLine("[PadOS] HoldSwitchHandler_OnTriggerOff");
+
             _buttonsDownCount--;
             if (_buttonsDownCount == 0) {
                 OnTriggerOff?.Invoke(this);
@@ -90,6 +107,7 @@ namespace PadOS.ProfileExecution {
             _buttonsDownCount++;
             _startTime = DateTime.Now;
             _on = true;
+            Console.WriteLine("[PadOS] HoldSwitchHandler_OnTrigger");
             _timer.Start();
         }
     }

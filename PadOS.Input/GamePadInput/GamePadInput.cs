@@ -39,6 +39,42 @@ namespace PadOS.Input.GamePadInput {
             GamePad.SetVibration((PlayerIndex)playerIndex, (float)leftMotor, (float)rightMotor);
         }
 
+
+        public async void SetVibration(int playerIndex, double leftMotor, double rightMotor, int ms) {
+            Console.WriteLine("[PadOS] Vibrate");
+            GamePad.SetVibration((PlayerIndex)playerIndex, (float)leftMotor, (float)rightMotor);
+            await System.Threading.Tasks.Task.Delay(ms);
+            GamePad.SetVibration((PlayerIndex)playerIndex, 0, 0);
+        }
+        /*private int v_playerIndex = -1;
+        private float v_leftMotor;
+        private float v_rightMotor;
+        private int v_ms;
+
+        public Thread _vibratorThread;
+        public void SetVibration(int playerIndex, double leftMotor, double rightMotor, int ms) {
+            if (_vibratorThread == null) {
+                _vibratorThread = new Thread(async () => {
+                    while (true) {
+                        if (v_playerIndex == -1) {
+                            await System.Threading.Tasks.Task.Delay(10);
+                            continue;
+                        }
+                        await System.Threading.Tasks.Task.Delay(10);
+                        GamePad.SetVibration((PlayerIndex)v_playerIndex, (float)v_leftMotor, (float)v_rightMotor);
+                        await System.Threading.Tasks.Task.Delay(v_ms);
+                        GamePad.SetVibration((PlayerIndex)v_playerIndex, 0, 0);
+                        v_playerIndex = -1;
+                    }
+                });
+                _vibratorThread.Start();
+            }
+            v_playerIndex = playerIndex;
+            v_leftMotor  = (float)leftMotor;
+            v_rightMotor = (float)rightMotor;
+            v_ms = ms;
+        }*/
+
         public void Dispose(){
 			IsEnabled = false;
 		}

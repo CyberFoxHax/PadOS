@@ -7,6 +7,8 @@ namespace PadOS.Views {
 			InitializeComponent();
 		}
 
+        public event Action ShowHideOnClick;
+
 		private void Exit_OnClick(object sender, RoutedEventArgs e){
 			new System.Threading.Thread(() =>{
 				// allow for the context menu to fade out
@@ -15,6 +17,14 @@ namespace PadOS.Views {
 					Dispose();
 					Application.Current.Shutdown();
 					Environment.Exit(0);
+				}));
+			}).Start();
+		}
+
+        private void ShowHide_OnClick(object sender, RoutedEventArgs e){
+			new System.Threading.Thread(() =>{
+				Dispatcher.BeginInvoke(new Action(() => {
+                    ShowHideOnClick.Invoke();
 				}));
 			}).Start();
 		}

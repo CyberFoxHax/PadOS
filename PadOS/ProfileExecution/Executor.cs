@@ -16,7 +16,7 @@ namespace PadOS.ProfileExecution
         }
         private GamePadInput _gamePadInput;
         private readonly Profile _profile;
-        private List<InputSimulatorPlugin> _plugins;
+        private List<IInputSimulatorPlugin> _plugins;
         private readonly List<ITriggerHandler> _triggers = new List<ITriggerHandler>();
         private readonly List<ITriggerSwitchHandler> _triggersSwitches = new List<ITriggerSwitchHandler>();
 
@@ -27,7 +27,7 @@ namespace PadOS.ProfileExecution
 
         public void Init() {
             var plugins = Plugins.PluginsLoader.FindCorrectDll(_profile.Plugins.Select(p => p.Filename));
-            _plugins = plugins.Select(p => Plugins.PluginsLoader.Load<InputSimulatorPlugin>(p).CreateInstance()).ToList();
+            _plugins = plugins.Select(p => Plugins.PluginsLoader.Load<IInputSimulatorPlugin>(p).CreateInstance()).ToList();
 
             foreach (var mapping in _profile.Mappings) {
                 MappingHandler mappingHandler = null;
@@ -96,14 +96,14 @@ namespace PadOS.ProfileExecution
             if (_mappingHandlers.All(p => p.AnyDown == false)
             && _switchMappingHandlers.All(p => p.AnyDown == false)
             && _awaitKeysUpTask == null) {
-                Console.WriteLine("Dont wait");
+                //Console.WriteLine("Dont wait");
                 return Task.FromResult(true);
             }
 
             if (_awaitKeysUpTask != null)
                 return _awaitKeysUpTask.Task;
             _awaitKeysUpTask = new TaskCompletionSource<bool>();
-            Console.WriteLine("Wait");
+            //Console.WriteLine("Wait");
             return _awaitKeysUpTask.Task;
         }
 

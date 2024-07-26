@@ -17,8 +17,8 @@ namespace PadOS.SaveData.ProfileXML
             Middle = 2,
             Scroll = 2,
             Right = 3,
-            Forward = 4,
-            Back = 5
+            Back = 4,
+            Forward = 5
         }
 
         public enum EUnit {
