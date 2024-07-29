@@ -44,6 +44,7 @@ namespace PadOS.ProfileExecution {
             var key = Maps.StringToButton(buttonNode.Button);
             _button = key;
 
+            Console.WriteLine("[PadOS][ButtonTrigger] Register");
             var type = _input.GetType();
             {
                 var eventName = Maps.ButtonDownEventMap[key];
@@ -60,7 +61,6 @@ namespace PadOS.ProfileExecution {
         }
 
         private void OnButton(int player, GamePadState state) {
-            // called too many times
             OnTrigger?.Invoke(this);
         }
 

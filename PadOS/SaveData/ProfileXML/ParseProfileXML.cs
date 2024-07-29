@@ -79,6 +79,7 @@ namespace PadOS.SaveData.ProfileXML
             var mapping = new Mapping();
             var variables = new Dictionary<string, int>();
             var handlingTrigger = true;
+            ITrigger lastTrigger = null;
             //Profile.Name = Document.DocumentElement.GetAttribute(nameof(Profile.Name));
             foreach (XmlNode node in Document.DocumentElement.ChildNodes) {
                 Type type;
@@ -106,12 +107,15 @@ namespace PadOS.SaveData.ProfileXML
                     }
                     handlingTrigger = true;
                     var instance = (ITrigger) ReflectNode(node, type);
+                    lastTrigger = instance;
                     mapping.Triggers.Add(instance);
                     continue;
                 }
                 if (ActionInterfaceType.IsAssignableFrom(type)) {
                     handlingTrigger = false;
                     var instance = (IAction) ReflectNode(node, type);
+                    if (lastTrigger != null && lastTrigger is HoldSwitch hs)
+                        hs.ParseAction(this, node, instance);
                     mapping.Actions.Add(instance);
                     continue;
                 }

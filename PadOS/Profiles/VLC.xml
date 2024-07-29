@@ -52,13 +52,10 @@
 	<KeyboardAction Button="H" />
 
   <HoldSwitch>
-    <ButtonTrigger Button="RightThumb" HoldSwitch.Timeout="0" />
-    <ButtonTrigger Button="RightThumb" HoldSwitch.Timeout="1000" />
-    <ButtonTrigger Button="RightThumb" HoldSwitch.Timeout="2000" />
-    <ButtonTrigger Button="RightThumb" HoldSwitch.Timeout="3000" />
+    <ButtonTrigger Button="RightThumb" />
   </HoldSwitch>
-  <KeyboardAction Button="N" />
-  <KeyboardAction Button="N" />
-  <KeyboardAction Button="N" />
-  <KeyboardAction Button="N" />
+  <KeyboardAction Button="A" HoldSwitch.Timeout="0" />
+  <KeyboardAction Button="B" HoldSwitch.Timeout="1000" />
+  <KeyboardAction Button="C" HoldSwitch.Timeout="2000" />
+  <KeyboardAction Button="D" HoldSwitch.Timeout="3000" />
 </Profile>

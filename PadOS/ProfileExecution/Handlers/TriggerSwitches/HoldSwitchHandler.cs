@@ -34,26 +34,29 @@ namespace PadOS.ProfileExecution {
         private GamePadInput _gamePad;
 
         private async void VibrateHolds() {
+            // doesn't quite work
             foreach (var t in _timeouts) {
                 if (t == 0)
                     continue;
                 await Task.Delay((int)t);
                 if (_on == false)
                     break;
-                _gamePad.SetVibration(0, 1, 1, 250);
+                _gamePad.SetVibration(0, 1, 1, 100);
             }
         }
 
         public void Init(ITrigger node, GamePadInput input) {
             _gamePad = input;
             var sw = node as HoldSwitch;
-            _triggerHandlers = new ITriggerHandler[sw.Buttons.Count];
-            _timeouts = new float[_triggerHandlers.Length];
-            for (int i = 0; i < sw.Buttons.Count; i++) {
-                _triggerHandlers[i] = Maps.TriggerHandlers.InitHandler(sw.Buttons[i].Owner, input);
-                _timeouts[i] = sw.Buttons[i].Timeout;
+            _triggerHandlers = new ITriggerHandler[sw.Triggers.Count];
+            _timeouts = new float[sw.Actions.Count];
+            for (int i = 0; i < sw.Triggers.Count; i++) {
+                _triggerHandlers[i] = Maps.TriggerHandlers.InitHandler(sw.Triggers[i].Owner, input);
                 _triggerHandlers[i].OnTrigger += HoldSwitchHandler_OnTrigger;
                 _triggerHandlers[i].OnTriggerOff += HoldSwitchHandler_OnTriggerOff;
+            }
+            for (int i = 0; i < sw.Actions.Count; i++) {
+                _timeouts[i] = sw.Actions[i].Timeout;
             }
             _timer.Interval = _timeouts.Last();
             _timer.Elapsed += timer_Elapsed;
@@ -69,7 +72,7 @@ namespace PadOS.ProfileExecution {
 
             _endTime = default;
             _startTime = default;
-            var index = _triggerHandlers.Length - 1;
+            var index = _timeouts.Length - 1;
             OnTrigger?.Invoke(this, index);
         }
 
@@ -107,6 +110,7 @@ namespace PadOS.ProfileExecution {
             _buttonsDownCount++;
             _startTime = DateTime.Now;
             _on = true;
+            VibrateHolds();
             Console.WriteLine("[PadOS] HoldSwitchHandler_OnTrigger");
             _timer.Start();
         }
