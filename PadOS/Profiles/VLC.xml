@@ -54,8 +54,6 @@
   <HoldSwitch>
     <ButtonTrigger Button="RightThumb" />
   </HoldSwitch>
-  <KeyboardAction Button="A" HoldSwitch.Timeout="0" />
-  <KeyboardAction Button="B" HoldSwitch.Timeout="1000" />
-  <KeyboardAction Button="C" HoldSwitch.Timeout="2000" />
-  <KeyboardAction Button="D" HoldSwitch.Timeout="3000" />
+  <KeyboardAction Button="Alt+Tab" HoldSwitch.Timeout="0" />
+  <KeyboardAction Button="Alt+F4" HoldSwitch.Timeout="1000" />
 </Profile>

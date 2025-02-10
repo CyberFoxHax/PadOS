@@ -40,8 +40,7 @@ namespace PadOS.Input.GamePadInput {
         }
 
 
-        public async void SetVibration(int playerIndex, double leftMotor, double rightMotor, int ms) {
-            Console.WriteLine("[PadOS] Vibrate");
+        public async void SetVibrationOnce(int playerIndex, double leftMotor, double rightMotor, int ms) {
             GamePad.SetVibration((PlayerIndex)playerIndex, (float)leftMotor, (float)rightMotor);
             await System.Threading.Tasks.Task.Delay(ms);
             GamePad.SetVibration((PlayerIndex)playerIndex, 0, 0);

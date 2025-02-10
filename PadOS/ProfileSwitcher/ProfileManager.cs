@@ -55,8 +55,9 @@ namespace PadOS.ProfileSwitcher
             }
             Console.WriteLine("[ProfileManager/Tracker_ProcessChanged] Process changed to: " + processName + ". Profile changed to \"" + profileMatch.Profile.Name + "\"");
             _tracker.Enabled = false;
+            //Console.WriteLine("Awaiting all buttons up");
             await _currentProfile.AwaitAllKeysUp();
-            Console.WriteLine("Wait completed");
+            //Console.WriteLine("Wait completed");
             _currentProfile.Enabled = false;
             _currentProfile = newProfile;
             _currentProfile.Enabled = true;

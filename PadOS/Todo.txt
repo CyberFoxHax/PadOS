@@ -1,6 +1,7 @@
 #Shift+Right doesn't work, but Shift+A does
-When profile is changed, Wait for all buttons up before enabling input.
+#When profile is changed, Wait for all buttons up before enabling input.
 Vibrate action (and vibrate for hold switches)
+	Currently hardcoded for player 0, but should trigger on the controller that is executing the macro
 
 move user data into AppData and put a shortcut in local folders
 Pass analogues value to actions, if such value exists, otherwise just pass "1f" (what about negatives?)
