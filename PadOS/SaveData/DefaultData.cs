@@ -41,14 +41,35 @@ namespace PadOS.SaveData {
 				Title = "Settings",
 				FunctionType = FunctionType.PadOsInternal
 			},
-			new Function{
+            new Function{
                 Id = 3,
                 Parameter = "OpenOsk",
-				ImageUrl = "Icons/osk.png",
-				Title = "OSK",
-				FunctionType = FunctionType.PadOsInternal
-			}
-		};
+                ImageUrl = "Icons/osk.png",
+                Title = "OSK",
+                FunctionType = FunctionType.PadOsInternal
+            },
+            new Function{
+                Id = 4,
+                Parameter = "MinimizeCurrentWindow",
+                ImageUrl = "Icons/minimize.png",
+                Title = "Minimize Window",
+                FunctionType = FunctionType.PadOsInternal
+            },
+            new Function{
+                Id = 5,
+                Parameter = "CloseCurrentWindow",
+                ImageUrl = "Icons/cross.png",
+                Title = "Close Window",
+                FunctionType = FunctionType.PadOsInternal
+            },
+            new Function{
+                Id = 6,
+                Parameter = "KillCurrentWindow",
+                ImageUrl = "Icons/skull.png",
+                Title = "Kill Window",
+                FunctionType = FunctionType.PadOsInternal
+            }
+        };
 
         public static Profile[] Profiles = {
             AllProfile,

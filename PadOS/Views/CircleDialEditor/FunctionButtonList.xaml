@@ -33,7 +33,7 @@
             </ItemsControl.Items>
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <UniformGrid Columns="4" Rows="6" />
+                    <UniformGrid Columns="3" Rows="6" />
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>

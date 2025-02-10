@@ -28,9 +28,24 @@ namespace PadOS.Commands {
 			Navigator.OpenWindow<Settings>();
 		}
 
-		/////////////////////////////////////
+        [Key("MinimizeCurrentWindow")]
+        public static void MinimizeCurrentWindow() {
+            WindowCommands.WindowMinimizeCommand.Execute(null);
+        }
 
-		private static readonly Dictionary<string, Action> Functions;
+        [Key("CloseCurrentWindow")]
+        public static void CloseCurrentWindow() {
+            WindowCommands.WindowCloseCommand.Execute(null);
+        }
+
+        [Key("KillCurrentWindow")]
+        public static void KillCurrentWindow() {
+            WindowCommands.WindowKillCommand.Execute(null);
+        }
+
+        /////////////////////////////////////
+
+        private static readonly Dictionary<string, Action> Functions;
 
 		static PadOsInternalFunctions(){
 			var type = typeof (PadOsInternalFunctions);
