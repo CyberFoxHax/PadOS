@@ -9,7 +9,7 @@
         x:Name="NotifyIcon"
         IconSource="/PadOS;component/Resources/icon.ico"
         Visibility="Visible"
-        ToolTipText="ControllerOSK"
+        ToolTipText="PadOS"
         MenuActivation="LeftOrRightClick"
         PopupActivation="DoubleClick"
         ToolTip="ControllerOSK">

@@ -237,8 +237,13 @@ namespace PadOS.Plugin.DesktopInput
             else if (_cursorPosition.Y > screenSize.Height)
                 _cursorPosition.Y = screenSize.Height;
 
-            mouse_event(MOUSEEVENTF_MOVE, 5, 5, 0, 0);
-            //mouse_event(MOUSEEVENTF_ABSOLUTE, (int)_cursorPosition.X, (int)_cursorPosition.Y, 0, 0);
+            mouse_event(
+                MOUSEEVENTF_MOVE | MOUSEEVENTF_ABSOLUTE,
+                (int)(_cursorPosition.X/screenSize.Width*65535),
+                (int)(_cursorPosition.Y/screenSize.Height*65535),
+                0,
+                0
+            );
             //Cursor.Position = new System.Drawing.Point((int)_cursorPosition.X, (int)_cursorPosition.Y);
         }
 
@@ -284,6 +289,7 @@ namespace PadOS.Plugin.DesktopInput
         private const int VK_LCONTROL = 0x00A2;
         private const int VK_LSHIFT = 0x00A0;
         private const int VK_MENU = 0x0012;
+        private const int VK_NUMLOCK = 0x0090;
         private const int VK_ESCAPE = 0x001B;
         private const int VK_RETURN = 0x000D;
         private const int VK_F4 = 0x0073;
