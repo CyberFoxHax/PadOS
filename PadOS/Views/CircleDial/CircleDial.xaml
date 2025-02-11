@@ -45,6 +45,18 @@
             <customControls:AlphaSilhouetteImage Canvas.Left="174" Canvas.Top="556" Source="/PadOS;component/Resources/Icons/Loupe.png" />
             <customControls:AlphaSilhouetteImage Canvas.Left="95"  Canvas.Top="365" Source="/PadOS;component/Resources/Icons/Cogs.png" />
             <customControls:AlphaSilhouetteImage Canvas.Left="174" Canvas.Top="174" Source="/PadOS;component/Resources/Icons/OSK.png" />
+            <Viewbox StretchDirection="DownOnly" Stretch="Uniform" Canvas.Left="197" Canvas.Top="300" Height="130" Width="325">
+                <TextBlock x:Name="Txt_ProfileName2" Text="VLC" FontSize="72" Foreground="#1A1A1A" TextAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center"  />
+            </Viewbox>
+            <Viewbox StretchDirection="DownOnly" Stretch="Uniform" Canvas.Left="202" Canvas.Top="300" Height="130" Width="325">
+                <TextBlock x:Name="Txt_ProfileName3" Text="VLC" FontSize="72" Foreground="#1A1A1A" TextAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center"  />
+            </Viewbox>
+            <Viewbox StretchDirection="DownOnly" Stretch="Uniform" Canvas.Left="199" Canvas.Top="303" Height="130" Width="325">
+                <TextBlock x:Name="Txt_ProfileName4" Text="VLC" FontSize="72" Foreground="#1A1A1A" TextAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center"  />
+            </Viewbox>
+            <Viewbox StretchDirection="DownOnly" Stretch="Uniform" Canvas.Left="199" Canvas.Top="297" Height="130" Width="325">
+                <TextBlock x:Name="Txt_ProfileName5" Text="VLC" FontSize="72" Foreground="#1A1A1A" TextAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center"  />
+            </Viewbox>
             <Viewbox StretchDirection="DownOnly" Stretch="Uniform" Canvas.Left="199" Canvas.Top="300" Height="130" Width="325">
                 <TextBlock x:Name="Txt_ProfileName" Text="VLC" FontSize="72" Foreground="White" TextAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center"  />
             </Viewbox>

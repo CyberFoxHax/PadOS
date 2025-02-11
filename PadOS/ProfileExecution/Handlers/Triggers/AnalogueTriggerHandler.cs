@@ -42,6 +42,7 @@ namespace PadOS.ProfileExecution {
 
         private void OnTimer(object sender, System.Timers.ElapsedEventArgs e) {
             OnTrigger?.Invoke(this);
+            OnTriggerOff?.Invoke(this);
         }
 
         private void OnThumbChange(int player, GamePadState state, Input.Vector2 vec2) {

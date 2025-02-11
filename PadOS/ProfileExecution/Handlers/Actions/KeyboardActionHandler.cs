@@ -119,6 +119,7 @@ namespace PadOS.ProfileExecution {
 
         private void intervalTimer_Elapsed(object sender, ElapsedEventArgs e) {
             KeysDown();
+            KeysUp();
         }
 
         private void delayTimer_Elapsed(object sender, ElapsedEventArgs e) {
@@ -149,30 +150,45 @@ namespace PadOS.ProfileExecution {
 
         private void KeysDown() {
             _isDown = true;
-            var trout = "";
-            for (int i = 0; i < _vkSequence.Length; i++)
-                trout += _vkSequence[i]+" ";
-            //Console.WriteLine(trout);
             for (int i = 0; i < _vkSequence.Length; i++) {
                 uint tf = DllImport.UserInfo32.KEYEVENTF_KEYDOWN;
-                //if (_vkSequence[i] == DllImport.UserInfo32.VK_LSHIFT)
-                //    tf |= DllImport.UserInfo32.KEYEVENTF_EXTENDEDKEY;
+                if (_vkSequence[i] == DllImport.UserInfo32.VK_LEFT
+                ||  _vkSequence[i] == DllImport.UserInfo32.VK_RIGHT
+                ||  _vkSequence[i] == DllImport.UserInfo32.VK_UP
+                ||  _vkSequence[i] == DllImport.UserInfo32.VK_DOWN)
+                    tf |= DllImport.UserInfo32.KEYEVENTF_EXTENDEDKEY;
                 DllImport.UserInfo32.keybd_event(_vkSequence[i], 0, tf, 0);
             }
         }
 
         private void KeysUp() {
             _isDown = false;
-            var trout = "";
-            for (int i = _vkSequence.Length - 1; i >= 0; i--)
-                trout += _vkSequence[i]+" ";
-            //Console.WriteLine(trout);
             for (int i = _vkSequence.Length - 1; i >= 0; i--) {
                 uint tf = DllImport.UserInfo32.KEYEVENTF_KEYUP;
-                //if (_vkSequence[i] == DllImport.UserInfo32.VK_LSHIFT)
-                //    tf |= DllImport.UserInfo32.KEYEVENTF_EXTENDEDKEY;
+                if (_vkSequence[i] == DllImport.UserInfo32.VK_LEFT
+                ||  _vkSequence[i] == DllImport.UserInfo32.VK_RIGHT
+                ||  _vkSequence[i] == DllImport.UserInfo32.VK_UP
+                ||  _vkSequence[i] == DllImport.UserInfo32.VK_DOWN)
+                    tf |= DllImport.UserInfo32.KEYEVENTF_EXTENDEDKEY;
                 DllImport.UserInfo32.keybd_event(_vkSequence[i], 0, tf, 0);
             }
         }
     }
 }
+
+// source snippet from System.Windows.Forms.SendKeys
+// The extended key is NOT shift, it's the arrow keys. (among others see below)
+/*
+private static bool IsExtendedKey(SKEvent skEvent)
+{
+    return (VIRTUAL_KEY)skEvent.ParamL is VIRTUAL_KEY.VK_UP
+        or VIRTUAL_KEY.VK_DOWN
+        or VIRTUAL_KEY.VK_LEFT
+        or VIRTUAL_KEY.VK_RIGHT
+        or VIRTUAL_KEY.VK_PRIOR
+        or VIRTUAL_KEY.VK_NEXT
+        or VIRTUAL_KEY.VK_HOME
+        or VIRTUAL_KEY.VK_END
+        or VIRTUAL_KEY.VK_INSERT
+        or VIRTUAL_KEY.VK_DELETE;
+}*/

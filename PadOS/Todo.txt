@@ -1,8 +1,8 @@
+Shift+Right doesn't work, but Shift+A does
 mouse stays hidden in Win10
 Crash on db rebuild
 Using Minimize, Close, or Kill, will close the cirle dial, but it wont enable the profile automatically
 
-#Shift+Right doesn't work, but Shift+A does
 #When profile is changed, Wait for all buttons up before enabling input.
 Vibrate action (and vibrate for hold switches)
 	Currently hardcoded for player 0, but should trigger on the controller that is executing the macro

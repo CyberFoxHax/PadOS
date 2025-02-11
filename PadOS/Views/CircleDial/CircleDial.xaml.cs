@@ -78,7 +78,13 @@ namespace PadOS.Views.CircleDial {
 		private void OnIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs) {
 			Highlight.Visibility = Visibility.Hidden;
 			_waitForReturnZero = false;
-            Txt_ProfileName.Text = Navigation.Navigator.GetCurrentProfile().Name;
+
+            var name = Navigation.Navigator.GetCurrentProfile().Name;
+            Txt_ProfileName.Text = name;
+            Txt_ProfileName2.Text = name;
+            Txt_ProfileName3.Text = name;
+            Txt_ProfileName4.Text = name;
+            Txt_ProfileName5.Text = name;
         }
 
 		private void ActivateButton(int index){
