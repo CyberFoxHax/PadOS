@@ -12,7 +12,7 @@ namespace PadOS.ProfileSwitcher
                     continue;
                 item.ProfileXML = SaveData.ProfileXML.ParseProfileXML.LoadFile(item.XML).Parse();
                 var input = Input.GamePadInput.GamePadInput.StaticInputInstance;
-                var executor = new ProfileExecution.Executor(item.ProfileXML, input);
+                var executor = new ProfileExecution.Executor(item, input);
                 executor.Init();
                 _profiles[item] = executor;
             }
@@ -27,7 +27,9 @@ namespace PadOS.ProfileSwitcher
         private static SaveData.Models.ProfileAssociation[] _profileMappings;
         private BackgroundTracker _tracker;
         private Dictionary<SaveData.Models.Profile, ProfileExecution.Executor> _profiles;
+
         private ProfileExecution.Executor _currentProfile;
+        public ProfileExecution.Executor CurrentProfile => _currentProfile;
 
         private bool _profileEnabled;
         public bool ProfileEnabled {

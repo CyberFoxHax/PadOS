@@ -10,12 +10,13 @@ namespace PadOS.Navigation {
 	public static class Navigator {
 
 		public static void Initialize(){
-			_mainPanel = new CircleDial();
 			GamePadInput.StaticInputInstance.ButtonGuideDown += XInputOnButtonGuideDown;
 
             var ctx = new SaveData.SaveData();
             _profileManager = new ProfileSwitcher.ProfileManager();
             _profileManager.Init(ctx);
+
+            _mainPanel = new CircleDial();
         }
 
         private static ProfileSwitcher.ProfileManager _profileManager;
@@ -40,6 +41,10 @@ namespace PadOS.Navigation {
 		public static Window CurrentWindow { get; private set; }
 		private static CircleDial _mainPanel;
         private static Stack<Window> _navigationHistory = new Stack<Window>();
+
+        public static SaveData.Models.Profile GetCurrentProfile() {
+            return _profileManager.CurrentProfile?._profile;
+        }
 
 		public static void CloseWindow() {
             if (CurrentWindow == _mainPanel)

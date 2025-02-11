@@ -1,3 +1,8 @@
+mouse stays hidden
+Crash on default config
+Using Minimize, Close, or Kill, will close the cirle dial, but it wont enable the profile automatically
+SysTray shows Controller OSK
+
 #Shift+Right doesn't work, but Shift+A does
 #When profile is changed, Wait for all buttons up before enabling input.
 Vibrate action (and vibrate for hold switches)

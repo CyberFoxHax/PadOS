@@ -68,6 +68,8 @@ namespace PadOS.Plugin.DesktopInput
             _gamePadInput.ButtonBUp += (p, s) => mouse_event(MOUSEEVENTF_MIDDLEUP, (int)_cursorPosition.X, (int)_cursorPosition.Y, 0, 0);
             _gamePadInput.ButtonXUp += (p, s) => mouse_event(MOUSEEVENTF_RIGHTUP, (int)_cursorPosition.X, (int)_cursorPosition.Y, 0, 0);
             _gamePadInput.ButtonYUp += (p, s) => keybd_event(VK_ESCAPE, 0x45, KEYEVENTF_KEYUP, 0);
+            _gamePadInput.ButtonStartDown += (p, s) => keybd_event(VK_RETURN, 0x45, KEYEVENTF_KEYDOWN, 0);
+            _gamePadInput.ButtonStartUp += (p, s) => keybd_event(VK_RETURN, 0x45, KEYEVENTF_KEYUP, 0);
             _gamePadInput.DPadDownDown += GetDPadHandlerDown(VK_DOWN);
             _gamePadInput.DPadDownUp += GetDPadHandlerUp(VK_DOWN);
             _gamePadInput.DPadUpDown += GetDPadHandlerDown(VK_UP);
@@ -235,7 +237,9 @@ namespace PadOS.Plugin.DesktopInput
             else if (_cursorPosition.Y > screenSize.Height)
                 _cursorPosition.Y = screenSize.Height;
 
-            Cursor.Position = new System.Drawing.Point((int)_cursorPosition.X, (int)_cursorPosition.Y);
+            mouse_event(MOUSEEVENTF_MOVE, 5, 5, 0, 0);
+            //mouse_event(MOUSEEVENTF_ABSOLUTE, (int)_cursorPosition.X, (int)_cursorPosition.Y, 0, 0);
+            //Cursor.Position = new System.Drawing.Point((int)_cursorPosition.X, (int)_cursorPosition.Y);
         }
 
         private void gamePadInput_ThumbLeftChange(int player, GamePadState state, Input.Vector2 value) {
@@ -248,6 +252,9 @@ namespace PadOS.Plugin.DesktopInput
                 _mouseMoveTimer.Enabled = true;
             }
         }
+
+        [DllImport("user32.dll")]
+        private static extern int ShowCursor(bool bShow);
 
         [DllImport("user32.dll", SetLastError = true)]
         private static extern UInt32 SendInput(UInt32 numberOfInputs, INPUT[] inputs, Int32 sizeOfInputStructure);
@@ -278,6 +285,7 @@ namespace PadOS.Plugin.DesktopInput
         private const int VK_LSHIFT = 0x00A0;
         private const int VK_MENU = 0x0012;
         private const int VK_ESCAPE = 0x001B;
+        private const int VK_RETURN = 0x000D;
         private const int VK_F4 = 0x0073;
         private const int VK_TAB = 0x0009;
         private const int VK_LEFT = 0x0025;
@@ -291,7 +299,9 @@ namespace PadOS.Plugin.DesktopInput
 
         [DllImport("user32.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall)]
         private static extern void mouse_event(uint dwFlags, int dx, int dy, int dwData, uint dwExtraInfo);
+        private const int MOUSEEVENTF_ABSOLUTE = 0x8000;
         private const int MOUSEEVENTF_LEFTDOWN = 0x0002;
+        private const int MOUSEEVENTF_MOVE = 0x0001;
         private const int MOUSEEVENTF_LEFTUP = 0x0004;
         private const int MOUSEEVENTF_RIGHTDOWN = 0x0008;
         private const int MOUSEEVENTF_RIGHTUP = 0x0010;

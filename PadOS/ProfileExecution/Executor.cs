@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.IO;
-using PadOS.SaveData.ProfileXML;
+using PadOS.SaveData.Models;
 using PadOS.Input.GamePadInput;
 using static XInputDotNetPure.GamePadState;
 
@@ -15,7 +15,7 @@ namespace PadOS.ProfileExecution
             _gamePadInput = gamePadInput;
         }
         private GamePadInput _gamePadInput;
-        private readonly Profile _profile;
+        public readonly Profile _profile;
         private List<IInputSimulatorPlugin> _plugins;
         private readonly List<ITriggerHandler> _triggers = new List<ITriggerHandler>();
         private readonly List<ITriggerSwitchHandler> _triggersSwitches = new List<ITriggerSwitchHandler>();
@@ -26,14 +26,14 @@ namespace PadOS.ProfileExecution
 
 
         public void Init() {
-            var plugins = Plugins.PluginsLoader.FindCorrectDll(_profile.Plugins.Select(p => p.Filename));
+            var plugins = Plugins.PluginsLoader.FindCorrectDll(_profile.ProfileXML.Plugins.Select(p => p.Filename));
             _plugins = plugins.Select(p => Plugins.PluginsLoader.Load<IInputSimulatorPlugin>(p).CreateInstance()).ToList();
 
-            foreach (var mapping in _profile.Mappings) {
+            foreach (var mapping in _profile.ProfileXML.Mappings) {
                 MappingHandler mappingHandler = null;
                 SwitchMappingHandler switchMapping = null;
                 foreach (var trigger in mapping.Triggers) {
-                    if (trigger is TriggerSwitch || trigger is HoldSwitch) {
+                    if (trigger is SaveData.ProfileXML.TriggerSwitch || trigger is SaveData.ProfileXML.HoldSwitch) {
                         if(switchMapping == null)
                             switchMapping = new SwitchMappingHandler();
                         var sw = Maps.TriggerSwitchHandlers.InstanceFromNode(trigger);

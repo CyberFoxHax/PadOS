@@ -14,7 +14,7 @@ namespace PadOS.Views.CircleDial {
 			IsVisibleChanged += OnIsVisibleChanged;
 
 			var ctx = new SaveData.SaveData();
-            var currentProfile = ctx.Profiles.First(p=>p.Id == 2);
+            var currentProfile = Navigation.Navigator.GetCurrentProfile();
 			var sharedButtons = ctx.PanelButtons.Where(p=>p.Profile.Id == SaveData.DefaultData.AllProfile.Id).ToArray();
 			var currentButtons = ctx.PanelButtons.Where(p=>p.Profile.Id == currentProfile.Id).ToArray();
 
@@ -78,7 +78,8 @@ namespace PadOS.Views.CircleDial {
 		private void OnIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs) {
 			Highlight.Visibility = Visibility.Hidden;
 			_waitForReturnZero = false;
-		}
+            Txt_ProfileName.Text = Navigation.Navigator.GetCurrentProfile().Name;
+        }
 
 		private void ActivateButton(int index){
 			if (index >= _buttons.Length || _buttons[index] == null) return;
