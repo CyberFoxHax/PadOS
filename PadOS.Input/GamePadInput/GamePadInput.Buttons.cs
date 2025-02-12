@@ -59,5 +59,27 @@ namespace PadOS.Input.GamePadInput {
 		public event GamePadEvent<Vector2> ThumbRightChange;
 		public event GamePadEvent<float> TriggerLeftChange;
 		public event GamePadEvent<float> TriggerRightChange;
-	}
+
+        public enum ButtonKey {
+            ButtonA,
+		    ButtonB,
+		    ButtonX,
+		    ButtonY,
+		    ButtonBack,
+		    ButtonGuide,
+		    ButtonLeftShoulder,
+		    ButtonLeftStick,
+		    ButtonRightShoulder,
+		    ButtonRightStick,
+		    ButtonStart,
+		    DPadLeft,
+		    DPadRight,
+		    DPadUp,
+		    DPadDown,
+		    ThumbLeftChange,
+		    ThumbRightChange,
+		    TriggerLeftChange,
+		    TriggerRightChange,
+        }
+    }
 }

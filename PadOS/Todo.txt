@@ -1,11 +1,19 @@
-Shift+Right doesn't work, but Shift+A does
-mouse stays hidden in Win10
+#Change profile association doesn't apply until restart
 Crash on db rebuild
+#Shift+Right doesn't work, but Shift+A does
+#mouse stays hidden in Win10
 Using Minimize, Close, or Kill, will close the cirle dial, but it wont enable the profile automatically
+#WaitForReset for when changing between views
+
+
+OnTrigger and OnTriggerOff event need an event parameter class (WIP in TriggerEvent_Delegate.cs)
+
 
 #When profile is changed, Wait for all buttons up before enabling input.
-Vibrate action (and vibrate for hold switches)
-	Currently hardcoded for player 0, but should trigger on the controller that is executing the macro
+	tested, but doesn't seem to do it right? Wait for analogue stick reset too...
+
+#Vibrate action (and vibrate for hold switches)
+	Currently hardcoded for player 0, but should trigger on the controller that is executing the macro (need to pass player index)
 
 move user data into AppData and put a shortcut in local folders
 Pass analogues value to actions, if such value exists, otherwise just pass "1f" (what about negatives?)
@@ -22,6 +30,8 @@ Bug: Home button doesn't work on RDP?
 
 ProfileAssocEditor
 	"Remove" is not implemented
+	"Capture" is not implemented (default value should be the currently foccussed window)
+	saving an association is done by pressing back, which is not intuitive.
 
 BlockNavigator                                    
 	Bug: If the nested view has no blocks the entire system ceases to function

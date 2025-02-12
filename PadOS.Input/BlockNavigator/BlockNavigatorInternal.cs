@@ -9,7 +9,7 @@ using BlockNavigatorProperty = PadOS.Input.BlockNavigator.BlockNavigator;
 namespace PadOS.Input.BlockNavigator {
 	internal partial class BlockNavigatorInternal{
 		internal BlockNavigatorInternal(FrameworkElement element) {
-			_xInput = new GamePadInput.GamePadInput();
+			_xInput = GamePadInput.GamePadInput.StaticInputInstance;
 			InitGamepad();
 			var frameworkElement = element;
 			if (frameworkElement == null) return;
@@ -60,6 +60,7 @@ namespace PadOS.Input.BlockNavigator {
         }
 
         public void SetFocus(FrameworkElement element, bool animate = true) {
+            _xInput.AwaitReset = true;
             if (_blocks.ContainsKey(element) == false)
                 throw new System.Exception("You are attempting to focus an element that is not registered in the BlockNavigator. " +
                     "\nElement Type: \"" + element + "\"");

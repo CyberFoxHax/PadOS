@@ -99,7 +99,7 @@ namespace PadOS.Views.ProfileAssociationEditor {
             };
             osk.HideLegend(true);
             osk.Show();
-            osk.SetScale(0.3);
+            osk.SetScale(0.5);
 
             var elm = (FrameworkElement)sender;
             var locationFromScreen = elm.PointToScreen(new Point(0, 0));
@@ -183,8 +183,9 @@ namespace PadOS.Views.ProfileAssociationEditor {
                 _selectedProfileAssociation.Data = assocData;
                 _profileAssociations[_selectedProfile].Add(assocData);
             }
-            assocData.Executable = TextBox_Exec.Text;
-            assocData.WindowTitle = TextBox_Window.Text;
+
+            assocData.Executable  = string.IsNullOrEmpty(TextBox_Exec.Text)   ? null : TextBox_Exec.Text;
+            assocData.WindowTitle = string.IsNullOrEmpty(TextBox_Window.Text) ? null : TextBox_Window.Text;
 
             using (var db = new SaveData.SaveData()) {
                 db.ProfileAssociations.UpdateOrInsert(assocData);

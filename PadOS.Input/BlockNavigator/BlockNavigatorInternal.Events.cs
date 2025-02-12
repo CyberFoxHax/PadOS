@@ -38,6 +38,7 @@ namespace PadOS.Input.BlockNavigator {
         }
 
         public void ActivateNestedNavigator(FrameworkElement focusElm) {
+            _xInput.AwaitReset = true;
             IsEnabled = false;
             var nav = BlockNavigatorProperty.GetBlockNavigator(focusElm);
             nav.ParentNavigator = this;
@@ -48,7 +49,40 @@ namespace PadOS.Input.BlockNavigator {
         }
 
         private void OnIsEnabledChanged(bool value) {
-            _xInput.IsEnabled = value;
+            if (value) {
+                _xInput.ThumbLeftChange += OnThumbChange;
+                _xInput.DPadDownDown += dpadevents[0];
+                _xInput.DPadUpDown += dpadevents[1];
+                _xInput.DPadLeftDown += dpadevents[2];
+                _xInput.DPadRightDown += dpadevents[3];
+                if (_aIsConfirm)
+                {
+                    _xInput.ButtonADown += OnConfirmClick;
+                    _xInput.ButtonBDown += OnCancelClick;
+                }
+                else
+                {
+                    _xInput.ButtonADown += OnCancelClick;
+                    _xInput.ButtonBDown += OnConfirmClick;
+                }
+            }
+            else {
+                _xInput.ThumbLeftChange -= OnThumbChange;
+                _xInput.DPadDownDown -= dpadevents[0];
+                _xInput.DPadUpDown -= dpadevents[1];
+                _xInput.DPadLeftDown -= dpadevents[2];
+                _xInput.DPadRightDown -= dpadevents[3];
+                if (_aIsConfirm)
+                {
+                    _xInput.ButtonADown -= OnConfirmClick;
+                    _xInput.ButtonBDown -= OnCancelClick;
+                }
+                else
+                {
+                    _xInput.ButtonADown -= OnCancelClick;
+                    _xInput.ButtonBDown -= OnConfirmClick;
+                }
+            }
             _waitForReturn = !value;
             if (_cursor != null)
                 _cursor.Visibility = value ? Visibility.Visible : Visibility.Collapsed;

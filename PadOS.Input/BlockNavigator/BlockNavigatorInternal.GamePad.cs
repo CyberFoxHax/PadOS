@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using XInputDotNetPure;
@@ -6,8 +7,13 @@ using BlockNavigatorProperty = PadOS.Input.BlockNavigator.BlockNavigator;
 
 
 namespace PadOS.Input.BlockNavigator {
-	internal partial class BlockNavigatorInternal : IDisposable{
-		private GamePadEvent GetDPadEvent(double x, double y) => (a,b)=>OnDPad(new Vector2(x, y));
+    internal partial class BlockNavigatorInternal : IDisposable {
+        private GamePadEvent GetDPadEvent(double x, double y) {
+            GamePadEvent callback = (a, b) => OnDPad(new Vector2(x, y));
+            dpadevents.Add(callback);
+            return callback;
+        }
+        private List<GamePadEvent> dpadevents = new List<GamePadEvent>();
 
 		private bool _aIsConfirm = true;
 
@@ -20,7 +26,11 @@ namespace PadOS.Input.BlockNavigator {
         private bool _firstTime = true;
 
         private void InitGamepad(){
-			_xInput.ThumbLeftChange += OnThumbChange;
+            GetDPadEvent(0, -1);
+            GetDPadEvent(0, 1);
+            GetDPadEvent(-1, 0);
+            GetDPadEvent(1, 0);
+            /*_xInput.ThumbLeftChange += OnThumbChange;
 			_xInput.DPadDownDown	+= GetDPadEvent( 0, -1);
 			_xInput.DPadUpDown		+= GetDPadEvent( 0,  1);
 			_xInput.DPadLeftDown	+= GetDPadEvent(-1,  0);
@@ -32,9 +42,9 @@ namespace PadOS.Input.BlockNavigator {
 			else {
 				_xInput.ButtonADown += OnCancelClick;
 				_xInput.ButtonBDown += OnConfirmClick;
-			}
-			_xInput.IsEnabled = true;
-			_waitForReturn = false;
+			}*/
+            //_xInput.IsEnabled = true;
+            _waitForReturn = false;
 		}
 
 		private void OnCancelClick(int player, GamePadState state){
@@ -230,7 +240,21 @@ namespace PadOS.Input.BlockNavigator {
 		}
 
 		public void Dispose(){
-			_xInput.Dispose();
+            _xInput.ThumbLeftChange -= OnThumbChange;
+            _xInput.DPadDownDown	-= dpadevents[0];
+			_xInput.DPadUpDown		-= dpadevents[1];
+			_xInput.DPadLeftDown	-= dpadevents[2];
+			_xInput.DPadRightDown	-= dpadevents[3];
+			if(_aIsConfirm) {
+				_xInput.ButtonADown -= OnConfirmClick;
+				_xInput.ButtonBDown -= OnCancelClick;
+			}
+			else {
+				_xInput.ButtonADown -= OnCancelClick;
+				_xInput.ButtonBDown -= OnConfirmClick;
+			}
+
+			//_xInput.Dispose();
 		}
 	}
 }

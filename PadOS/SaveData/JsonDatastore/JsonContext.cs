@@ -87,7 +87,7 @@ namespace PadOS.SaveData.JsonDatastore
                 maxId = 1;
             var noIdElements = table.Cast<object>().Where(p => (Int64)idProperty.GetValue(p) == 0);
             foreach (var item in noIdElements) 
-                idProperty.SetValue(item, maxId++);
+                idProperty.SetValue(item, maxId+1);
         }
 
         public void SaveChanges() {
@@ -97,6 +97,10 @@ namespace PadOS.SaveData.JsonDatastore
                 AutoIncrement(table.Cast<object>());
                 var serialized = Serialize(table);
                 File.WriteAllText(Path.Combine(DirectoryName, table.Name + ".json"), serialized, Encoding.UTF8);
+            }
+            foreach (var table in _tables) {
+                if (table.HasChanged)
+                    table.DispatchChangedEvent();
             }
         }
 
@@ -109,7 +113,8 @@ namespace PadOS.SaveData.JsonDatastore
         }
 
         public void Dispose() {
-            
+            foreach (IDisposable item in _tables)
+                item.Dispose();
         }
     }
 }

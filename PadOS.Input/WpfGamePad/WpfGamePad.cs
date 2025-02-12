@@ -8,7 +8,6 @@ namespace PadOS.Input.WpfGamePad {
 		private static readonly GamePadInput.GamePadInput XInput = GamePadInput.GamePadInput.StaticInputInstance;
 		public WpfGamePad(UIElement focusOwner) {
 			_focusOwner = focusOwner;
-
 			if (_focusOwner is Window window) {
 				_focusOwner.IsVisibleChanged += FocusOwnerOnIsVisibleChanged;
 				window.Closed += OnWindowClosed;
@@ -138,7 +137,7 @@ namespace PadOS.Input.WpfGamePad {
 		}
 		
 		private void OnWindowClosed(object sender, EventArgs eventArgs) {
-			Dispose();
+            Dispose();
 		}
 
 		public void Dispose(){

@@ -5,31 +5,41 @@ using System.Linq;
 namespace PadOS.ProfileSwitcher
 {
     public class ProfileManager {
-        public void Init(SaveData.SaveData saveData) {
-            _profiles = new Dictionary<SaveData.Models.Profile, ProfileExecution.Executor>();
-            foreach (var item in saveData.Profiles) {
-                if (string.IsNullOrEmpty(item.XML))
-                    continue;
-                item.ProfileXML = SaveData.ProfileXML.ParseProfileXML.LoadFile(item.XML).Parse();
-                var input = Input.GamePadInput.GamePadInput.StaticInputInstance;
-                var executor = new ProfileExecution.Executor(item, input);
-                executor.Init();
-                _profiles[item] = executor;
+        public void Init() {
+            _profiles = new Dictionary<Int64, ProfileExecution.Executor>();
+
+            using (var saveData = new SaveData.SaveData()) {
+                foreach (var item in saveData.Profiles) {
+                    if (string.IsNullOrEmpty(item.XML))
+                        continue;
+                    item.ProfileXML = SaveData.ProfileXML.ParseProfileXML.LoadFile(item.XML).Parse();
+                    var input = Input.GamePadInput.GamePadInput.StaticInputInstance;
+                    var executor = new ProfileExecution.Executor(item, input);
+                    executor.Init();
+                    _profiles[item.Id] = executor;
+                }
+                _profileMappings = saveData.ProfileAssociations.ToArray();
+                saveData.ProfileAssociations.OnUnderlyingDataChanged += OnSavedProfilesChanged;
             }
-            _currentProfile = _profiles.First().Value;
-            _profileMappings = saveData.ProfileAssociations.ToArray();
+            CurrentProfile = _profiles.First().Value;
+
 
             _tracker = new BackgroundTracker();
             _tracker.Enabled = true;
             _tracker.ProcessChanged += Tracker_ProcessChanged;
         }
 
+        private void OnSavedProfilesChanged(SaveData.JsonDatastore.JsonTable obj) {
+            using (var saveData = new SaveData.SaveData()) {
+                _profileMappings = obj.Cast<SaveData.Models.ProfileAssociation>().ToArray();
+            }
+        }
+
         private static SaveData.Models.ProfileAssociation[] _profileMappings;
         private BackgroundTracker _tracker;
-        private Dictionary<SaveData.Models.Profile, ProfileExecution.Executor> _profiles;
+        private Dictionary<Int64, ProfileExecution.Executor> _profiles;
 
-        private ProfileExecution.Executor _currentProfile;
-        public ProfileExecution.Executor CurrentProfile => _currentProfile;
+        public ProfileExecution.Executor CurrentProfile { get; private set; }
 
         private bool _profileEnabled;
         public bool ProfileEnabled {
@@ -39,8 +49,8 @@ namespace PadOS.ProfileSwitcher
                     return;
                 _profileEnabled = value;
                 _tracker.Enabled = value;
-                if (_currentProfile != null)
-                    _currentProfile.Enabled = value;
+                if (CurrentProfile != null)
+                    CurrentProfile.Enabled = value;
             }
         }
 
@@ -50,20 +60,18 @@ namespace PadOS.ProfileSwitcher
             if (profileMatch == null)
                 profileMatch = _profileMappings.FirstOrDefault(p => p.Executable == null);
 
-            var newProfile = _profiles[profileMatch.Profile];
-            if (newProfile == _currentProfile) {
+            var newProfile = _profiles[profileMatch.Profile.Id];
+            if (newProfile == CurrentProfile) {
                 Console.WriteLine("[ProfileManager/Tracker_ProcessChanged] Process changed to: " + processName + ". Profile change not needed");
                 return;
             }
             Console.WriteLine("[ProfileManager/Tracker_ProcessChanged] Profile changing");
             _tracker.Enabled = false;
-            //Console.WriteLine("Awaiting all buttons up");
-            await _currentProfile.AwaitAllKeysUp();
-            //Console.WriteLine("Wait completed");
+            await CurrentProfile.AwaitAllKeysUp();
             Console.WriteLine("[ProfileManager/Tracker_ProcessChanged] Process changed to: " + processName + ". Profile changed to \"" + profileMatch.Profile.Name + "\"");
-            _currentProfile.Enabled = false;
-            _currentProfile = newProfile;
-            _currentProfile.Enabled = true;
+            CurrentProfile.Enabled = false;
+            CurrentProfile = newProfile;
+            CurrentProfile.Enabled = true;
             _tracker.Enabled = true;
         }
     }

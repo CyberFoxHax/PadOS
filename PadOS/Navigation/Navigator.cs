@@ -12,9 +12,8 @@ namespace PadOS.Navigation {
 		public static void Initialize(){
 			GamePadInput.StaticInputInstance.ButtonGuideDown += XInputOnButtonGuideDown;
 
-            var ctx = new SaveData.SaveData();
             _profileManager = new ProfileSwitcher.ProfileManager();
-            _profileManager.Init(ctx);
+            _profileManager.Init();
 
             _mainPanel = new CircleDial();
         }
@@ -25,6 +24,7 @@ namespace PadOS.Navigation {
             if (CurrentWindow != null) {
                 _profileManager.ProfileEnabled = true;
                 App.GlobalDispatcher.Invoke(CloseWindow);
+                _navigationHistory.Clear();
             }
             else {
                 _profileManager.ProfileEnabled = false;
@@ -75,6 +75,7 @@ namespace PadOS.Navigation {
 		}
 
 		public static object OpenWindow(Type type, bool cache = false) {
+            GamePadInput.StaticInputInstance.AwaitReset = true;
             var instance = Activator.CreateInstance(type);
             if (CurrentWindow != null)
 				CloseWindow();
@@ -91,21 +92,20 @@ namespace PadOS.Navigation {
 		}
 
 		public static T OpenWindow<T>(bool cache = false) where T : Window{
-			return (T)OpenWindow(typeof (T), cache);
+			return (T)OpenWindow(typeof(T), cache);
 		}
 
         public static Window NavigateBack() {
             if (_navigationHistory.Count == 1)
                 return null;
 
+            GamePadInput.StaticInputInstance.AwaitReset = true;
+
             CurrentWindow.Close();
             _navigationHistory.Pop();
             var window = _navigationHistory.Peek();
-            if (false) {
-                window.Show();
-                CurrentWindow = window;
-            }
-            else {
+            {
+                // for whatever reason, a previously hidden window will cause problems, intead just create a new copy and show that.
                 var instance = Activator.CreateInstance(window.GetType());
                 CurrentWindow = (Window)instance;
                 CurrentWindow.Show();

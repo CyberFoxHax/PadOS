@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace PadOS.SaveData.JsonDatastore
 {
-    public abstract class JsonTable : IEnumerable {
+    public abstract class JsonTable : IEnumerable, IDisposable {
         protected List<object> _innerList = new List<object>();
         public bool HasChanged { get; protected set; }
         public string Name { get; set; }
@@ -18,6 +18,7 @@ namespace PadOS.SaveData.JsonDatastore
                 if(((Int64)0).Equals(idVal)){ // Insert
                     _innerList.Add(item);
                     HasChanged = true;
+                    DispatchChangedEvent();
                     return;
                 }
                 else { // Update
@@ -34,16 +35,16 @@ namespace PadOS.SaveData.JsonDatastore
 
         public void AddRange(IEnumerable<object> items) {
             foreach (var item in items) {
-                HasChanged = true;
                 _innerList.Add(item);
             }
+            HasChanged = true;
         }
 
         public void RemoveRange(IEnumerable<object> existing) {
             foreach (var item in existing) {
-                HasChanged = true;
                 _innerList.Remove(item);
             }
+            HasChanged = true;
         }
 
         public IEnumerator GetEnumerator() {
@@ -53,20 +54,47 @@ namespace PadOS.SaveData.JsonDatastore
         internal void SetList(List<object> list) {
             _innerList = list;
         }
+
+        
+        internal void DispatchChangedEvent() {
+            var type = GetType();
+            if (OnGlobalUnderlyingDataChanged.ContainsKey(type))
+                OnGlobalUnderlyingDataChanged[type](this);
+        }
+
+        private static Dictionary<Type, Action<JsonTable>> OnGlobalUnderlyingDataChanged = new Dictionary<Type, Action<JsonTable>>();
+
+        public event Action<JsonTable> OnUnderlyingDataChanged {
+            add {
+                var type = GetType();
+                if(OnGlobalUnderlyingDataChanged.ContainsKey(type) == false)
+                    OnGlobalUnderlyingDataChanged[type] = value;
+                else
+                    OnGlobalUnderlyingDataChanged[type] += value;
+            }
+            remove {
+                var type = GetType();
+                if (OnGlobalUnderlyingDataChanged.ContainsKey(type))
+                    OnGlobalUnderlyingDataChanged[type] -= value;
+            }
+        }
+
+        void IDisposable.Dispose(){
+        }
     }
     public class JsonTable<T> : JsonTable, IEnumerable<T> {
         public void AddRange(IEnumerable<T> items) {
             foreach (var item in items) {
-                HasChanged = true;
                 _innerList.Add(item);
             }
+            HasChanged = true;
         }
 
         public void RemoveRange(IEnumerable<T> existing) {
             foreach (var item in existing) {
-                HasChanged = true;
                 _innerList.Remove(item);
             }
+            HasChanged = true;
         }
 
         public new IEnumerator<T> GetEnumerator() {

@@ -29,6 +29,9 @@ namespace PadOS.Input.GamePadInput {
 		}
 
 
+        private bool GAwaitReset = false;
+        public bool AwaitReset { set { GAwaitReset = value; } }
+
 		private bool _isEnabled;
 		private double _thumbstickDeadZone = .001;
 		private Thread _pollThread;
@@ -45,34 +48,6 @@ namespace PadOS.Input.GamePadInput {
             await System.Threading.Tasks.Task.Delay(ms);
             GamePad.SetVibration((PlayerIndex)playerIndex, 0, 0);
         }
-        /*private int v_playerIndex = -1;
-        private float v_leftMotor;
-        private float v_rightMotor;
-        private int v_ms;
-
-        public Thread _vibratorThread;
-        public void SetVibration(int playerIndex, double leftMotor, double rightMotor, int ms) {
-            if (_vibratorThread == null) {
-                _vibratorThread = new Thread(async () => {
-                    while (true) {
-                        if (v_playerIndex == -1) {
-                            await System.Threading.Tasks.Task.Delay(10);
-                            continue;
-                        }
-                        await System.Threading.Tasks.Task.Delay(10);
-                        GamePad.SetVibration((PlayerIndex)v_playerIndex, (float)v_leftMotor, (float)v_rightMotor);
-                        await System.Threading.Tasks.Task.Delay(v_ms);
-                        GamePad.SetVibration((PlayerIndex)v_playerIndex, 0, 0);
-                        v_playerIndex = -1;
-                    }
-                });
-                _vibratorThread.Start();
-            }
-            v_playerIndex = playerIndex;
-            v_leftMotor  = (float)leftMotor;
-            v_rightMotor = (float)rightMotor;
-            v_ms = ms;
-        }*/
 
         public void Dispose(){
 			IsEnabled = false;
@@ -127,6 +102,38 @@ namespace PadOS.Input.GamePadInput {
 		}
 
 		private void GamepadOnStateChanged(GamePadState oldState, GamePadState newState, int playerIndex){
+            if (GAwaitReset) {
+                if (ButtonState.Released ==
+                    (newState.Buttons.A &
+                    newState.Buttons.B &
+                    newState.Buttons.X &
+                    newState.Buttons.Y &
+                    newState.Buttons.Back &
+                    newState.Buttons.Guide &
+                    newState.Buttons.LeftShoulder &
+                    newState.Buttons.LeftStick &
+                    newState.Buttons.RightShoulder &
+                    newState.Buttons.RightStick &
+                    newState.Buttons.Start &
+                    newState.DPad.Left &
+                    newState.DPad.Right &
+                    newState.DPad.Up &
+                    newState.DPad.Down)
+                    && Math.Abs(newState.ThumbSticks.Left.X) == 0
+                    && Math.Abs(newState.ThumbSticks.Left.Y) == 0
+                    && Math.Abs(newState.ThumbSticks.Right.X) == 0
+                    && Math.Abs(newState.ThumbSticks.Right.Y) == 0
+                    && Math.Abs(newState.Triggers.Left) == 0
+                    && Math.Abs(newState.Triggers.Right) == 0
+                )
+                {
+                    GAwaitReset = false;
+                }
+                else {
+                    return;
+                }
+            }
+        
             InvokeStateChanged(playerIndex, newState);
 			InvokeUpDown(ButtonsConstants.A,            newState.Buttons.A				, playerIndex, newState, ref _isButtonADown				, ButtonADown				, ButtonAUp				);
 			InvokeUpDown(ButtonsConstants.B,            newState.Buttons.B				, playerIndex, newState, ref _isButtonBDown				, ButtonBDown				, ButtonBUp				);
