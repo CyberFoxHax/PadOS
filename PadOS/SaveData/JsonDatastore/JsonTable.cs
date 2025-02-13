@@ -10,8 +10,19 @@ namespace PadOS.SaveData.JsonDatastore
         public string Name { get; set; }
         public List<object> Proxies { get; private set; } = new List<object>();
 
-        public void UpdateOrInsert(object item) {
+        protected void UpdateOrInsert(object item) {
             var index = _innerList.IndexOf(item);
+            /*if (index == -1 && item is IHasId hasId) {
+                if (hasId.Id == 0) {
+                    HasChanged = true;
+                    DispatchChangedEvent();
+                    return;
+                }
+                else {
+                    var row = _innerList.Find(p => ((IHasId)p).Id == hasId.Id);
+                    index = _innerList.IndexOf(row);
+                }
+            }*/
             if (index == -1) {
                 var prop = item.GetType().GetProperty("Id");
                 var idVal = prop.GetValue(item);
@@ -41,8 +52,13 @@ namespace PadOS.SaveData.JsonDatastore
         }
 
         public void RemoveRange(IEnumerable<object> existing) {
+            System.Reflection.PropertyInfo prop = null;
             foreach (var item in existing) {
-                _innerList.Remove(item);
+                if(prop == null)
+                    prop = item.GetType().GetProperty("Id");
+
+                var idVal = prop.GetValue(item);
+                _innerList.RemoveAll(p=>idVal.Equals(prop.GetValue(p)));
             }
             HasChanged = true;
         }
@@ -83,16 +99,29 @@ namespace PadOS.SaveData.JsonDatastore
         }
     }
     public class JsonTable<T> : JsonTable, IEnumerable<T> {
+        public void UpdateOrInsert(T item) {
+            base.UpdateOrInsert(item);
+        }
+
+        public void UpdateOrInsert(IEnumerable<T> items) {
+            foreach (var item in items)
+                base.UpdateOrInsert(item);
+        }
+
         public void AddRange(IEnumerable<T> items) {
-            foreach (var item in items) {
+            foreach (var item in items)
                 _innerList.Add(item);
-            }
             HasChanged = true;
         }
 
         public void RemoveRange(IEnumerable<T> existing) {
+            System.Reflection.PropertyInfo prop = null;
             foreach (var item in existing) {
-                _innerList.Remove(item);
+                if(prop == null)
+                    prop = item.GetType().GetProperty("Id");
+
+                var idVal = prop.GetValue(item);
+                _innerList.RemoveAll(p=>idVal.Equals(prop.GetValue(p)));
             }
             HasChanged = true;
         }

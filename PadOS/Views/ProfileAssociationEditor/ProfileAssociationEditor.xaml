@@ -172,18 +172,45 @@
                             </StackPanel>
 
                             <StackPanel x:Name="ItemEditView" Visibility="Visible">
-                                <TextBlock Text="Executable:" TextAlignment="Left" Height="25" FontSize="16" />
-                                <TextBox x:Name="TextBox_Exec" Text="snes9x.exe" nav:BlockNavigator.ConfirmClick="TextBox_ConfirmClick" nav:BlockNavigator.Register="True" />
+                                <TextBlock Text="Executable" TextAlignment="Left" Height="25" FontSize="16" />
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="6*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="2*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox x:Name="TextBox_Exec" Text="snes9x.exe" nav:BlockNavigator.ConfirmClick="TextBox_ConfirmClick" nav:BlockNavigator.Register="True" />
+                                    <Border  Grid.Column="1" Margin="5" Padding="3" Style="{StaticResource BlueButton}">
+                                        <Button Content="X" nav:BlockNavigator.SimulateMouse="True" Click="ButtonClearExec_Click" />
+                                    </Border>
+                                    <Border Grid.Column="2" Margin="5" Padding="3" Style="{StaticResource BlueButton}">
+                                        <Button Content="Capture" nav:BlockNavigator.SimulateMouse="True" Click="ButtonCaptureExec_Click" />
+                                    </Border>
+                                </Grid>
 
-                                <TextBlock Text="Window:" TextAlignment="Left" Height="25" FontSize="16" Margin="0 20 0 0"/>
-                                <TextBox x:Name="TextBox_Window" Text="" nav:BlockNavigator.ConfirmClick="TextBox_ConfirmClick"  nav:BlockNavigator.Register="True" />
+                                <TextBlock Text="Window" TextAlignment="Left" Height="25" FontSize="16" Margin="0 20 0 0"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="6*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="2*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox Grid.Column="0" x:Name="TextBox_Window" Text="" nav:BlockNavigator.ConfirmClick="TextBox_ConfirmClick"  nav:BlockNavigator.Register="True" />
+                                    <Border  Grid.Column="1" Margin="5" Padding="3" Style="{StaticResource BlueButton}">
+                                        <Button Content="X" nav:BlockNavigator.SimulateMouse="True" Click="ButtonClearWindow_Click" />
+                                    </Border>
+                                    <Border Grid.Column="2" Margin="5" Padding="3" Style="{StaticResource BlueButton}">
+                                        <Button Content="Capture" nav:BlockNavigator.SimulateMouse="True" Click="ButtonCaptureWindow_Click" />
+                                    </Border>
+                                </Grid>
+
 
                                 <UniformGrid Rows="1" Margin="0 20 0 0">
                                     <Border Margin="5" Padding="3" Style="{StaticResource BlueButton}">
-                                        <Button Content="Capture" nav:BlockNavigator.SimulateMouse="True" Click="ButtonCapture_Click" />
+                                        <Button Content="Save" nav:BlockNavigator.SimulateMouse="True" Click="ButtonSave_Click" />
                                     </Border>
                                     <Border Margin="5" Padding="3" Style="{StaticResource BlueButton}">
-                                        <Button Content="Pick" nav:BlockNavigator.SimulateMouse="True" Click="ButtonPick_Click" />
+                                        <Button Content="Cancel" nav:BlockNavigator.SimulateMouse="True" Click="ButtonCancel_Click" />
                                     </Border>
                                 </UniformGrid>
                             </StackPanel>

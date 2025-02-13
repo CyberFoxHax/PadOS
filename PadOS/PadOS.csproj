@@ -144,6 +144,7 @@
     <Compile Include="ProfileExecution\Handlers\Triggers\PadOSTriggerHandler.cs" />
     <Compile Include="ProfileSwitcher\BackgroundTracker.cs" />
     <Compile Include="ProfileSwitcher\ProfileManager.cs" />
+    <Compile Include="SaveData\JsonDatastore\IHasId.cs" />
     <Compile Include="SaveData\Models\Profile.cs" />
     <Compile Include="SaveData\Models\ProfileAssociations.cs" />
     <Compile Include="SaveData\ProfileXML\DataModels\ActionPlugin.cs" />

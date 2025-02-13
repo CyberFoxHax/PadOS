@@ -20,11 +20,32 @@ namespace PadOS.Views.ProfileAssociationEditor {
             LoadData();
         }
 
+        private bool _profileAssociationHasChanged;
+        private bool _profileChanged;
         private SaveData.Models.Profile _selectedProfile;
+        private List<SaveData.Models.ProfileAssociation> currentProfileAssociations => _profileAssociations[_selectedProfile];
         private Dictionary<SaveData.Models.Profile, List<SaveData.Models.ProfileAssociation>> _profileAssociations
             = new Dictionary<SaveData.Models.Profile, List<SaveData.Models.ProfileAssociation>>();
+        private List<SaveData.Models.ProfileAssociation> _deletedProfileAssociations = new List<SaveData.Models.ProfileAssociation>();
 
-        private void Window_CancelClick(object sender, EventArgs args) {
+        private async void Window_CancelClick(object sender, EventArgs args) {
+            if (_profileChanged) {
+                Input.BlockNavigator.BlockNavigator.SetIsDisabled(this, true);
+                var res = await CustomControls.ConfirmDialogue.ShowDialogAsync();
+                if (res == CustomControls.ConfirmDialogue.DialogueResult.Cancel) {
+                    Input.BlockNavigator.BlockNavigator.SetIsDisabled(this, false);
+                    return;
+                }
+
+                if (res == CustomControls.ConfirmDialogue.DialogueResult.Yes) {
+                    using (var db = new SaveData.SaveData()) {
+                        db.ProfileAssociations.UpdateOrInsert(_profileAssociations.Values.SelectMany(p => p));
+                        db.ProfileAssociations.RemoveRange(_deletedProfileAssociations);
+                        db.SaveChanges();
+                    }
+                }
+            }
+
             Navigator.NavigateBack();
         }
 
@@ -44,7 +65,7 @@ namespace PadOS.Views.ProfileAssociationEditor {
         }
 
         private void RefreshListView(IEnumerable<SaveData.Models.ProfileAssociation> data = null) {
-            if (data == null)
+             if (data == null)
                 data = _profileAssociations[_selectedProfile];
             var trout = data
                 .Select(p => {
@@ -52,13 +73,7 @@ namespace PadOS.Views.ProfileAssociationEditor {
                     if (string.IsNullOrEmpty(p.Executable) == false) list.Add(p.Executable);
                     if (string.IsNullOrEmpty(p.WindowTitle) == false) list.Add(p.WindowTitle);
 
-                    string title;
-                    if(p.Id == 0)
-                        title = "";
-                    else if (list.Count == 0)
-                        title = "Everywhere";
-                    else
-                        title = string.Join("+", list);
+                    string title = string.Join("+", list);
 
                     return new ListItemData {
                         Title = title,
@@ -129,18 +144,63 @@ namespace PadOS.Views.ProfileAssociationEditor {
             };
         }
 
-        private void ButtonCapture_Click(object sender, RoutedEventArgs e) {
-            // Minimize everything
-            // Begin Capture
+        private string GetForegroundWindowProcess() {
+            var hWnd = DllImport.UserInfo32.GetForegroundWindow();
+
+            int processId;
+            DllImport.UserInfo32.GetWindowThreadProcessId(hWnd, out processId);
+            if (processId == 0)
+                return null;
+
+            var current = System.Diagnostics.Process.GetCurrentProcess();
+
+            var firstOrDefault = System.Diagnostics.Process.GetProcesses().FirstOrDefault(p => p.Id == processId);
+            if (firstOrDefault == null)
+                return null;
+            var newProcess = ProfileSwitcher.BackgroundTracker.GetMainModuleFileName(firstOrDefault);
+            return newProcess;
         }
 
-        private void ButtonPick_Click(object sender, RoutedEventArgs e) {
-            // Open list
+        private string GetForegroundWindowTitle() {
+            var hWnd = DllImport.UserInfo32.GetForegroundWindow();
+            var sb = new System.Text.StringBuilder();
+            var code = DllImport.UserInfo32.GetWindowText(hWnd, sb, 128);
+            return sb.ToString();
         }
 
-        private void Button_RemoveOnClick(object sender, RoutedEventArgs e) {
-            // Delete item from list
+        private void ButtonCaptureExec_Click(object sender, RoutedEventArgs e) {
+            var process = GetForegroundWindowProcess();
+            if (string.IsNullOrEmpty(TextBox_Exec.Text) || System.IO.Path.IsPathRooted(TextBox_Exec.Text)) {
+                process = System.IO.Path.GetFileName(process);
+            }
+            TextBox_Exec.Text = process;
         }
+
+        private void ButtonClearExec_Click(object sender, RoutedEventArgs e) {
+            TextBox_Exec.Text = "";
+        }
+
+        private void ButtonCaptureWindow_Click(object sender, RoutedEventArgs e) {
+            var process = GetForegroundWindowTitle();
+            TextBox_Window.Text = process;
+        }
+
+        private void ButtonClearWindow_Click(object sender, RoutedEventArgs e) {
+            TextBox_Window.Text = "";
+        }
+
+
+        private async void Button_RemoveOnClick(object sender, RoutedEventArgs e) {
+            var item = (FrameworkElement)sender;
+            var data = (ListItemData)item.DataContext;
+            _deletedProfileAssociations.Add(data.Data);
+            _profileAssociations[_selectedProfile].Remove(data.Data);
+            RefreshListView();
+            await Input.BlockNavigator.BlockNavigator.RefreshLayout(ListPanel);
+            Input.BlockNavigator.BlockNavigator.SetFocus(TextBox_ProfileName);
+            _profileChanged = true;
+        }
+
 
         private ListItemData _selectedProfileAssociation;
         private System.Collections.ObjectModel.ObservableCollection<ListItemData> _listViewData;
@@ -156,44 +216,45 @@ namespace PadOS.Views.ProfileAssociationEditor {
             TextBox_Window.Text = _selectedProfileAssociation.Data.WindowTitle;
         }
 
-        private async void EditPanel_CancelClick(object sender, RoutedEventArgs args) {
-            if (AssociationsStackPanel.Visibility == Visibility.Visible)
-                return;
-            args.Handled = true;
+        private void ButtonSave_Click(object sender, RoutedEventArgs e) {
+            EditAssociationExit();
+            if(_profileAssociationHasChanged)
+                _profileChanged = true;
+        }
 
+        private void ButtonCancel_Click(object sender, RoutedEventArgs e) {
+            _profileAssociationHasChanged = false;
+            EditAssociationExit();
+        }
+
+        private void EditPanel_CancelClick(object sender, RoutedEventArgs args) {
+            if (AssociationsStackPanel.Visibility == Visibility.Visible) {
+                return;
+            }
+            args.Handled = true;
+            EditAssociationExit();
+        }
+
+        private async void EditAssociationExit() {
             AssociationsStackPanel.Visibility = Visibility.Visible;
             ItemEditView.Visibility = Visibility.Collapsed;
-            await Input.BlockNavigator.BlockNavigator.RefreshLayout(ListPanel);
-            Input.BlockNavigator.BlockNavigator.SetFocus(TextBox_ProfileName);
 
-            var assocData = _selectedProfileAssociation.Data;
-            if (assocData == null
-                && string.IsNullOrEmpty(TextBox_Exec.Text)
-                && string.IsNullOrEmpty(TextBox_Window.Text))
-                return;
-            if(assocData != null
-                && assocData.Executable == TextBox_Exec.Text
-                && assocData.WindowTitle == TextBox_Window.Text)
-                return;
+            if (string.IsNullOrEmpty(TextBox_Exec.Text) == false || string.IsNullOrEmpty(TextBox_Window.Text) == false) {
+                var assocData = _selectedProfileAssociation.Data;
+                _profileAssociationHasChanged = assocData.Executable != TextBox_Exec.Text || assocData.WindowTitle != TextBox_Window.Text;
+                assocData.Executable = string.IsNullOrEmpty(TextBox_Exec.Text) ? null : TextBox_Exec.Text;
+                assocData.WindowTitle = string.IsNullOrEmpty(TextBox_Window.Text) ? null : TextBox_Window.Text;
 
-            if (assocData == null) {
-                assocData = new SaveData.Models.ProfileAssociation {
-                    Profile = _selectedProfile
-                };
-                _selectedProfileAssociation.Data = assocData;
-                _profileAssociations[_selectedProfile].Add(assocData);
+                if (currentProfileAssociations.IndexOf(assocData) == -1) {
+                    _profileAssociationHasChanged = true;
+                    currentProfileAssociations.Add(assocData);
+                }
             }
 
-            assocData.Executable  = string.IsNullOrEmpty(TextBox_Exec.Text)   ? null : TextBox_Exec.Text;
-            assocData.WindowTitle = string.IsNullOrEmpty(TextBox_Window.Text) ? null : TextBox_Window.Text;
-
-            using (var db = new SaveData.SaveData()) {
-                db.ProfileAssociations.UpdateOrInsert(assocData);
-                db.SaveChanges();
-            }
             RefreshListView();
             await Input.BlockNavigator.BlockNavigator.RefreshLayout(ListPanel);
-
+            Input.BlockNavigator.BlockNavigator.NavigateBack(this);
+            Input.BlockNavigator.BlockNavigator.SetFocus(TextBox_ProfileName);
         }
 
         private async void Button_NewOnClick(object sender, RoutedEventArgs e) {
@@ -202,13 +263,14 @@ namespace PadOS.Views.ProfileAssociationEditor {
             await Input.BlockNavigator.BlockNavigator.RefreshLayout(ListPanel);
             Input.BlockNavigator.BlockNavigator.SetFocus(TextBox_Exec, true);
 
-            _selectedProfileAssociation = new ListItemData();
+            _selectedProfileAssociation = new ListItemData {
+                Data = new SaveData.Models.ProfileAssociation {
+                    Profile = _selectedProfile
+                },
+            };
+
             TextBox_Exec.Text = "";
             TextBox_Window.Text = "";
-        }
-
-        private void AddNewProfileClick(object sender, RoutedEventArgs e) {
-
         }
     }
 }

@@ -7,10 +7,11 @@ Using Minimize, Close, or Kill, will close the cirle dial, but it wont enable th
 
 
 OnTrigger and OnTriggerOff event need an event parameter class (WIP in TriggerEvent_Delegate.cs)
+IHasId, implementing this interface causes json serializer to break
 
 
 #When profile is changed, Wait for all buttons up before enabling input.
-	tested, but doesn't seem to do it right? Wait for analogue stick reset too...
+	#tested, but doesn't seem to do it right? Wait for analogue stick reset too...
 
 #Vibrate action (and vibrate for hold switches)
 	Currently hardcoded for player 0, but should trigger on the controller that is executing the macro (need to pass player index)

@@ -87,7 +87,7 @@ namespace PadOS.SaveData.JsonDatastore
                 maxId = 1;
             var noIdElements = table.Cast<object>().Where(p => (Int64)idProperty.GetValue(p) == 0);
             foreach (var item in noIdElements) 
-                idProperty.SetValue(item, maxId+1);
+                idProperty.SetValue(item, ++maxId);
         }
 
         public void SaveChanges() {
