@@ -165,11 +165,10 @@ Usage:
 
 ```xml
 <HoldSwitch>
-    <ButtonTrigger Button="RightThumb" HoldSwitch.Timeout="0" />
-    <ButtonTrigger Button="RightThumb" HoldSwitch.Timeout="1000" />
+    <ButtonTrigger Button="RightThumb" />
 </HoldSwitch>
-<KeyboardAction Button="Alt+Tab" />
-<KeyboardAction Button="Alt+F4" />
+<KeyboardAction Button="Alt+Tab" HoldSwitch.Timeout="0" />
+<KeyboardAction Button="Alt+F4" HoldSwitch.Timeout="1000" />
 ```
 
 In this example you can press the right thumb down and it'll do Alt+Tab, or you can hold and it'll do Alt+F4. Note the extra `HoldSwitch.Timeout` attribute. This is required hold time in milliseconds.

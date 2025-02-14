@@ -98,28 +98,5 @@ namespace PadOS.ProfileExecution
         public static ButtonsConstants StringToButton(string btn) {
             return (ButtonsConstants)System.Enum.Parse(typeof(ButtonsConstants), btn);
         }
-
-        /*public class TypedMap : IEnumerable<KeyValuePair<Type, Type>>{
-            public Dictionary<Type, Type> TriggerHandlers = new Dictionary<Type, Type>();
-
-            public T2 CreateInstance<T1, T2>(T1 instance) {
-                var triggerType = instance.GetType();
-                Type type;
-                if (TriggerHandlers.TryGetValue(triggerType, out type) == false)
-                    return default;
-                return (T2)Activator.CreateInstance(type);
-            }
-
-            public void Add(KeyValuePair<Type, Type> p) {
-                TriggerHandlers.Add(p.Key, p.Value);
-            }
-
-            public static KeyValuePair<Type, Type> Typed<T1, T2>() {
-                return new KeyValuePair<Type, Type>(typeof(T1), typeof(T2));
-            }
-
-            public IEnumerator<KeyValuePair<Type, Type>> GetEnumerator() => null;
-            IEnumerator IEnumerable.GetEnumerator() => null;
-        }*/
     }
 }

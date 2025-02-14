@@ -68,7 +68,7 @@ namespace PadOS.ProfileExecution {
         }
 
         private void timer_Elapsed(object sender, ElapsedEventArgs e) {
-            Console.WriteLine("[PadOS] timer_Elapsed");
+            //Console.WriteLine("[PadOS] timer_Elapsed");
             _timer.Stop();
             _on = false;
             _endTime = DateTime.Now;
@@ -78,6 +78,7 @@ namespace PadOS.ProfileExecution {
             _startTime = default;
             var index = _timeouts.Length - 1;
             OnTrigger?.Invoke(this, index);
+            OnTriggerOff?.Invoke(this);
         }
 
         private void HoldSwitchHandler_OnTriggerOff(ITriggerHandler sender) {
