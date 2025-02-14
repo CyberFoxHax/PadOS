@@ -5,7 +5,7 @@
 #WaitForReset for when changing between views
 #alt+f4
 
-OSK move caret left/right not working
+#OSK move caret left/right not working
 OSK implement repeating buttons
 #OSK flickering caps
 

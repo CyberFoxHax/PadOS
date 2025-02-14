@@ -152,8 +152,8 @@ namespace PadOS.Views.GamePadOSK {
 		private void OnChangeCaseAndSymbolsUp() => Dial.SwitchLowercase();
 		private void OnWrapperOnChangeCaseDown() => Dial.SwitchUppercase();
 		private void OnWrapperOnChangeSymbolsDown() => Dial.SwitchSymbols();
-		private void OnMoveRightDown() => _keyboardInputSimulator.CaretIndex++;
-		private void OnMoveLeftDown() => _keyboardInputSimulator.CaretIndex--;
+		private void OnMoveRightDown() => _keyboardInputSimulator.OnMoveRightButton();
+		private void OnMoveLeftDown() => _keyboardInputSimulator.OnMoveLeftButton();
 
 		private void KeyboardInputSimulatorOnCaretChange(int i) => CaretIndex = i;
         private void KeyboardInputSimulatorOnTextChanged(string s) {
