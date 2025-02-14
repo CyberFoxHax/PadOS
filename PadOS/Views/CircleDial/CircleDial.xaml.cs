@@ -6,39 +6,19 @@ using PadOS.Input;
 using FunctionButton = PadOS.Commands.FunctionButtons.FunctionButton;
 
 namespace PadOS.Views.CircleDial {
-	public partial class CircleDial {
+	public partial class CircleDial: Navigation.IHideable
+    {
 		public CircleDial() {
 			InitializeComponent();
 			Highlight.Visibility = Visibility.Hidden;
 
 			IsVisibleChanged += OnIsVisibleChanged;
 
-			var ctx = new SaveData.SaveData();
-            var currentProfile = Navigation.Navigator.GetCurrentProfile();
-			var sharedButtons = ctx.PanelButtons.Where(p=>p.Profile.Id == SaveData.DefaultData.AllProfile.Id).ToArray();
-			var currentButtons = ctx.PanelButtons.Where(p=>p.Profile.Id == currentProfile.Id).ToArray();
+            _buttonElements = Canvas.Children.OfType<PadOS.CustomControls.AlphaSilhouetteImage>().ToArray();
 
-            var dict = new System.Collections.Generic.Dictionary<int, SaveData.Models.PanelButton>();
+            LoadPanelData();
 
-            foreach (var item in sharedButtons)
-                dict[item.Position] = item;
-
-            foreach (var item in currentButtons)
-                dict[item.Position] = item;
-
-            var saveData = dict.Select(p=>p.Value).ToArray();
-
-			foreach (var data in saveData){
-				_buttons[data.Position] = new FunctionButton {
-					ImageUri = new Uri(Utils.ResourcesPath + data.Function.ImageUrl),
-					Title = data.Function.Title,
-					Identifier = data.Function.Parameter,
-					FunctionType = data.Function.FunctionType
-				};
-				SetButton(data.Position, _buttons[data.Position]);
-			}
-
-			var elms = Canvas.Children.OfType<PadOS.CustomControls.AlphaSilhouetteImage>().ToArray();
+            var elms = _buttonElements;
 			const int upper = 8;
 			const double tau = Math.PI * 2;
 			const double segment = tau/upper;
@@ -55,27 +35,53 @@ namespace PadOS.Views.CircleDial {
 		public bool IsGamePadFocused { get; set; }
 		private readonly FunctionButton[] _buttons = new FunctionButton[8];
 		private bool _waitForReturnZero;
+        private PadOS.CustomControls.AlphaSilhouetteImage[] _buttonElements;
 
-		public void SetButton(int index, FunctionButton button) {
-			var elms = Canvas.Children.OfType<PadOS.CustomControls.AlphaSilhouetteImage>().ToArray();
-			_buttons[index] = button;
-			elms[index].Source = 
-				new System.Windows.Media.Imaging.BitmapImage(_buttons[index].ImageUri);
-		}
+        public void LoadPanelData() {
+            var dict = new System.Collections.Generic.Dictionary<int, SaveData.Models.PanelButton>();
 
-		public void ClearButtons(){
-			for (var i = 0; i < 8; i++)
-				RemoveButton(i);
-		}
+            using (var ctx = new SaveData.SaveData()) {
+                var currentProfile = Navigation.Navigator.GetCurrentProfile();
+                var sharedButtons = ctx.PanelButtons.Where(p => p.Profile.Id == SaveData.DefaultData.AllProfile.Id).ToArray();
+                var currentButtons = ctx.PanelButtons.Where(p => p.Profile.Id == currentProfile.Id).ToArray();
+                foreach (var item in sharedButtons)
+                    dict[item.Position] = item;
 
-		public void RemoveButton(int index) {
-			var elms = Canvas.Children.OfType<PadOS.CustomControls.AlphaSilhouetteImage>().ToArray();
-			elms[index].Source = null;
-			elms[index].Visibility = Visibility.Hidden;
-			_buttons[index] = null;
-		}
+                foreach (var item in currentButtons)
+                    dict[item.Position] = item;
+            }
 
-		private void OnIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs) {
+            for (int i = 0; i < 8; i++) {
+                if (dict.ContainsKey(i)) {
+                    var data = dict[i];
+				    _buttons[data.Position] = new FunctionButton {
+					    ImageUri = new Uri(Utils.ResourcesPath + data.Function.ImageUrl),
+					    Title = data.Function.Title,
+					    Identifier = data.Function.Parameter,
+					    FunctionType = data.Function.FunctionType
+				    };
+                    _buttonElements[i].Source = new System.Windows.Media.Imaging.BitmapImage(_buttons[i].ImageUri);
+                    _buttonElements[i].Visibility = Visibility.Visible;
+                }
+                else {
+                    _buttonElements[i].Source = null;
+                    _buttonElements[i].Visibility = Visibility.Hidden;
+                    _buttons[i] = null;
+                }
+            }
+        }
+
+        async void Navigation.IHideable.Hide() {
+            Opacity = 0;
+            await System.Threading.Tasks.Task.Delay(50);
+            Hide();
+        }
+
+        private async void OnIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs) {
+            if (Visibility != Visibility.Visible) {
+                return;
+            }
+
             Highlight.Visibility = Visibility.Hidden;
 			_waitForReturnZero = false;
 
@@ -85,13 +91,16 @@ namespace PadOS.Views.CircleDial {
             Txt_ProfileName_Shadow2.Text = name;
             Txt_ProfileName_Shadow3.Text = name;
             Txt_ProfileName_Shadow4.Text = name;
+
+            LoadPanelData();
+
+            Opacity = 1;
         }
 
         private void ActivateButton(int index){
 			if (index >= _buttons.Length || _buttons[index] == null) return;
 			_buttons[index].Exec();
 			Hide();
-			
 		}
 
 		private void GamepadInputOnThumbLeftChange(object sender, GamePadEventArgs<Input.Vector2> args){
@@ -103,8 +112,8 @@ namespace PadOS.Views.CircleDial {
 				_waitForReturnZero = true;
 			}
 			else if(length > 0.2){
-					HighlightRotate.Angle = Math.Round((angle / Math.PI * 180 + 90) / 45) * 45;
-					Highlight.Visibility = Visibility.Visible;
+				HighlightRotate.Angle = Math.Round((angle / Math.PI * 180 + 90) / 45) * 45;
+				Highlight.Visibility = Visibility.Visible;
 			}
 			else{
 				_waitForReturnZero = false;

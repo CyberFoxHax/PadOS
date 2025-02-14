@@ -5,9 +5,14 @@ Crash on db rebuild
 Using Minimize, Close, or Kill, will close the cirle dial, but it wont enable the profile automatically
 #WaitForReset for when changing between views
 
+Profile switching is not automatic for alt+f4
+OSK move caret left/right not working
+OSK implement repeating buttons
+#OSK flickering caps
 
 OnTrigger and OnTriggerOff event need an event parameter class (WIP in TriggerEvent_Delegate.cs)
 IHasId, implementing this interface causes json serializer to break
+removing an association that is currently in use, dispatch the windowchanged event or something to get the correct profile selected
 
 
 #When profile is changed, Wait for all buttons up before enabling input.

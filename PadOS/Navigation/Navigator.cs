@@ -6,8 +6,9 @@ using PadOS.Input.GamePadInput;
 using PadOS.Views.CircleDial;
 using XInputDotNetPure;
 
-namespace PadOS.Navigation {
-	public static class Navigator {
+namespace PadOS.Navigation
+{
+    public static class Navigator {
 
 		public static void Initialize(){
 			GamePadInput.StaticInputInstance.ButtonGuideDown += XInputOnButtonGuideDown;
@@ -47,8 +48,12 @@ namespace PadOS.Navigation {
         }
 
 		public static void CloseWindow() {
-            if (CurrentWindow == _mainPanel)
-                CurrentWindow.Hide();
+            if (CurrentWindow == _mainPanel){
+                if(CurrentWindow is IHideable hideable)
+                    hideable.Hide();
+                else
+                    CurrentWindow.Hide();
+            }
             else
                 CurrentWindow.Close();
             CurrentWindow = null;
@@ -121,5 +126,6 @@ namespace PadOS.Navigation {
 			CurrentWindow?.Close();
 			Windows.Clear();
 		}
+
 	}
 }
