@@ -96,14 +96,13 @@ namespace PadOS.ProfileExecution
             if (_mappingHandlers.All(p => p.AnyDown == false)
             && _switchMappingHandlers.All(p => p.AnyDown == false)
             && _awaitKeysUpTask == null) {
-                //Console.WriteLine("Dont wait");
-                return Task.FromResult(true);
+                _gamePadInput.AwaitReset = true;
+                return _gamePadInput.GetAwaitResetTask();
             }
 
             if (_awaitKeysUpTask != null)
                 return _awaitKeysUpTask.Task;
             _awaitKeysUpTask = new TaskCompletionSource<bool>();
-            //Console.WriteLine("Wait");
             return _awaitKeysUpTask.Task;
         }
 

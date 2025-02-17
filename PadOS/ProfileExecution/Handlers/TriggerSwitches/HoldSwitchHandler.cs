@@ -68,7 +68,6 @@ namespace PadOS.ProfileExecution {
         }
 
         private void timer_Elapsed(object sender, ElapsedEventArgs e) {
-            //Console.WriteLine("[PadOS] timer_Elapsed");
             _timer.Stop();
             _on = false;
             _endTime = DateTime.Now;
@@ -77,6 +76,7 @@ namespace PadOS.ProfileExecution {
             _endTime = default;
             _startTime = default;
             var index = _timeouts.Length - 1;
+            _buttonsDownCount = 0;
             OnTrigger?.Invoke(this, index);
             OnTriggerOff?.Invoke(this);
         }
@@ -105,6 +105,7 @@ namespace PadOS.ProfileExecution {
 
             _endTime = default;
             _startTime = default;
+            _buttonsDownCount = 0;
             OnTrigger?.Invoke(this, index);
             OnTriggerOff?.Invoke(this);
         }

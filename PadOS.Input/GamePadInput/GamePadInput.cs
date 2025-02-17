@@ -29,8 +29,29 @@ namespace PadOS.Input.GamePadInput {
 		}
 
 
-        private bool GAwaitReset = false;
-        public bool AwaitReset { set { GAwaitReset = value; } }
+        public System.Threading.Tasks.Task GetAwaitResetTask() {
+            if (_isReleased) {
+                return System.Threading.Tasks.Task.FromResult(false);
+            }
+            else return _tsc.Task;
+        }
+        private System.Threading.Tasks.TaskCompletionSource<bool> _tsc;
+        private bool _awaitReset;
+        public bool AwaitReset {
+            set {
+                _awaitReset = value;
+                if (_isReleased)
+                    return;
+                if (_awaitReset == true && _tsc == null) {
+                    _tsc = new System.Threading.Tasks.TaskCompletionSource<bool>();
+                }
+                else if (_awaitReset == false && _tsc != null) {
+                    _tsc.SetCanceled();
+                    _tsc = null;
+                }
+            }
+            get => _awaitReset;
+        }
 
 		private bool _isEnabled;
 		private double _thumbstickDeadZone = .001;
@@ -101,33 +122,40 @@ namespace PadOS.Input.GamePadInput {
 			_pollThread = null;
 		}
 
+        private bool GetIsAllReleased(GamePadState newState) {
+            return ButtonState.Released ==
+                (newState.Buttons.A &
+                newState.Buttons.B &
+                newState.Buttons.X &
+                newState.Buttons.Y &
+                newState.Buttons.Back &
+                newState.Buttons.Guide &
+                newState.Buttons.LeftShoulder &
+                newState.Buttons.LeftStick &
+                newState.Buttons.RightShoulder &
+                newState.Buttons.RightStick &
+                newState.Buttons.Start &
+                newState.DPad.Left &
+                newState.DPad.Right &
+                newState.DPad.Up &
+                newState.DPad.Down)
+                && Math.Abs(newState.ThumbSticks.Left.X) == 0
+                && Math.Abs(newState.ThumbSticks.Left.Y) == 0
+                && Math.Abs(newState.ThumbSticks.Right.X) == 0
+                && Math.Abs(newState.ThumbSticks.Right.Y) == 0
+                && Math.Abs(newState.Triggers.Left) == 0
+                && Math.Abs(newState.Triggers.Right) == 0;
+        }
+
+        private bool _isReleased;
+
 		private void GamepadOnStateChanged(GamePadState oldState, GamePadState newState, int playerIndex){
-            if (GAwaitReset) {
-                if (ButtonState.Released ==
-                    (newState.Buttons.A &
-                    newState.Buttons.B &
-                    newState.Buttons.X &
-                    newState.Buttons.Y &
-                    newState.Buttons.Back &
-                    newState.Buttons.Guide &
-                    newState.Buttons.LeftShoulder &
-                    newState.Buttons.LeftStick &
-                    newState.Buttons.RightShoulder &
-                    newState.Buttons.RightStick &
-                    newState.Buttons.Start &
-                    newState.DPad.Left &
-                    newState.DPad.Right &
-                    newState.DPad.Up &
-                    newState.DPad.Down)
-                    && Math.Abs(newState.ThumbSticks.Left.X) == 0
-                    && Math.Abs(newState.ThumbSticks.Left.Y) == 0
-                    && Math.Abs(newState.ThumbSticks.Right.X) == 0
-                    && Math.Abs(newState.ThumbSticks.Right.Y) == 0
-                    && Math.Abs(newState.Triggers.Left) == 0
-                    && Math.Abs(newState.Triggers.Right) == 0
-                )
-                {
-                    GAwaitReset = false;
+            _isReleased = GetIsAllReleased(newState);
+            if (AwaitReset) {
+                if (_isReleased) {
+                    _tsc?.SetResult(true);
+                    _tsc = null;
+                    AwaitReset = false;
                 }
                 else {
                     return;

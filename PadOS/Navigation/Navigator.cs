@@ -110,7 +110,7 @@ namespace PadOS.Navigation
             _navigationHistory.Pop();
             var window = _navigationHistory.Peek();
             {
-                // for whatever reason, a previously hidden window will cause problems, intead just create a new copy and show that.
+                // for whatever reason, a previously hidden window will cause problems, for now, just create a new copy and show that. 
                 var instance = Activator.CreateInstance(window.GetType());
                 CurrentWindow = (Window)instance;
                 CurrentWindow.Show();
