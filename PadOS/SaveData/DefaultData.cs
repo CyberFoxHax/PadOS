@@ -1,4 +1,5 @@
-﻿using PadOS.Commands.FunctionButtons;
+﻿using System.Linq;
+using PadOS.Commands.FunctionButtons;
 using PadOS.SaveData.Models;
 using Function = PadOS.SaveData.Models.Function;
 
@@ -76,7 +77,7 @@ namespace PadOS.SaveData {
             DefaultProfile,
             new Profile {
                 Id = 3,
-                Name = "Supported Game",
+                Name = "Game",
                 XML = "Game.xml"
             },
             new Profile {
@@ -105,22 +106,22 @@ namespace PadOS.SaveData {
             new ProfileAssociation{
                Executable = null,
                Profile = DefaultProfile,
-               WindowTitle = null,
+               WindowTitle = null
             },
             new ProfileAssociation{
                Executable = "vlc.exe",
-               Profile = Profiles[4-1],
-               WindowTitle = null,
+               Profile = Profiles[3],
+               WindowTitle = null
             },
             new ProfileAssociation{
                Executable = "dolphin.exe",
-               Profile = Profiles[5-1],
-               WindowTitle = null,
+               Profile = Profiles[4],
+               WindowTitle = null
             },
             new ProfileAssociation{
                Executable = "pcsx2.exe",
-               Profile = Profiles[6-1],
-               WindowTitle = null,
+               Profile = Profiles[5],
+               WindowTitle = null
             },
         };
 

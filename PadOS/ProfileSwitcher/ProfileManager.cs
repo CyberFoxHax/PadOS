@@ -30,9 +30,8 @@ namespace PadOS.ProfileSwitcher
         }
 
         private void OnSavedProfilesChanged(SaveData.JsonDatastore.JsonTable obj) {
-            using (var saveData = new SaveData.SaveData()) {
-                _profileMappings = obj.Cast<SaveData.Models.ProfileAssociation>().ToArray();
-            }
+            _profileMappings = obj.Cast<SaveData.Models.ProfileAssociation>().ToArray();
+            Tracker_ProcessChanged(null, _currentProccess);
         }
 
         private static SaveData.Models.ProfileAssociation[] _profileMappings;
@@ -54,7 +53,11 @@ namespace PadOS.ProfileSwitcher
             }
         }
 
+        private string _currentProccess;
+        //private string _currentWindow; // TBA
+
         private async void Tracker_ProcessChanged(string oldProcess, string newProcess) {
+            _currentProccess = newProcess;
             var processName = System.IO.Path.GetFileName(newProcess);
             var profileMatch = _profileMappings.FirstOrDefault(p => p.Executable == processName);
             if (profileMatch == null)
