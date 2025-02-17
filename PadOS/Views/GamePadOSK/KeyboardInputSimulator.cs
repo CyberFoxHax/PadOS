@@ -39,7 +39,9 @@ namespace PadOS.Views.GamePadOSK
 			}
 		}
 
-		public event Action<int> CaretChange;
+        private readonly RepeatTimer _timer = new RepeatTimer();
+
+        public event Action<int> CaretChange;
 		public event Action<string> TextChanged;
 
 		public void OnDeleteButton() {
@@ -50,12 +52,28 @@ namespace PadOS.Views.GamePadOSK
 			SendKey("{BS}");
 		}
 
-		public void OnMoveRightButton() {
+        public void StopRepeat() {
+            _timer.Stop();
+        }
+
+        public void OnMoveRightButton() {
+            _onMoveRightButton();
+            _timer.Callback = _onMoveRightButton;
+            _timer.Start();
+        }
+
+		public void OnMoveLeftButton() {
+            _onMoveLeftButton();
+            _timer.Callback = _onMoveLeftButton;
+            _timer.Start();
+        }
+
+        public void _onMoveRightButton() {
 			CaretIndex++;
 			SendKey("{RIGHT}");
 		}
 
-		public void OnMoveLeftButton() {
+		public void _onMoveLeftButton() {
 			CaretIndex--;
 			SendKey("{LEFT}");
 		}

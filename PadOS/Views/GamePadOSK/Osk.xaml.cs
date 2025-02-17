@@ -42,7 +42,12 @@ namespace PadOS.Views.GamePadOSK {
             wrapper.OnScale += Wrapper_OnScale;
             wrapper.OnMove += Wrapper_OnMove;
 
-			_keyboardInputSimulator.CaretChange += KeyboardInputSimulatorOnCaretChange;
+            wrapper.MoveLeftUp += _keyboardInputSimulator.StopRepeat;
+            wrapper.MoveRightUp += _keyboardInputSimulator.StopRepeat;
+
+
+
+            _keyboardInputSimulator.CaretChange += KeyboardInputSimulatorOnCaretChange;
 			_keyboardInputSimulator.TextChanged += KeyboardInputSimulatorOnTextChanged;
         }
 
@@ -170,6 +175,10 @@ namespace PadOS.Views.GamePadOSK {
 		public int CaretIndex {
 			get => _keyboardInputSimulator.CaretIndex;
 			set {
+                if (Dispatcher.Thread != System.Threading.Thread.CurrentThread) {
+                    Dispatcher.Invoke(() => CaretIndex = value);
+                    return;
+                }
                 if (BorderLegendArea.Visibility != Visibility.Visible || value <= -1 || value >= TextBox.Text.Length + 1) {
                     TextChanged?.Invoke(this, _keyboardInputSimulator.Text);
                     return;

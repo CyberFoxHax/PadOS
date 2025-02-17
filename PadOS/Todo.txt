@@ -6,7 +6,7 @@
 #alt+f4
 
 #OSK move caret left/right not working
-OSK implement repeating buttons
+#OSK implement repeating buttons
 #OSK flickering caps
 
 OnTrigger and OnTriggerOff event need an event parameter class (WIP in TriggerEvent_Delegate.cs)

@@ -172,6 +172,7 @@
     <Compile Include="SaveData\ProfileXML\ITrigger.cs" />
     <Compile Include="SaveData\ProfileXML\Mapping.cs" />
     <Compile Include="SaveData\ProfileXML\Variable.cs" />
+    <Compile Include="Views\GamePadOSK\RepeatTimer.cs" />
     <Compile Include="Views\InputSimulationEditor\Editors\KeyboardControl.xaml.cs">
       <DependentUpon>KeyboardControl.xaml</DependentUpon>
     </Compile>
