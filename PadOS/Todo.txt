@@ -19,15 +19,16 @@ let plugins read configs
 #IHasId, implementing this interface causes json serializer to break
 #removing an association that is currently in use, dispatch the windowchanged event or something to get the correct profile selected
 
+nested OSK will show up in the back
 
 #When profile is changed, Wait for all buttons up before enabling input.
 	#tested, but doesn't seem to do it right? Wait for analogue stick reset too...
 
 #Vibrate action (and vibrate for hold switches)
-	Currently hardcoded for player 0, but should trigger on the controller that is executing the macro (need to pass player index)
+	#Currently hardcoded for player 0, but should trigger on the controller that is executing the macro (need to pass player index)
 
 move user data into AppData and put a shortcut in local folders
-Pass analogues value to actions, if such value exists, otherwise just pass "1f" (what about negatives?)
+#Pass analogues value to actions, if such value exists, otherwise just pass "1f" (what about negatives?)
 Keyboard create a text based keyboard handler for text input? Or just use the keyboard?
 
 How to create new profiles? What is a profile?
@@ -39,10 +40,10 @@ Press the home button while nested OSK is open is also problematic
 Bug: Home Button doesn't work on Windows 10. GameBar overrides. Make a solution that can detect this and instruct the user to turn it off. (or do it automatically)
 Bug: Home button doesn't work on RDP?
 
-ProfileAssocEditor
-	"Remove" is not implemented
-	"Capture" is not implemented (default value should be the currently foccussed window)
-	saving an association is done by pressing back, which is not intuitive.
+#ProfileAssocEditor
+	#"Remove" is not implemented
+	#"Capture" is not implemented (default value should be the currently foccussed window)
+	#saving an association is done by pressing back, which is not intuitive.
 
 BlockNavigator                                    
 	Bug: If the nested view has no blocks the entire system ceases to function

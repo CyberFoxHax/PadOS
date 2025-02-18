@@ -38,12 +38,12 @@ namespace PadOS.ProfileExecution
                             switchMapping = new SwitchMappingHandler();
                         var sw = Maps.TriggerSwitchHandlers.InstanceFromNode(trigger);
                         sw.Init(trigger, _gamePadInput);
-                        sw.OnTrigger += (s, i) => {
+                        sw.OnTrigger += (evt, sender, index) => {
                             if (_awaitKeysUpTask == null)
-                                switchMapping.Invoke(i);
+                                switchMapping.Invoke(evt, index);
                         };
-                        sw.OnTriggerOff += (s) => {
-                            switchMapping.InvokeOff();
+                        sw.OnTriggerOff += (evt, sender) => {
+                            switchMapping.InvokeOff(evt);
                             if (_awaitKeysUpTask != null)
                                 CheckAwaitKeysUp();
                         };
@@ -56,10 +56,10 @@ namespace PadOS.ProfileExecution
                         handler.Init(trigger, _gamePadInput);
                         handler.OnTrigger += p => {
                             if (_awaitKeysUpTask == null)
-                                mappingHandler.Invoke();
+                                mappingHandler.Invoke(p);
                         };
                         handler.OnTriggerOff += p => {
-                            mappingHandler.InvokeOff();
+                            mappingHandler.InvokeOff(p);
                             if (_awaitKeysUpTask != null)
                                 CheckAwaitKeysUp();
                         };

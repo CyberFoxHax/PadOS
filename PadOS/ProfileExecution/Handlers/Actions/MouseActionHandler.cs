@@ -27,7 +27,7 @@ namespace PadOS.ProfileExecution {
             _setPosition = node.Position;
         }
 
-        public void Invoke() {
+        public void Invoke(EventData p) {
             uint vk = 0;
             int x = 0;
             switch (_button) {
@@ -76,7 +76,7 @@ namespace PadOS.ProfileExecution {
                 DllImport.UserInfo32.mouse_event(DllImport.UserInfo32.MOUSEEVENTF_WHEEL, 0, 0, (int)_speed, 0);
         }
 
-        public void InvokeOff() {
+        public void InvokeOff(EventData p) {
             uint vk;
             int x = 0;
             switch (_button) {

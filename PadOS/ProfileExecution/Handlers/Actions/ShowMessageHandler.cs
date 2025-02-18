@@ -16,11 +16,11 @@ namespace PadOS.ProfileExecution {
             _text = text.Text;
         }
 
-        public void Invoke() {
+        public void Invoke(EventData p) {
             System.Windows.MessageBox.Show(_text, "PadOS", System.Windows.MessageBoxButton.OK);
         }
 
-        public void InvokeOff() {
+        public void InvokeOff(EventData p) {
         }
     }
 }

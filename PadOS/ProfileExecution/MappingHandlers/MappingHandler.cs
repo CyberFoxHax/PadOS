@@ -10,16 +10,16 @@ namespace PadOS.ProfileExecution {
             _actions.Add(action);
         }
 
-        public void Invoke() {
+        public void Invoke(EventData p) {
             AnyDown = true;
             foreach (var item in _actions) {
-                item.Invoke();
+                item.Invoke(p);
             }
         }
-        public void InvokeOff() {
+        public void InvokeOff(EventData p) {
             AnyDown = false;
             foreach (var item in _actions) {
-                item.InvokeOff();
+                item.InvokeOff(p);
             }
         }
     }

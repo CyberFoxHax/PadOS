@@ -2,7 +2,7 @@
     public interface IActionHandler {
         void Init(SaveData.ProfileXML.IAction actionNode);
         bool Enabled { get; set; }
-        void Invoke();
-        void InvokeOff();
+        void Invoke(EventData p);
+        void InvokeOff(EventData p);
     }
 }

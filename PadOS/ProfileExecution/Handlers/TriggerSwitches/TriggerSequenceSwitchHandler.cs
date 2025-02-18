@@ -17,23 +17,23 @@ namespace PadOS.ProfileExecution {
             }
         }
 
-        public event Action<ITriggerSwitchHandler, int> OnTrigger;
-        public event Action<ITriggerSwitchHandler> OnTriggerOff;
+        public event Action<EventData, ITriggerSwitchHandler, int> OnTrigger;
+        public event Action<EventData, ITriggerSwitchHandler> OnTriggerOff;
 
         private List<ITriggerHandler> _handlers;
         private int _lastTrigger = -1;
         private ButtonSequenceTriggerHandler _longenstSequence;
 
         // receive all events, and when timeout happens, trigger the longest one
-        private void Handler_OnTimeout(EventData sender) {
+        private void Handler_OnTimeout(EventData evt) {
             foreach (var item in _handlers.OfType<ButtonSequenceTriggerHandler>()) {
                 item.Reset();
             }
             if (_lastTrigger != -1) {
                 var v = _lastTrigger;
                 _lastTrigger = -1;
-                OnTrigger?.Invoke(this, v);
-                OnTriggerOff?.Invoke(this);
+                OnTrigger?.Invoke(evt, this, v);
+                OnTriggerOff?.Invoke(evt, this);
             }
         }
 

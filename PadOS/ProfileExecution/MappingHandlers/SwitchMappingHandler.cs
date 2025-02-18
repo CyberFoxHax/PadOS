@@ -14,13 +14,13 @@ namespace PadOS.ProfileExecution {
             _actions.Add(action);
         }
 
-        public void Invoke(int index) {
+        public void Invoke(EventData p, int index) {
             AnyDown = true;
-            _actions[index].Invoke();
-            _actions[index].InvokeOff();
+            _actions[index].Invoke(p);
+            _actions[index].InvokeOff(p);
         }
 
-        public void InvokeOff() {
+        public void InvokeOff(EventData p) {
             AnyDown = false;
         }
     }

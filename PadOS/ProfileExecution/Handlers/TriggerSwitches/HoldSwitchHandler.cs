@@ -20,8 +20,8 @@ namespace PadOS.ProfileExecution {
             }
         }
 
-        public event Action<ITriggerSwitchHandler, int> OnTrigger;
-        public event Action<ITriggerSwitchHandler> OnTriggerOff;
+        public event Action<EventData, ITriggerSwitchHandler, int> OnTrigger;
+        public event Action<EventData, ITriggerSwitchHandler> OnTriggerOff;
 
         private ITriggerHandler[] _triggerHandlers;
         private float[] _timeouts;
@@ -78,13 +78,16 @@ namespace PadOS.ProfileExecution {
             _startTime = default;
             var index = _timeouts.Length - 1;
             _buttonsDownCount = 0;
-            OnTrigger?.Invoke(this, index);
-            OnTriggerOff?.Invoke(this);
+            var eventData = new EventData {
+                PlayerIndex = _lastPlayer
+            };
+            OnTrigger?.Invoke(eventData, this, index);
+            OnTriggerOff?.Invoke(eventData, this);
         }
 
-        private void HoldSwitchHandler_OnTriggerOff(EventData sender) {
-            if (sender.PlayerIndex != null)
-                _lastPlayer = sender.PlayerIndex.Value;
+        private void HoldSwitchHandler_OnTriggerOff(EventData evt) {
+            if (evt.PlayerIndex != null)
+                _lastPlayer = evt.PlayerIndex.Value;
             _buttonsDownCount--;
             if (_on == false || _buttonsDownCount > 0)
                 return;
@@ -109,8 +112,11 @@ namespace PadOS.ProfileExecution {
             _endTime = default;
             _startTime = default;
             _buttonsDownCount = 0;
-            OnTrigger?.Invoke(this, index);
-            OnTriggerOff?.Invoke(this);
+            var eventData = new EventData {
+                PlayerIndex = _lastPlayer
+            };
+            OnTrigger?.Invoke(evt, this, index);
+            OnTriggerOff?.Invoke(evt, this);
         }
 
         private void HoldSwitchHandler_OnTrigger(EventData sender) {

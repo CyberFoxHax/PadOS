@@ -128,7 +128,7 @@ namespace PadOS.ProfileExecution {
             KeysDown();
         }
 
-        public void Invoke() {
+        public void Invoke(EventData p) {
             if (_enabled == false)
                 return;
             KeysDown();
@@ -138,7 +138,7 @@ namespace PadOS.ProfileExecution {
             }
         }
 
-        public void InvokeOff() {
+        public void InvokeOff(EventData p) {
             if (_enabled == false)
                 return;
             KeysUp();
