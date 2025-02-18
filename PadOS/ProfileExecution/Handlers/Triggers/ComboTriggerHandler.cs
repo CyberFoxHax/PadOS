@@ -38,12 +38,12 @@ namespace PadOS.ProfileExecution {
             var type = _input.GetType();
             foreach (var item in Maps.ButtonDownEventMap) {
                 var evt = type.GetEvent(item.Value);
-                _dict[evt] = (a, b) => OnButton(item.Key, true);
+                _dict[evt] = (a, b) => OnButton(a, item.Key, true);
                 evt.AddEventHandler(_input, _dict[evt]);
             }
             foreach (var item in Maps.ButtonUpEventMap) {
                 var evt = type.GetEvent(item.Value);
-                _dict[evt] = (a, b) => OnButton(item.Key, false);
+                _dict[evt] = (a, b) => OnButton(a, item.Key, false);
                 evt.AddEventHandler(_input, _dict[evt]);
             }
         }
@@ -63,7 +63,7 @@ namespace PadOS.ProfileExecution {
         public void Reset() {
             _comboCount = 0;
         }
-        private void OnButton(ButtonsConstants btn, bool down) {
+        private void OnButton(int player, ButtonsConstants btn, bool down) {
             if (down) {
                 // wrong equation, somewhat
                 if (_buttonSequence.Contains(btn))
@@ -80,8 +80,14 @@ namespace PadOS.ProfileExecution {
 
             if (_awaitRelease == false && _comboCount == _buttonSequence.Length) {
                 _awaitRelease = true;
-                OnTrigger?.Invoke(this);
-                OnTriggerOff?.Invoke(this);
+                var data = new EventData {
+                    Sender = this,
+                    PlayerIndex = player,
+                    IsDownEvent = down,
+                    Buttons = btn
+                };
+                OnTrigger?.Invoke(data);
+                OnTriggerOff?.Invoke(data);
             }
             if (_comboCount == 0)
                 _awaitRelease = false;

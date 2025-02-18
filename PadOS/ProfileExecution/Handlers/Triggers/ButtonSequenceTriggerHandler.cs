@@ -57,6 +57,7 @@ namespace PadOS.ProfileExecution {
         private int _timeout;
         private int _currentPosition = 0;
         private readonly System.Timers.Timer _timer = new System.Timers.Timer();
+        private int _lastPlayer;
 
         public void Reset() {
             _currentPosition = 0;
@@ -65,13 +66,17 @@ namespace PadOS.ProfileExecution {
 
         private void Timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e) {
             _currentPosition = 0;
-            OnTimeout?.Invoke(this);
+            OnTimeout?.Invoke(new EventData {
+                Sender = this,
+                PlayerIndex = _lastPlayer
+            });
             _timer.Stop();
         }
 
         private void OnButton(ButtonsConstants btn, int player, XInputDotNetPure.GamePadState state) {
             _timer.Stop();
             _timer.Start();
+            _lastPlayer = player;
 
             if (btn != _buttonSequence[_currentPosition]) {
                 _currentPosition = 0;
@@ -81,8 +86,15 @@ namespace PadOS.ProfileExecution {
 
             if (_currentPosition == _buttonSequence.Length) {
                 _currentPosition = 0;
-                OnTrigger?.Invoke(this);
-                OnTriggerOff?.Invoke(this);
+                var eventData = new EventData {
+                    Sender = this,
+                    PlayerIndex = player,
+                    Buttons = btn,
+                    IsDownEvent = true
+                };
+                OnTrigger?.Invoke(eventData);
+                eventData.IsDownEvent = false;
+                OnTriggerOff?.Invoke(eventData);
             }
         }
     }

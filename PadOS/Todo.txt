@@ -13,9 +13,9 @@ MainPanel: Shortcut to Win+R
 
 process tracker, window matching is not implemented
 
-OnTrigger and OnTriggerOff event need an event parameter class (WIP in TriggerEvent_Delegate.cs)
+#OnTrigger and OnTriggerOff event need an event parameter class (WIP in TriggerEvent_Delegate.cs)
 IHasId, implementing this interface causes json serializer to break
-removing an association that is currently in use, dispatch the windowchanged event or something to get the correct profile selected
+#removing an association that is currently in use, dispatch the windowchanged event or something to get the correct profile selected
 
 
 #When profile is changed, Wait for all buttons up before enabling input.

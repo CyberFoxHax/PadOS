@@ -162,6 +162,7 @@ namespace PadOS.Plugin.DesktopInput
             /* bug, because some some black magic sideeffect,
              * commenting out the altf4 instruction will cancel vibration
              * waiting for the vibration to finish will fix that*/
+             /* could it be the plugin gets disabled in a profile switch?*/
             await Vibrate();
             if (Math.Floor(_rightStickStopwatch.ElapsedMilliseconds / 100d) * 100 >= 500) {
                 _rightStickTickTimer.Stop();

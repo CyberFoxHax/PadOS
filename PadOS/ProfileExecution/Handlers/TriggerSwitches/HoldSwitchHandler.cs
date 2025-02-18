@@ -29,6 +29,7 @@ namespace PadOS.ProfileExecution {
         private DateTime _endTime;
         private Timer _timer = new Timer { AutoReset = false };
         private bool _on;
+        private int _lastPlayer;
 
         private int _buttonsDownCount = 0;
         private GamePadInput _gamePad;
@@ -42,7 +43,7 @@ namespace PadOS.ProfileExecution {
             foreach (var timer in timers) {
                 timer.Elapsed += delegate {
                     if(_on)
-                        _gamePad.SetVibrationOnce(0, 1, 1, 150);
+                        _gamePad.SetVibrationOnce(_lastPlayer, 1, 1, 150);
                     timer.Enabled = false;
                     timer.Dispose();
                 };
@@ -81,7 +82,9 @@ namespace PadOS.ProfileExecution {
             OnTriggerOff?.Invoke(this);
         }
 
-        private void HoldSwitchHandler_OnTriggerOff(ITriggerHandler sender) {
+        private void HoldSwitchHandler_OnTriggerOff(EventData sender) {
+            if (sender.PlayerIndex != null)
+                _lastPlayer = sender.PlayerIndex.Value;
             _buttonsDownCount--;
             if (_on == false || _buttonsDownCount > 0)
                 return;
@@ -110,7 +113,9 @@ namespace PadOS.ProfileExecution {
             OnTriggerOff?.Invoke(this);
         }
 
-        private void HoldSwitchHandler_OnTrigger(ITriggerHandler sender) {
+        private void HoldSwitchHandler_OnTrigger(EventData sender) {
+            if(sender.PlayerIndex != null)
+                _lastPlayer = sender.PlayerIndex.Value;
             _buttonsDownCount++;
             _startTime = DateTime.Now;
             _on = true;

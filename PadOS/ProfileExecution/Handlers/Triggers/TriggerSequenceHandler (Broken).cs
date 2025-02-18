@@ -61,7 +61,7 @@ namespace PadOS.ProfileExecution {
         }
 
 
-        private void OnTriggerHandler(ITriggerHandler sender) {
+        private void OnTriggerHandler(EventData sender) {
             _timer.Stop();
             _timer.Start();
 
@@ -73,8 +73,11 @@ namespace PadOS.ProfileExecution {
 
             if (_currentPosition == _sequence.Length) {
                 _currentPosition = 0;
-                OnTrigger?.Invoke(this);
-                OnTriggerOff?.Invoke(this);
+                sender.Sender = this;
+                if(sender.PlayerIndex != null)
+                    _lastPlayer = sender.PlayerIndex.Value;
+                OnTrigger?.Invoke(sender);
+                OnTriggerOff?.Invoke(sender);
             }
         }
 
@@ -85,6 +88,7 @@ namespace PadOS.ProfileExecution {
         private int _timeout;
         private int _currentPosition = 0;
         private readonly System.Timers.Timer _timer = new System.Timers.Timer();
+        private int _lastPlayer;
 
         public void Reset() {
             _currentPosition = 0;
@@ -92,7 +96,10 @@ namespace PadOS.ProfileExecution {
 
         private void Timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e) {
             _currentPosition = 0;
-            OnTimeout?.Invoke(this);
+            OnTimeout?.Invoke(new EventData {
+                Sender = this,
+                PlayerIndex = _lastPlayer
+            });
             _timer.Stop();
         }
     }

@@ -32,12 +32,18 @@ namespace PadOS.ProfileExecution {
         private void _timer_Elapsed(object sender, ElapsedEventArgs e) {
             _timer.Stop();
             if (_enabled == false && _key == PadOSTrigger.EPadOSTrigger.ProfileDisabled) {
-                OnTrigger?.Invoke(this);
-                OnTriggerOff?.Invoke(this);
+                var data = new EventData {
+                    Sender = this
+                };
+                OnTrigger?.Invoke(data);
+                OnTriggerOff?.Invoke(data);
             }
             else if (_enabled && _key == PadOSTrigger.EPadOSTrigger.ProfileEnabled) {
-                OnTrigger?.Invoke(this);
-                OnTriggerOff?.Invoke(this);
+                var data = new EventData {
+                    Sender = this
+                };
+                OnTrigger?.Invoke(data);
+                OnTriggerOff?.Invoke(data);
             }
         }
     }

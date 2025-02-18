@@ -24,12 +24,13 @@ namespace PadOS.ProfileExecution {
         public event TriggerEvent OnTrigger;
         public event TriggerEvent OnTriggerOff;
 
-        private AnalogueTrigger.EAxis _axis;
+        private GamePadInput.Axis _axis;
         private GamePadInput _input;
         private float _value;
         private System.Timers.Timer _timer = new System.Timers.Timer { AutoReset = true };
         private bool _triggerOn = false;
         private bool _isNegative = false;
+        private int _lastPlayer;
 
         public void Init(ITrigger node, GamePadInput input) {
             var anal = (AnalogueTrigger)node;
@@ -41,19 +42,23 @@ namespace PadOS.ProfileExecution {
         }
 
         private void OnTimer(object sender, System.Timers.ElapsedEventArgs e) {
-            OnTrigger?.Invoke(this);
-            OnTriggerOff?.Invoke(this);
+            var evt = new EventData {
+                Sender = this,
+                PlayerIndex = _lastPlayer
+            };
+            OnTrigger?.Invoke(evt);
+            OnTriggerOff?.Invoke(evt);
         }
 
         private void OnThumbChange(int player, GamePadState state, Input.Vector2 vec2) {
             float value;
             switch (_axis) {
-                case AnalogueTrigger.EAxis.RightThumbX:
-                case AnalogueTrigger.EAxis.LeftThumbX:
+                case GamePadInput.Axis.RightThumbX:
+                case GamePadInput.Axis.LeftThumbX:
                     value = (float)vec2.X;
                     break;
-                case AnalogueTrigger.EAxis.RightThumbY:
-                case AnalogueTrigger.EAxis.LeftThumbY:
+                case GamePadInput.Axis.RightThumbY:
+                case GamePadInput.Axis.LeftThumbY:
                     value = (float)vec2.Y;
                     break;
                 default:
@@ -62,11 +67,11 @@ namespace PadOS.ProfileExecution {
             if (_isNegative) {
                 value = -value;
             }
-            
             OnTriggerChange(player, state, value);
         }
 
         private void OnTriggerChange(int player, GamePadState state, float value) {
+            _lastPlayer = player;
             //if(value > 0)
             //    _timer.Interval = freq * 1/value;
             var thresh = _value;
@@ -79,8 +84,14 @@ namespace PadOS.ProfileExecution {
             else if (_triggerOn == false) { 
                 _triggerOn = true;
                 _timer.Start();
-                OnTrigger?.Invoke(this);
-                OnTriggerOff?.Invoke(this);
+                var eventData = new EventData {
+                    Sender = this,
+                    PlayerIndex = player,
+                    Axis = _axis,
+                    AnalogueValue = value,
+                };
+                OnTrigger?.Invoke(eventData);
+                OnTriggerOff?.Invoke(eventData);
             }
         }
 
@@ -88,18 +99,18 @@ namespace PadOS.ProfileExecution {
             if(_timer.Interval > 0)
                 _timer.Elapsed += OnTimer;
             switch (_axis) {
-                case AnalogueTrigger.EAxis.RightThumbX:
-                case AnalogueTrigger.EAxis.RightThumbY:
+                case GamePadInput.Axis.RightThumbX:
+                case GamePadInput.Axis.RightThumbY:
                     _input.ThumbRightChange += OnThumbChange;
                     break;
-                case AnalogueTrigger.EAxis.LeftThumbX:
-                case AnalogueTrigger.EAxis.LeftThumbY:
+                case GamePadInput.Axis.LeftThumbX:
+                case GamePadInput.Axis.LeftThumbY:
                     _input.ThumbLeftChange += OnThumbChange;
                     break;
-                case AnalogueTrigger.EAxis.RightTrigger:
+                case GamePadInput.Axis.RightTrigger:
                     _input.TriggerRightChange += OnTriggerChange;
                     break;
-                case AnalogueTrigger.EAxis.LeftTrigger:
+                case GamePadInput.Axis.LeftTrigger:
                     _input.TriggerLeftChange += OnTriggerChange;
                     break;
             }
@@ -109,18 +120,18 @@ namespace PadOS.ProfileExecution {
             if (_timer.Interval > 0)
                 _timer.Stop();
             switch (_axis) {
-                case AnalogueTrigger.EAxis.RightThumbX:
-                case AnalogueTrigger.EAxis.RightThumbY:
+                case GamePadInput.Axis.RightThumbX:
+                case GamePadInput.Axis.RightThumbY:
                     _input.ThumbRightChange -= OnThumbChange;
                     break;
-                case AnalogueTrigger.EAxis.LeftThumbX:
-                case AnalogueTrigger.EAxis.LeftThumbY:
+                case GamePadInput.Axis.LeftThumbX:
+                case GamePadInput.Axis.LeftThumbY:
                     _input.ThumbLeftChange -= OnThumbChange;
                     break;
-                case AnalogueTrigger.EAxis.RightTrigger:
+                case GamePadInput.Axis.RightTrigger:
                     _input.TriggerRightChange -= OnTriggerChange;
                     break;
-                case AnalogueTrigger.EAxis.LeftTrigger:
+                case GamePadInput.Axis.LeftTrigger:
                     _input.TriggerLeftChange -= OnTriggerChange;
                     break;
             }

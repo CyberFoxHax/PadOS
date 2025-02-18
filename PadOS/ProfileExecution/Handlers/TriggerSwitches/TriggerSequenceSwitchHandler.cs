@@ -25,7 +25,7 @@ namespace PadOS.ProfileExecution {
         private ButtonSequenceTriggerHandler _longenstSequence;
 
         // receive all events, and when timeout happens, trigger the longest one
-        private void Handler_OnTimeout(ITriggerHandler sender) {
+        private void Handler_OnTimeout(EventData sender) {
             foreach (var item in _handlers.OfType<ButtonSequenceTriggerHandler>()) {
                 item.Reset();
             }
@@ -37,9 +37,9 @@ namespace PadOS.ProfileExecution {
             }
         }
 
-        private void Handler_OnTrigger(ITriggerHandler trigger) {
-            var seq = (ButtonSequenceTriggerHandler)trigger;
-            _lastTrigger = _handlers.IndexOf(trigger);
+        private void Handler_OnTrigger(EventData trigger) {
+            var seq = (ButtonSequenceTriggerHandler)trigger.Sender;
+            _lastTrigger = _handlers.IndexOf(trigger.Sender);
             if (seq.SequenceLength == _longenstSequence.SequenceLength) {
                 seq.Reset();
                 Handler_OnTimeout(trigger);

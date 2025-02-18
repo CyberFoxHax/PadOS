@@ -61,11 +61,21 @@ namespace PadOS.ProfileExecution {
         }
 
         private void OnButton(int player, GamePadState state) {
-            OnTrigger?.Invoke(this);
+            OnTrigger?.Invoke(new EventData {
+                Sender = this,
+                PlayerIndex = player,
+                Buttons = _button,
+                IsDownEvent = true
+            });
         }
 
         private void OnButtonUp(int player, GamePadState state) {
-            OnTriggerOff?.Invoke(this);
+            OnTriggerOff?.Invoke(new EventData {
+                Sender = this,
+                PlayerIndex = player,
+                Buttons = _button,
+                IsDownEvent = false
+            });
         }
 
         private void Enable() {
