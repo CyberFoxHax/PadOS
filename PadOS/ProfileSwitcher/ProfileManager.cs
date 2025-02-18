@@ -26,12 +26,12 @@ namespace PadOS.ProfileSwitcher
 
             _tracker = new BackgroundTracker();
             _tracker.Enabled = true;
-            _tracker.ProcessChanged += Tracker_ProcessChanged;
+            _tracker.WindowChanged += Tracker_WindowChanged;
         }
 
         private void OnSavedProfilesChanged(SaveData.JsonDatastore.JsonTable obj) {
             _profileMappings = obj.Cast<SaveData.Models.ProfileAssociation>().ToArray();
-            Tracker_ProcessChanged(null, _currentProccess);
+            MatchProfile();
         }
 
         private static SaveData.Models.ProfileAssociation[] _profileMappings;
@@ -53,25 +53,63 @@ namespace PadOS.ProfileSwitcher
             }
         }
 
-        private string _currentProccess;
-        //private string _currentWindow; // TBA
+        private string _currentProcess;
+        private string _currentWindow;
 
-        private async void Tracker_ProcessChanged(string oldProcess, string newProcess) {
-            _currentProccess = newProcess;
-            var processName = System.IO.Path.GetFileName(newProcess);
-            var profileMatch = _profileMappings.FirstOrDefault(p => p.Executable == processName);
-            if (profileMatch == null)
-                profileMatch = _profileMappings.FirstOrDefault(p => p.Executable == null);
+        private void Tracker_WindowChanged(string newProcess, string newWindow) {
+            _currentProcess = newProcess;
+            _currentWindow = newWindow;
+            MatchProfile();
+        }
+
+        private bool ExecWindowTest(SaveData.Models.ProfileAssociation profile, string exec, string window) {
+            var a = "";
+            var b = "";
+            if (string.IsNullOrEmpty(profile.Executable) == false) {
+                a += profile.Executable;
+                if(System.IO.Path.IsPathRooted(profile.Executable))
+                    b += exec;
+                else
+                    b += System.IO.Path.GetFileName(exec);
+            }
+            if (string.IsNullOrEmpty(profile.WindowTitle) == false) {
+                if (string.IsNullOrEmpty(a) == false)
+                    a += "+";
+                a += profile.WindowTitle;
+
+                if (string.IsNullOrEmpty(b) == false)
+                    b += "+";
+                b += window;
+            }
+            if(string.IsNullOrEmpty(a) && string.IsNullOrEmpty(b))
+                return false;
+            return a == b;
+        }
+
+        private async void MatchProfile() {
+            var profileMatch = _profileMappings.FirstOrDefault(p => ExecWindowTest(p, _currentProcess, _currentWindow));
+            if (profileMatch == null) // select default profile
+                profileMatch = _profileMappings.FirstOrDefault(p => p.Executable == null && p.WindowTitle == null);
+
+            // Produce a debug string to print to console 0_0
+            var matchStr = "";
+            if (string.IsNullOrEmpty(_currentProcess) == false)
+                matchStr += System.IO.Path.GetFileName(_currentProcess);
+            if (string.IsNullOrEmpty(_currentWindow) == false) {
+                if (string.IsNullOrEmpty(_currentProcess) == false)
+                    matchStr += "+";
+                matchStr += _currentWindow;
+            }
 
             var newProfile = _profiles[profileMatch.Profile.Id];
             if (newProfile == CurrentProfile) {
-                Console.WriteLine("[ProfileManager/Tracker_ProcessChanged] Process changed to: " + processName + ". Profile change not needed");
+                Console.WriteLine("[ProfileManager/MatchProfile] Window changed to: \"" + matchStr + "\". Profile change not needed");
                 return;
             }
-            Console.WriteLine("[ProfileManager/Tracker_ProcessChanged] Profile changing");
+            Console.WriteLine("[ProfileManager/MatchProfile] Profile changing");
             _tracker.Enabled = false;
             await CurrentProfile.AwaitAllKeysUp();
-            Console.WriteLine("[ProfileManager/Tracker_ProcessChanged] Process changed to: " + processName + ". Profile changed to \"" + profileMatch.Profile.Name + "\"");
+            Console.WriteLine("[ProfileManager/MatchProfile] Window changed to: " + matchStr + ". Profile changed to \"" + profileMatch.Profile.Name + "\"");
             CurrentProfile.Enabled = false;
             CurrentProfile = newProfile;
             CurrentProfile.Enabled = true;

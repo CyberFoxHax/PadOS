@@ -144,7 +144,7 @@ namespace PadOS.Views.ProfileAssociationEditor {
             };
         }
 
-        private string GetForegroundWindowProcess() {
+        private static string GetForegroundWindowProcess() {
             var hWnd = DllImport.UserInfo32.GetForegroundWindow();
 
             int processId;
@@ -161,10 +161,10 @@ namespace PadOS.Views.ProfileAssociationEditor {
             return newProcess;
         }
 
-        private string GetForegroundWindowTitle() {
+        private static string GetForegroundWindowTitle() {
             var hWnd = DllImport.UserInfo32.GetForegroundWindow();
-            var sb = new System.Text.StringBuilder();
-            var code = DllImport.UserInfo32.GetWindowText(hWnd, sb, 128);
+            var sb = new System.Text.StringBuilder(128);
+            var code = DllImport.UserInfo32.GetWindowText(hWnd, sb, sb.Capacity);
             return sb.ToString();
         }
 

@@ -13,13 +13,13 @@ MainPanel: Shortcut to Win+R
 
 process tracker, window matching is not implemented
 implmement deadzone from config
-let plugins read configs
+	let plugins read configs
 
 #OnTrigger and OnTriggerOff event need an event parameter class (WIP in TriggerEvent_Delegate.cs)
 #IHasId, implementing this interface causes json serializer to break
 #removing an association that is currently in use, dispatch the windowchanged event or something to get the correct profile selected
 
-nested OSK will show up in the back
+nested OSK will show up in the back first time
 
 #When profile is changed, Wait for all buttons up before enabling input.
 	#tested, but doesn't seem to do it right? Wait for analogue stick reset too...
@@ -32,7 +32,10 @@ move user data into AppData and put a shortcut in local folders
 Keyboard create a text based keyboard handler for text input? Or just use the keyboard?
 
 How to create new profiles? What is a profile?
-Editor to associate profiles with applications
+	1 A Mapping XML
+	2 A list of associated applications
+	3 MainPanel button assignments
+
 Press the home button on a confirmation dialgue would be catastrophic
 Press the home button while nested OSK is open is also problematic
 	crash repro! Open OSK from a textbox, Press Guide, Press Guide, Open OSK from a textbox, Press Start, Crash
@@ -54,6 +57,5 @@ Navigator
 	Bug: XInput does not go to sleep when a window is hidden. Making recycling windows a no-go
 	Home button close, should it always reset the nav stack or should it return to last opened view?
 
-Enhance: MainPanel refactor so the controls will contain it's function attachment, and not the index based on the angle.
 Enhance: UI is too dark, on a bright background all the details disappear. Do this before beginning on the 4th view
 Custom logging

@@ -44,7 +44,6 @@ namespace PadOS.ProfileExecution {
             var key = Maps.StringToButton(buttonNode.Button);
             _button = key;
 
-            Console.WriteLine("[PadOS][ButtonTrigger] Register");
             var type = _input.GetType();
             {
                 var eventName = Maps.ButtonDownEventMap[key];
