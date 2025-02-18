@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace PadOS.SaveData.Models {
-    public class Profile {
+    public class Profile : JsonDatastore.IHasId {
         public Int64 Id { get; internal set; }
         public string Name { get; internal set; }
         public string XML { get; internal set; }

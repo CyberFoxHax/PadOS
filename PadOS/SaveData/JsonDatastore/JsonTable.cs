@@ -12,8 +12,9 @@ namespace PadOS.SaveData.JsonDatastore
 
         protected void UpdateOrInsert(object item) {
             var index = _innerList.IndexOf(item);
-            /*if (index == -1 && item is IHasId hasId) {
+            if (index == -1 && item is IHasId hasId) {
                 if (hasId.Id == 0) {
+                    _innerList.Add(item);
                     HasChanged = true;
                     DispatchChangedEvent();
                     return;
@@ -22,7 +23,7 @@ namespace PadOS.SaveData.JsonDatastore
                     var row = _innerList.Find(p => ((IHasId)p).Id == hasId.Id);
                     index = _innerList.IndexOf(row);
                 }
-            }*/
+            }
             if (index == -1) {
                 var prop = item.GetType().GetProperty("Id");
                 var idVal = prop.GetValue(item);

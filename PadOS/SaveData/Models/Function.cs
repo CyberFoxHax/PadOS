@@ -2,7 +2,7 @@
 using PadOS.Commands.FunctionButtons;
 
 namespace PadOS.SaveData.Models {
-	public class Function {
+	public class Function : JsonDatastore.IHasId {
 		public Int64 Id { get; set; }
 		public string Title { get; set; }
 		public FunctionType FunctionType { get; set; }

@@ -15,9 +15,12 @@ namespace PadOS.SaveData.JsonDatastore
             var properties = type
                 .GetProperties(bindingFlags)
                 .Where(p => p.GetCustomAttributes(true).Any(pp=>pp is Newtonsoft.Json.JsonIgnoreAttribute)==false)
-                .Select(p => new {
-                    PropertyInfo = p,
-                    IsVirtual = type.GetMethod("get_"+p.Name).IsVirtual
+                .Select(p => {
+                    var getter = type.GetMethod("get_" + p.Name);
+                    return new {
+                        PropertyInfo = p,
+                        IsVirtual = getter.IsVirtual && getter.IsFinal == false // fix: implementing interfaces internally changes IsVirtual to true
+                    };
                 })
                 .ToArray();
 
@@ -47,9 +50,12 @@ namespace PadOS.SaveData.JsonDatastore
             var properties = type
                 .GetProperties(bindingFlags)
                 .Where(p => p.GetCustomAttributes(true).Any(pp=>pp is Newtonsoft.Json.JsonIgnoreAttribute)==false)
-                .Select(p => new {
-                    PropertyInfo = p,
-                    IsVirtual = type.GetMethod("get_" + p.Name).IsVirtual
+                .Select(p => {
+                    var getter = type.GetMethod("get_" + p.Name);
+                    return new {
+                        PropertyInfo = p,
+                        IsVirtual = getter.IsVirtual && getter.IsFinal==false // fix: implementing interfaces internally changes IsVirtual to true
+                    };
                 })
                 .ToArray();
 
